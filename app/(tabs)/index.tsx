@@ -14,6 +14,8 @@ import {
 } from "@/components/ui/checkbox";
 import { CheckIcon } from "@/components/ui/icon";
 
+import React from "react";
+
 export default function HomeScreen() {
   return (
     <ParallaxScrollView
@@ -30,7 +32,7 @@ export default function HomeScreen() {
         <HelloWave />
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
-        <Checkbox size="md" isInvalid={false} isDisabled={false}>
+        <Checkbox value="step1" size="md" isInvalid={false} isDisabled={false}>
           <CheckboxIndicator>
             <CheckboxIcon as={CheckIcon} />
           </CheckboxIndicator>

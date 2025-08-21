@@ -1,6 +1,6 @@
-import { useColorScheme } from "@/hooks/useColorScheme";
-import "@/styles\\global.css";
 import { GluestackUIProvider } from "@/components/ui/gluestack-ui-provider";
+import { useColorScheme } from "@/hooks/useColorScheme";
+import "@/styles/global.css";
 import {
   DarkTheme,
   DefaultTheme,
@@ -10,7 +10,12 @@ import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import "react-native-reanimated";
-import "./../styles/global.css";
+// global styles already imported above via alias
+import { getQueryClient } from "@/lib/queryClient";
+import { store } from "@/store";
+import { QueryClientProvider } from "@tanstack/react-query";
+import React from "react";
+import { Provider } from "react-redux";
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -24,12 +29,20 @@ export default function RootLayout() {
   }
 
   return (
-    <GluestackUIProvider mode="light"><ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="+not-found" />
-        </Stack>
-        <StatusBar style="auto" />
-      </ThemeProvider></GluestackUIProvider>
+    <GluestackUIProvider mode="light">
+      <Provider store={store}>
+        <QueryClientProvider client={getQueryClient()}>
+          <ThemeProvider
+            value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+          >
+            <Stack>
+              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+              <Stack.Screen name="+not-found" />
+            </Stack>
+            <StatusBar style="auto" />
+          </ThemeProvider>
+        </QueryClientProvider>
+      </Provider>
+    </GluestackUIProvider>
   );
 }

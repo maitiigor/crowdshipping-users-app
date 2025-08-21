@@ -48,3 +48,23 @@ Join our community of developers creating universal apps.
 
 - [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
 - [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+
+## State and Data Layer
+
+This app uses:
+
+- Redux Toolkit + React Redux for global UI/app state
+- TanStack React Query for server data fetching and caching
+
+Files added:
+
+- `store/index.ts` – configures the Redux store and exports typed hooks `useAppDispatch` and `useAppSelector`.
+- `store/slices/appSlice.ts` – example slice with `isReady` and `theme` reducers.
+- `lib/queryClient.ts` – singleton `QueryClient` instance for React Query.
+- Providers are wired in `app/_layout.tsx`.
+
+Quick usage:
+
+- Read state: `const theme = useAppSelector((s) => s.app.theme)`
+- Dispatch: `const dispatch = useAppDispatch(); dispatch(setTheme('dark'))`
+- Query data: `useQuery({ queryKey: ['items'], queryFn: fetchItems })`
