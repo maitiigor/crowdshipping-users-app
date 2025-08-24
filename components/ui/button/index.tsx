@@ -64,6 +64,8 @@ const buttonStyle = tva({
       md: 'px-5 h-10',
       lg: 'px-6 h-11',
       xl: 'px-7 h-12',
+      '2xl': 'px-8 h-14',
+      '3xl': 'px-9 h-16',
     },
   },
   compoundVariants: [
@@ -212,6 +214,8 @@ const buttonIconStyle = tva({
       md: 'h-[18px] w-[18px]',
       lg: 'h-[18px] w-[18px]',
       xl: 'h-5 w-5',
+      '2xl': 'h-6 w-6',
+      '3xl': 'h-7 w-7',
     },
     action: {
       primary:
