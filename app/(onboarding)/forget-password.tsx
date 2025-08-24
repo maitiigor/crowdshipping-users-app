@@ -68,7 +68,7 @@ export default function ForgetPassword() {
   return (
     <KeyboardAvoidingView
       className="flex-1 bg-white"
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      behavior={"padding"}
       keyboardVerticalOffset={insets.top}
     >
       <ParallaxScrollView
@@ -92,7 +92,7 @@ export default function ForgetPassword() {
             instruction
           </ThemedText>
         </ThemedView>
-        <ThemedView>
+        <ThemedView className="flex-1 pb-20">
           <Formik
             initialValues={{ email: "" }}
             validationSchema={validationSchema}
@@ -150,14 +150,14 @@ export default function ForgetPassword() {
         </ThemedView>
       </ParallaxScrollView>
       <ThemedView
-        className="absolute left-0 right-0 px-5"
+        className="absolute left-0 bg-white right-0 px-5"
         style={{
-          bottom: isKeyboardVisible === true ? 0 : 30,
+          bottom: isKeyboardVisible === true ? 0 : 0,
         }}
       >
         <ThemedText
           type="s1_subtitle"
-          className="text-typography-950 text-center"
+          className="text-typography-950 py-6 text-center"
         >
           You don’t have an account?{" "}
           <Link href="../signup" asChild>

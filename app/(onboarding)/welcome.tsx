@@ -138,13 +138,13 @@ export default function Welcome() {
                 className="text-typography-600 leading-8"
               >
                 By signing up, you consent to our{" "}
-                <Link href="../terms-of-service" asChild>
+                <Link href="/terms-of-service" asChild>
                   <ThemedText type="btn_medium" className="text-primary-500 ">
                     Terms of Service
                   </ThemedText>
                 </Link>{" "}
                 and how we use your data in our{" "}
-                <Link href="../privacy-policy" asChild>
+                <Link href="/privacy-policy" asChild>
                   <ThemedText type="btn_medium" className="text-primary-500 ">
                     Privacy Policy
                   </ThemedText>

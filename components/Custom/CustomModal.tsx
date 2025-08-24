@@ -1,10 +1,8 @@
 import { Link } from "expo-router";
-import React from "react";
+import React, { ReactNode } from "react";
 import { ImageSourcePropType } from "react-native";
 import { ThemedText } from "../ThemedText";
-import { Box } from "../ui/box";
 import { Button } from "../ui/button";
-import { Image } from "../ui/image";
 import {
   Modal,
   ModalBackdrop,
@@ -13,6 +11,8 @@ import {
   ModalFooter,
   ModalHeader,
 } from "../ui/modal";
+import { Box } from "../ui/box";
+import { Image } from "../ui/image";
 
 interface IProps {
   showModal: boolean;
@@ -23,7 +23,7 @@ interface IProps {
   firstBtnText: string;
   secondBtnText?: string;
   title: string;
-  description: string;
+  description: ReactNode;
   img?: ImageSourcePropType;
 }
 export const CustomModal = ({
@@ -51,18 +51,20 @@ export const CustomModal = ({
     >
       <ModalBackdrop />
       <ModalContent className="max-w-[350px] rounded-2xl items-center">
-        <ModalHeader>
-          <Box className="w-[156px] h-[156px]  items-center justify-center">
-            <Image
-              alt="Success"
-              size="xl"
-              source={img ?? defaultImg}
-              resizeMode="contain"
-              className="aspect-[320/208] w-full max-w-[120px]"
-            />
-          </Box>
-        </ModalHeader>
-        <ModalBody className="mt-0 mb-4">
+        {img && (
+          <ModalHeader>
+            <Box className="w-[156px] h-[156px]  items-center justify-center">
+              <Image
+                alt="Success"
+                size="xl"
+                source={img ?? defaultImg}
+                resizeMode="contain"
+                className="aspect-[320/208] w-full max-w-[120px]"
+              />
+            </Box>
+          </ModalHeader>
+        )}
+        <ModalBody className=" my-4">
           <ThemedText
             type="h4_header"
             className="text-typography-950 mb-2 text-center"

@@ -1,16 +1,14 @@
+import PhoneNumberInput from "@/components/Custom/PhoneNumberInput";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { Button } from "@/components/ui/button";
 import { EyeIcon, EyeOffIcon } from "@/components/ui/icon";
 import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
-import AntDesign from "@expo/vector-icons/AntDesign";
 import Entypo from "@expo/vector-icons/Entypo";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
-import Fontisto from "@expo/vector-icons/Fontisto";
-import { Link, useNavigation } from "expo-router";
+import { Link, useNavigation, useRouter } from "expo-router";
 import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Keyboard,
   KeyboardAvoidingView,
@@ -19,33 +17,24 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as Yup from "yup";
+import { loginWithSocials } from "./login";
 const validationSchema = Yup.object().shape({
+  fullName: Yup.string().required("Full name is required"),
   email: Yup.string().email("Invalid email").required("Email is required"),
   password: Yup.string()
     .min(6, "Password must be at least 6 characters")
     .required("Password is required"),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref("password")], "Passwords must match")
+    .required("Confirm password is required"),
 });
-
-export const loginWithSocials = [
-  {
-    provider: "Facebook",
-    icon: <Fontisto name="facebook" size={24} color="#3C5A99" />,
-  },
-  {
-    provider: "Google",
-    icon: <AntDesign name="google" size={24} color="#EB4335" />,
-  },
-
-  {
-    provider: "Apple",
-    icon: <FontAwesome name="apple" size={24} color="black" />,
-  },
-];
-export default function Login() {
-  // hide the header for this screen
+export default function Signup() {
   const navigation = useNavigation();
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
+  const phoneInputRef = useRef<any>(null);
+  const [phone, setPhone] = useState("");
   const handleState = () => {
     setShowPassword((showState) => {
       return !showState;
@@ -58,7 +47,7 @@ export default function Login() {
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
-      headerTitle: "Login",
+      headerTitle: "Signup",
       headerTitleAlign: "center",
       headerTitleStyle: { fontSize: 20, fontWeight: "bold" }, // Increased font size
       headerLeft: () => (
@@ -71,7 +60,6 @@ export default function Login() {
       ),
     });
   }, [navigation]);
-
   useEffect(() => {
     const showEvent =
       Platform.OS === "ios" ? "keyboardWillShow" : "keyboardDidShow";
@@ -92,7 +80,6 @@ export default function Login() {
   }, []);
 
   const insets = useSafeAreaInsets();
-
   return (
     <KeyboardAvoidingView
       className="flex-1 bg-white"
@@ -103,21 +90,23 @@ export default function Login() {
         headerBackgroundColor={{ light: "#FFFFFF", dark: "#353636" }}
       >
         <ThemedView className="flex-1  ">
-          <ThemedText type="h4_header" className="mt-5">
-            Welcome Back
-          </ThemedText>
-          <ThemedText type="default" className="pt-2 text-typography-800 ">
-            Please sign in to access your Crowdshipping account and manage your
-            deliveries.
+          <ThemedText type="h4_header" className="my-2">
+            Create An Account
           </ThemedText>
         </ThemedView>
         <ThemedView className="flex-1 pb-20">
           <Formik
-            initialValues={{ email: "", password: "" }}
-            validationSchema={validationSchema}
+            initialValues={{
+              fullName: "",
+              email: "",
+              password: "",
+              confirmPassword: "",
+            }}
+            // validationSchema={validationSchema}
             onSubmit={(values) => {
               console.log("Form submitted:", values);
               // Handle form submission logic here (e.g., API call)
+              router.push("/signup-confirm-code");
             }}
           >
             {({
@@ -128,8 +117,30 @@ export default function Login() {
               errors,
               touched,
             }) => (
-              <ThemedView>
-                <ThemedText className="mb-2">Email address</ThemedText>
+              <ThemedView className="flex gap-2">
+                <ThemedText className="">Your Full Name</ThemedText>
+                <Input
+                  size="xl"
+                  className="h-[55px] rounded-lg mb-2 bg-primary-0 px-2"
+                  variant="outline"
+                  isInvalid={!!(errors.email && touched.email)}
+                >
+                  <InputField
+                    className=""
+                    placeholder="Input your name"
+                    value={values.fullName}
+                    onChangeText={handleChange("fullName")}
+                    onBlur={handleBlur("fullName")}
+                    keyboardType="default"
+                    autoCapitalize="none"
+                  />
+                </Input>
+                {errors.fullName && touched.fullName && (
+                  <ThemedText type="b4_body" className="text-error-500 mb-4">
+                    {errors.fullName}
+                  </ThemedText>
+                )}
+                <ThemedText className="">Email address</ThemedText>
                 <Input
                   size="xl"
                   className="h-[55px] rounded-lg mb-2 bg-primary-0 px-2"
@@ -151,8 +162,14 @@ export default function Login() {
                     {errors.email}
                   </ThemedText>
                 )}
+                <ThemedText className="">Phone Number</ThemedText>
+                <PhoneNumberInput
+                  ref={phoneInputRef}
+                  value={phone}
+                  onChangeFormattedText={(text: string) => setPhone(text)}
+                />
 
-                <ThemedText className="mb-2">Password</ThemedText>
+                <ThemedText className="mt-2">Password</ThemedText>
                 <Input
                   className="h-[55px] rounded-lg mb-2 bg-primary-0 px-2"
                   size="xl"
@@ -161,7 +178,7 @@ export default function Login() {
                   <InputField
                     className=""
                     type={showPassword ? "text" : "password"}
-                    placeholder="Enter your password"
+                    placeholder="Input your password"
                     value={values.password}
                     onChangeText={handleChange("password")}
                     onBlur={handleBlur("password")}
@@ -176,7 +193,32 @@ export default function Login() {
                     {errors.password}
                   </ThemedText>
                 )}
-
+                <ThemedText className="">Confirm Password</ThemedText>
+                <Input
+                  className="h-[55px] rounded-lg mb-2 bg-primary-0 px-2"
+                  size="xl"
+                  isInvalid={
+                    !!(errors.confirmPassword && touched.confirmPassword)
+                  }
+                >
+                  <InputField
+                    className=""
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Input confirm password"
+                    value={values.confirmPassword}
+                    onChangeText={handleChange("confirmPassword")}
+                    onBlur={handleBlur("confirmPassword")}
+                    secureTextEntry={!showPassword}
+                  />
+                  <InputSlot className="pr-3" onPress={handleState}>
+                    <InputIcon as={showPassword ? EyeIcon : EyeOffIcon} />
+                  </InputSlot>
+                </Input>
+                {errors.confirmPassword && touched.confirmPassword && (
+                  <ThemedText type="b4_body" className="text-error-500 mb-4">
+                    {errors.confirmPassword}
+                  </ThemedText>
+                )}
                 <Button
                   variant="solid"
                   size="2xl"
@@ -184,21 +226,12 @@ export default function Login() {
                   onPress={() => handleSubmit()}
                 >
                   <ThemedText type="s1_subtitle" className="text-white">
-                    Login
+                    Sign up
                   </ThemedText>
                 </Button>
               </ThemedView>
             )}
           </Formik>
-
-          <Link href="/forget-password" asChild>
-            <ThemedText
-              type="s2_subtitle"
-              className="text-primary-500 text-center mt-5"
-            >
-              Forgot Password?
-            </ThemedText>
-          </Link>
 
           <ThemedView className="mt-7">
             {/* Divider */}
@@ -233,10 +266,10 @@ export default function Login() {
           type="s1_subtitle"
           className="text-typography-950 py-6 text-center"
         >
-          You don’t have an account?{" "}
-          <Link href="../signup" asChild>
+          Already have an account?{" "}
+          <Link href="../login" asChild>
             <ThemedText type="s1_subtitle" className="text-primary-500">
-              Sign up{" "}
+              Sign in{" "}
             </ThemedText>
           </Link>
         </ThemedText>

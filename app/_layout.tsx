@@ -15,7 +15,9 @@ import { getQueryClient } from "@/lib/queryClient";
 import { store } from "@/store";
 import { QueryClientProvider } from "@tanstack/react-query";
 import React from "react";
+import { Platform } from "react-native";
 import { Provider } from "react-redux";
+// Note: react-phone-number-input CSS is web-only; avoid importing in native bundles.
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -26,6 +28,14 @@ export default function RootLayout() {
     "Poppins-Medium": require("../assets/fonts/Poppins/Poppins-Medium.ttf"),
     "Poppins-SemiBold": require("../assets/fonts/Poppins/Poppins-SemiBold.ttf"),
   });
+
+  // Load phone input CSS only on web to show country flags (web only)
+  React.useEffect(() => {
+    if (Platform.OS === "web") {
+      // Dynamic import avoids bundling into native builds
+      import("react-phone-number-input/style.css").catch(() => {});
+    }
+  }, []);
 
   if (!loaded) {
     // Async font loading only occurs in development.
