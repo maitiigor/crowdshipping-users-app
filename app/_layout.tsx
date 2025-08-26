@@ -11,6 +11,7 @@ import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import "react-native-reanimated";
 // global styles already imported above via alias
+import { ensureI18n } from "@/lib/i18n";
 import { getQueryClient } from "@/lib/queryClient";
 import { store } from "@/store";
 import { QueryClientProvider } from "@tanstack/react-query";
@@ -28,6 +29,7 @@ export default function RootLayout() {
     "Poppins-Medium": require("../assets/fonts/Poppins/Poppins-Medium.ttf"),
     "Poppins-SemiBold": require("../assets/fonts/Poppins/Poppins-SemiBold.ttf"),
   });
+  const [i18nReady, setI18nReady] = React.useState(false);
 
   // Load phone input CSS only on web to show country flags (web only)
   React.useEffect(() => {
@@ -37,7 +39,11 @@ export default function RootLayout() {
     }
   }, []);
 
-  if (!loaded) {
+  React.useEffect(() => {
+    ensureI18n().finally(() => setI18nReady(true));
+  }, []);
+
+  if (!loaded || !i18nReady) {
     // Async font loading only occurs in development.
     return null;
   }

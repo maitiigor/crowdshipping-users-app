@@ -8,8 +8,9 @@ import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 
-import { LinkProps, useNavigation, useRouter } from "expo-router";
+import { useNavigation, useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import CustomSidebarMenu from "@/components/Custom/CustomSidebarMenu";
 import { Image } from "@/components/ui/image";
@@ -17,37 +18,39 @@ import { Pressable } from "@/components/ui/pressable";
 import Feather from "@expo/vector-icons/Feather";
 type MenuItem = {
   img: string | ImageSourcePropType | undefined;
-  title: string;
-  linkTo: LinkProps["href"];
+  titleKey: "home.land" | "home.air" | "home.sea";
+  linkTo: string;
 };
 const deliveryType: MenuItem[] = [
   {
     img: require("@/assets/images/home/road-delivery.png"),
-    title: "Land Delivery",
+    titleKey: "home.land",
     linkTo: "/road-delivery",
   },
   {
     img: require("@/assets/images/home/flight-delivery.png"),
-    title: "Air Delivery",
-    linkTo: "/air-delivery",
+    titleKey: "home.air",
+    linkTo: "/road-delivery",
   },
 
   {
     img: require("@/assets/images/home/maritime-delivery.png"),
-    title: "Maritime Delivery",
-    linkTo: "/maritime-delivery",
+    titleKey: "home.sea",
+    linkTo: "/road-delivery",
   },
 ];
 export default function HomeScreen() {
   const navigation = useNavigation();
   const [showDrawer, setShowDrawer] = useState(false);
   const router = useRouter();
+  const { t } = useTranslation();
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
       headerTitle: () => (
         <ThemedView className="flex justify-center items-center">
           <ThemedText className="text-center" type="s1_subtitle">
+            {/* Example: Keep static or make dynamic via user profile */}
             Hello, Gbemisola
           </ThemedText>
           <ThemedText className="text-center" type="c2_caption">
@@ -78,7 +81,7 @@ export default function HomeScreen() {
         </TouchableOpacity>
       ),
     });
-  }, [navigation]);
+  }, [navigation, t, t]);
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: "#FFFFFF", dark: "#353636" }}
@@ -86,22 +89,21 @@ export default function HomeScreen() {
       <ThemedView className="flex-1">
         <ThemedView>
           <ThemedText className="text-center" type="h4_header">
-            Send a package
+            {t("home.send_package")}
           </ThemedText>
           <ThemedText
             className="text-center text-typography-700"
             type="default"
           >
-            Choose the best way to move your package — by road, flight, or sea.
-            Fast, flexible, and reliable.
+            {t("home.subtitle")}
           </ThemedText>
         </ThemedView>
       </ThemedView>
       <ThemedView className="flex-1 gap-3 pb-20 mt-3">
         {deliveryType.map((item, index) => (
           <Pressable
-            key={item?.title}
-            onPress={() => router.push(item.linkTo)}
+            key={item.titleKey}
+            onPress={() => router.push(item.linkTo as any)}
             className="flex items-center gap-2 w-full"
             style={
               {
@@ -121,9 +123,9 @@ export default function HomeScreen() {
               } as any
             }
           >
-            <Image source={item.img} size="2xl" />
+            <Image source={item.img} size="2xl" alt={t(item.titleKey)} />
             <ThemedText className="text-typography-700" type="h5_header">
-              {item.title}
+              {t(item.titleKey)}
             </ThemedText>
           </Pressable>
         ))}

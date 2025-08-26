@@ -1,0 +1,26 @@
+{
+  "onboarding": {
+    "choose_language": "选择语言",
+    "choose_language_hint": "请选择您偏好的语言，有助于我们更好地为您服务。",
+    "you_selected": "您已选择",
+    "continue": "继续",
+    "all_languages": "所有语言"
+  },
+  "tabs": {
+    "home": "首页",
+    "explore": "探索",
+    "api": "API"
+  },
+  "common": {
+    "search": "搜索...",
+    "welcome": "欢迎！",
+    "hello_world": "你好，世界！"
+  },
+  "home": {
+    "send_package": "寄送包裹",
+    "subtitle": "选择最适合的方式运送您的包裹——公路、航空或海运。快速、灵活、可靠。",
+    "land": "陆运配送",
+    "air": "空运配送",
+    "sea": "海运配送"
+  }
+}
