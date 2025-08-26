@@ -1,85 +1,137 @@
-import { Image } from "expo-image";
-import { Platform, StyleSheet } from "react-native";
+import {
+  ImageSourcePropType,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 
-import { HelloWave } from "@/components/HelloWave";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
-import { Button, ButtonText } from "@/components/ui/button";
-import {
-  Checkbox,
-  CheckboxIcon,
-  CheckboxIndicator,
-  CheckboxLabel,
-} from "@/components/ui/checkbox";
-import { CheckIcon } from "@/components/ui/icon";
 
-import React from "react";
+import { LinkProps, useNavigation, useRouter } from "expo-router";
+import React, { useEffect, useState } from "react";
 
+import CustomSidebarMenu from "@/components/Custom/CustomSidebarMenu";
+import { Image } from "@/components/ui/image";
+import { Pressable } from "@/components/ui/pressable";
+import Feather from "@expo/vector-icons/Feather";
+type MenuItem = {
+  img: string | ImageSourcePropType | undefined;
+  title: string;
+  linkTo: LinkProps["href"];
+};
+const deliveryType: MenuItem[] = [
+  {
+    img: require("@/assets/images/home/road-delivery.png"),
+    title: "Land Delivery",
+    linkTo: "/road-delivery",
+  },
+  {
+    img: require("@/assets/images/home/flight-delivery.png"),
+    title: "Air Delivery",
+    linkTo: "/air-delivery",
+  },
+
+  {
+    img: require("@/assets/images/home/maritime-delivery.png"),
+    title: "Maritime Delivery",
+    linkTo: "/maritime-delivery",
+  },
+];
 export default function HomeScreen() {
+  const navigation = useNavigation();
+  const [showDrawer, setShowDrawer] = useState(false);
+  const router = useRouter();
+  useEffect(() => {
+    navigation.setOptions({
+      headerShown: true,
+      headerTitle: () => (
+        <ThemedView className="flex justify-center items-center">
+          <ThemedText className="text-center" type="s1_subtitle">
+            Hello, Gbemisola
+          </ThemedText>
+          <ThemedText className="text-center" type="c2_caption">
+            Ikeja Army cantonment,...
+          </ThemedText>
+        </ThemedView>
+      ),
+      headerTitleAlign: "center",
+      headerTitleStyle: { fontSize: 20, fontWeight: "bold" }, // Increased font size
+      headerLeft: () => (
+        <TouchableOpacity
+          onPress={() => {
+            setShowDrawer(true);
+          }}
+          style={{ paddingHorizontal: 0 }}
+        >
+          <Feather name="menu" size={24} color="black" />
+        </TouchableOpacity>
+      ),
+      headerRight: () => (
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={{ paddingHorizontal: 0 }}
+        >
+          <ThemedText className="text-center" type="s1_subtitle">
+            NG
+          </ThemedText>
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation]);
   return (
     <ParallaxScrollView
-      headerBackgroundColor={{ light: "#A1CEDC", dark: "#1D3D47" }}
-      headerImage={
-        <Image
-          source={require("@/assets/images/partial-react-logo.png")}
-          style={styles.reactLogo}
-        />
-      }
+      headerBackgroundColor={{ light: "#FFFFFF", dark: "#353636" }}
     >
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="h1_header">Welcome!</ThemedText>
-        <HelloWave />
+      <ThemedView className="flex-1">
+        <ThemedView>
+          <ThemedText className="text-center" type="h4_header">
+            Send a package
+          </ThemedText>
+          <ThemedText
+            className="text-center text-typography-700"
+            type="default"
+          >
+            Choose the best way to move your package — by road, flight, or sea.
+            Fast, flexible, and reliable.
+          </ThemedText>
+        </ThemedView>
       </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Checkbox value="step1" size="md" isInvalid={false} isDisabled={false}>
-          <CheckboxIndicator>
-            <CheckboxIcon as={CheckIcon} />
-          </CheckboxIndicator>
-          <CheckboxLabel>Label</CheckboxLabel>
-        </Checkbox>
-
-        <ThemedText type="h5_header">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="default">app/(tabs)/index.tsx</ThemedText> to
-          see changes. Press{" "}
-          <ThemedText type="default">
-            {Platform.select({
-              ios: "cmd + d",
-              android: "cmd + m",
-              web: "F12",
-            })}
-          </ThemedText>{" "}
-          to open developer tools.
-        </ThemedText>
+      <ThemedView className="flex-1 gap-3 pb-20 mt-3">
+        {deliveryType.map((item, index) => (
+          <Pressable
+            key={item?.title}
+            onPress={() => router.push(item.linkTo)}
+            className="flex items-center gap-2 w-full"
+            style={
+              {
+                backgroundColor: "#FFFFFF",
+                padding: 12,
+                borderRadius: 8,
+                // web shadow (as provided)
+                boxShadow:
+                  "0px 1px 3px 1px #FDEFEB26, 0px 1px 2px 0px #0000004D",
+                // iOS shadow approximation
+                shadowColor: "#000",
+                shadowOffset: { width: 0, height: 1 },
+                shadowOpacity: 0.15,
+                shadowRadius: 3,
+                // Android elevation
+                elevation: 2,
+              } as any
+            }
+          >
+            <Image source={item.img} size="2xl" />
+            <ThemedText className="text-typography-700" type="h5_header">
+              {item.title}
+            </ThemedText>
+          </Pressable>
+        ))}
       </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="h5_header">Step 2: Explore</ThemedText>
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="h5_header">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="default">npm run reset-project</ThemedText> to get a
-          fresh <ThemedText type="default">app</ThemedText> directory. This will
-          move the current <ThemedText type="default">app</ThemedText> to{" "}
-          <ThemedText type="default">app-example</ThemedText>.
-        </ThemedText>
-        <Button
-          className="bg-primary-400 "
-          onPress={() => alert("Hello World!")}
-          size="lg"
-          variant="solid"
-          action="default"
-        >
-          <ButtonText className="text-typography-white py-3">
-            Hello World!
-          </ButtonText>
-        </Button>
-      </ThemedView>
+      <CustomSidebarMenu
+        showDrawer={showDrawer}
+        setShowDrawer={setShowDrawer}
+      />
     </ParallaxScrollView>
   );
 }

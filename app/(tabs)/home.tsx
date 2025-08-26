@@ -1,86 +1,34 @@
-import { Image } from "expo-image";
-import { Platform, StyleSheet } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 
-import { HelloWave } from "@/components/HelloWave";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
-import { ThemedText } from "@/components/ThemedText";
-import { ThemedView } from "@/components/ThemedView";
-import { Button, ButtonText } from "@/components/ui/button";
-import {
-  Checkbox,
-  CheckboxIcon,
-  CheckboxIndicator,
-  CheckboxLabel,
-} from "@/components/ui/checkbox";
-import { CheckIcon } from "@/components/ui/icon";
 
-import React from "react";
+import Entypo from "@expo/vector-icons/Entypo";
+import { useNavigation, useRouter } from "expo-router";
+import React, { useEffect } from "react";
 
 export default function HomeScreen() {
+  const navigation = useNavigation();
+  const router = useRouter();
+  useEffect(() => {
+    navigation.setOptions({
+      headerShown: true,
+      headerTitle: "Signup",
+      headerTitleAlign: "center",
+      headerTitleStyle: { fontSize: 20, fontWeight: "bold" }, // Increased font size
+      headerLeft: () => (
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={{ paddingHorizontal: 0 }}
+        >
+          <Entypo name="chevron-left" size={34} color="#E75B3B" />
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation]);
   return (
     <ParallaxScrollView
-      headerBackgroundColor={{ light: "#A1CEDC", dark: "#1D3D47" }}
-      headerImage={
-        <Image
-          source={require("@/assets/images/partial-react-logo.png")}
-          style={styles.reactLogo}
-        />
-      }
-    >
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="h1_header">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Checkbox value="step1" size="md" isInvalid={false} isDisabled={false}>
-          <CheckboxIndicator>
-            <CheckboxIcon as={CheckIcon} />
-          </CheckboxIndicator>
-          <CheckboxLabel>Label</CheckboxLabel>
-        </Checkbox>
-
-        <ThemedText type="h5_header">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="default">app/(tabs)/home.tsx</ThemedText> to
-          see changes. Press{" "}
-          <ThemedText type="default">
-            {Platform.select({
-              ios: "cmd + d",
-              android: "cmd + m",
-              web: "F12",
-            })}
-          </ThemedText>{" "}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="h5_header">Step 2: Explore</ThemedText>
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="h5_header">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="default">npm run reset-project</ThemedText> to get a
-          fresh <ThemedText type="default">app</ThemedText> directory. This will
-          move the current <ThemedText type="default">app</ThemedText> to{" "}
-          <ThemedText type="default">app-example</ThemedText>.
-        </ThemedText>
-        <Button
-          className="bg-primary-400 "
-          onPress={() => alert("Hello World!")}
-          size="lg"
-          variant="solid"
-          action="default"
-        >
-          <ButtonText className="text-typography-white py-3">
-            Hello World!
-          </ButtonText>
-        </Button>
-      </ThemedView>
-    </ParallaxScrollView>
+      headerBackgroundColor={{ light: "#FFFFFF", dark: "#353636" }}
+    ></ParallaxScrollView>
   );
 }
 

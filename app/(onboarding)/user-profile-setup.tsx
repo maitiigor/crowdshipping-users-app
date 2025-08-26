@@ -1,12 +1,11 @@
 import { CustomModal } from "@/components/Custom/CustomModal";
 import DateField from "@/components/Custom/DateField";
-import ImageUploader from "@/components/Custom/ImageUploader";
 import PhoneNumberInput from "@/components/Custom/PhoneNumberInput";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { Button } from "@/components/ui/button";
-import { ChevronDownIcon } from "@/components/ui/icon";
+import { ChevronDownIcon, Icon } from "@/components/ui/icon";
 import { Input, InputField } from "@/components/ui/input";
 import {
   Select,
@@ -22,8 +21,9 @@ import {
 } from "@/components/ui/select";
 import { COUNTRIES } from "@/constants/countries";
 import Entypo from "@expo/vector-icons/Entypo";
-import { Link, useNavigation, useRouter } from "expo-router";
+import { useNavigation, useRouter } from "expo-router";
 import { Formik } from "formik";
+import { Bell } from "lucide-react-native";
 import React, { useEffect, useRef, useState } from "react";
 import {
   Keyboard,
@@ -33,7 +33,6 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as Yup from "yup";
-import { loginWithSocials } from "./login";
 const validationSchema = Yup.object().shape({
   fullName: Yup.string().required("Full name is required"),
   email: Yup.string().email("Invalid email").required("Email is required"),
@@ -72,7 +71,7 @@ export default function UserProfileSetup() {
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
-      headerTitle: "Signup",
+      headerTitle: "Edit Profile",
       headerTitleAlign: "center",
       headerTitleStyle: { fontSize: 20, fontWeight: "bold" }, // Increased font size
       headerLeft: () => (
@@ -81,6 +80,11 @@ export default function UserProfileSetup() {
           style={{ paddingHorizontal: 0 }}
         >
           <Entypo name="chevron-left" size={34} color="#E75B3B" />
+        </TouchableOpacity>
+      ),
+      headerRight: () => (
+        <TouchableOpacity onPress={() => {}} style={{ paddingHorizontal: 0 }}>
+          <Icon as={Bell} size="2xl" className="text-typography-900" />
         </TouchableOpacity>
       ),
     });
@@ -114,11 +118,6 @@ export default function UserProfileSetup() {
       <ParallaxScrollView
         headerBackgroundColor={{ light: "#FFFFFF", dark: "#353636" }}
       >
-        <ThemedView className="flex-1  ">
-          <ThemedText type="h4_header" className="my-2">
-            Create An Account
-          </ThemedText>
-        </ThemedView>
         <ThemedView className="flex-1 pb-20">
           <Formik
             initialValues={{
@@ -130,11 +129,11 @@ export default function UserProfileSetup() {
               dateOfBirth: null as Date | null,
               imageUpload: "",
             }}
-            validationSchema={validationSchema}
+            // validationSchema={validationSchema}
             onSubmit={(values) => {
               console.log("Form submitted:", values);
               // Handle form submission logic here (e.g., API call)
-              router.push("/home");
+              setShowModal(true);
             }}
           >
             {({
@@ -283,7 +282,7 @@ export default function UserProfileSetup() {
                     {String(errors.dateOfBirth)}
                   </ThemedText>
                 )}
-                <ImageUploader
+                {/* <ImageUploader
                   uri={pickedImage}
                   allowsEditing
                   label="Profile Photo"
@@ -294,7 +293,7 @@ export default function UserProfileSetup() {
                     setFieldValue("imageUpload", uri ?? "");
                   }}
                   helperText="PNG or JPG up to 5MB"
-                />
+                /> */}
                 <Button
                   variant="solid"
                   size="2xl"
@@ -302,61 +301,22 @@ export default function UserProfileSetup() {
                   onPress={() => handleSubmit()}
                 >
                   <ThemedText type="s1_subtitle" className="text-white">
-                    Sign up
+                    Update
                   </ThemedText>
                 </Button>
               </ThemedView>
             )}
           </Formik>
-
-          <ThemedView className="mt-7">
-            {/* Divider */}
-            <ThemedView className="flex-row items-center gap-5">
-              <ThemedView className="flex-1 border  border-typography-100" />
-              <ThemedText>Or</ThemedText>
-              <ThemedView className="flex-1 border  border-typography-100" />
-            </ThemedView>
-            <ThemedView className="mt-4 flex-row gap-4 px-4 justify-center items-center">
-              {loginWithSocials.map((social) => (
-                <Button
-                  key={social.provider}
-                  variant="outline"
-                  size="3xl"
-                  className="flex-row border-typography-300 w-1/3 items-center rounded-lg justify-center gap-2 mb-2"
-                  onPress={() => handleSocialLogin(social.provider)}
-                >
-                  {social.icon}
-                </Button>
-              ))}
-            </ThemedView>
-          </ThemedView>
         </ThemedView>
       </ParallaxScrollView>
-      <ThemedView
-        className="absolute left-0 bg-white right-0 px-5"
-        style={{
-          bottom: isKeyboardVisible === true ? 0 : 0,
-        }}
-      >
-        <ThemedText
-          type="s1_subtitle"
-          className="text-typography-950 py-6 text-center"
-        >
-          Already have an account?{" "}
-          <Link href="../login" asChild>
-            <ThemedText type="s1_subtitle" className="text-primary-500">
-              Sign in{" "}
-            </ThemedText>
-          </Link>
-        </ThemedText>
-      </ThemedView>
+
       {showModal && (
         <>
           <CustomModal
             description="Your information has been saved successfully."
             title="Profile Updated"
             img={require("@/assets/images/onboarding/modal-success.png")}
-            firstBtnLink={"/home"}
+            firstBtnLink={"/(tabs)"}
             firstBtnText="Return to Home"
             setShowModal={setShowModal}
             showModal={showModal}

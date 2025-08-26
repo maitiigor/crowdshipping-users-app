@@ -8,7 +8,7 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 import Entypo from "@expo/vector-icons/Entypo";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import Fontisto from "@expo/vector-icons/Fontisto";
-import { Link, useNavigation } from "expo-router";
+import { Link, useNavigation, useRouter } from "expo-router";
 import { Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import {
@@ -44,6 +44,7 @@ export const loginWithSocials = [
 export default function Login() {
   // hide the header for this screen
   const navigation = useNavigation();
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
   const handleState = () => {
@@ -118,6 +119,7 @@ export default function Login() {
             onSubmit={(values) => {
               console.log("Form submitted:", values);
               // Handle form submission logic here (e.g., API call)
+              router.push("/(tabs)");
             }}
           >
             {({

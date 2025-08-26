@@ -237,7 +237,7 @@ export default function ConfirmationCode() {
             description="Welcome back!"
             title="Login Successful!"
             img={require("@/assets/images/onboarding/modal-success.png")}
-            firstBtnLink={"/home"}
+            firstBtnLink={"/"}
             firstBtnText="Get Started"
             setShowModal={setShowModal}
             showModal={showModal}
