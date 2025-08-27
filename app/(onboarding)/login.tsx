@@ -115,7 +115,7 @@ export default function Login() {
         <ThemedView className="flex-1 pb-20">
           <Formik
             initialValues={{ email: "", password: "" }}
-            validationSchema={validationSchema}
+            // validationSchema={validationSchema}
             onSubmit={(values) => {
               console.log("Form submitted:", values);
               // Handle form submission logic here (e.g., API call)
