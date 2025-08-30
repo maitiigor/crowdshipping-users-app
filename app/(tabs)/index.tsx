@@ -13,9 +13,12 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import CustomSidebarMenu from "@/components/Custom/CustomSidebarMenu";
+import { Icon } from "@/components/ui/icon";
 import { Image } from "@/components/ui/image";
 import { Pressable } from "@/components/ui/pressable";
 import Feather from "@expo/vector-icons/Feather";
+import { ChevronDown, MapPin } from "lucide-react-native";
+
 type MenuItem = {
   img: string | ImageSourcePropType | undefined;
   titleKey: "home.land" | "home.air" | "home.sea";
@@ -25,39 +28,50 @@ const deliveryType: MenuItem[] = [
   {
     img: require("@/assets/images/home/road-delivery.png"),
     titleKey: "home.land",
-    linkTo: "/road-delivery",
+    linkTo: "/(tabs)/road-delivery",
   },
   {
     img: require("@/assets/images/home/flight-delivery.png"),
     titleKey: "home.air",
-    linkTo: "/road-delivery",
+    linkTo: "/(tabs)/flight-delivery",
   },
 
   {
     img: require("@/assets/images/home/maritime-delivery.png"),
     titleKey: "home.sea",
-    linkTo: "/road-delivery",
+    linkTo: "/(tabs)/maritime-delivery",
   },
 ];
 export default function HomeScreen() {
   const navigation = useNavigation();
   const [showDrawer, setShowDrawer] = useState(false);
   const router = useRouter();
-  // const insets = useSafeAreaInsets();
 
   const { t } = useTranslation();
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
+      headerShadowVisible: false,
+      headerStyle: {
+        backgroundColor: "#FFFFFF",
+        elevation: 0, // Android
+        shadowOpacity: 0, // iOS
+        shadowColor: "transparent", // iOS
+        borderBottomWidth: 0,
+      },
       headerTitle: () => (
         <ThemedView className="flex justify-center items-center">
           <ThemedText className="text-center" type="s1_subtitle">
             {/* Example: Keep static or make dynamic via user profile */}
             Hello, Gbemisola
           </ThemedText>
-          <ThemedText className="text-center" type="c2_caption">
-            Ikeja Army cantonment,...
-          </ThemedText>
+          <ThemedView className="flex-row gap-2 items-center">
+            <Icon as={MapPin} size="lg" className="text-primary-500" />
+            <ThemedText className="text-center" type="c2_caption">
+              Ikeja Army cantonment,...
+            </ThemedText>
+            <Icon as={ChevronDown} size="2xl" className="text-typography-600" />
+          </ThemedView>
         </ThemedView>
       ),
       headerTitleAlign: "center",
@@ -67,6 +81,7 @@ export default function HomeScreen() {
           onPress={() => {
             setShowDrawer(true);
           }}
+          className="shadow"
           style={{ paddingHorizontal: 0 }}
         >
           <Feather name="menu" size={24} color="black" />
@@ -87,11 +102,10 @@ export default function HomeScreen() {
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: "#FFFFFF", dark: "#353636" }}
-      
     >
       <ThemedView className="flex-1">
         <ThemedView>
-          <ThemedText className="text-center" type="h4_header">
+          <ThemedText className="text-center mt-5" type="h4_header">
             {t("home.send_package")}
           </ThemedText>
           <ThemedText
@@ -102,12 +116,12 @@ export default function HomeScreen() {
           </ThemedText>
         </ThemedView>
       </ThemedView>
-      <ThemedView className="flex-1 gap-3 pb-20 mt-3">
+      <ThemedView className="flex-1 gap-5 pb-20 mt-3">
         {deliveryType.map((item, index) => (
           <Pressable
             key={item.titleKey}
             onPress={() => router.push(item.linkTo as any)}
-            className="flex items-center gap-2 w-full"
+            className="flex items-center gap-2 h-[165px] w-full"
             style={
               {
                 backgroundColor: "#FFFFFF",
@@ -126,7 +140,11 @@ export default function HomeScreen() {
               } as any
             }
           >
-            <Image source={item.img} size="2xl" alt={t(item.titleKey)} />
+            <Image
+              source={item.img}
+              className="h-[100px] w-[100px] object-contain"
+              alt={t(item.titleKey)}
+            />
             <ThemedText className="text-typography-700" type="h5_header">
               {t(item.titleKey)}
             </ThemedText>

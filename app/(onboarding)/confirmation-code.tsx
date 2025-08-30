@@ -4,10 +4,12 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { Button } from "@/components/ui/button";
 import { HStack } from "@/components/ui/hstack";
+import { Icon } from "@/components/ui/icon";
 import { Input, InputField } from "@/components/ui/input";
 import Entypo from "@expo/vector-icons/Entypo";
 import { Link, useNavigation, useRouter } from "expo-router";
 import { Formik } from "formik";
+import { ChevronLeft } from "lucide-react-native";
 import React, { useEffect, useRef, useState } from "react";
 import {
   Keyboard,
@@ -37,13 +39,45 @@ export default function ConfirmationCode() {
       headerTitle: "Sign Up",
       headerTitleAlign: "center",
       headerTitleStyle: { fontSize: 20 }, // Increased font size
+      headerShadowVisible: false,
+      headerStyle: {
+        backgroundColor: "#FFFFFF",
+        elevation: 0, // Android
+        shadowOpacity: 0, // iOS
+        shadowColor: "transparent", // iOS
+        borderBottomWidth: 0,
+      },
       headerLeft: () => (
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          style={{ paddingHorizontal: 0 }}
+        <ThemedView
+          style={{
+            shadowColor: "#FDEFEB1A",
+            shadowOffset: { width: 0, height: 1 },
+            shadowOpacity: 0.102,
+            shadowRadius: 3,
+            elevation: 4,
+          }}
         >
-          <Entypo name="chevron-left" size={34} color="#131927" />
-        </TouchableOpacity>
+          <ThemedView
+            style={{
+              shadowColor: "#0000001A",
+              shadowOffset: { width: 0, height: 1 },
+              shadowOpacity: 0.102,
+              shadowRadius: 2,
+              elevation: 2,
+            }}
+          >
+            <TouchableOpacity
+              onPress={() => navigation.goBack()}
+              className="p-2 rounded  flex justify-center items-center"
+            >
+              <Icon
+                as={ChevronLeft}
+                size="3xl"
+                className="text-typography-900"
+              />
+            </TouchableOpacity>
+          </ThemedView>
+        </ThemedView>
       ),
     });
   }, [navigation]);

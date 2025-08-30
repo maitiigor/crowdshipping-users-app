@@ -133,7 +133,7 @@ export default function Index() {
         </ThemedView>
       </ParallaxScrollView>
       <ThemedView className="absolute bottom-10 left-0 right-0 px-5">
-        <Link href="/welcome" asChild>
+        <Link href="/(onboarding)/welcome" asChild>
           <Button variant="solid" size="2xl" className="mt-5 rounded-[12px]">
             <ThemedText type="s1_subtitle" className="text-white">
               {t("onboarding.continue")}

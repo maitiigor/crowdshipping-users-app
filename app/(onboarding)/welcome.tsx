@@ -144,7 +144,7 @@ export default function Welcome() {
                   </ThemedText>
                 </Link>{" "}
                 and how we use your data in our{" "}
-                <Link href="/privacy-policy" asChild>
+                <Link href="/(onboarding)/privacy-policy" asChild>
                   <ThemedText type="btn_medium" className="text-primary-500 ">
                     Privacy Policy
                   </ThemedText>

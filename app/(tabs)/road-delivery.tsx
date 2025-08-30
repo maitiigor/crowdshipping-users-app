@@ -49,6 +49,14 @@ export default function RoadDeliveryScreen() {
       headerTitle: "Enter Your Location",
       headerTitleAlign: "center",
       headerTitleStyle: { fontSize: 20 }, // Increased font size
+      headerShadowVisible: false,
+      headerStyle: {
+        backgroundColor: "#FFFFFF",
+        elevation: 0, // Android
+        shadowOpacity: 0, // iOS
+        shadowColor: "transparent", // iOS
+        borderBottomWidth: 0,
+      },
       headerLeft: () => (
         <TouchableOpacity
           onPress={() => {

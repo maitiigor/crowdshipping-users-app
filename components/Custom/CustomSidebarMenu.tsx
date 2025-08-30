@@ -16,7 +16,7 @@ import {
 
 import { VStack } from "@/components/ui/vstack";
 import type { LinkProps } from "expo-router";
-import { Link } from "expo-router";
+import { Link, usePathname, useRouter } from "expo-router";
 import {
   Bell,
   CircleDollarSign,
@@ -35,7 +35,6 @@ import React from "react";
 import { ThemedText } from "../ThemedText";
 import { Icon } from "../ui/icon";
 import { Pressable } from "../ui/pressable";
-import { useRouter } from "expo-router";
 
 interface IProps {
   showDrawer: boolean;
@@ -57,52 +56,52 @@ const menuList: MenuItem[] = [
   {
     icon: RotateCw,
     name: "Booking History",
-    linkTo: "/booking-history",
+    linkTo: "/(tabs)/booking-history",
   },
   {
     icon: MailPlus,
     name: "Inbox",
-    linkTo: "/inbox",
+    linkTo: "/(tabs)/inbox",
   },
   {
     icon: Wallet,
     name: "Payment logs",
-    linkTo: "/payment-logs",
+    linkTo: "/(tabs)/payment-logs",
   },
   {
     icon: CircleDollarSign,
     name: "Report Issues",
-    linkTo: "/report-issues",
+    linkTo: "/(tabs)/report-issues",
   },
   {
     icon: MessageCircleMore,
     name: "Complaints",
-    linkTo: "/complaints",
+    linkTo: "/(tabs)/complaints",
   },
   {
     icon: Headset,
     name: "Support",
-    linkTo: "/support",
+    linkTo: "/(tabs)/support",
   },
   {
     icon: Bell,
     name: "Notifications",
-    linkTo: "/notifications",
+    linkTo: "/(tabs)/notifications",
   },
   {
     icon: Gift,
     name: "My Promo",
-    linkTo: "/my-promo",
+    linkTo: "/(tabs)/my-promo",
   },
   {
     icon: NotepadText,
     name: "Terms & Conditions",
-    linkTo: "/terms-of-service",
+    linkTo: "/(tabs)/terms-of-service",
   },
   {
     icon: ScrollText,
     name: "Privacy Policy",
-    linkTo: "/privacy-policy",
+    linkTo: "/(tabs)/privacy-policy",
   },
 ];
 export default function CustomSidebarMenu({
@@ -110,6 +109,9 @@ export default function CustomSidebarMenu({
   setShowDrawer,
 }: IProps) {
   const router = useRouter();
+  // import { usePathname, useSegments } from "expo-router";
+  const pathname = usePathname();
+
   return (
     <>
       <Drawer
@@ -137,16 +139,21 @@ export default function CustomSidebarMenu({
               </ThemedText>
             </VStack>
           </DrawerHeader>
-          <Pressable onPress={() => {
-            router.push("/user-profile-setup");
-            setShowDrawer(false);
-          }}>
-            <ThemedText type="s2_subtitle" className="text-primary-600 pt-2 pl-2">
+          <Pressable
+            onPress={() => {
+              router.push("/user-profile-setup");
+              setShowDrawer(false);
+            }}
+          >
+            <ThemedText
+              type="s2_subtitle"
+              className="text-primary-600 pt-2 pl-2"
+            >
               Edit Profile
             </ThemedText>
           </Pressable>
 
-          <DrawerBody contentContainerClassName="gap-2">
+          <DrawerBody contentContainerClassName="gap-3">
             {menuList.map((item) => (
               <Link key={item.name} href={item.linkTo} asChild>
                 <Pressable
@@ -160,7 +167,10 @@ export default function CustomSidebarMenu({
                     size="xl"
                     className="text-typography-900"
                   />
-                  <ThemedText type="default" className="text-typography-900">
+                  <ThemedText
+                    type={pathname === item.linkTo ? "btn_giant" : "b2_body"}
+                    className="text-typography-900"
+                  >
                     {item.name}
                   </ThemedText>
                 </Pressable>

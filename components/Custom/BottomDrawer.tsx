@@ -162,26 +162,26 @@ export function BottomDrawer({
         />
       ) : null}
 
-      <GestureDetector gesture={pan}>
-        <Animated.View
-          pointerEvents="auto"
-          style={[
-            styles.panel,
-            {
-              paddingTop: insets.top ? insets.top : 12,
-            },
-            { paddingBottom: insets.bottom ? insets.bottom : 12 },
-            panelStyle,
-          ]}
-        >
-          {/* Handle */}
+      <Animated.View
+        pointerEvents="auto"
+        style={[
+          styles.panel,
+          {
+            paddingTop: insets.top ? insets.top : 12,
+          },
+          { paddingBottom: insets.bottom ? insets.bottom : 12 },
+          panelStyle,
+        ]}
+      >
+        {/* Handle (drag area) */}
+        <GestureDetector gesture={pan}>
           <View style={styles.handleContainer}>
             <View style={styles.handle} />
           </View>
-          {/* Content */}
-          <View style={styles.content}>{children}</View>
-        </Animated.View>
-      </GestureDetector>
+        </GestureDetector>
+        {/* Content (allows internal scrolling) */}
+        <View style={styles.content}>{children}</View>
+      </Animated.View>
     </View>
   );
 }

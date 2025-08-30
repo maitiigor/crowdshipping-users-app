@@ -3,14 +3,14 @@ import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { Button } from "@/components/ui/button";
-import { EyeIcon, EyeOffIcon } from "@/components/ui/icon";
+import { EyeIcon, EyeOffIcon, Icon } from "@/components/ui/icon";
 import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
 import AntDesign from "@expo/vector-icons/AntDesign";
-import Entypo from "@expo/vector-icons/Entypo";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import Fontisto from "@expo/vector-icons/Fontisto";
 import { Link, useNavigation, useRouter } from "expo-router";
 import { Formik } from "formik";
+import { ChevronLeft } from "lucide-react-native";
 import React, { useEffect, useState } from "react";
 import {
   Keyboard,
@@ -63,13 +63,45 @@ export default function Login() {
       headerTitle: "Login",
       headerTitleAlign: "center",
       headerTitleStyle: { fontSize: 20 }, // Increased font size
+      headerShadowVisible: false,
+      headerStyle: {
+        backgroundColor: "#FFFFFF",
+        elevation: 0, // Android
+        shadowOpacity: 0, // iOS
+        shadowColor: "transparent", // iOS
+        borderBottomWidth: 0,
+      },
       headerLeft: () => (
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          style={{ paddingHorizontal: 0 }}
+        <ThemedView
+          style={{
+            shadowColor: "#FDEFEB1A",
+            shadowOffset: { width: 0, height: 1 },
+            shadowOpacity: 0.102,
+            shadowRadius: 3,
+            elevation: 4,
+          }}
         >
-          <Entypo name="chevron-left" size={34} color="#131927" />
-        </TouchableOpacity>
+          <ThemedView
+            style={{
+              shadowColor: "#0000001A",
+              shadowOffset: { width: 0, height: 1 },
+              shadowOpacity: 0.102,
+              shadowRadius: 2,
+              elevation: 2,
+            }}
+          >
+            <TouchableOpacity
+              onPress={() => navigation.goBack()}
+              className="p-2 rounded   flex justify-center items-center"
+            >
+              <Icon
+                as={ChevronLeft}
+                size="3xl"
+                className="text-typography-900"
+              />
+            </TouchableOpacity>
+          </ThemedView>
+        </ThemedView>
       ),
     });
   }, [navigation]);
@@ -199,7 +231,7 @@ export default function Login() {
             )}
           </Formik>
 
-          <Link href="/forget-password" asChild>
+          <Link href="/(onboarding)/forget-password" asChild>
             <ThemedText
               type="s2_subtitle"
               className="text-primary-500 text-center mt-5"
@@ -242,7 +274,7 @@ export default function Login() {
           className="text-typography-950 py-6 text-center"
         >
           You don’t have an account?{" "}
-          <Link href="../signup" asChild>
+          <Link href="/(onboarding)/signup" asChild>
             <ThemedText type="s1_subtitle" className="text-primary-500">
               Sign up{" "}
             </ThemedText>

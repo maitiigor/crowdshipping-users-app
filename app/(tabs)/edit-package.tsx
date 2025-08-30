@@ -4,17 +4,18 @@ import { ThemedView } from "@/components/ThemedView";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import Entypo from "@expo/vector-icons/Entypo";
-import { useNavigation } from "expo-router";
-import { ChevronLeft } from "lucide-react-native";
+import { useNavigation, useRouter } from "expo-router";
+import { Bell, ChevronLeft, SquarePlus } from "lucide-react-native";
 import React, { useEffect } from "react";
-import { TouchableOpacity } from "react-native";
+import { Text, TouchableOpacity } from "react-native";
 
-export default function TermsOfService() {
+export default function EditPackage() {
   const navigation = useNavigation();
+  const router = useRouter();
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
-      headerTitle: "Terms of Service",
+      headerTitle: "Edit My Order",
       headerTitleAlign: "center",
       headerTitleStyle: { fontSize: 20 }, // Increased font size
       headerShadowVisible: false,
@@ -57,6 +58,11 @@ export default function TermsOfService() {
           </ThemedView>
         </ThemedView>
       ),
+      headerRight: () => (
+        <TouchableOpacity onPress={() => {}} style={{ paddingHorizontal: 0 }}>
+          <Icon as={Bell} size="2xl" className="text-typography-900" />
+        </TouchableOpacity>
+      ),
     });
   }, [navigation]);
   return (
@@ -64,26 +70,38 @@ export default function TermsOfService() {
       <ParallaxScrollView
         headerBackgroundColor={{ light: "#FFFFFF", dark: "#353636" }}
       >
-        <ThemedView className="flex-1  ">
-          <ThemedText type="h4_header" className="mt-5">
-            Welcome Back
-          </ThemedText>
-          <ThemedText type="default" className="pt-2 text-typography-800">
-            Please sign in to access your Crowdshipping account and manage your
-            deliveries.
+        <ThemedView className="flex-1">
+          <ThemedText>Delivery Details (ID2350847391)</ThemedText>
+          <ThemedView className="flex-1">
+            <ThemedText>Package ID: 12345</ThemedText>
+            <ThemedText>Sender: John Doe</ThemedText>
+            <ThemedText>Receiver: Jane Smith</ThemedText>
+            <ThemedText>Status: In Transit</ThemedText>
+          </ThemedView>
+        </ThemedView>
+        <ThemedView className="flex-row gap-2 justify-center items-center">
+          <Icon as={SquarePlus} size="3xl" className="text-primary-600" />
+          <ThemedText type="default" className="text-primary-600">
+            Add Another Package
           </ThemedText>
         </ThemedView>
       </ParallaxScrollView>
-      <ThemedView className="absolute bottom-10 left-0 right-0 px-5">
-        <Button variant="solid" size="2xl" className="mt-5 rounded-[12px]">
-          <ThemedText type="s1_subtitle" className="text-white">
-            Accept
+      <ThemedView className="absolute bottom-10 left-0 right-0 px-5 flex-row justify-center items-center gap-3">
+        <Button variant="outline" size="2xl" className=" rounded-[12px] mx-1">
+          <ThemedText
+            type="s2_subtitle"
+            className="text-primary-500 text-center "
+          >
+            Cancel
           </ThemedText>
         </Button>
-
-        <Button variant="outline" size="2xl" className="mt-5 rounded-[12px]">
-          <ThemedText type="s1_subtitle" className="text-primary-500">
-            Decline
+        <Button
+          variant="solid"
+          size="2xl"
+          className="flex-1 rounded-[12px] mx-1"
+        >
+          <ThemedText type="s2_subtitle" className="text-white text-center">
+            Update Request
           </ThemedText>
         </Button>
       </ThemedView>

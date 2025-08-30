@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import Entypo from "@expo/vector-icons/Entypo";
 import { useNavigation, useRouter } from "expo-router";
-import { Bell, SquarePlus } from "lucide-react-native";
+import { Bell, ChevronLeft, SquarePlus } from "lucide-react-native";
 import React, { useEffect } from "react";
 import { Text, TouchableOpacity } from "react-native";
 
@@ -17,16 +17,46 @@ export default function PackageDetailScreen() {
       headerShown: true,
       headerTitle: "Add Package",
       headerTitleAlign: "center",
-      headerTitleStyle: { fontSize: 20, }, // Increased font size
+      headerTitleStyle: { fontSize: 20 }, // Increased font size
+      headerShadowVisible: false,
+      headerStyle: {
+        backgroundColor: "#FFFFFF",
+        elevation: 0, // Android
+        shadowOpacity: 0, // iOS
+        shadowColor: "transparent", // iOS
+        borderBottomWidth: 0,
+      },
       headerLeft: () => (
-        <TouchableOpacity
-          onPress={() => {
-            navigation.goBack();
+        <ThemedView
+          style={{
+            shadowColor: "#FDEFEB1A",
+            shadowOffset: { width: 0, height: 1 },
+            shadowOpacity: 0.102,
+            shadowRadius: 3,
+            elevation: 4,
           }}
-          style={{ paddingHorizontal: 0 }}
         >
-          <Entypo name="chevron-left" size={34} color="#131927" />
-        </TouchableOpacity>
+          <ThemedView
+            style={{
+              shadowColor: "#0000001A",
+              shadowOffset: { width: 0, height: 1 },
+              shadowOpacity: 0.102,
+              shadowRadius: 2,
+              elevation: 2,
+            }}
+          >
+            <TouchableOpacity
+              onPress={() => navigation.goBack()}
+              className="p-2 rounded   flex justify-center items-center"
+            >
+              <Icon
+                as={ChevronLeft}
+                size="3xl"
+                className="text-typography-900"
+              />
+            </TouchableOpacity>
+          </ThemedView>
+        </ThemedView>
       ),
       headerRight: () => (
         <TouchableOpacity onPress={() => {}} style={{ paddingHorizontal: 0 }}>
@@ -59,7 +89,7 @@ export default function PackageDetailScreen() {
         size="2xl"
         className="mt-5 rounded-[12px]"
         onPress={() => {
-          router.push('/(tabs)/nearby-driver')
+          router.push("/(tabs)/nearby-driver");
         }}
       >
         <ThemedText type="s1_subtitle" className="text-white">
