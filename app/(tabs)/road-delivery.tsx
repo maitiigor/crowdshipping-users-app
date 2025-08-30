@@ -3,16 +3,18 @@ import { KeyboardAvoidingView, TouchableOpacity } from "react-native";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedView } from "@/components/ThemedView";
 
-import { useNavigation } from "expo-router";
+import { useNavigation, useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 
 import AddressPickerComponent, {
   AddressSelection,
 } from "@/components/Custom/AddressPicker";
 import CustomSidebarMenu from "@/components/Custom/CustomSidebarMenu";
+import InputLabelText from "@/components/Custom/InputLabelText";
 import { ThemedText } from "@/components/ThemedText";
 import { Button } from "@/components/ui/button";
 import { ChevronDownIcon, Icon } from "@/components/ui/icon";
+import { Image } from "@/components/ui/image";
 import { Input, InputField } from "@/components/ui/input";
 import {
   Select,
@@ -34,6 +36,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function RoadDeliveryScreen() {
   const navigation = useNavigation();
+  const router = useRouter();
   const [showDrawer, setShowDrawer] = useState(false);
   const [selectedPickupAddress, setSelectedPickupAddress] =
     useState<AddressSelection | null>(null);
@@ -45,7 +48,7 @@ export default function RoadDeliveryScreen() {
       headerShown: true,
       headerTitle: "Enter Your Location",
       headerTitleAlign: "center",
-      headerTitleStyle: { fontSize: 20, fontWeight: "bold" }, // Increased font size
+      headerTitleStyle: { fontSize: 20 }, // Increased font size
       headerLeft: () => (
         <TouchableOpacity
           onPress={() => {
@@ -90,6 +93,7 @@ export default function RoadDeliveryScreen() {
                 });
                 // Handle form submission logic here (e.g., API call)
                 // setShowModal(true);
+                router.push("/(tabs)/add-package");
               }}
             >
               {({
@@ -101,82 +105,110 @@ export default function RoadDeliveryScreen() {
                 touched,
                 setFieldValue,
               }) => (
-                <ThemedView className="flex gap-2">
+                <ThemedView className="flex gap-4">
                   {/* Address selection */}
-                  <ThemedText className="mt-2">Pickup Address</ThemedText>
-                  <AddressPickerComponent
-                    value={selectedPickupAddress}
-                    onSelect={(sel) => {
-                      setSelectedPickupAddress(sel);
-                      // also reflect in form values if needed
-                      setFieldValue("pickupAddress", sel.address);
-                    }}
-                  />
-                  <ThemedText className="mt-2">Drop Off Location</ThemedText>
-                  <AddressPickerComponent
-                    value={selectedDropOffAddress}
-                    onSelect={(sel) => {
-                      setSelectedDropOffAddress(sel);
-                      // also reflect in form values if needed
-                      setFieldValue("dropOffLocation", sel.address);
-                    }}
-                  />
-                  <ThemedText className="mt-3">Weight</ThemedText>
-                  <Input
-                    size="xl"
-                    className="h-[55px] rounded-lg mb-2 bg-primary-0 px-2"
-                    variant="outline"
-                    isInvalid={!!(errors.weight && touched.weight)}
-                  >
-                    <InputField
-                      className=""
-                      placeholder="Input your weight"
-                      value={values.weight}
-                      onChangeText={handleChange("weight")}
-                      onBlur={handleBlur("weight")}
-                      keyboardType="default"
-                      autoCapitalize="none"
+                  <ThemedView>
+                    <InputLabelText className="">Pickup Address</InputLabelText>
+                    <AddressPickerComponent
+                      value={selectedPickupAddress}
+                      onSelect={(sel) => {
+                        setSelectedPickupAddress(sel);
+                        // also reflect in form values if needed
+                        setFieldValue("pickupAddress", sel.address);
+                      }}
                     />
-                  </Input>
-                  {errors.weight && touched.weight && (
-                    <ThemedText type="b4_body" className="text-error-500 mb-4">
-                      {errors.weight}
-                    </ThemedText>
-                  )}
-
-                  <ThemedText>Vehicle</ThemedText>
-                  <Select
-                    selectedValue={values.vehicle}
-                    onValueChange={handleChange("vehicle")}
-                  >
-                    <SelectTrigger
+                  </ThemedView>
+                  <ThemedView>
+                    <InputLabelText className="">
+                      Drop Off Location
+                    </InputLabelText>
+                    <AddressPickerComponent
+                      value={selectedDropOffAddress}
+                      onSelect={(sel) => {
+                        setSelectedDropOffAddress(sel);
+                        // also reflect in form values if needed
+                        setFieldValue("dropOffLocation", sel.address);
+                      }}
+                    />
+                  </ThemedView>
+                  <ThemedView>
+                    <InputLabelText className="">Weight</InputLabelText>
+                    <Input
                       size="xl"
-                      className="h-[55px] rounded-lg mb-2 bg-primary-0 px-2"
+                      className="h-[55px] border-primary-100 rounded-lg mb-2 bg-primary-inputShade px-2"
+                      variant="outline"
+                      isInvalid={!!(errors.weight && touched.weight)}
                     >
-                      <SelectInput
-                        placeholder="Select gender"
-                        className="flex-1"
+                      <InputField
+                        className=""
+                        placeholder="Input your weight"
+                        value={values.weight}
+                        onChangeText={handleChange("weight")}
+                        onBlur={handleBlur("weight")}
+                        keyboardType="default"
+                        autoCapitalize="none"
                       />
-                      <SelectIcon className="mr-3" as={ChevronDownIcon} />
-                    </SelectTrigger>
-                    <SelectPortal>
-                      <SelectBackdrop />
-                      <SelectContent>
-                        <SelectDragIndicatorWrapper>
-                          <SelectDragIndicator />
-                        </SelectDragIndicatorWrapper>
-                        <SelectItem label="Cycle" value="cycle" />
-                        <SelectItem label="Car" value="car" />
-                        <SelectItem label="Scooter" value="scooter" />
-                      </SelectContent>
-                    </SelectPortal>
-                  </Select>
-                  {errors.vehicle && touched.vehicle && (
-                    <ThemedText type="b4_body" className="text-error-500 mb-4">
-                      {errors.vehicle}
-                    </ThemedText>
-                  )}
+                    </Input>
+                    {errors.weight && touched.weight && (
+                      <ThemedText
+                        type="b4_body"
+                        className="text-error-500 mb-4"
+                      >
+                        {errors.weight}
+                      </ThemedText>
+                    )}
+                  </ThemedView>
+                  <ThemedView>
+                    <InputLabelText>Vehicle</InputLabelText>
+                    <Select
+                      selectedValue={values.vehicle}
+                      onValueChange={handleChange("vehicle")}
+                    >
+                      <SelectTrigger
+                        size="xl"
+                        className="h-[55px] border-primary-100 rounded-lg mb-2 bg-primary-inputShade px-2"
+                      >
+                        <SelectInput
+                          placeholder="Select gender"
+                          className="flex-1"
+                        />
+                        <SelectIcon className="mr-3" as={ChevronDownIcon} />
+                      </SelectTrigger>
+                      <SelectPortal>
+                        <SelectBackdrop />
+                        <SelectContent>
+                          <SelectDragIndicatorWrapper>
+                            <SelectDragIndicator />
+                          </SelectDragIndicatorWrapper>
+                          <SelectItem label="Cycle" value="cycle" />
+                          <SelectItem label="Car" value="car" />
+                          <SelectItem label="Scooter" value="scooter" />
+                        </SelectContent>
+                      </SelectPortal>
+                    </Select>
+                    {errors.vehicle && touched.vehicle && (
+                      <ThemedText
+                        type="b4_body"
+                        className="text-error-500 mb-4"
+                      >
+                        {errors.vehicle}
+                      </ThemedText>
+                    )}
+                  </ThemedView>
 
+                  <ThemedView className="mt-5 flex items-center">
+                    {/* Illustrative image */}
+                    <Image
+                      source={require("@/assets/images/home/bike.png")}
+                      size="2xl"
+                      alt={"bike"}
+                    />
+
+                    <ThemedText type="default" className="mt-2">
+                      Total Distance:
+                      <ThemedText type="btn_giant">3420 Miles</ThemedText>
+                    </ThemedText>
+                  </ThemedView>
                   <Button
                     variant="solid"
                     size="2xl"
@@ -184,7 +216,7 @@ export default function RoadDeliveryScreen() {
                     onPress={() => handleSubmit()}
                   >
                     <ThemedText type="s1_subtitle" className="text-white">
-                      Update
+                      Continue
                     </ThemedText>
                   </Button>
                 </ThemedView>

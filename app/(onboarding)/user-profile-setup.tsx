@@ -1,5 +1,6 @@
 import { CustomModal } from "@/components/Custom/CustomModal";
 import DateField from "@/components/Custom/DateField";
+import InputLabelText from "@/components/Custom/InputLabelText";
 import PhoneNumberInput from "@/components/Custom/PhoneNumberInput";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
@@ -73,13 +74,13 @@ export default function UserProfileSetup() {
       headerShown: true,
       headerTitle: "Edit Profile",
       headerTitleAlign: "center",
-      headerTitleStyle: { fontSize: 20, fontWeight: "bold" }, // Increased font size
+      headerTitleStyle: { fontSize: 20 }, // Increased font size
       headerLeft: () => (
         <TouchableOpacity
           onPress={() => navigation.goBack()}
           style={{ paddingHorizontal: 0 }}
         >
-          <Entypo name="chevron-left" size={34} color="#E75B3B" />
+          <Entypo name="chevron-left" size={34} color="#131927" />
         </TouchableOpacity>
       ),
       headerRight: () => (
@@ -146,134 +147,146 @@ export default function UserProfileSetup() {
               setFieldValue,
             }) => (
               <ThemedView className="flex gap-2">
-                <ThemedText className="mt-3">Your Full Name</ThemedText>
-                <Input
-                  size="xl"
-                  className="h-[55px] rounded-lg mb-2 bg-primary-0 px-2"
-                  variant="outline"
-                  isInvalid={!!(errors.email && touched.email)}
-                >
-                  <InputField
-                    className=""
-                    placeholder="Input your name"
-                    value={values.fullName}
-                    onChangeText={handleChange("fullName")}
-                    onBlur={handleBlur("fullName")}
-                    keyboardType="default"
-                    autoCapitalize="none"
-                  />
-                </Input>
-                {errors.fullName && touched.fullName && (
-                  <ThemedText type="b4_body" className="text-error-500 mb-4">
-                    {errors.fullName}
-                  </ThemedText>
-                )}
-                <ThemedText className="">Email address</ThemedText>
-                <Input
-                  size="xl"
-                  className="h-[55px] rounded-lg mb-2 bg-primary-0 px-2"
-                  variant="outline"
-                  isInvalid={!!(errors.email && touched.email)}
-                >
-                  <InputField
-                    className=""
-                    placeholder="user@gmail.com"
-                    value={values.email}
-                    onChangeText={handleChange("email")}
-                    onBlur={handleBlur("email")}
-                    keyboardType="email-address"
-                    autoCapitalize="none"
-                  />
-                </Input>
-                {errors.email && touched.email && (
-                  <ThemedText type="b4_body" className="text-error-500 mb-4">
-                    {errors.email}
-                  </ThemedText>
-                )}
-                <ThemedText className="">Phone Number</ThemedText>
-                <PhoneNumberInput
-                  ref={phoneInputRef}
-                  value={values.phone_number}
-                  onChangeFormattedText={handleChange("phone_number")}
-                />
-                {errors.phone_number && touched.phone_number && (
-                  <ThemedText type="b4_body" className="text-error-500 mb-4">
-                    {errors.phone_number}
-                  </ThemedText>
-                )}
-
-                <ThemedText className="mt-2">Country</ThemedText>
-                <Select
-                  selectedValue={values.country}
-                  onValueChange={handleChange("country")}
-                >
-                  <SelectTrigger
+                <ThemedView>
+                  <InputLabelText className="mt-3">
+                    Your Full Name
+                  </InputLabelText>
+                  <Input
                     size="xl"
-                    className="h-[55px] rounded-lg mb-2 bg-primary-0 px-2"
+                    className="h-[55px] rounded-lg mb-2 border-primary-100 bg-primary-inputShade px-2"
+                    variant="outline"
+                    isInvalid={!!(errors.email && touched.email)}
                   >
-                    <SelectInput
-                      placeholder="Select country"
-                      className="flex-1"
+                    <InputField
+                      className=""
+                      placeholder="Input your name"
+                      value={values.fullName}
+                      onChangeText={handleChange("fullName")}
+                      onBlur={handleBlur("fullName")}
+                      keyboardType="default"
+                      autoCapitalize="none"
                     />
-                    <SelectIcon className="mr-3" as={ChevronDownIcon} />
-                  </SelectTrigger>
-                  <SelectPortal>
-                    <SelectBackdrop />
-                    <SelectContent>
-                      <SelectDragIndicatorWrapper>
-                        <SelectDragIndicator />
-                      </SelectDragIndicatorWrapper>
-                      {COUNTRIES.map((c) => (
-                        <SelectItem
-                          key={c.code}
-                          label={c.name}
-                          value={c.code}
-                        />
-                      ))}
-                    </SelectContent>
-                  </SelectPortal>
-                </Select>
-                {errors.country && touched.country && (
-                  <ThemedText type="b4_body" className="text-error-500 mb-4">
-                    {errors.country}
-                  </ThemedText>
-                )}
-
-                <ThemedText>Gender</ThemedText>
-                <Select
-                  selectedValue={values.gender}
-                  onValueChange={handleChange("gender")}
-                >
-                  <SelectTrigger
+                  </Input>
+                  {errors.fullName && touched.fullName && (
+                    <ThemedText type="b4_body" className="text-error-500 mb-4">
+                      {errors.fullName}
+                    </ThemedText>
+                  )}
+                </ThemedView>
+                <ThemedView>
+                  <InputLabelText className="">Email address</InputLabelText>
+                  <Input
                     size="xl"
-                    className="h-[55px] rounded-lg mb-2 bg-primary-0 px-2"
+                    className="h-[55px] rounded-lg mb-2 border-primary-100 bg-primary-inputShade px-2"
+                    variant="outline"
+                    isInvalid={!!(errors.email && touched.email)}
                   >
-                    <SelectInput
-                      placeholder="Select gender"
-                      className="flex-1"
+                    <InputField
+                      className=""
+                      placeholder="user@gmail.com"
+                      value={values.email}
+                      onChangeText={handleChange("email")}
+                      onBlur={handleBlur("email")}
+                      keyboardType="email-address"
+                      autoCapitalize="none"
                     />
-                    <SelectIcon className="mr-3" as={ChevronDownIcon} />
-                  </SelectTrigger>
-                  <SelectPortal>
-                    <SelectBackdrop />
-                    <SelectContent>
-                      <SelectDragIndicatorWrapper>
-                        <SelectDragIndicator />
-                      </SelectDragIndicatorWrapper>
-                      <SelectItem label="Male" value="male" />
-                      <SelectItem label="Female" value="female" />
-                      <SelectItem label="Other" value="other" />
-                    </SelectContent>
-                  </SelectPortal>
-                </Select>
-                {errors.gender && touched.gender && (
-                  <ThemedText type="b4_body" className="text-error-500 mb-4">
-                    {errors.gender}
-                  </ThemedText>
-                )}
+                  </Input>
+                  {errors.email && touched.email && (
+                    <ThemedText type="b4_body" className="text-error-500 mb-4">
+                      {errors.email}
+                    </ThemedText>
+                  )}
+                </ThemedView>
+                <ThemedView>
+                  <InputLabelText className="">Phone Number</InputLabelText>
+                  <PhoneNumberInput
+                    ref={phoneInputRef}
+                    value={values.phone_number}
+                    onChangeFormattedText={handleChange("phone_number")}
+                  />
+                  {errors.phone_number && touched.phone_number && (
+                    <ThemedText type="b4_body" className="text-error-500 mb-4">
+                      {errors.phone_number}
+                    </ThemedText>
+                  )}
+                </ThemedView>
 
+                <ThemedView>
+                  <InputLabelText className="mt-2">Country</InputLabelText>
+                  <Select
+                    selectedValue={values.country}
+                    onValueChange={handleChange("country")}
+                  >
+                    <SelectTrigger
+                      size="xl"
+                      className="h-[55px] rounded-lg mb-2 border-primary-100 bg-primary-inputShade px-2"
+                    >
+                      <SelectInput
+                        placeholder="Select country"
+                        className="flex-1"
+                      />
+                      <SelectIcon className="mr-3" as={ChevronDownIcon} />
+                    </SelectTrigger>
+                    <SelectPortal>
+                      <SelectBackdrop />
+                      <SelectContent>
+                        <SelectDragIndicatorWrapper>
+                          <SelectDragIndicator />
+                        </SelectDragIndicatorWrapper>
+                        {COUNTRIES.map((c) => (
+                          <SelectItem
+                            key={c.code}
+                            label={c.name}
+                            value={c.code}
+                          />
+                        ))}
+                      </SelectContent>
+                    </SelectPortal>
+                  </Select>
+                  {errors.country && touched.country && (
+                    <ThemedText type="b4_body" className="text-error-500 mb-4">
+                      {errors.country}
+                    </ThemedText>
+                  )}
+                </ThemedView>
+
+                <ThemedView>
+                  <InputLabelText>Gender</InputLabelText>
+                  <Select
+                    selectedValue={values.gender}
+                    onValueChange={handleChange("gender")}
+                  >
+                    <SelectTrigger
+                      size="xl"
+                      className="h-[55px] rounded-lg mb-2 border-primary-100 bg-primary-inputShade px-2"
+                    >
+                      <SelectInput
+                        placeholder="Select gender"
+                        className="flex-1"
+                      />
+                      <SelectIcon className="mr-3" as={ChevronDownIcon} />
+                    </SelectTrigger>
+                    <SelectPortal>
+                      <SelectBackdrop />
+                      <SelectContent>
+                        <SelectDragIndicatorWrapper>
+                          <SelectDragIndicator />
+                        </SelectDragIndicatorWrapper>
+                        <SelectItem label="Male" value="male" />
+                        <SelectItem label="Female" value="female" />
+                        <SelectItem label="Other" value="other" />
+                      </SelectContent>
+                    </SelectPortal>
+                  </Select>
+                  {errors.gender && touched.gender && (
+                    <ThemedText type="b4_body" className="text-error-500 mb-4">
+                      {errors.gender}
+                    </ThemedText>
+                  )}
+                </ThemedView>
                 <DateField
                   label="Date of Birth"
+                  labelClassName="b2_body"
                   value={values.dateOfBirth as unknown as Date | null}
                   onChange={(d) => setFieldValue("dateOfBirth", d)}
                 />
@@ -282,18 +295,7 @@ export default function UserProfileSetup() {
                     {String(errors.dateOfBirth)}
                   </ThemedText>
                 )}
-                {/* <ImageUploader
-                  uri={pickedImage}
-                  allowsEditing
-                  label="Profile Photo"
-                  className=""
-                  shape="circle"
-                  onChange={(uri) => {
-                    setPickedImage(uri);
-                    setFieldValue("imageUpload", uri ?? "");
-                  }}
-                  helperText="PNG or JPG up to 5MB"
-                /> */}
+
                 <Button
                   variant="solid"
                   size="2xl"

@@ -1,6 +1,5 @@
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
-import { CalendarDaysIcon } from "@/components/ui/icon";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import DateTimePicker, {
   DateTimePickerEvent,
@@ -19,6 +18,29 @@ export type DateFieldProps = {
   // Cross-platform; narrowed internally to valid options per OS
   display?: "default" | "spinner" | "calendar" | "clock" | "inline" | "compact";
   className?: string;
+  labelClassName?:
+    | "default"
+    | "link"
+    | "h1_header"
+    | "h2_header"
+    | "h3_header"
+    | "h4_header"
+    | "h5_header"
+    | "s1_subtitle"
+    | "s2_subtitle"
+    | "b2_body"
+    | "b3_body"
+    | "b4_body"
+    | "c1_caption"
+    | "c2_caption"
+    | "c3_caption"
+    | "label_text"
+    | "btn_giant"
+    | "btn_large"
+    | "btn_medium"
+    | "btn_small"
+    | "btn_tiny"
+    | undefined;
   format?: (d: Date) => string;
 };
 
@@ -29,6 +51,7 @@ const DateField: React.FC<DateFieldProps> = ({
   onChange,
   minimumDate,
   maximumDate,
+  labelClassName,
   mode = "date",
   label = "Date of birth",
   placeholder = "Select date",
@@ -65,11 +88,16 @@ const DateField: React.FC<DateFieldProps> = ({
   return (
     <ThemedView className={className}>
       {!!label && (
-        <ThemedText className="mb-2 text-typography-900">{label}</ThemedText>
+        <ThemedText
+          type={labelClassName ? labelClassName : "default"}
+          className="mb-2 text-typography-900"
+        >
+          {label}
+        </ThemedText>
       )}
       <Pressable
         onPress={() => (Platform.OS === "web" ? undefined : setOpen(true))}
-        className="h-[55px] rounded-lg bg-primary-0 px-3  flex-row items-center justify-between border border-background-300"
+        className="h-[55px] rounded-lg bg-primary-inputShade px-3  flex-row items-center justify-between border border-primary-100"
       >
         <ThemedText
           className={value ? "text-typography-900" : "text-typography-500"}

@@ -68,8 +68,10 @@ const PhoneNumberInput = forwardRef<PhoneNumberInputRef, PhoneNumberInputProps>(
           {
             height: 52,
             width: "100%",
-            borderRadius: 12,
-            backgroundColor: "#fffaf8",
+            borderRadius: 5,
+            backgroundColor: "#f9fafb33",
+            borderWidth: 1,
+            borderColor: "#F8CCC2",
           },
           containerStyle as any,
         ]}

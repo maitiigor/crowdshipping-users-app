@@ -6,7 +6,7 @@ import Entypo from "@expo/vector-icons/Entypo";
 import { useNavigation, useRouter } from "expo-router";
 import React, { useEffect } from "react";
 
-export default function HomeScreen() {
+export default function SecondHomeScreen() {
   const navigation = useNavigation();
   const router = useRouter();
   useEffect(() => {
@@ -14,13 +14,13 @@ export default function HomeScreen() {
       headerShown: true,
       headerTitle: "Signup",
       headerTitleAlign: "center",
-      headerTitleStyle: { fontSize: 20, fontWeight: "bold" }, // Increased font size
+      headerTitleStyle: { fontSize: 20 }, // Increased font size
       headerLeft: () => (
         <TouchableOpacity
           onPress={() => navigation.goBack()}
           style={{ paddingHorizontal: 0 }}
         >
-          <Entypo name="chevron-left" size={34} color="#E75B3B" />
+          <Entypo name="chevron-left" size={34} color="#131927" />
         </TouchableOpacity>
       ),
     });

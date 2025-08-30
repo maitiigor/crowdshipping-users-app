@@ -172,7 +172,7 @@ export function AddressPicker({
         <ThemedView className="flex-row gap-2">
           <Input
             size="2xl"
-            className="w-full flex-1 rounded-lg bg-primary-0 px-2"
+            className="w-full flex-1 rounded-lg border-primary-100 bg-primary-inputShade px-2"
           >
             <InputField
               placeholder={placeholder}
@@ -208,7 +208,7 @@ export function AddressPicker({
                 key={`${s.place_id}-${idx}`}
                 variant="link"
                 size="xl"
-                className="justify-start px-2"
+                className="justify-start px-2 mt-2"
                 onPress={() => handlePick(s)}
               >
                 <ThemedText numberOfLines={2}>{s.display_name}</ThemedText>
@@ -237,33 +237,46 @@ export function AddressPicker({
           <ModalHeader className="pt-10">
             <ThemedText type="h5_header">Tap on the map to select</ThemedText>
           </ModalHeader>
-          <ModalBody style={{ flex: 1, height: 400, minHeight: 400 }}>
-            <WebView
-              originWhitelist={["*"]}
-              style={{ flex: 1, height: 500, minHeight: 500 }}
-              onMessage={onMapMessage}
-              source={{ html: leafletHtml(initialCoords) }}
-              javaScriptEnabled={true}
-              domStorageEnabled={true}
-              allowFileAccess={true}
-              allowUniversalAccessFromFileURLs={true}
-              mixedContentMode="always"
-              androidLayerType="hardware"
-              startInLoadingState={true}
-              onLoadEnd={() => console.log("Map loaded")}
-              onError={(syntheticEvent) => {
-                const { nativeEvent } = syntheticEvent;
-                console.warn("WebView error: ", nativeEvent);
-              }}
-            />
+          <ModalBody
+            contentContainerStyle={{
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "center",
+              minHeight: 400,
+              padding: 0,
+            }}
+          >
+            <View style={{ width: "100%", height: "100%", maxHeight: 700 }}>
+              <WebView
+                originWhitelist={["*"]}
+                style={{ flex: 1, width: "100%", height: "100%" }}
+                onMessage={onMapMessage}
+                source={{ html: leafletHtml(initialCoords) }}
+                javaScriptEnabled={true}
+                domStorageEnabled={true}
+                allowFileAccess={true}
+                allowUniversalAccessFromFileURLs={true}
+                mixedContentMode="always"
+                androidLayerType="hardware"
+                startInLoadingState={true}
+                onLoadEnd={() => console.log("Map loaded")}
+                onError={(syntheticEvent) => {
+                  const { nativeEvent } = syntheticEvent;
+                  console.warn("WebView error: ", nativeEvent);
+                }}
+              />
+            </View>
           </ModalBody>
           <ModalFooter>
             <Button
               variant="outline"
-              size="lg"
+              className="w-full mb-2"
+              size="2xl"
               onPress={() => setMapOpen(false)}
             >
-              <ThemedText>Close</ThemedText>
+              <ThemedText className="text-primary-500" type="btn_large">
+                Close
+              </ThemedText>
             </Button>
           </ModalFooter>
         </ModalContent>

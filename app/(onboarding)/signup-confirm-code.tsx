@@ -36,13 +36,13 @@ export default function SignUpConfirmationCode() {
       headerShown: true,
       headerTitle: "Sign Up",
       headerTitleAlign: "center",
-      headerTitleStyle: { fontSize: 20, fontWeight: "bold" }, // Increased font size
+      headerTitleStyle: { fontSize: 20 }, // Increased font size
       headerLeft: () => (
         <TouchableOpacity
           onPress={() => navigation.goBack()}
           style={{ paddingHorizontal: 0 }}
         >
-          <Entypo name="chevron-left" size={34} color="#E75B3B" />
+          <Entypo name="chevron-left" size={34} color="#131927" />
         </TouchableOpacity>
       ),
     });

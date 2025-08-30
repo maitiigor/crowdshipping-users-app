@@ -1,12 +1,12 @@
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
-import Feather from "@expo/vector-icons/Feather";
 import {
   createMotionAnimatedComponent,
   MotionComponentProps,
 } from "@legendapp/motion";
 import { Image } from "expo-image";
 import * as ImagePicker from "expo-image-picker";
+import { Upload } from "lucide-react-native";
 import React, { useCallback, useMemo, useState } from "react";
 import {
   ActivityIndicator,
@@ -15,6 +15,7 @@ import {
   View,
   ViewStyle,
 } from "react-native";
+import { Icon } from "../ui/icon";
 export type ImageUploaderProps = {
   uri?: string | null;
   onChange: (uri: string | null, asset?: ImagePicker.ImagePickerAsset) => void;
@@ -29,6 +30,7 @@ export type ImageUploaderProps = {
   className?: string;
   allowCamera?: boolean;
   showRemove?: boolean;
+  editIconClassName?: string;
 };
 
 type IAnimatedPressableProps = React.ComponentProps<typeof Pressable> &
@@ -52,6 +54,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
   className,
   allowCamera = true,
   showRemove = true,
+  editIconClassName,
 }) => {
   const [sheetOpen, setSheetOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -106,13 +109,15 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
   }, [allowsEditing, aspect, disabled, onChange, quality]);
 
   return (
-    <ThemedView className={className}>
+    <AnimatedPressable
+      onPress={() => (!disabled ? setSheetOpen(true) : undefined)}
+      className={className}
+    >
       {!!label && (
         <ThemedText className="mb-2 text-typography-900">{label}</ThemedText>
       )}
-      <AnimatedPressable
-        onPress={() => (!disabled ? setSheetOpen(true) : undefined)}
-        className="items-center justify-center overflow-hidden border-2 bg-primary-0 shadow-md shadow-black/10"
+      <View
+        className="items-center justify-center overflow-hidden border-2 border-primary-500 bg-primary-inputShade shadow-md shadow-black/10"
         style={{ width: size, height: size, borderRadius }}
       >
         {uri ? (
@@ -127,26 +132,31 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
             className="w-full h-full items-center justify-center"
             style={{ borderRadius }}
           >
-            <Feather name="image" size={22} color="#9CA3AF" />
+            {/* <Feather name="image" size={22} color="#9CA3AF" /> */}
             <ThemedText className="text-typography-500 mt-1">
-              Tap to upload
+              <Icon as={Upload} className="text-primary-500" size="2xl" />
             </ThemedText>
           </ThemedView>
         )}
         {/* subtle hint overlay when image present */}
         {uri ? (
           <View className="absolute inset-x-0 bottom-0 py-1 bg-black/30 items-center">
-            <ThemedText className="text-white text-xs">Change photo</ThemedText>
+            <ThemedText className="text-white text-xs">
+              <Icon as={Upload} className="text-primary-100" size="2xl" />
+            </ThemedText>
           </View>
         ) : null}
 
         {/* Floating edit FAB */}
-        <View
-          className="absolute right-2 bottom-2 bg-primary-600 z-30 items-center justify-center"
+        {/* <View
+          className={twMerge(
+            "absolute right-2 bottom-2 bg-primary-600 z-50 items-center justify-center",
+            editIconClassName
+          )}
           style={{ width: 36, height: 36, borderRadius: 18 }}
         >
           <Feather name="edit-2" size={18} color="#fff" />
-        </View>
+        </View> */}
 
         {/* Loading overlay */}
         {loading && (
@@ -154,7 +164,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
             <ActivityIndicator color="#fff" />
           </View>
         )}
-      </AnimatedPressable>
+      </View>
       {!!helperText && (
         <ThemedText className="mt-2 text-typography-600">
           {helperText}
@@ -185,7 +195,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
               </Pressable>
             )}
             <Pressable
-              className="h-12 rounded-lg bg-primary-0 border border-background-300 items-center justify-center mb-3"
+              className="h-12 rounded-lg bg-primary-inputShade border border-background-300 items-center justify-center mb-3"
               onPress={pickFromLibrary}
             >
               <ThemedText className="text-typography-900">
@@ -206,7 +216,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
           </View>
         </Pressable>
       </Modal>
-    </ThemedView>
+    </AnimatedPressable>
   );
 };
 

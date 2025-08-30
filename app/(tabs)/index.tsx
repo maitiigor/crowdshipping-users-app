@@ -43,6 +43,8 @@ export default function HomeScreen() {
   const navigation = useNavigation();
   const [showDrawer, setShowDrawer] = useState(false);
   const router = useRouter();
+  // const insets = useSafeAreaInsets();
+
   const { t } = useTranslation();
   useEffect(() => {
     navigation.setOptions({
@@ -59,7 +61,7 @@ export default function HomeScreen() {
         </ThemedView>
       ),
       headerTitleAlign: "center",
-      headerTitleStyle: { fontSize: 20, fontWeight: "bold" }, // Increased font size
+      headerTitleStyle: { fontSize: 20 }, // Increased font size
       headerLeft: () => (
         <TouchableOpacity
           onPress={() => {

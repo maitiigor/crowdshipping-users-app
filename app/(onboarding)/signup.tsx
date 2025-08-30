@@ -1,3 +1,4 @@
+import InputLabelText from "@/components/Custom/InputLabelText";
 import PhoneNumberInput from "@/components/Custom/PhoneNumberInput";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
@@ -49,13 +50,13 @@ export default function Signup() {
       headerShown: true,
       headerTitle: "Signup",
       headerTitleAlign: "center",
-      headerTitleStyle: { fontSize: 20, fontWeight: "bold" }, // Increased font size
+      headerTitleStyle: { fontSize: 20 }, // Increased font size
       headerLeft: () => (
         <TouchableOpacity
           onPress={() => navigation.goBack()}
           style={{ paddingHorizontal: 0 }}
         >
-          <Entypo name="chevron-left" size={34} color="#E75B3B" />
+          <Entypo name="chevron-left" size={34} color="#131927" />
         </TouchableOpacity>
       ),
     });
@@ -99,6 +100,7 @@ export default function Signup() {
             initialValues={{
               fullName: "",
               email: "",
+              phone: "",
               password: "",
               confirmPassword: "",
             }}
@@ -117,108 +119,123 @@ export default function Signup() {
               errors,
               touched,
             }) => (
-              <ThemedView className="flex gap-2">
-                <ThemedText className="">Your Full Name</ThemedText>
-                <Input
-                  size="xl"
-                  className="h-[55px] rounded-lg mb-2 bg-primary-0 px-2"
-                  variant="outline"
-                  isInvalid={!!(errors.email && touched.email)}
-                >
-                  <InputField
-                    className=""
-                    placeholder="Input your name"
-                    value={values.fullName}
-                    onChangeText={handleChange("fullName")}
-                    onBlur={handleBlur("fullName")}
-                    keyboardType="default"
-                    autoCapitalize="none"
+              <ThemedView className="flex gap-4">
+                <ThemedView>
+                  <InputLabelText className="">Your Full Name</InputLabelText>
+                  <Input
+                    size="xl"
+                    className="h-[55px] rounded-lg mb-2 border-primary-100 bg-primary-inputShade px-2"
+                    variant="outline"
+                    isInvalid={!!(errors.email && touched.email)}
+                  >
+                    <InputField
+                      className=""
+                      placeholder="Input your name"
+                      value={values.fullName}
+                      onChangeText={handleChange("fullName")}
+                      onBlur={handleBlur("fullName")}
+                      keyboardType="default"
+                      autoCapitalize="none"
+                    />
+                  </Input>
+                  {errors.fullName && touched.fullName && (
+                    <ThemedText type="b4_body" className="text-error-500 mb-4">
+                      {errors.fullName}
+                    </ThemedText>
+                  )}
+                </ThemedView>
+                <ThemedView>
+                  <InputLabelText className="">Email address</InputLabelText>
+                  <Input
+                    size="xl"
+                    className="h-[55px] rounded-lg mb-2 border-primary-100 bg-primary-inputShade px-2"
+                    variant="outline"
+                    isInvalid={!!(errors.email && touched.email)}
+                  >
+                    <InputField
+                      className=""
+                      placeholder="user@gmail.com"
+                      value={values.email}
+                      onChangeText={handleChange("email")}
+                      onBlur={handleBlur("email")}
+                      keyboardType="email-address"
+                      autoCapitalize="none"
+                    />
+                  </Input>
+                  {errors.email && touched.email && (
+                    <ThemedText type="b4_body" className="text-error-500 mb-4">
+                      {errors.email}
+                    </ThemedText>
+                  )}
+                </ThemedView>
+                <ThemedView>
+                  <InputLabelText className="">Phone Number</InputLabelText>
+                  <PhoneNumberInput
+                    ref={phoneInputRef}
+                    value={phone}
+                    onChangeFormattedText={(text: string) => setPhone(text)}
                   />
-                </Input>
-                {errors.fullName && touched.fullName && (
-                  <ThemedText type="b4_body" className="text-error-500 mb-4">
-                    {errors.fullName}
-                  </ThemedText>
-                )}
-                <ThemedText className="">Email address</ThemedText>
-                <Input
-                  size="xl"
-                  className="h-[55px] rounded-lg mb-2 bg-primary-0 px-2"
-                  variant="outline"
-                  isInvalid={!!(errors.email && touched.email)}
-                >
-                  <InputField
-                    className=""
-                    placeholder="user@gmail.com"
-                    value={values.email}
-                    onChangeText={handleChange("email")}
-                    onBlur={handleBlur("email")}
-                    keyboardType="email-address"
-                    autoCapitalize="none"
-                  />
-                </Input>
-                {errors.email && touched.email && (
-                  <ThemedText type="b4_body" className="text-error-500 mb-4">
-                    {errors.email}
-                  </ThemedText>
-                )}
-                <ThemedText className="">Phone Number</ThemedText>
-                <PhoneNumberInput
-                  ref={phoneInputRef}
-                  value={phone}
-                  onChangeFormattedText={(text: string) => setPhone(text)}
-                />
+                  {errors.phone && touched.phone && (
+                    <ThemedText type="b4_body" className="text-error-500 mb-4">
+                      {errors.phone}
+                    </ThemedText>
+                  )}
+                </ThemedView>
 
-                <ThemedText className="mt-2">Password</ThemedText>
-                <Input
-                  className="h-[55px] rounded-lg mb-2 bg-primary-0 px-2"
-                  size="xl"
-                  isInvalid={!!(errors.password && touched.password)}
-                >
-                  <InputField
-                    className=""
-                    type={showPassword ? "text" : "password"}
-                    placeholder="Input your password"
-                    value={values.password}
-                    onChangeText={handleChange("password")}
-                    onBlur={handleBlur("password")}
-                    secureTextEntry={!showPassword}
-                  />
-                  <InputSlot className="pr-3" onPress={handleState}>
-                    <InputIcon as={showPassword ? EyeIcon : EyeOffIcon} />
-                  </InputSlot>
-                </Input>
-                {errors.password && touched.password && (
-                  <ThemedText type="b4_body" className="text-error-500 mb-4">
-                    {errors.password}
-                  </ThemedText>
-                )}
-                <ThemedText className="">Confirm Password</ThemedText>
-                <Input
-                  className="h-[55px] rounded-lg mb-2 bg-primary-0 px-2"
-                  size="xl"
-                  isInvalid={
-                    !!(errors.confirmPassword && touched.confirmPassword)
-                  }
-                >
-                  <InputField
-                    className=""
-                    type={showPassword ? "text" : "password"}
-                    placeholder="Input confirm password"
-                    value={values.confirmPassword}
-                    onChangeText={handleChange("confirmPassword")}
-                    onBlur={handleBlur("confirmPassword")}
-                    secureTextEntry={!showPassword}
-                  />
-                  <InputSlot className="pr-3" onPress={handleState}>
-                    <InputIcon as={showPassword ? EyeIcon : EyeOffIcon} />
-                  </InputSlot>
-                </Input>
-                {errors.confirmPassword && touched.confirmPassword && (
-                  <ThemedText type="b4_body" className="text-error-500 mb-4">
-                    {errors.confirmPassword}
-                  </ThemedText>
-                )}
+                <ThemedView>
+                  <InputLabelText className="mt-2">Password</InputLabelText>
+                  <Input
+                    className="h-[55px] rounded-lg mb-2 border-primary-100 bg-primary-inputShade px-2"
+                    size="xl"
+                    isInvalid={!!(errors.password && touched.password)}
+                  >
+                    <InputField
+                      className=""
+                      type={showPassword ? "text" : "password"}
+                      placeholder="Input your password"
+                      value={values.password}
+                      onChangeText={handleChange("password")}
+                      onBlur={handleBlur("password")}
+                      secureTextEntry={!showPassword}
+                    />
+                    <InputSlot className="pr-3" onPress={handleState}>
+                      <InputIcon as={showPassword ? EyeIcon : EyeOffIcon} />
+                    </InputSlot>
+                  </Input>
+                  {errors.password && touched.password && (
+                    <ThemedText type="b4_body" className="text-error-500 mb-4">
+                      {errors.password}
+                    </ThemedText>
+                  )}
+                </ThemedView>
+                <ThemedView>
+                  <InputLabelText className="">Confirm Password</InputLabelText>
+                  <Input
+                    className="h-[55px] rounded-lg mb-2 border-primary-100 bg-primary-inputShade px-2"
+                    size="xl"
+                    isInvalid={
+                      !!(errors.confirmPassword && touched.confirmPassword)
+                    }
+                  >
+                    <InputField
+                      className=""
+                      type={showPassword ? "text" : "password"}
+                      placeholder="Confirm password"
+                      value={values.confirmPassword}
+                      onChangeText={handleChange("confirmPassword")}
+                      onBlur={handleBlur("confirmPassword")}
+                      secureTextEntry={!showPassword}
+                    />
+                    <InputSlot className="pr-3" onPress={handleState}>
+                      <InputIcon as={showPassword ? EyeIcon : EyeOffIcon} />
+                    </InputSlot>
+                  </Input>
+                  {errors.confirmPassword && touched.confirmPassword && (
+                    <ThemedText type="b4_body" className="text-error-500 mb-4">
+                      {errors.confirmPassword}
+                    </ThemedText>
+                  )}
+                </ThemedView>
                 <Button
                   variant="solid"
                   size="2xl"

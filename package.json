@@ -27,6 +27,7 @@
     "@gluestack-ui/pressable": "^0.1.23",
     "@gluestack-ui/radio": "^0.1.40",
     "@gluestack-ui/select": "^0.1.31",
+    "@gluestack-ui/textarea": "^0.1.25",
     "@gluestack-ui/toast": "^1.0.9",
     "@gluestack-ui/tooltip": "^0.1.44",
     "@legendapp/motion": "^2.4.0",
@@ -79,7 +80,8 @@
     "tailwind-merge": "^3.3.1",
     "tailwind-variants": "0.1.20",
     "tailwindcss": "^3.4.17",
-    "yup": "^1.7.0"
+    "yup": "^1.7.0",
+    "expo-build-properties": "~0.14.8"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

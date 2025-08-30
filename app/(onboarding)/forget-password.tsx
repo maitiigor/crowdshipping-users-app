@@ -1,3 +1,4 @@
+import InputLabelText from "@/components/Custom/InputLabelText";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
@@ -32,13 +33,13 @@ export default function ForgetPassword() {
       headerShown: true,
       headerTitle: "Forget Password",
       headerTitleAlign: "center",
-      headerTitleStyle: { fontSize: 20, fontWeight: "bold" }, // Increased font size
+      headerTitleStyle: { fontSize: 20 }, // Increased font size
       headerLeft: () => (
         <TouchableOpacity
           onPress={() => navigation.goBack()}
           style={{ paddingHorizontal: 0 }}
         >
-          <Entypo name="chevron-left" size={34} color="#E75B3B" />
+          <Entypo name="chevron-left" size={34} color="#131927" />
         </TouchableOpacity>
       ),
     });
@@ -111,10 +112,10 @@ export default function ForgetPassword() {
               touched,
             }) => (
               <ThemedView className="mt-5">
-                <ThemedText className="mb-2">Email address</ThemedText>
+                <InputLabelText className="mb-2">Email address</InputLabelText>
                 <Input
                   size="xl"
-                  className="h-[55px] rounded-lg mb-2 bg-primary-0 px-2"
+                  className="h-[55px] rounded-lg mb-2 border-primary-100 bg-primary-inputShade px-2"
                   variant="outline"
                   isInvalid={!!(errors.email && touched.email)}
                 >
