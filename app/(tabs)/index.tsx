@@ -87,6 +87,7 @@ export default function HomeScreen() {
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: "#FFFFFF", dark: "#353636" }}
+      
     >
       <ThemedView className="flex-1">
         <ThemedView>
