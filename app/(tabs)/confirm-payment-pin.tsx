@@ -35,7 +35,13 @@ export default function ConfirmPaymentPin() {
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
-      headerTitle: "Confirm Pin",
+      headerTitle: () => {
+        return (
+          <ThemedText type="s1_subtitle" className="text-center">
+            Confirm Pin
+          </ThemedText>
+        );
+      },
       headerTitleAlign: "center",
       headerTitleStyle: { fontSize: 20 }, // Increased font size
       headerShadowVisible: false,

@@ -5,7 +5,6 @@ import { ThemedView } from "@/components/ThemedView";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { Input, InputField } from "@/components/ui/input";
-import Entypo from "@expo/vector-icons/Entypo";
 import { Link, useNavigation, useRouter } from "expo-router";
 import { Formik } from "formik";
 import { ChevronLeft } from "lucide-react-native";
@@ -33,7 +32,13 @@ export default function ForgetPassword() {
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
-      headerTitle: "Forget Password",
+      headerTitle: () => {
+        return (
+          <ThemedText type="s1_subtitle" className="text-center">
+            Forget Password
+          </ThemedText>
+        );
+      },
       headerTitleAlign: "center",
       headerShadowVisible: false,
       headerStyle: {

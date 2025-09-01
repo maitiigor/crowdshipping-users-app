@@ -36,7 +36,13 @@ export default function SignUpConfirmationCode() {
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
-      headerTitle: "Sign Up",
+      headerTitle: () => {
+        return (
+          <ThemedText type="s1_subtitle" className="text-center">
+            Sign Up
+          </ThemedText>
+        );
+      },
       headerTitleAlign: "center",
       headerTitleStyle: { fontSize: 20 }, // Increased font size
       headerShadowVisible: false,

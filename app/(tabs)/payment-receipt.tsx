@@ -3,17 +3,13 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { Button, ButtonText } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
-import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
 import { Menu, MenuItem, MenuItemLabel } from "@/components/ui/menu";
 import { useNavigation, useRouter } from "expo-router";
-import { Formik } from "formik";
 import {
   ChevronLeft,
   CircleEllipsis,
   Download,
-  SearchIcon,
   Send,
-  Share2,
 } from "lucide-react-native";
 import React, { useEffect } from "react";
 import { TouchableOpacity } from "react-native";
@@ -119,7 +115,7 @@ export default function PaymentReceipts() {
       >
         <ThemedView className="flex-1">
           <ThemedView className="flex-1 pb-20">
-           {/* res of the code */}
+            {/* res of the code */}
           </ThemedView>
         </ThemedView>
       </ParallaxScrollView>
@@ -128,7 +124,7 @@ export default function PaymentReceipts() {
           variant="solid"
           size="2xl"
           onPress={() => {
-            router.push("/(tabs)/choose-payment-type");
+            router.push("/(tabs)");
           }}
           className="flex-1 rounded-[12px] mx-1"
         >

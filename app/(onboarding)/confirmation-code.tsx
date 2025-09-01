@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { HStack } from "@/components/ui/hstack";
 import { Icon } from "@/components/ui/icon";
 import { Input, InputField } from "@/components/ui/input";
-import Entypo from "@expo/vector-icons/Entypo";
 import { Link, useNavigation, useRouter } from "expo-router";
 import { Formik } from "formik";
 import { ChevronLeft } from "lucide-react-native";
@@ -36,7 +35,13 @@ export default function ConfirmationCode() {
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
-      headerTitle: "Sign Up",
+      headerTitle: () => {
+        return (
+          <ThemedText type="s1_subtitle" className="text-center">
+            Sign Up
+          </ThemedText>
+        );
+      },
       headerTitleAlign: "center",
       headerTitleStyle: { fontSize: 20 }, // Increased font size
       headerShadowVisible: false,

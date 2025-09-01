@@ -15,7 +15,13 @@ export default function PackageDetailScreen() {
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
-      headerTitle: "Add Package",
+      headerTitle: () => {
+        return (
+          <ThemedText type="s1_subtitle" className="text-center">
+            Add Package
+          </ThemedText>
+        );
+      },
       headerTitleAlign: "center",
       headerTitleStyle: { fontSize: 20 }, // Increased font size
       headerShadowVisible: false,

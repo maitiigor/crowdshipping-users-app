@@ -50,7 +50,13 @@ export default function NearbyDriverScreen() {
   useEffect(() => {
     navigation.setOptions({
       headerShown: false,
-      headerTitle: "Nearby Drivers",
+      headerTitle: () => {
+        return (
+          <ThemedText type="s1_subtitle" className="text-center">
+            Nearby Drivers
+          </ThemedText>
+        );
+      },
       headerTitleAlign: "center",
       headerTitleStyle: { fontSize: 20 }, // Increased font size
       headerShadowVisible: false,

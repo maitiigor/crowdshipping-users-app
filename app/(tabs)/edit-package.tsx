@@ -14,7 +14,13 @@ export default function EditPackage() {
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
-      headerTitle: "Edit My Order",
+      headerTitle: () => {
+        return (
+          <ThemedText type="s1_subtitle" className="text-center">
+            Edit My Order
+          </ThemedText>
+        );
+      },
       headerTitleAlign: "center",
       headerTitleStyle: { fontSize: 20 }, // Increased font size
       headerShadowVisible: false,

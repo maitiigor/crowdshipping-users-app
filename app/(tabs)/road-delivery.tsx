@@ -46,7 +46,13 @@ export default function RoadDeliveryScreen() {
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
-      headerTitle: "Enter Your Location",
+      headerTitle: () => {
+        return (
+          <ThemedText type="s1_subtitle" className="text-center">
+            Enter Your Location
+          </ThemedText>
+        );
+      },
       headerTitleAlign: "center",
       headerTitleStyle: { fontSize: 20 }, // Increased font size
       headerShadowVisible: false,

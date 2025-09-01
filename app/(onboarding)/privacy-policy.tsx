@@ -14,7 +14,13 @@ export default function PrivacyPolicy() {
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
-      headerTitle: "Privacy Policy",
+      headerTitle: () => {
+        return (
+          <ThemedText type="s1_subtitle" className="text-center">
+            Privacy Policy
+          </ThemedText>
+        );
+      },
       headerTitleAlign: "center",
       headerTitleStyle: { fontSize: 20 }, // Increased font size
       headerShadowVisible: false,

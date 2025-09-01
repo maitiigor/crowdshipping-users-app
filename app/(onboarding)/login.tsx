@@ -60,7 +60,13 @@ export default function Login() {
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
-      headerTitle: "Login",
+      headerTitle: () => {
+        return (
+          <ThemedText type="s1_subtitle" className="text-center">
+            Login
+          </ThemedText>
+        );
+      },
       headerTitleAlign: "center",
       headerTitleStyle: { fontSize: 20 }, // Increased font size
       headerShadowVisible: false,

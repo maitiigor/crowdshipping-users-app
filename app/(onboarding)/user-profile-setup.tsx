@@ -72,7 +72,13 @@ export default function UserProfileSetup() {
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
-      headerTitle: "Edit Profile",
+      headerTitle: () => {
+        return (
+          <ThemedText type="s1_subtitle" className="text-center">
+            Edit Profile
+          </ThemedText>
+        );
+      },
       headerTitleAlign: "center",
       headerTitleStyle: { fontSize: 20 }, // Increased font size
       headerShadowVisible: false,

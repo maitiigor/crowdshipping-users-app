@@ -27,7 +27,13 @@ export default function PackageSummaryScreen() {
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
-      headerTitle: "Package Summary",
+      headerTitle: () => {
+        return (
+          <ThemedText type="s1_subtitle" className="text-center">
+            Package Summary
+          </ThemedText>
+        );
+      },
       headerTitleAlign: "center",
       headerTitleStyle: { fontSize: 20 }, // Increased font size
       // Remove header shadow and bottom border (iOS & Android)

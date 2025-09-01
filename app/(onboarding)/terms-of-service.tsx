@@ -14,7 +14,13 @@ export default function TermsOfService() {
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
-      headerTitle: "Terms of Service",
+      headerTitle: () => {
+        return (
+          <ThemedText type="s1_subtitle" className="text-center">
+            Terms of Service
+          </ThemedText>
+        );
+      },
       headerTitleAlign: "center",
       headerTitleStyle: { fontSize: 20 }, // Increased font size
       headerShadowVisible: false,

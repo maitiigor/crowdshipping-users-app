@@ -8,6 +8,7 @@ import React, { useEffect } from "react";
 import { ThemedView } from "@/components/ThemedView";
 import { ChevronLeft } from "lucide-react-native";
 import { Icon } from "@/components/ui/icon";
+import { ThemedText } from "@/components/ThemedText";
 
 export default function SecondHomeScreen() {
   const navigation = useNavigation();
@@ -15,7 +16,13 @@ export default function SecondHomeScreen() {
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
-      headerTitle: "Signup",
+      headerTitle: () => {
+        return (
+          <ThemedText type="s1_subtitle" className="text-center">
+            Test
+          </ThemedText>
+        );
+      },
       headerTitleAlign: "center",
       headerTitleStyle: { fontSize: 20 }, // Increased font size
       headerShadowVisible: false,
