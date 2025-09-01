@@ -1,8 +1,10 @@
-import { Link } from "expo-router";
+import { Link, router, useRouter } from "expo-router";
 import React, { ReactNode } from "react";
 import { ImageSourcePropType } from "react-native";
 import { ThemedText } from "../ThemedText";
+import { Box } from "../ui/box";
 import { Button } from "../ui/button";
+import { Image } from "../ui/image";
 import {
   Modal,
   ModalBackdrop,
@@ -11,8 +13,7 @@ import {
   ModalFooter,
   ModalHeader,
 } from "../ui/modal";
-import { Box } from "../ui/box";
-import { Image } from "../ui/image";
+import { VStack } from "../ui/vstack";
 
 interface IProps {
   showModal: boolean;
@@ -25,6 +26,9 @@ interface IProps {
   title: string;
   description: ReactNode;
   img?: ImageSourcePropType;
+  children?: ReactNode;
+  onFirstClick?: () => void;
+  onSecondClick?: () => void;
 }
 export const CustomModal = ({
   showModal,
@@ -36,10 +40,14 @@ export const CustomModal = ({
   firstBtnText = "",
   secondBtnLink,
   secondBtnText,
+  onFirstClick,
+  onSecondClick,
   title = "Success",
   description = "Your action was successful.",
   img,
+  children,
 }: IProps) => {
+  const router = useRouter();
   const defaultImg = require("@/assets/images/onboarding/modal-success.png");
   return (
     <Modal
@@ -50,7 +58,7 @@ export const CustomModal = ({
       }}
     >
       <ModalBackdrop />
-      <ModalContent className="max-w-[350px] rounded-2xl items-center">
+      <ModalContent className="rounded-2xl items-center">
         {img && (
           <ModalHeader>
             <Box className="w-[156px] h-[156px]  items-center justify-center">
@@ -77,38 +85,49 @@ export const CustomModal = ({
           >
             {description}
           </ThemedText>
+          {children}
         </ModalBody>
-        <ModalFooter className="w-full">
-          <Link href={firstBtnLink as any} asChild>
-            <Button
-              onPress={() => {
-                setShowModal(false);
-              }}
-              size="2xl"
-              className="flex-grow  w-full bg-primary-500"
-            >
-              <ThemedText type="btn_large" className="text-white">
-                {firstBtnText || "Continue"}
-              </ThemedText>
-            </Button>
-          </Link>
-
-          {secondBtnLink && secondBtnText && (
-            <Link href={secondBtnLink as any} asChild>
+        <ModalFooter className="w-full flex">
+          <VStack space="lg" className="w-full mt-5">
+            <Link href={firstBtnLink as any} asChild>
               <Button
                 onPress={() => {
-                  setShowModal(false);
+                  if (onFirstClick) {
+                    onFirstClick();
+                  } else {
+                    router.push(firstBtnLink as any);
+                    setShowModal(false);
+                  }
+                }}
+                size="2xl"
+                className="flex-grow rounded-xl w-full bg-primary-500"
+              >
+                <ThemedText type="btn_large" className="text-white">
+                  {firstBtnText || "Continue"}
+                </ThemedText>
+              </Button>
+            </Link>
+            {secondBtnLink && secondBtnText && (
+              <Button
+                onPress={() => {
+                  // setShowModal(false);
+                  if (onSecondClick) {
+                    onSecondClick();
+                  } else {
+                    setShowModal(false);
+                    router.push(secondBtnLink as any);
+                  }
                 }}
                 variant="outline"
                 size="2xl"
-                className="flex-grow  w-full text-primary-500"
+                className="flex-grow rounded-xl w-full text-primary-500"
               >
                 <ThemedText type="btn_large" className="text-primary-500">
                   {secondBtnText || "Continue"}
                 </ThemedText>
               </Button>
-            </Link>
-          )}
+            )}
+          </VStack>
         </ModalFooter>
       </ModalContent>
     </Modal>

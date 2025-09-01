@@ -96,12 +96,12 @@ const menuList: MenuItem[] = [
   {
     icon: NotepadText,
     name: "Terms & Conditions",
-    linkTo: "/(tabs)/terms-of-service",
+    linkTo: "/(onboarding)/terms-of-service",
   },
   {
     icon: ScrollText,
     name: "Privacy Policy",
-    linkTo: "/(tabs)/privacy-policy",
+    linkTo: "/(onboarding)/privacy-policy",
   },
 ];
 export default function CustomSidebarMenu({

@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "crowdshipping-driver-new-app",
-    "slug": "crowdshipping-driver-new-app",
+    "name": "Crowdshipping User",
+    "slug": "crowdshipping-user-new-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "crowdshippingdrivernewapp",
+    "scheme": "crowdshippingusernewapp",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "ios": {
@@ -14,9 +14,10 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#E75B3B"
+        "backgroundColor": "#fff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.zeus001.crowdshippingusernewapp"
     },
     "web": {
       "bundler": "metro",
@@ -51,6 +52,13 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "0aac59d2-a472-417d-ae8a-fe65ed204375"
+      }
+    },
+    "owner": "zeus001"
   }
 }

@@ -1,20 +1,36 @@
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
-import { Button } from "@/components/ui/button";
+import { Button, ButtonText } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
+import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
+import { Menu, MenuItem, MenuItemLabel } from "@/components/ui/menu";
 import { useNavigation, useRouter } from "expo-router";
-import { Bell, ChevronLeft, SquarePlus } from "lucide-react-native";
+import { Formik } from "formik";
+import {
+  ChevronLeft,
+  CircleEllipsis,
+  Download,
+  SearchIcon,
+  Send,
+  Share2,
+} from "lucide-react-native";
 import React, { useEffect } from "react";
 import { TouchableOpacity } from "react-native";
 
-export default function EditPackage() {
+export default function PaymentReceipts() {
   const navigation = useNavigation();
   const router = useRouter();
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
-      headerTitle: "Edit My Order",
+      headerTitle: () => {
+        return (
+          <ThemedText type="s1_subtitle" className="text-center">
+            Receipts
+          </ThemedText>
+        );
+      },
       headerTitleAlign: "center",
       headerTitleStyle: { fontSize: 20 }, // Increased font size
       headerShadowVisible: false,
@@ -58,9 +74,41 @@ export default function EditPackage() {
         </ThemedView>
       ),
       headerRight: () => (
-        <TouchableOpacity onPress={() => {}} style={{ paddingHorizontal: 0 }}>
-          <Icon as={Bell} size="2xl" className="text-typography-900" />
-        </TouchableOpacity>
+        <Menu
+          placement="bottom"
+          className="mr-2 relative right-2"
+          offset={5}
+          trigger={({ ...triggerProps }) => {
+            return (
+              <Button variant="link" {...triggerProps}>
+                <ButtonText>
+                  <Icon
+                    as={CircleEllipsis}
+                    size="3xl"
+                    className="text-typography-900"
+                  />
+                </ButtonText>
+              </Button>
+            );
+          }}
+        >
+          <MenuItem key="Share" textValue="Share">
+            <Icon as={Send} size="sm" className="mr-2" />
+            <MenuItemLabel size="sm">
+              <ThemedText type="default" className="text-black">
+                Share E-Receipt
+              </ThemedText>
+            </MenuItemLabel>
+          </MenuItem>
+          <MenuItem key="Download" textValue="Download">
+            <Icon as={Download} size="sm" className="mr-2" />
+            <MenuItemLabel size="sm">
+              <ThemedText type="default" className="text-black">
+                Download E-Receipt
+              </ThemedText>
+            </MenuItemLabel>
+          </MenuItem>
+        </Menu>
       ),
     });
   }, [navigation]);
@@ -70,36 +118,22 @@ export default function EditPackage() {
         headerBackgroundColor={{ light: "#FFFFFF", dark: "#353636" }}
       >
         <ThemedView className="flex-1">
-         <ThemedView className="flex-1 gap-3 pb-20">
-            <ThemedText>Package ID: 12345</ThemedText>
-            <ThemedText>Sender: John Doe</ThemedText>
-            <ThemedText>Receiver: Jane Smith</ThemedText>
-            <ThemedText>Status: In Transit</ThemedText>
+          <ThemedView className="flex-1 pb-20">
+           {/* res of the code */}
           </ThemedView>
         </ThemedView>
-        <ThemedView className="flex-row gap-2 justify-center items-center">
-          <Icon as={SquarePlus} size="3xl" className="text-primary-600" />
-          <ThemedText type="default" className="text-primary-600">
-            Add Another Package
-          </ThemedText>
-        </ThemedView>
       </ParallaxScrollView>
-      <ThemedView className="absolute bottom-0 py-5 bg-white left-0 right-0 px-5 flex-row justify-center items-center gap-3">
-        <Button variant="outline" size="2xl" className=" rounded-[12px] mx-1">
-          <ThemedText
-            type="s2_subtitle"
-            className="text-primary-500 text-center "
-          >
-            Cancel
-          </ThemedText>
-        </Button>
+      <ThemedView className="absolute pt-6 pb-10 bottom-0 bg-white left-0 right-0 px-5 flex-row justify-center items-center gap-3">
         <Button
           variant="solid"
           size="2xl"
+          onPress={() => {
+            router.push("/(tabs)/choose-payment-type");
+          }}
           className="flex-1 rounded-[12px] mx-1"
         >
           <ThemedText type="s2_subtitle" className="text-white text-center">
-            Update Request
+            Go Home
           </ThemedText>
         </Button>
       </ThemedView>

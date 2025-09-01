@@ -227,6 +227,9 @@ export default function PackageSummaryScreen() {
         <Button
           variant="solid"
           size="2xl"
+          onPress={() => {
+            router.push("/(tabs)/confirm-price");
+          }}
           className="flex-1 rounded-[12px] mx-1"
         >
           <ThemedText type="s2_subtitle" className="text-white text-center">
