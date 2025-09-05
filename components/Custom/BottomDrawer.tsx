@@ -19,6 +19,9 @@ type BottomDrawerProps = {
   snapPoints?: number[]; // fractions, ascending (e.g., [0.4, 1])
   onSnapChange?: (snap: number) => void;
   enableBackdrop?: boolean;
+  // When provided, the drawer becomes controlled and will animate to the nearest
+  // allowed snap point whenever this value changes.
+  snap?: number; // fraction [0..1]
   children?: React.ReactNode;
 };
 
@@ -33,6 +36,7 @@ export function BottomDrawer({
   snapPoints = [0.4, 1],
   onSnapChange,
   enableBackdrop = true,
+  snap: controlledSnap,
   children,
 }: BottomDrawerProps) {
   const insets = useSafeAreaInsets();
@@ -109,6 +113,35 @@ export function BottomDrawer({
     }
     runOnJS(onSnapChange)(nearest);
   };
+
+  // If a controlled snap is provided, animate to the nearest allowed snap point
+  // whenever it changes. This enables programmatic open/close.
+  useEffect(() => {
+    if (typeof controlledSnap !== "number") return;
+    const s = snaps.length ? snaps : [0.4, 1];
+    // Find nearest allowed fraction to the requested controlled snap
+    const clamp = (n: number, min = 0.01, max = 1) =>
+      Math.max(min, Math.min(n, max));
+    const desired = clamp(controlledSnap);
+    let nearest = s[0] ?? desired;
+    let dist = Math.abs(nearest - desired);
+    for (let i = 1; i < s.length; i++) {
+      const d = Math.abs(s[i] - desired);
+      if (d < dist) {
+        dist = d;
+        nearest = s[i];
+      }
+    }
+    const targetY = SCREEN_H * (1 - nearest);
+    translateY.value = withSpring(targetY, SPRING_CONFIG, (finished) => {
+      "worklet";
+      if (finished && onSnapChange) {
+        // Notify with the nearest snap value chosen
+        runOnJS(onSnapChange)(nearest);
+      }
+    });
+    startY.value = targetY;
+  }, [controlledSnap, snaps, startY, translateY, onSnapChange]);
 
   const pan = Gesture.Pan()
     .onBegin(() => {
@@ -192,7 +225,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    zIndex: 100,
+    zIndex: 100000,
     backgroundColor: "white",
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,

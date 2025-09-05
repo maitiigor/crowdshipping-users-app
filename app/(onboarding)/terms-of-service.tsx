@@ -70,7 +70,7 @@ export default function TermsOfService() {
       <ParallaxScrollView
         headerBackgroundColor={{ light: "#FFFFFF", dark: "#353636" }}
       >
-        <ThemedView className="flex-1  ">
+        <ThemedView className="flex-1 ">
           <ThemedText type="h4_header" className="mt-5">
             Welcome Back
           </ThemedText>

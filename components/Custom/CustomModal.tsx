@@ -1,4 +1,4 @@
-import { Link, router, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import React, { ReactNode } from "react";
 import { ImageSourcePropType } from "react-native";
 import { ThemedText } from "../ThemedText";
@@ -88,8 +88,11 @@ export const CustomModal = ({
           {children}
         </ModalBody>
         <ModalFooter className="w-full flex">
-          <VStack space="lg" className="w-full mt-5">
-            <Link href={firstBtnLink as any} asChild>
+          <VStack
+            space="lg"
+            className={`w-full  ${firstBtnLink || secondBtnLink ? "mt-5" : ""}`}
+          >
+            {firstBtnLink && firstBtnText && (
               <Button
                 onPress={() => {
                   if (onFirstClick) {
@@ -102,11 +105,14 @@ export const CustomModal = ({
                 size="2xl"
                 className="flex-grow rounded-xl w-full bg-primary-500"
               >
-                <ThemedText type="btn_large" className="text-white">
+                <ThemedText
+                  type="btn_large"
+                  className="text-white w-full text-center"
+                >
                   {firstBtnText || "Continue"}
                 </ThemedText>
               </Button>
-            </Link>
+            )}
             {secondBtnLink && secondBtnText && (
               <Button
                 onPress={() => {
@@ -122,7 +128,10 @@ export const CustomModal = ({
                 size="2xl"
                 className="flex-grow rounded-xl w-full text-primary-500"
               >
-                <ThemedText type="btn_large" className="text-primary-500">
+                <ThemedText
+                  type="btn_large"
+                  className="text-primary-500 w-full text-center"
+                >
                   {secondBtnText || "Continue"}
                 </ThemedText>
               </Button>
