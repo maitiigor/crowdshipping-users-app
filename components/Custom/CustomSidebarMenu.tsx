@@ -31,8 +31,9 @@ import {
   ScrollText,
   Wallet,
 } from "lucide-react-native";
-import React from "react";
+import React, { useState } from "react";
 import { ThemedText } from "../ThemedText";
+import { ThemedView } from "../ThemedView";
 import { Icon } from "../ui/icon";
 import { Pressable } from "../ui/pressable";
 
@@ -109,6 +110,7 @@ export default function CustomSidebarMenu({
   setShowDrawer,
 }: IProps) {
   const router = useRouter();
+  const [showLogoutDrawer, setShowLogoutDrawer] = useState(false);
   // import { usePathname, useSegments } from "expo-router";
   const pathname = usePathname();
 
@@ -182,6 +184,9 @@ export default function CustomSidebarMenu({
               className="w-full gap-2 flex-row items-center justify-start px-5"
               variant="link"
               action="secondary"
+              onPress={() => {
+                setShowLogoutDrawer(true);
+              }}
             >
               <ButtonIcon as={LogOut} className="text-primary-500" />
               <ThemedText
@@ -191,6 +196,68 @@ export default function CustomSidebarMenu({
                 Logout
               </ThemedText>
             </Button>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
+      {/* logout drawer  */}
+      <Drawer
+        isOpen={showLogoutDrawer}
+        size="sm"
+        anchor="bottom"
+        onClose={() => {
+          setShowLogoutDrawer(false);
+        }}
+      >
+        <DrawerBackdrop />
+        <DrawerContent className="rounded-2xl">
+          <DrawerHeader className="flex justify-center">
+            <ThemedText
+              type="h3_header"
+              className="text-primary-500 text-center"
+            >
+              Log out
+            </ThemedText>
+          </DrawerHeader>
+          <DrawerBody>
+            <ThemedText type="b2_body" className="text-center">
+              Are you sure you want to log out?
+            </ThemedText>
+          </DrawerBody>
+          <DrawerFooter>
+            <ThemedView className=" pt-5 pb-10 bg-white left-0 right-0 px-5 flex-row justify-center items-center gap-3">
+              <Button
+                variant="outline"
+                size="2xl"
+                className="rounded-[12px] w-1/2"
+                onPress={() => {
+                  setShowLogoutDrawer(false);
+                }}
+              >
+                <ThemedText
+                  type="s2_subtitle"
+                  className="text-primary-500 text-center "
+                >
+                  Cancel
+                </ThemedText>
+              </Button>
+              <Button
+                variant="solid"
+                size="2xl"
+                onPress={() => {
+                  setShowLogoutDrawer(false);
+                  setShowDrawer(false);
+                  router.push("/(onboarding)/login");
+                }}
+                className="flex-1 w-1/2 rounded-[12px]"
+              >
+                <ThemedText
+                  type="s2_subtitle"
+                  className="text-white text-center"
+                >
+                  Yes, Logout
+                </ThemedText>
+              </Button>
+            </ThemedView>
           </DrawerFooter>
         </DrawerContent>
       </Drawer>

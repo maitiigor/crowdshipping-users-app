@@ -243,8 +243,8 @@ const styles = StyleSheet.create({
     paddingBottom: 4,
   },
   handle: {
-    width: 48,
-    height: 5,
+    width: 100,
+    height: 7,
     borderRadius: 3,
     backgroundColor: "#D1D5DB", // gray-300
   },
