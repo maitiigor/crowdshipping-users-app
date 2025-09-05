@@ -155,7 +155,7 @@ export default function NearbyDriverScreen() {
       >
         <View className="py-3 flex-1">
           <ThemedView className="flex-row items-center justify-between mb-3">
-            <ThemedText type="b2_body">Nearby drivers</ThemedText>
+            <ThemedText type="b2_body">Select Nearby drivers</ThemedText>
           </ThemedView>
           <ThemedView className="gap-3 flex-1">
             {/* Placeholder list items */}

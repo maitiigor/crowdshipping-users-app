@@ -4,8 +4,7 @@ import { ThemedView } from "@/components/ThemedView";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { Image } from "@/components/ui/image";
-import { Pressable } from "@/components/ui/pressable";
-import { useNavigation, useRouter } from "expo-router";
+import { Link, useNavigation, useRouter } from "expo-router";
 import {
   Bell,
   Calendar,
@@ -90,7 +89,7 @@ export default function PackageSummaryScreen() {
         headerBackgroundColor={{ light: "#FFFFFF", dark: "#353636" }}
       >
         <ThemedView className="flex-1">
-          <ThemedView className="flex-1 gap-3 pb-20 mt-3">
+          <ThemedView className="flex-1 gap-3 pb-40 mt-3">
             <ThemedView className="flex justify-center items-center">
               <Button
                 variant="solid"
@@ -212,12 +211,18 @@ export default function PackageSummaryScreen() {
                 </ThemedView>
               </ThemedView>
             </ThemedText>
-            <Pressable className="flex-row gap-2 pt-3 pb-10 justify-center items-center">
-              <Icon as={SquarePlus} size="3xl" className="text-primary-500" />
-              <ThemedText type="default" className="text-primary-500">
-                Add Another Package
-              </ThemedText>
-            </Pressable>
+            <Link
+              href={"/(tabs)/add-package"}
+              asChild
+              className="flex-row gap-2 mt-3 justify-center items-center"
+            >
+              <ThemedView className="flex-row gap-2 justify-center items-center">
+                <Icon as={SquarePlus} size="3xl" className="text-primary-600" />
+                <ThemedText type="default" className="text-primary-600">
+                  Add Another Package
+                </ThemedText>
+              </ThemedView>
+            </Link>
           </ThemedView>
         </ThemedView>
       </ParallaxScrollView>

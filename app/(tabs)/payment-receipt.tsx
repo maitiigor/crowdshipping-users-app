@@ -64,7 +64,7 @@ export default function PaymentReceipts() {
       headerRight: () => (
         <Menu
           placement="bottom"
-          className="mr-2 relative right-2 top-32"
+          className="mr-2 relative right-2 top-3"
           offset={5}
           trigger={({ ...triggerProps }) => {
             return (

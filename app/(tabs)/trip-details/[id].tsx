@@ -35,29 +35,6 @@ import React, { useEffect, useState } from "react";
 import { Pressable, ScrollView, TouchableOpacity, View } from "react-native";
 import MapView from "react-native-maps";
 
-const driverList = [
-  {
-    id: "1",
-    name: "Segun Johnson",
-    location: "Ikeja",
-    rating: 4.5,
-    time: "2 min",
-  },
-  {
-    id: "2",
-    name: "Abdulkadir Newton",
-    location: "Victoria Island",
-    rating: 4.7,
-    time: "3 min",
-  },
-  {
-    id: "3",
-    name: "Driver 3",
-    location: "Lekki",
-    rating: 4.6,
-    time: "4 min",
-  },
-];
 export default function TripDetailsScreen() {
   const navigation = useNavigation();
   const router = useRouter();
@@ -193,14 +170,21 @@ export default function TripDetailsScreen() {
                 className={`flex-row items-center justify-between p-3 rounded-xl bg-primary-inputShade border border-typography-200 `}
               >
                 <ThemedView className="flex-row gap-3">
-                  <Avatar size="lg">
-                    <AvatarFallbackText>Segun Johnson</AvatarFallbackText>
-                    <AvatarImage
-                      source={{
-                        uri: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-                      }}
-                    />
-                  </Avatar>
+                  <Link
+                    href={{
+                      pathname: "/(tabs)/trip-details/driver-details/[id]",
+                      params: { id: id },
+                    }}
+                  >
+                    <Avatar size="lg">
+                      <AvatarFallbackText>Segun Johnson</AvatarFallbackText>
+                      <AvatarImage
+                        source={{
+                          uri: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+                        }}
+                      />
+                    </Avatar>
+                  </Link>
                   <ThemedView className="flex gap-1">
                     <ThemedText
                       type="s2_subtitle"
@@ -216,6 +200,11 @@ export default function TripDetailsScreen() {
                   <TouchableOpacity
                     onPress={() => {
                       // Handle press
+                      router.push({
+                        pathname:
+                          "/(tabs)/trip-details/driver-details/message-driver",
+                        params: { id: Array.isArray(id) ? id[0] : id ?? "" },
+                      });
                     }}
                   >
                     <Icon

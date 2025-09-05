@@ -1,23 +1,23 @@
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
-import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
-import { Link, useNavigation, useRouter } from "expo-router";
-import { Bell, ChevronLeft, SquarePlus } from "lucide-react-native";
+import { useLocalSearchParams, useNavigation, useRouter } from "expo-router";
+import { ChevronLeft, Phone } from "lucide-react-native";
 import React, { useEffect } from "react";
 import { Text, TouchableOpacity } from "react-native";
 
-export default function PackageDetailScreen() {
+export default function MessageDriver() {
   const navigation = useNavigation();
   const router = useRouter();
+  const { id } = useLocalSearchParams();
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
       headerTitle: () => {
         return (
           <ThemedText type="s1_subtitle" className="text-center">
-            Add Package
+            Segun Johnson
           </ThemedText>
         );
       },
@@ -65,48 +65,20 @@ export default function PackageDetailScreen() {
       ),
       headerRight: () => (
         <TouchableOpacity onPress={() => {}} style={{ paddingHorizontal: 0 }}>
-          <Icon as={Bell} size="2xl" className="text-typography-900" />
+          <Icon as={Phone} size="2xl" className="text-typography-900" />
         </TouchableOpacity>
       ),
     });
-  }, [navigation]);
+  }, [navigation, router]);
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: "#FFFFFF", dark: "#353636" }}
     >
       <ThemedView className="flex-1">
-        <Text>Package Details</Text>
-        <ThemedView className="flex-1">
-          <Text>Package ID: 12345</Text>
-          <Text>Sender: John Doe</Text>
-          <Text>Receiver: Jane Smith</Text>
-          <Text>Status: In Transit</Text>
+        <ThemedView className="flex-1 gap-3 pb-40 mt-3">
+          <Text>Message Driver {id}</Text>
         </ThemedView>
       </ThemedView>
-      <Link
-        href={"/(tabs)/add-package"}
-        asChild
-        className="flex-row gap-2 justify-center items-center"
-      >
-         <ThemedView className="flex-row gap-2 justify-center items-center">
-          <Icon as={SquarePlus} size="3xl" className="text-primary-600" />
-          <ThemedText type="default" className="text-primary-600">
-            Add Another Package
-          </ThemedText>
-        </ThemedView>
-      </Link>
-      <Button
-        variant="solid"
-        size="2xl"
-        className="mt-5 rounded-[12px]"
-        onPress={() => {
-          router.push("/(tabs)/nearby-driver");
-        }}
-      >
-        <ThemedText type="s1_subtitle" className="text-white">
-          Continue
-        </ThemedText>
-      </Button>
     </ParallaxScrollView>
   );
 }
