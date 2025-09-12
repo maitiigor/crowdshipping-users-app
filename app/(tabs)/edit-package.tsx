@@ -23,6 +23,7 @@ import {
   SquarePlus,
 } from "lucide-react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import NotificationIcon from "@/components/Custom/NotificationIcon";
 // MenuItem type removed (unused)
 
 export default function EditPackageScreen() {
@@ -64,11 +65,7 @@ export default function EditPackageScreen() {
           <Icon as={ChevronLeft} size="3xl" className="text-typography-900" />
         </TouchableOpacity>
       ),
-      headerRight: () => (
-        <TouchableOpacity onPress={() => {}} style={{ paddingHorizontal: 0 }}>
-          <Icon as={Bell} size="2xl" className="text-typography-900" />
-        </TouchableOpacity>
-      ),
+      headerRight: () => <NotificationIcon />,
     });
   }, [navigation]);
   return (

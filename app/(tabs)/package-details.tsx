@@ -1,16 +1,25 @@
+import NotificationIcon from "@/components/Custom/NotificationIcon";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
-import { Link, useNavigation, useRouter } from "expo-router";
-import { Bell, ChevronLeft, SquarePlus } from "lucide-react-native";
+import {
+  Link,
+  useLocalSearchParams,
+  useNavigation,
+  useRouter,
+} from "expo-router";
+
+import { ChevronLeft, SquarePlus } from "lucide-react-native";
 import React, { useEffect } from "react";
 import { Text, TouchableOpacity } from "react-native";
 
 export default function PackageDetailScreen() {
   const navigation = useNavigation();
   const router = useRouter();
+  const { id } = useLocalSearchParams();
+
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
@@ -63,11 +72,7 @@ export default function PackageDetailScreen() {
           </ThemedView>
         </ThemedView>
       ),
-      headerRight: () => (
-        <TouchableOpacity onPress={() => {}} style={{ paddingHorizontal: 0 }}>
-          <Icon as={Bell} size="2xl" className="text-typography-900" />
-        </TouchableOpacity>
-      ),
+      headerRight: () => <NotificationIcon />,
     });
   }, [navigation]);
   return (
@@ -88,25 +93,46 @@ export default function PackageDetailScreen() {
         asChild
         className="flex-row gap-2 justify-center items-center"
       >
-         <ThemedView className="flex-row gap-2 justify-center items-center">
+        <ThemedView className="flex-row gap-2 justify-center items-center">
           <Icon as={SquarePlus} size="3xl" className="text-primary-600" />
           <ThemedText type="default" className="text-primary-600">
             Add Another Package
           </ThemedText>
         </ThemedView>
       </Link>
-      <Button
-        variant="solid"
-        size="2xl"
-        className="mt-5 rounded-[12px]"
-        onPress={() => {
-          router.push("/(tabs)/nearby-driver");
-        }}
-      >
-        <ThemedText type="s1_subtitle" className="text-white">
-          Continue
-        </ThemedText>
-      </Button>
+      {id === "3" || id === "2" ? (
+        <Button
+          variant="solid"
+          size="2xl"
+          className="mt-5 rounded-[12px]"
+          onPress={() => {
+            router.push({
+              pathname: "/(tabs)/trips/bidding-screen",
+              params: { id: id },
+            });
+          }}
+        >
+          <ThemedText type="s1_subtitle" className="text-white">
+            Continue
+          </ThemedText>
+        </Button>
+      ) : (
+        <Button
+          variant="solid"
+          size="2xl"
+          className="mt-5 rounded-[12px]"
+          onPress={() => {
+            router.push({
+              pathname: "/(tabs)/nearby-driver",
+              params: { id: id },
+            });
+          }}
+        >
+          <ThemedText type="s1_subtitle" className="text-white">
+            Continue
+          </ThemedText>
+        </Button>
+      )}
     </ParallaxScrollView>
   );
 }

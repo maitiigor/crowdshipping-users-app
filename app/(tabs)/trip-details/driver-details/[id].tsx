@@ -1,3 +1,4 @@
+import NotificationIcon from "@/components/Custom/NotificationIcon";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
@@ -8,14 +9,8 @@ import {
 } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
+import { useLocalSearchParams, useNavigation, useRouter } from "expo-router";
 import {
-  Link,
-  useLocalSearchParams,
-  useNavigation,
-  useRouter,
-} from "expo-router";
-import {
-  Bell,
   ChevronLeft,
   Clock3,
   MessageCircleMore,
@@ -81,11 +76,7 @@ export default function DriverDetailScreen() {
           </ThemedView>
         </ThemedView>
       ),
-      headerRight: () => (
-        <TouchableOpacity onPress={() => {}} style={{ paddingHorizontal: 0 }}>
-          <Icon as={Bell} size="2xl" className="text-typography-900" />
-        </TouchableOpacity>
-      ),
+      headerRight: () => <NotificationIcon />,
     });
   }, [navigation, router]);
   return (
@@ -219,7 +210,7 @@ export default function DriverDetailScreen() {
             </ThemedView>
             <ThemedView>
               <ThemedText type="btn_giant" className="text-typography-600 pb-1">
-                Live Tracking Link/Map
+                Expected Arrival Time
               </ThemedText>
               <Pressable
                 onPress={() => {

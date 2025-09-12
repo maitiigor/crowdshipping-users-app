@@ -1,6 +1,7 @@
 import { CustomModal } from "@/components/Custom/CustomModal";
 import DateField from "@/components/Custom/DateField";
 import InputLabelText from "@/components/Custom/InputLabelText";
+import NotificationIcon from "@/components/Custom/NotificationIcon";
 import PhoneNumberInput from "@/components/Custom/PhoneNumberInput";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
@@ -121,11 +122,7 @@ export default function UserProfileSetup() {
           </ThemedView>
         </ThemedView>
       ),
-      headerRight: () => (
-        <TouchableOpacity onPress={() => {}} style={{ paddingHorizontal: 0 }}>
-          <Icon as={Bell} size="2xl" className="text-typography-900" />
-        </TouchableOpacity>
-      ),
+      headerRight: () => <NotificationIcon />,
     });
   }, [navigation]);
   useEffect(() => {

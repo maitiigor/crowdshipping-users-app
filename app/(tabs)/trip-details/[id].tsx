@@ -1,5 +1,6 @@
 import { BottomDrawer } from "@/components/Custom/BottomDrawer";
 import { CustomModal } from "@/components/Custom/CustomModal";
+import NotificationIcon from "@/components/Custom/NotificationIcon";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import {
@@ -21,7 +22,6 @@ import {
 } from "expo-router";
 
 import {
-  Bell,
   ChevronLeft,
   Clock3,
   Dot,
@@ -35,7 +35,7 @@ import React, { useEffect, useState } from "react";
 import { Pressable, ScrollView, TouchableOpacity, View } from "react-native";
 import MapView from "react-native-maps";
 
-export default function TripDetailsScreen() {
+export default function TrackBidOrder() {
   const navigation = useNavigation();
   const router = useRouter();
   const [snap, setSnap] = useState(0.4);
@@ -100,11 +100,7 @@ export default function TripDetailsScreen() {
           </ThemedView>
         </ThemedView>
       ),
-      headerRight: () => (
-        <TouchableOpacity onPress={() => {}} style={{ paddingHorizontal: 0 }}>
-          <Icon as={Bell} size="2xl" className="text-typography-900" />
-        </TouchableOpacity>
-      ),
+      headerRight: () => <NotificationIcon />,
     });
   }, [navigation, router]);
   return (
@@ -173,7 +169,7 @@ export default function TripDetailsScreen() {
                   <Link
                     href={{
                       pathname: "/(tabs)/trip-details/driver-details/[id]",
-                      params: { id: id },
+                      params: { id: Array.isArray(id) ? id[0] : id ?? "" },
                     }}
                   >
                     <Avatar size="lg">
@@ -404,7 +400,10 @@ export default function TripDetailsScreen() {
                   href={{
                     pathname:
                       "/(tabs)/trip-details/driver-customer-feedback/[id]",
-                    params: { id: id, rating: rating },
+                    params: {
+                      id: Array.isArray(id) ? id[0] : id ?? "",
+                      rating: rating,
+                    },
                   }}
                   asChild
                   className="flex-grow rounded-xl py-4 w-full bg-primary-500"

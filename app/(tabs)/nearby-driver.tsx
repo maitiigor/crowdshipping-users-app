@@ -1,4 +1,5 @@
 import { BottomDrawer } from "@/components/Custom/BottomDrawer";
+import NotificationIcon from "@/components/Custom/NotificationIcon";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import {
@@ -99,11 +100,7 @@ export default function NearbyDriverScreen() {
           </ThemedView>
         </ThemedView>
       ),
-      headerRight: () => (
-        <TouchableOpacity onPress={() => {}} style={{ paddingHorizontal: 0 }}>
-          <Icon as={Bell} size="2xl" className="text-typography-900" />
-        </TouchableOpacity>
-      ),
+      headerRight: () => <NotificationIcon />,
     });
   }, [navigation, router]);
   return (

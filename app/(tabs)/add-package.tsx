@@ -3,7 +3,7 @@ import { KeyboardAvoidingView, TouchableOpacity } from "react-native";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedView } from "@/components/ThemedView";
 
-import { useNavigation, useRouter } from "expo-router";
+import { useLocalSearchParams, useNavigation, useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 
 import { AddressSelection } from "@/components/Custom/AddressPicker";
@@ -11,6 +11,7 @@ import CustomSidebarMenu from "@/components/Custom/CustomSidebarMenu";
 import DateField from "@/components/Custom/DateField";
 import ImageUploader from "@/components/Custom/ImageUploader";
 import InputLabelText from "@/components/Custom/InputLabelText";
+import NotificationIcon from "@/components/Custom/NotificationIcon";
 import { ThemedText } from "@/components/ThemedText";
 import { Button } from "@/components/ui/button";
 import { ChevronDownIcon, Icon } from "@/components/ui/icon";
@@ -30,8 +31,8 @@ import {
 import { Textarea, TextareaInput } from "@/components/ui/textarea";
 import Feather from "@expo/vector-icons/Feather";
 import { Formik } from "formik";
-import { Bell } from "lucide-react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { ChevronLeft } from "lucide-react-native";
 // MenuItem type removed (unused)
 const productCategoryList = [
   {
@@ -75,6 +76,7 @@ export default function AddPackageScreen() {
     useState<AddressSelection | null>(null);
   const [pickedImage, setPickedImage] = useState<string | null>(null);
   const insets = useSafeAreaInsets();
+  const { id } = useLocalSearchParams();
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
@@ -96,20 +98,38 @@ export default function AddPackageScreen() {
         borderBottomWidth: 0,
       },
       headerLeft: () => (
-        <TouchableOpacity
-          onPress={() => {
-            setShowDrawer(true);
+        <ThemedView
+          style={{
+            shadowColor: "#FDEFEB1A",
+            shadowOffset: { width: 0, height: 1 },
+            shadowOpacity: 0.102,
+            shadowRadius: 3,
+            elevation: 4,
           }}
-          style={{ paddingHorizontal: 0 }}
         >
-          <Feather name="menu" size={24} color="black" />
-        </TouchableOpacity>
+          <ThemedView
+            style={{
+              shadowColor: "#0000001A",
+              shadowOffset: { width: 0, height: 1 },
+              shadowOpacity: 0.102,
+              shadowRadius: 2,
+              elevation: 2,
+            }}
+          >
+            <TouchableOpacity
+              onPress={() => navigation.goBack()}
+              className="p-2 rounded   flex justify-center items-center"
+            >
+              <Icon
+                as={ChevronLeft}
+                size="3xl"
+                className="text-typography-900"
+              />
+            </TouchableOpacity>
+          </ThemedView>
+        </ThemedView>
       ),
-      headerRight: () => (
-        <TouchableOpacity onPress={() => {}} style={{ paddingHorizontal: 0 }}>
-          <Icon as={Bell} size="2xl" className="text-typography-900" />
-        </TouchableOpacity>
-      ),
+      headerRight: () => <NotificationIcon />,
     });
   }, [navigation]);
   return (
@@ -143,7 +163,10 @@ export default function AddPackageScreen() {
                   selectedDropOffAddress,
                 };
                 console.log("Form submitted:", payload);
-                router.push("/(tabs)/package-details");
+                router.push({
+                  pathname: "/(tabs)/package-details",
+                  params: { id: id },
+                });
               }}
             >
               {({

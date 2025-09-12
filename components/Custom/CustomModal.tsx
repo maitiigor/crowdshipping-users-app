@@ -92,7 +92,7 @@ export const CustomModal = ({
             space="lg"
             className={`w-full  ${firstBtnLink || secondBtnLink ? "mt-5" : ""}`}
           >
-            {firstBtnLink && firstBtnText && (
+            {(firstBtnLink || firstBtnText) && (
               <Button
                 onPress={() => {
                   if (onFirstClick) {
@@ -113,7 +113,7 @@ export const CustomModal = ({
                 </ThemedText>
               </Button>
             )}
-            {secondBtnLink && secondBtnText && (
+            {(secondBtnLink || secondBtnText) && (
               <Button
                 onPress={() => {
                   // setShowModal(false);

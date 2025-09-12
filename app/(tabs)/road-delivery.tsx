@@ -3,7 +3,7 @@ import { KeyboardAvoidingView, TouchableOpacity } from "react-native";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedView } from "@/components/ThemedView";
 
-import { useNavigation, useRouter } from "expo-router";
+import { useLocalSearchParams, useNavigation, useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 
 import AddressPickerComponent, {
@@ -11,9 +11,10 @@ import AddressPickerComponent, {
 } from "@/components/Custom/AddressPicker";
 import CustomSidebarMenu from "@/components/Custom/CustomSidebarMenu";
 import InputLabelText from "@/components/Custom/InputLabelText";
+import NotificationIcon from "@/components/Custom/NotificationIcon";
 import { ThemedText } from "@/components/ThemedText";
 import { Button } from "@/components/ui/button";
-import { ChevronDownIcon, Icon } from "@/components/ui/icon";
+import { ChevronDownIcon } from "@/components/ui/icon";
 import { Image } from "@/components/ui/image";
 import { Input, InputField } from "@/components/ui/input";
 import {
@@ -30,7 +31,6 @@ import {
 } from "@/components/ui/select";
 import Feather from "@expo/vector-icons/Feather";
 import { Formik } from "formik";
-import { Bell } from "lucide-react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 // MenuItem type removed (unused)
 
@@ -43,6 +43,7 @@ export default function RoadDeliveryScreen() {
   const [selectedDropOffAddress, setSelectedDropOffAddress] =
     useState<AddressSelection | null>(null);
   const insets = useSafeAreaInsets();
+  const { id } = useLocalSearchParams();
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
@@ -73,11 +74,7 @@ export default function RoadDeliveryScreen() {
           <Feather name="menu" size={24} color="black" />
         </TouchableOpacity>
       ),
-      headerRight: () => (
-        <TouchableOpacity onPress={() => {}} style={{ paddingHorizontal: 0 }}>
-          <Icon as={Bell} size="2xl" className="text-typography-900" />
-        </TouchableOpacity>
-      ),
+      headerRight: () => <NotificationIcon />,
     });
   }, [navigation]);
   return (
@@ -107,7 +104,10 @@ export default function RoadDeliveryScreen() {
                 });
                 // Handle form submission logic here (e.g., API call)
                 // setShowModal(true);
-                router.push("/(tabs)/add-package");
+                router.push({
+                  pathname: "/(tabs)/add-package",
+                  params: { id: id },
+                });
               }}
             >
               {({
@@ -212,8 +212,15 @@ export default function RoadDeliveryScreen() {
 
                   <ThemedView className="mt-5 flex items-center">
                     {/* Illustrative image */}
+
                     <Image
-                      source={require("@/assets/images/home/bike.png")}
+                      source={
+                        id === "3"
+                          ? require("@/assets/images/home/flight-delivery.png")
+                          : id === "2"
+                          ? require("@/assets/images/home/maritime-delivery.png")
+                          : require("@/assets/images/home/bike.png")
+                      }
                       size="2xl"
                       alt={"bike"}
                     />

@@ -37,13 +37,13 @@ const deliveryType: MenuItem[] = [
   {
     img: require("@/assets/images/home/flight-delivery.png"),
     titleKey: "home.air",
-    linkTo: "/(tabs)/flight-delivery",
+    linkTo: "/(tabs)/trips",
   },
 
   {
     img: require("@/assets/images/home/maritime-delivery.png"),
     titleKey: "home.sea",
-    linkTo: "/(tabs)/maritime-delivery",
+    linkTo: "/(tabs)/trips",
   },
 ];
 export default function HomeScreen() {

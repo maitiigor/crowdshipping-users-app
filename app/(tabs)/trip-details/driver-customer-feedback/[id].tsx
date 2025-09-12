@@ -1,5 +1,6 @@
 import { CustomModal } from "@/components/Custom/CustomModal";
 import InputLabelText from "@/components/Custom/InputLabelText";
+import NotificationIcon from "@/components/Custom/NotificationIcon";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
@@ -9,7 +10,7 @@ import { Textarea, TextareaInput } from "@/components/ui/textarea";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useLocalSearchParams, useNavigation, useRouter } from "expo-router";
 import { Formik } from "formik";
-import { Bell, ChevronLeft } from "lucide-react-native";
+import { ChevronLeft } from "lucide-react-native";
 import React, { useEffect, useState } from "react";
 import { KeyboardAvoidingView, TouchableOpacity } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -21,7 +22,7 @@ export default function DriverCustomerFeedback() {
   const [showModal, setShowModal] = useState(false);
   const insets = useSafeAreaInsets();
   const [rating, setRating] = useState<number>(
-    selectedRating.toString() ? parseInt(selectedRating.toString()) : 0
+    selectedRating?.toString() ? parseInt(selectedRating?.toString()) : 0
   );
   const handleStarClick = (value: number) => {
     setRating(value);
@@ -78,11 +79,7 @@ export default function DriverCustomerFeedback() {
           </ThemedView>
         </ThemedView>
       ),
-      headerRight: () => (
-        <TouchableOpacity onPress={() => {}} style={{ paddingHorizontal: 0 }}>
-          <Icon as={Bell} size="2xl" className="text-typography-900" />
-        </TouchableOpacity>
-      ),
+      headerRight: () => <NotificationIcon />,
     });
   }, [navigation, router]);
   return (
@@ -98,8 +95,8 @@ export default function DriverCustomerFeedback() {
           <ThemedView className="flex-1 gap-3 pb-20 mt-3">
             <Formik
               initialValues={{
-                rating: selectedRating.toString()
-                  ? parseInt(selectedRating.toString())
+                rating: selectedRating?.toString()
+                  ? parseInt(selectedRating?.toString())
                   : 0,
                 comment: "",
               }}
