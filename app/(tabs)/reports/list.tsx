@@ -273,7 +273,7 @@ export default function ReportScreen() {
           variant="solid"
           size="2xl"
           onPress={() => {
-            router.push("/(tabs)/report/add-new-report");
+            router.push("/(tabs)/reports/add-new-report");
           }}
           className="flex-1 rounded-[12px] mx-1"
         >
