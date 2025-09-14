@@ -29,6 +29,7 @@ module.exports = {
           950: "rgb(var(--color-primary-950)/<alpha-value>)",
           white: "#FFFFFF",
           gray: "#D4D4D4",
+          inputShade: "#f9fafb33",
           black: "#181718",
         },
         secondary: {

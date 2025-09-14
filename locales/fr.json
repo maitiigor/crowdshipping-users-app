@@ -1,0 +1,26 @@
+{
+  "onboarding": {
+    "choose_language": "Choisissez la langue",
+    "choose_language_hint": "Sélectionnez votre langue préférée ci-dessous. Cela nous aide à mieux vous servir.",
+    "you_selected": "Vous avez sélectionné",
+    "continue": "Continuer",
+    "all_languages": "Toutes les langues"
+  },
+  "tabs": {
+    "home": "Accueil",
+    "explore": "Explorer",
+    "api": "API"
+  },
+  "common": {
+    "search": "Rechercher...",
+    "welcome": "Bienvenue !",
+    "hello_world": "Bonjour tout le monde !"
+  },
+  "home": {
+    "send_package": "Envoyer un colis",
+    "subtitle": "Choisissez la meilleure façon d'acheminer votre colis — par route, avion ou mer. Rapide, flexible et fiable.",
+    "land": "Livraison terrestre",
+    "air": "Livraison aérienne",
+    "sea": "Livraison maritime"
+  }
+}

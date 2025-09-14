@@ -1,0 +1,26 @@
+{
+  "onboarding": {
+    "choose_language": "Escolha o idioma",
+    "choose_language_hint": "Selecione seu idioma preferido abaixo. Isso nos ajuda a atendê-lo melhor.",
+    "you_selected": "Você selecionou",
+    "continue": "Continuar",
+    "all_languages": "Todos os idiomas"
+  },
+  "tabs": {
+    "home": "Início",
+    "explore": "Explorar",
+    "api": "API"
+  },
+  "common": {
+    "search": "Pesquisar...",
+    "welcome": "Bem-vindo!",
+    "hello_world": "Olá Mundo!"
+  },
+  "home": {
+    "send_package": "Enviar um pacote",
+    "subtitle": "Escolha a melhor forma de transportar o seu pacote — por estrada, avião ou mar. Rápido, flexível e fiável.",
+    "land": "Entrega terrestre",
+    "air": "Entrega aérea",
+    "sea": "Entrega marítima"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "onboarding": {
+    "choose_language": "言語を選択",
+    "choose_language_hint": "下から希望の言語を選択してください。より良いサービスのために役立ちます。",
+    "you_selected": "選択された言語",
+    "continue": "続行",
+    "all_languages": "すべての言語"
+  },
+  "tabs": {
+    "home": "ホーム",
+    "explore": "探索",
+    "api": "API"
+  },
+  "common": {
+    "search": "検索...",
+    "welcome": "ようこそ！",
+    "hello_world": "こんにちは世界！"
+  },
+  "home": {
+    "send_package": "荷物を送る",
+    "subtitle": "荷物を運ぶ最適な方法を選んでください — 陸路・空路・海路。速く、柔軟で、信頼できます。",
+    "land": "陸送",
+    "air": "航空便",
+    "sea": "海上輸送"
+  }
+}
