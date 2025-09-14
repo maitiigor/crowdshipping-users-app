@@ -14,7 +14,7 @@ import InputLabelText from "@/components/Custom/InputLabelText";
 import NotificationIcon from "@/components/Custom/NotificationIcon";
 import { ThemedText } from "@/components/ThemedText";
 import { Button } from "@/components/ui/button";
-import { ChevronDownIcon } from "@/components/ui/icon";
+import { ChevronDownIcon, Icon } from "@/components/ui/icon";
 import { Image } from "@/components/ui/image";
 import { Input, InputField } from "@/components/ui/input";
 import {
@@ -32,6 +32,7 @@ import {
 import Feather from "@expo/vector-icons/Feather";
 import { Formik } from "formik";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { ChevronLeft } from "lucide-react-native";
 // MenuItem type removed (unused)
 
 export default function RoadDeliveryScreen() {
@@ -65,14 +66,36 @@ export default function RoadDeliveryScreen() {
         borderBottomWidth: 0,
       },
       headerLeft: () => (
-        <TouchableOpacity
-          onPress={() => {
-            setShowDrawer(true);
+        <ThemedView
+          style={{
+            shadowColor: "#FDEFEB1A",
+            shadowOffset: { width: 0, height: 1 },
+            shadowOpacity: 0.102,
+            shadowRadius: 3,
+            elevation: 4,
           }}
-          style={{ paddingHorizontal: 0 }}
         >
-          <Feather name="menu" size={24} color="black" />
-        </TouchableOpacity>
+          <ThemedView
+            style={{
+              shadowColor: "#0000001A",
+              shadowOffset: { width: 0, height: 1 },
+              shadowOpacity: 0.102,
+              shadowRadius: 2,
+              elevation: 2,
+            }}
+          >
+            <TouchableOpacity
+              onPress={() => navigation.goBack()}
+              className="p-2 rounded   flex justify-center items-center"
+            >
+              <Icon
+                as={ChevronLeft}
+                size="3xl"
+                className="text-typography-900"
+              />
+            </TouchableOpacity>
+          </ThemedView>
+        </ThemedView>
       ),
       headerRight: () => <NotificationIcon />,
     });

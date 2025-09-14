@@ -29,6 +29,7 @@ import {
   NotepadText,
   RotateCw,
   ScrollText,
+  TruckElectric,
   Wallet,
 } from "lucide-react-native";
 import React, { useState } from "react";
@@ -60,6 +61,11 @@ const menuList: MenuItem[] = [
     linkTo: "/(tabs)/booking-history",
   },
   {
+    icon: TruckElectric,
+    name: "Trips",
+    linkTo: "/(tabs)/trips",
+  },
+  {
     icon: MailPlus,
     name: "Inbox",
     linkTo: "/(tabs)/inbox",
@@ -72,7 +78,7 @@ const menuList: MenuItem[] = [
   {
     icon: CircleDollarSign,
     name: "Report Issues",
-    linkTo: "/(tabs)/report-issues",
+    linkTo: "/(tabs)/reports/list",
   },
   {
     icon: MessageCircleMore,

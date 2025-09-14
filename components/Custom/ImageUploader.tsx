@@ -166,7 +166,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
         )}
       </View>
       {!!helperText && (
-        <ThemedText className="mt-2 text-typography-600">
+        <ThemedText className="mt-2 text-typography-600 text-center">
           {helperText}
         </ThemedText>
       )}

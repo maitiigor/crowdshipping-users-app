@@ -4,14 +4,18 @@ import NotificationIcon from "@/components/Custom/NotificationIcon";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { Alert, AlertIcon, AlertText } from "@/components/ui/alert";
+import {
+  Avatar,
+  AvatarFallbackText,
+  AvatarImage,
+} from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Icon, InfoIcon } from "@/components/ui/icon";
 import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
-import Entypo from "@expo/vector-icons/Entypo";
 import { useLocalSearchParams, useNavigation, useRouter } from "expo-router";
 import { Formik } from "formik";
 
-import { ChevronLeft, DollarSign, MapPin } from "lucide-react-native";
+import { ChevronLeft, Clock3, DollarSign, MapPin } from "lucide-react-native";
 import React, { useEffect, useState } from "react";
 import { ScrollView, TouchableOpacity, View } from "react-native";
 import MapView from "react-native-maps";
@@ -82,15 +86,79 @@ export default function TripDetailsScreen() {
     <ThemedView className="flex-1 bg-white relative">
       {/* map */}
       <View className="absolute  top-14 left-0 right-0 z-50 items-center">
-        <TouchableOpacity
-          onPress={() => {
-            router.back();
-          }}
-          className="bg-white w-[40px] h-[35px] shadow-lg rounded items-center justify-center absolute left-5"
-          style={{ paddingHorizontal: 0 }}
-        >
-          <Entypo name="chevron-left" size={24} color="#131927" />
-        </TouchableOpacity>
+        <ThemedView className=" w-[90%]  p-3 rounded-lg  bg-white">
+          <ThemedView
+            className={`flex-row items-center
+             justify-between
+          `}
+          >
+            <ThemedView className="flex-row gap-3">
+              <Avatar size="lg">
+                <AvatarFallbackText>John Donald</AvatarFallbackText>
+                <AvatarImage
+                  source={{
+                    uri: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+                  }}
+                />
+              </Avatar>
+              <ThemedView className="flex gap-1">
+                <ThemedText type="s2_subtitle" className="text-typography-800">
+                  John Donald
+                </ThemedText>
+
+                <ThemedView className="flex-row flex-1 items-center gap-1">
+                  <Icon as={Clock3} />
+                  <ThemedText type="btn_small">Ikeja, Lagos→Canada</ThemedText>
+                </ThemedView>
+                <ThemedView className="flex-row flex-1 items-center gap-1">
+                  <Icon as={MapPin} />
+                  <ThemedText type="btn_small">Ikeja, Lagos→Canada</ThemedText>
+                </ThemedView>
+              </ThemedView>
+            </ThemedView>
+
+            <ThemedView className="flex gap-1">
+              <ThemedText type="s2_subtitle">2km</ThemedText>
+              <ThemedText type="default" className="text-typography-500">
+                Away
+              </ThemedText>
+            </ThemedView>
+          </ThemedView>
+          <ThemedView className="flex-row mt-5 justify-between items-center  gap-3">
+            <ThemedText type="b2_body" className="text-typography-900">
+              $5000
+            </ThemedText>
+            <ThemedView className="flex-row w-[60%] justify-between gap-3">
+              <Button
+                variant="outline"
+                size="lg"
+                className=" rounded-[12px] "
+                onPress={() => {
+                  router.back();
+                }}
+              >
+                <ThemedText type="btn_medium" className="text-primary-500">
+                  Decline
+                </ThemedText>
+              </Button>
+              <Button
+                variant="solid"
+                size="lg"
+                className=" rounded-[12px] flex-1"
+                onPress={() => {
+                  router.push({
+                    pathname: "/(tabs)/trips/confirm-pay",
+                    params: { id: id as string },
+                  });
+                }}
+              >
+                <ThemedText type="btn_medium" className="text-white">
+                  Accept
+                </ThemedText>
+              </Button>
+            </ThemedView>
+          </ThemedView>
+        </ThemedView>
       </View>
       <MapView
         style={{ height: "100%", width: "100%" }}
