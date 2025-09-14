@@ -1,0 +1,29 @@
+{
+  "onboarding": {
+    "choose_language": "Choose the language",
+    "choose_language_hint": "Select your preferred language below. This helps us serve you better.",
+    "you_selected": "You Selected",
+    "continue": "Continue",
+    "all_languages": "All Languages"
+  },
+  "tabs": {
+    "home": "Home",
+    "explore": "Explore",
+    "api": "API"
+  },
+  "common": {
+    "search": "Search...",
+    "welcome": "Welcome!",
+    "hello_world": "Hello World!"
+  },
+  "home": {
+    "send_package": "Send a package",
+    "subtitle": "Choose the best way to move your package — by road, flight, or sea. Fast, flexible, and reliable.",
+    "land": "Land Delivery",
+    "air": "Air Delivery",
+    "sea": "Maritime Delivery"
+  },
+  "road": {
+    "enter_location": "Enter Your Location"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "onboarding": {
+    "choose_language": "Scegli la lingua",
+    "choose_language_hint": "Seleziona la tua lingua preferita qui sotto. Ci aiuta a servirti meglio.",
+    "you_selected": "Hai selezionato",
+    "continue": "Continua",
+    "all_languages": "Tutte le lingue"
+  },
+  "tabs": {
+    "home": "Home",
+    "explore": "Esplora",
+    "api": "API"
+  },
+  "common": {
+    "search": "Cerca...",
+    "welcome": "Benvenuto!",
+    "hello_world": "Ciao Mondo!"
+  },
+  "home": {
+    "send_package": "Invia un pacco",
+    "subtitle": "Scegli il modo migliore per spostare il tuo pacco — via terra, aereo o mare. Veloce, flessibile e affidabile.",
+    "land": "Consegna via terra",
+    "air": "Consegna aerea",
+    "sea": "Consegna marittima"
+  }
+}

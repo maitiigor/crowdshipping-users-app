@@ -42,6 +42,13 @@ const inputStyle = tva({
       lg: 'h-11',
       md: 'h-10',
       sm: 'h-9',
+      xs: 'h-8',
+      '2xs': 'h-7',
+      '2xl': 'h-14',
+      '3xl': 'h-16',
+      '4xl': 'h-20',
+      '5xl': 'h-24',
+      '6xl': 'h-28',
     },
 
     variant: {

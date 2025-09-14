@@ -41,7 +41,7 @@ export function ThemedText({
 
   return (
     <Text
-      className={twMerge("", className)}
+      className={twMerge(className)}
       style={[
         type === "default" ? styles.default : undefined,
         type === "link" ? styles.link : undefined,
@@ -64,7 +64,6 @@ export function ThemedText({
         type === "btn_medium" ? styles.btn_medium : undefined,
         type === "btn_small" ? styles.btn_small : undefined,
         type === "btn_tiny" ? styles.btn_tiny : undefined,
-        { color },
         style,
       ]}
       {...rest}
@@ -78,43 +77,51 @@ const styles = StyleSheet.create({
     fontSize: 48,
     lineHeight: 58,
     fontWeight: "600", // Semi Bold
+    fontFamily: "Poppins-SemiBold",
   },
   h2_header: {
     fontSize: 40,
     lineHeight: 48,
     fontWeight: "600",
+    fontFamily: "Poppins-SemiBold",
   },
   h3_header: {
     fontSize: 32,
     lineHeight: 38,
     fontWeight: "600",
+    fontFamily: "Poppins-SemiBold",
   },
   h4_header: {
     fontSize: 28,
     lineHeight: 34,
     fontWeight: "600",
+    fontFamily: "Poppins-SemiBold",
   },
   h5_header: {
     fontSize: 24,
     lineHeight: 28,
     fontWeight: "600",
+    fontFamily: "Poppins-SemiBold",
   },
   // link
   link: {
     lineHeight: 30,
     fontSize: 16,
     color: "#0a7ea4",
+    fontFamily: "Poppins-Regular",
   },
   // Subtitles
   s1_subtitle: {
     fontSize: 18,
     lineHeight: 28,
     fontWeight: "600",
+    fontFamily: "Poppins-SemiBold",
   },
   s2_subtitle: {
     fontSize: 16,
     lineHeight: 24,
     fontWeight: "600",
+    fontFamily: "Poppins-SemiBold",
   },
 
   // Body
@@ -122,21 +129,25 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 24,
     fontWeight: "400", // Regular
+    fontFamily: "Poppins-Regular",
   },
   b2_body: {
     fontSize: 16,
     lineHeight: 24,
     fontWeight: "500", // Medium
+    fontFamily: "Poppins-Medium",
   },
   b3_body: {
     fontSize: 14,
     lineHeight: 20,
     fontWeight: "400",
+    fontFamily: "Poppins-Regular",
   },
   b4_body: {
     fontSize: 14,
     lineHeight: 20,
     fontWeight: "500",
+    fontFamily: "Poppins-Medium",
   },
 
   // Captions
@@ -144,16 +155,19 @@ const styles = StyleSheet.create({
     fontSize: 12,
     lineHeight: 16,
     fontWeight: "400",
+    fontFamily: "Poppins-Regular",
   },
   c2_caption: {
     fontSize: 12,
     lineHeight: 16,
     fontWeight: "500",
+    fontFamily: "Poppins-Medium",
   },
   c3_caption: {
     fontSize: 10,
     lineHeight: 14,
     fontWeight: "500",
+    fontFamily: "Poppins-Medium",
   },
 
   // Label
@@ -161,6 +175,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     lineHeight: 16,
     fontWeight: "500",
+    fontFamily: "Poppins-Medium",
   },
 
   // Buttons
@@ -168,26 +183,31 @@ const styles = StyleSheet.create({
     fontSize: 18,
     lineHeight: 24,
     fontWeight: "600",
+    fontFamily: "Poppins-SemiBold",
   },
   btn_large: {
     fontSize: 16,
     lineHeight: 20,
     fontWeight: "600",
+    fontFamily: "Poppins-SemiBold",
   },
   btn_medium: {
     fontSize: 14,
     lineHeight: 16,
     fontWeight: "600",
+    fontFamily: "Poppins-SemiBold",
   },
   btn_small: {
     fontSize: 12,
     lineHeight: 16,
     fontWeight: "600",
+    fontFamily: "Poppins-SemiBold",
   },
   btn_tiny: {
     fontSize: 10,
     lineHeight: 12,
     fontWeight: "600",
+    fontFamily: "Poppins-SemiBold",
   },
 });
 

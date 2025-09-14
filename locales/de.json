@@ -1,0 +1,26 @@
+{
+  "onboarding": {
+    "choose_language": "Sprache auswählen",
+    "choose_language_hint": "Wähle unten deine bevorzugte Sprache. Das hilft uns, dich besser zu bedienen.",
+    "you_selected": "Du hast ausgewählt",
+    "continue": "Weiter",
+    "all_languages": "Alle Sprachen"
+  },
+  "tabs": {
+    "home": "Start",
+    "explore": "Entdecken",
+    "api": "API"
+  },
+  "common": {
+    "search": "Suchen...",
+    "welcome": "Willkommen!",
+    "hello_world": "Hallo Welt!"
+  },
+  "home": {
+    "send_package": "Paket versenden",
+    "subtitle": "Wähle die beste Art, dein Paket zu transportieren — per Straße, Flug oder See. Schnell, flexibel und zuverlässig.",
+    "land": "Lieferung per Land",
+    "air": "Lieferung per Luft",
+    "sea": "Lieferung per See"
+  }
+}
