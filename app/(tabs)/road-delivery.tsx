@@ -29,12 +29,31 @@ import {
   SelectPortal,
   SelectTrigger,
 } from "@/components/ui/select";
-import Feather from "@expo/vector-icons/Feather";
 import { Formik } from "formik";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { ChevronLeft } from "lucide-react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 // MenuItem type removed (unused)
-
+const vehiclesTypes = [
+  { label: "Cycle", value: "cycle" },
+  { label: "Car", value: "car" },
+  { label: "Scooter", value: "scooter" },
+];
+const waterTransportTypes = [
+  { label: "Container ships", value: "container ships" },
+  { label: "Bulk carriers", value: "bulk carriers" },
+  { label: "Oil tankers", value: "oil tankers" },
+  { label: "Fishing vessels", value: "fishing vessels" },
+  { label: "Ferries", value: "ferries" },
+  { label: "Speedboats", value: "speedboats" },
+];
+const airTransportTypes = [
+  { label: "Cargo planes", value: "cargo planes" },
+  { label: "Small freight aircraft", value: "small freight aircraft" },
+  { label: "Passenger aircraft", value: "passenger aircraft" },
+  { label: "Helicopters", value: "helicopters" },
+  { label: "Drones", value: "drones" },
+];
+// validationSchema removed (unused)
 export default function RoadDeliveryScreen() {
   const navigation = useNavigation();
   const router = useRouter();
@@ -196,7 +215,13 @@ export default function RoadDeliveryScreen() {
                     )}
                   </ThemedView>
                   <ThemedView>
-                    <InputLabelText>Vehicle</InputLabelText>
+                    <InputLabelText>
+                      {id === "3"
+                        ? "Air Craft Option"
+                        : id === "2"
+                        ? "Fleet Option"
+                        : "Vehicle Option"}
+                    </InputLabelText>
                     <Select
                       selectedValue={values.vehicle}
                       onValueChange={handleChange("vehicle")}
@@ -217,9 +242,35 @@ export default function RoadDeliveryScreen() {
                           <SelectDragIndicatorWrapper>
                             <SelectDragIndicator />
                           </SelectDragIndicatorWrapper>
-                          <SelectItem label="Cycle" value="cycle" />
-                          <SelectItem label="Car" value="car" />
-                          <SelectItem label="Scooter" value="scooter" />
+                          {id === "3"
+                            ? airTransportTypes.map((type) => (
+                                <SelectItem
+                                  key={type.value}
+                                  value={type.value}
+                                  label={type.label}
+                                >
+                                  {type.label}
+                                </SelectItem>
+                              ))
+                            : id === "2"
+                            ? waterTransportTypes.map((type) => (
+                                <SelectItem
+                                  key={type.value}
+                                  value={type.value}
+                                  label={type.label}
+                                >
+                                  {type.label}
+                                </SelectItem>
+                              ))
+                            : vehiclesTypes.map((type) => (
+                                <SelectItem
+                                  key={type.value}
+                                  value={type.value}
+                                  label={type.label}
+                                >
+                                  {type.label}
+                                </SelectItem>
+                              ))}
                         </SelectContent>
                       </SelectPortal>
                     </Select>

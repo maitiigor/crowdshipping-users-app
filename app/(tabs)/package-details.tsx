@@ -4,6 +4,7 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
+import { Image } from "@/components/ui/image";
 import {
   Link,
   useLocalSearchParams,
@@ -80,59 +81,82 @@ export default function PackageDetailScreen() {
       headerBackgroundColor={{ light: "#FFFFFF", dark: "#353636" }}
     >
       <ThemedView className="flex-1">
-        <Text>Package Details</Text>
-        <ThemedView className="flex-1">
-          <Text>Package ID: 12345</Text>
-          <Text>Sender: John Doe</Text>
-          <Text>Receiver: Jane Smith</Text>
-          <Text>Status: In Transit</Text>
+        <ThemedView className="flex-1 gap-3  pb-40 mt-3">
+          <ThemedView className="flex justify-center items-center">
+            <ThemedView className="p-5 border w-[70%] justify-center items-center rounded-2xl border-primary-500">
+              <Image
+                source={{
+                  uri: "https://plus.unsplash.com/premium_photo-1663047788002-765d78050d53?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                }}
+                size="2xl"
+                alt={"image"}
+              />
+            </ThemedView>
+          </ThemedView>
+
+          <ThemedView className="flex">
+            <ThemedText>Receiver’s Name</ThemedText>
+            <ThemedText
+              type="s1_subtitle"
+              className="text-typography-900 border rounded-lg p-3 border-primary-100 mt-1"
+            >
+              John Doe
+            </ThemedText>
+          </ThemedView>
+          <ThemedView className="flex">
+            <ThemedText>Receiver’s Phone Number</ThemedText>
+            <ThemedText
+              type="s1_subtitle"
+              className="text-typography-900 border rounded-lg p-3 border-primary-100 mt-1"
+            >
+              +1 234 567 890
+            </ThemedText>
+          </ThemedView>
+          <ThemedView className="flex">
+            <ThemedText>Alternative Phone Number</ThemedText>
+            <ThemedText
+              type="s1_subtitle"
+              className="text-typography-900 border rounded-lg p-3 border-primary-100 mt-1"
+            >
+              +1 234 567 890
+            </ThemedText>
+          </ThemedView>
         </ThemedView>
+
+        {id === "3" || id === "2" ? (
+          <Button
+            variant="solid"
+            size="2xl"
+            className="mt-5 rounded-[12px]"
+            onPress={() => {
+              router.push({
+                pathname: "/(tabs)/trips/bidding-screen",
+                params: { id: id },
+              });
+            }}
+          >
+            <ThemedText type="s1_subtitle" className="text-white">
+              Continue
+            </ThemedText>
+          </Button>
+        ) : (
+          <Button
+            variant="solid"
+            size="2xl"
+            className="mt-5 rounded-[12px]"
+            onPress={() => {
+              router.push({
+                pathname: "/(tabs)/nearby-driver",
+                params: { id: id },
+              });
+            }}
+          >
+            <ThemedText type="s1_subtitle" className="text-white">
+              Continue
+            </ThemedText>
+          </Button>
+        )}
       </ThemedView>
-      <Link
-        href={"/(tabs)/add-package"}
-        asChild
-        className="flex-row gap-2 justify-center items-center"
-      >
-        <ThemedView className="flex-row gap-2 justify-center items-center">
-          <Icon as={SquarePlus} size="3xl" className="text-primary-600" />
-          <ThemedText type="default" className="text-primary-600">
-            Add Another Package
-          </ThemedText>
-        </ThemedView>
-      </Link>
-      {id === "3" || id === "2" ? (
-        <Button
-          variant="solid"
-          size="2xl"
-          className="mt-5 rounded-[12px]"
-          onPress={() => {
-            router.push({
-              pathname: "/(tabs)/trips/bidding-screen",
-              params: { id: id },
-            });
-          }}
-        >
-          <ThemedText type="s1_subtitle" className="text-white">
-            Continue
-          </ThemedText>
-        </Button>
-      ) : (
-        <Button
-          variant="solid"
-          size="2xl"
-          className="mt-5 rounded-[12px]"
-          onPress={() => {
-            router.push({
-              pathname: "/(tabs)/nearby-driver",
-              params: { id: id },
-            });
-          }}
-        >
-          <ThemedText type="s1_subtitle" className="text-white">
-            Continue
-          </ThemedText>
-        </Button>
-      )}
     </ParallaxScrollView>
   );
 }

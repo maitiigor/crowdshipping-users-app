@@ -73,7 +73,7 @@ const menuList: MenuItem[] = [
   {
     icon: Wallet,
     name: "Payment logs",
-    linkTo: "/(tabs)/payment-logs",
+    linkTo: "/(tabs)/payment-logs/main",
   },
   {
     icon: CircleDollarSign,
@@ -98,7 +98,7 @@ const menuList: MenuItem[] = [
   {
     icon: Gift,
     name: "My Promo",
-    linkTo: "/(tabs)/my-promo",
+    linkTo: "/(tabs)/promo",
   },
   {
     icon: NotepadText,
@@ -179,7 +179,7 @@ export default function CustomSidebarMenu({
                     type={pathname === item.linkTo ? "btn_giant" : "b2_body"}
                     className="text-typography-900"
                   >
-                    {item.name}
+                    {item.name} 
                   </ThemedText>
                 </Pressable>
               </Link>
