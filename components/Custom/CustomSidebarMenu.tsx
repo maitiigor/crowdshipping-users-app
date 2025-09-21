@@ -68,7 +68,7 @@ const menuList: MenuItem[] = [
   {
     icon: MailPlus,
     name: "Inbox",
-    linkTo: "/(tabs)/inbox",
+    linkTo: "/(tabs)/inbox/chats",
   },
   {
     icon: Wallet,

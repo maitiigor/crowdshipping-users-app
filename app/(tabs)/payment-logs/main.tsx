@@ -7,7 +7,12 @@ import { Pressable } from "@/components/ui/pressable";
 import { useNavigation, useRouter } from "expo-router";
 import { ChevronLeft, CircleCheckBig } from "lucide-react-native";
 import React, { useEffect, useState } from "react";
-import { FlatList, TouchableOpacity, View } from "react-native";
+import {
+  FlatList,
+  ImageBackground,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 export default function PaymentLogScreen() {
   const navigation = useNavigation();
@@ -39,7 +44,7 @@ export default function PaymentLogScreen() {
       headerTitle: () => {
         return (
           <ThemedText type="s1_subtitle" className="text-center">
-            Report
+            Payment Logs
           </ThemedText>
         );
       },
@@ -102,8 +107,15 @@ export default function PaymentLogScreen() {
     >
       <ThemedView className="flex-1">
         <ThemedView className="flex-1 gap-3  pb-40 mt-3">
-          <ThemedView className="flex justify-center items-center">
-            <ThemedView className="p-5 w-full justify-center items-center rounded-xl h-[200px] bg-primary-700">
+          <ImageBackground
+            source={require("@/assets/images/home/bg-card.png")}
+            resizeMode="cover"
+            className="flex justify-center p-5 items-center rounded-xl h-[220px]"
+            // ensure the actual image and container are clipped to rounded corners
+            style={{ borderRadius: 16, overflow: "hidden" }}
+            imageStyle={{ borderRadius: 16 }}
+          >
+            <ThemedView className=" flex h-full w-full justify-center items-center">
               <ThemedText type="h5_header" className="text-white">
                 Total Balance
               </ThemedText>
@@ -111,7 +123,7 @@ export default function PaymentLogScreen() {
                 ****
               </ThemedText>
             </ThemedView>
-          </ThemedView>
+          </ImageBackground>
           <ThemedView className="mt-5 flex-row gap-3">
             {filterList.map((item, index) => (
               <TouchableOpacity

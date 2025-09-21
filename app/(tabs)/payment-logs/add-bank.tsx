@@ -1,5 +1,4 @@
 import { AddressSelection } from "@/components/Custom/AddressPicker";
-import { CustomModal } from "@/components/Custom/CustomModal";
 import InputLabelText from "@/components/Custom/InputLabelText";
 import NotificationIcon from "@/components/Custom/NotificationIcon";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
@@ -20,13 +19,13 @@ import {
   SelectPortal,
   SelectTrigger,
 } from "@/components/ui/select";
-import { Link, useLocalSearchParams, useNavigation, useRouter } from "expo-router";
+import { useLocalSearchParams, useNavigation, useRouter } from "expo-router";
 import { Formik } from "formik";
 import { ChevronLeft } from "lucide-react-native";
 import React, { useEffect, useState } from "react";
 import { KeyboardAvoidingView, TouchableOpacity } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-export default function WithdrawalScreen() {
+export default function AddBank() {
   const navigation = useNavigation();
   const router = useRouter();
   const { id } = useLocalSearchParams();
@@ -41,7 +40,7 @@ export default function WithdrawalScreen() {
       headerTitle: () => {
         return (
           <ThemedText type="s1_subtitle" className="text-center">
-            Withdraw to bank
+            Add New Bank
           </ThemedText>
         );
       },
@@ -104,8 +103,8 @@ export default function WithdrawalScreen() {
           <ThemedView className="flex-1 gap-3 pb-20 mt-3">
             <Formik
               initialValues={{
-                amount: "",
                 bankName: "",
+                accountName: "",
                 accountNumber: "",
               }}
               // validationSchema={validationSchema}
@@ -130,42 +129,6 @@ export default function WithdrawalScreen() {
                 setFieldValue,
               }) => (
                 <ThemedView className="flex gap-4 mt-5">
-                  <ThemedView>
-                    <InputLabelText className="">Amount</InputLabelText>
-                    <Input
-                      size="xl"
-                      className="h-[55px] border-primary-100 rounded-lg mb-2 bg-primary-inputShade px-2"
-                      variant="outline"
-                      isInvalid={!!(errors.amount && touched.amount)}
-                    >
-                      <InputField
-                        className=""
-                        placeholder="Enter Amount"
-                        value={values.amount}
-                        onChangeText={handleChange("amount")}
-                        onBlur={handleBlur("amount")}
-                        keyboardType="numeric"
-                        autoCapitalize="none"
-                      />
-                    </Input>
-                    {errors.amount && touched.amount && (
-                      <ThemedText
-                        type="b4_body"
-                        className="text-error-500 mb-4"
-                      >
-                        {errors.amount}
-                      </ThemedText>
-                    )}
-
-                    <ThemedView className=" flex-row items-center justify-between">
-                      <ThemedText className="text-typography-800">
-                        Wallet Balance
-                      </ThemedText>
-                      <ThemedText type="default" className="text-primary-500">
-                        $0.00
-                      </ThemedText>
-                    </ThemedView>
-                  </ThemedView>
                   <ThemedView>
                     <InputLabelText type="b2_body">
                       Select Bank Name
@@ -199,7 +162,7 @@ export default function WithdrawalScreen() {
                             <InputSlot className="pl-3">
                               <InputIcon as={SearchIcon} />
                             </InputSlot>
-                            <InputField placeholder={'Search...'} />
+                            <InputField placeholder={"Search..."} />
                           </Input>
                           {[
                             {
@@ -230,41 +193,64 @@ export default function WithdrawalScreen() {
                   </ThemedView>
                   <ThemedView className="flex flex-1 gap-3 w-full">
                     <ThemedView className="flex-1 w-full">
-                      <InputLabelText className="">
-                        Account Number
-                      </InputLabelText>
+                      <InputLabelText className="">Account Name</InputLabelText>
                       <Input
                         size="xl"
                         className="h-[55px] border-primary-100 rounded-lg mb-2 bg-primary-inputShade px-2"
                         variant="outline"
                         isInvalid={
-                          !!(errors.accountNumber && touched.accountNumber)
+                          !!(errors.accountName && touched.accountName)
                         }
                       >
                         <InputField
                           className=""
-                          placeholder="Enter Account Number"
-                          value={values.accountNumber}
-                          onChangeText={handleChange("accountNumber")}
-                          onBlur={handleBlur("accountNumber")}
-                          keyboardType="numeric"
+                          placeholder="Enter Account Name"
+                          value={values.accountName}
+                          onChangeText={handleChange("accountName")}
+                          onBlur={handleBlur("accountName")}
+                          keyboardType="default"
                           autoCapitalize="none"
                         />
                       </Input>
-                      {errors.accountNumber && touched.accountNumber && (
+                      {errors.accountName && touched.accountName && (
                         <ThemedText
                           type="b4_body"
                           className="text-error-500 mb-4"
                         >
-                          {errors.accountNumber}
+                          {errors.accountName}
                         </ThemedText>
                       )}
-                      <Link href={`/payment-logs/choose-beneficiary`} asChild>
-                        <ThemedText type="b2_body" className="text-primary-500 text-right">
-                          Choose Beneficiary
-                        </ThemedText>
-                      </Link>
                     </ThemedView>
+                  </ThemedView>
+
+                  <ThemedView>
+                    <InputLabelText className="">Account Number</InputLabelText>
+                    <Input
+                      size="xl"
+                      className="h-[55px] border-primary-100 rounded-lg mb-2 bg-primary-inputShade px-2"
+                      variant="outline"
+                      isInvalid={
+                        !!(errors.accountNumber && touched.accountNumber)
+                      }
+                    >
+                      <InputField
+                        className=""
+                        placeholder="Enter Account Number"
+                        value={values.accountNumber}
+                        onChangeText={handleChange("accountNumber")}
+                        onBlur={handleBlur("accountNumber")}
+                        keyboardType="numeric"
+                        autoCapitalize="none"
+                      />
+                    </Input>
+                    {errors.accountNumber && touched.accountNumber && (
+                      <ThemedText
+                        type="b4_body"
+                        className="text-error-500 mb-4"
+                      >
+                        {errors.accountNumber}
+                      </ThemedText>
+                    )}
                   </ThemedView>
 
                   <Button
@@ -283,7 +269,6 @@ export default function WithdrawalScreen() {
           </ThemedView>
         </ThemedView>
       </ParallaxScrollView>
-   
     </KeyboardAvoidingView>
   );
 }

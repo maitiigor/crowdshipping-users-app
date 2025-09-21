@@ -198,7 +198,7 @@ export default function TrackBidOrder() {
                       // Handle press
                       router.push({
                         pathname:
-                          "/(tabs)/trip-details/driver-details/message-driver",
+                          "/(tabs)/inbox/chats/chat-details",
                         params: { id: Array.isArray(id) ? id[0] : id ?? "" },
                       });
                     }}
@@ -211,7 +211,10 @@ export default function TrackBidOrder() {
                   </TouchableOpacity>
                   <TouchableOpacity
                     onPress={() => {
-                      // Handle press
+                      router.push({
+                        pathname: "/(tabs)/inbox/calls/call-details",
+                        params: { id: Array.isArray(id) ? id[0] : id ?? "" },
+                      });
                     }}
                   >
                     <Icon as={Phone} size="2xl" className="text-primary-500" />

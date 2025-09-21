@@ -101,8 +101,7 @@ export default function DriverDetailScreen() {
                   onPress={() => {
                     // Handle press
                     router.push({
-                      pathname:
-                        "/(tabs)/trip-details/driver-details/message-driver",
+                      pathname: "/(tabs)/inbox/chats/chat-details",
                       params: { id: Array.isArray(id) ? id[0] : id ?? "" },
                     });
                   }}
