@@ -22,9 +22,7 @@ export default function ChatScreen() {
       label: "Chats",
       value: "chats",
       onPress: () => {
-        router.push({
-          pathname: "/(tabs)/inbox/chats",
-        });
+        return
       },
     },
     {
@@ -43,7 +41,7 @@ export default function ChatScreen() {
       headerTitle: () => {
         return (
           <ThemedText type="s1_subtitle" className="text-center">
-            Booking History
+            Inbox
           </ThemedText>
         );
       },

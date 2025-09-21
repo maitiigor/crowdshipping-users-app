@@ -31,9 +31,7 @@ export default function CallScreen() {
       label: "Calls",
       value: "calls",
       onPress: () => {
-        router.push({
-          pathname: "/(tabs)/inbox/calls",
-        });
+       return
       },
     },
   ];
@@ -43,7 +41,7 @@ export default function CallScreen() {
       headerTitle: () => {
         return (
           <ThemedText type="s1_subtitle" className="text-center">
-            Booking History
+            Inbox
           </ThemedText>
         );
       },
@@ -136,13 +134,13 @@ export default function CallScreen() {
             renderItem={({ item }) => (
               <TouchableOpacity
                 onPress={() => {
-                router.push({
-                  pathname: "/(tabs)/inbox/calls/call-details",
-                  params: {
-                    selectedFilter: selectedFilter,
-                    id: item,
-                  },
-                });
+                  router.push({
+                    pathname: "/(tabs)/inbox/calls/call-details",
+                    params: {
+                      selectedFilter: selectedFilter,
+                      id: item,
+                    },
+                  });
                 }}
                 className={` flex-row justify-between items-center p-4`}
               >
@@ -185,11 +183,7 @@ export default function CallScreen() {
                     </ThemedView>
                   </ThemedView>
                   <ThemedView className="">
-                    <Icon
-                      as={Phone}
-                      size="2xl"
-                      className="text-primary-500"
-                    />
+                    <Icon as={Phone} size="2xl" className="text-primary-500" />
                   </ThemedView>
                 </ThemedView>
               </TouchableOpacity>

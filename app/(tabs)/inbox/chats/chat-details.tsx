@@ -174,7 +174,15 @@ export default function ChatDetailsScreen() {
         </ThemedView>
       ),
       headerRight: () => (
-        <TouchableOpacity onPress={() => {}} style={{ paddingHorizontal: 0 }}>
+        <TouchableOpacity
+          onPress={() => {
+            router.push({
+              pathname: "/(tabs)/inbox/calls/call-details",
+              params: {},
+            });
+          }}
+          style={{ paddingHorizontal: 0 }}
+        >
           <Icon as={Phone} size="2xl" className="text-typography-900" />
         </TouchableOpacity>
       ),
