@@ -22,6 +22,8 @@ import { Pressable } from "@/components/ui/pressable";
 import Feather from "@expo/vector-icons/Feather";
 import { ChevronDown, MapPin } from "lucide-react-native";
 import MapView from "react-native-maps";
+import { useAuthenticatedQuery } from "@/lib/api";
+import { IUserProfileResponse } from "@/types/IUserProfile";
 
 type MenuItem = {
   img: string | ImageSourcePropType | undefined;
@@ -50,7 +52,15 @@ export default function HomeScreen() {
   const navigation = useNavigation();
   const [showDrawer, setShowDrawer] = useState(false);
   const [snap, setSnap] = useState(0.4);
-
+const {
+  data,
+  isLoading,
+  isFetching,
+  error,
+  refetch,
+  loading, // alias
+  fetching, // alias
+} = useAuthenticatedQuery<IUserProfileResponse>(["me"], "/user/profile");
   const router = useRouter();
 
   const { t } = useTranslation();
@@ -175,6 +185,8 @@ export default function HomeScreen() {
           ))}
         </ThemedView>
         <CustomSidebarMenu
+          userProfileData={data as IUserProfileResponse}
+          isLoading={isLoading}
           showDrawer={showDrawer}
           setShowDrawer={setShowDrawer}
         />

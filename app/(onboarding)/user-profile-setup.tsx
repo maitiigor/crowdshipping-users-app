@@ -1,4 +1,5 @@
 import { CustomModal } from "@/components/Custom/CustomModal";
+import CustomToast from "@/components/Custom/CustomToast";
 import DateField from "@/components/Custom/DateField";
 import InputLabelText from "@/components/Custom/InputLabelText";
 import NotificationIcon from "@/components/Custom/NotificationIcon";
@@ -21,11 +22,18 @@ import {
   SelectPortal,
   SelectTrigger,
 } from "@/components/ui/select";
+import { useToast } from "@/components/ui/toast";
 import { COUNTRIES } from "@/constants/countries";
-import Entypo from "@expo/vector-icons/Entypo";
+import { usePost } from "@/lib/api";
+import { formatPhoneForApi, isValidPhone } from "@/lib/phone";
 import { useNavigation, useRouter } from "expo-router";
 import { Formik } from "formik";
-import { Bell, ChevronLeft } from "lucide-react-native";
+import {
+  ChevronLeft,
+  CircleCheckIcon,
+  HelpCircleIcon,
+  LucideIcon,
+} from "lucide-react-native";
 import React, { useEffect, useRef, useState } from "react";
 import {
   Keyboard,
@@ -61,6 +69,20 @@ export default function UserProfileSetup() {
   const phoneInputRef = useRef<any>(null);
   const [pickedImage, setPickedImage] = useState<string | null>(null);
   const [showModal, setShowModal] = useState(false);
+  const [phone, setPhone] = useState("");
+  const toast = useToast();
+  const { mutateAsync, error, loading } = usePost<
+    any,
+    {
+      fullName: string;
+      phoneNumber: string;
+      address: string;
+      state: string;
+      city: string;
+      country: string;
+      profilePicUrl: string;
+    }
+  >("/user/update-profile");
   const handleState = () => {
     setShowPassword((showState) => {
       return !showState;
@@ -143,7 +165,106 @@ export default function UserProfileSetup() {
       hideSub.remove();
     };
   }, []);
+  const showNewToast = ({
+    title,
+    description,
+    icon,
+    action = "error",
+    variant = "solid",
+  }: {
+    title: string;
+    description: string;
+    icon: LucideIcon;
+    action: "error" | "success" | "info" | "muted" | "warning";
+    variant: "solid" | "outline";
+  }) => {
+    const newId = Math.random();
+    toast.show({
+      id: newId.toString(),
+      placement: "top",
+      duration: 3000,
+      render: ({ id }) => {
+        const uniqueToastId = "toast-" + id;
+        return (
+          <CustomToast
+            uniqueToastId={uniqueToastId}
+            icon={icon}
+            action={action}
+            title={title}
+            variant={variant}
+            description={description}
+          />
+        );
+      },
+    });
+  };
 
+  const handleSignUp = async (values: {
+    firstName: string;
+    lastName: string;
+    phoneNumber: string;
+    address: string;
+    state: string;
+    city: string;
+    gender: string;
+    dateOfBirth: Date | null;
+    profilePicUrl: string;
+  }) => {
+    try {
+      // Validate and format phone before submitting
+      const phoneApi = phoneInputRef.current as any;
+      const preferCallingCode = phoneApi?.state?.code
+        ? String(phoneApi.state.code)
+        : undefined;
+      const valid = isValidPhone(phone || "");
+      if (!valid) {
+        showNewToast({
+          title: "Invalid phone",
+          description: "Please enter a valid phone number",
+          icon: HelpCircleIcon,
+          action: "error",
+          variant: "solid",
+        });
+        return;
+      }
+      // API expects: (+<country_code>)<nationalNumber> e.g. (+234)8022908484
+      const formattedPhone = formatPhoneForApi(phone, preferCallingCode);
+      console.log("🚀 ~ handleSignUp ~ formattedPhone:", formattedPhone);
+      await mutateAsync({
+        fullName: `${values.firstName} ${values.lastName}`,
+        phoneNumber: formattedPhone,
+        address: values.address,
+        state: values.state,
+        city: values.city,
+        gender: values.gender,
+        dateOfBirth: values.dateOfBirth,
+        profilePicUrl: values.profilePicUrl,
+      });
+      showNewToast({
+        title: "Success",
+        description: "Profile updated successfully!",
+        icon: CircleCheckIcon,
+        action: "success",
+        variant: "solid",
+      });
+      setShowModal(true);
+    } catch (e: any) {
+      // Prefer server-provided message, then error.message, then hook error string
+      const message =
+        e?.data?.message ||
+        e?.message ||
+        (typeof error === "string" ? error : undefined) ||
+        "Sign up failed";
+
+      showNewToast({
+        title: "Profile Update Failed",
+        description: message,
+        icon: HelpCircleIcon,
+        action: "error",
+        variant: "solid",
+      });
+    }
+  };
   const insets = useSafeAreaInsets();
   return (
     <KeyboardAvoidingView
@@ -157,10 +278,12 @@ export default function UserProfileSetup() {
         <ThemedView className="flex-1 pb-20">
           <Formik
             initialValues={{
-              fullName: "",
-              email: "",
+              firstName: "",
+              lastName: "",
               phone_number: "",
               country: "",
+              state: "",
+              city: "",
               gender: "",
               dateOfBirth: null as Date | null,
               imageUpload: "",
@@ -182,32 +305,63 @@ export default function UserProfileSetup() {
               setFieldValue,
             }) => (
               <ThemedView className="flex gap-2">
-                <ThemedView>
-                  <InputLabelText className="mt-3">
-                    Your Full Name
-                  </InputLabelText>
-                  <Input
-                    size="xl"
-                    className="h-[55px] rounded-lg mb-2 border-primary-100 bg-primary-inputShade px-2"
-                    variant="outline"
-                    isInvalid={!!(errors.email && touched.email)}
-                  >
-                    <InputField
-                      className=""
-                      placeholder="Input your name"
-                      value={values.fullName}
-                      onChangeText={handleChange("fullName")}
-                      onBlur={handleBlur("fullName")}
-                      keyboardType="default"
-                      autoCapitalize="none"
-                    />
-                  </Input>
-                  {errors.fullName && touched.fullName && (
-                    <ThemedText type="b4_body" className="text-error-500 mb-4">
-                      {errors.fullName}
-                    </ThemedText>
-                  )}
+                <ThemedView className="flex-row gap-4">
+                  <ThemedView className="w-1/2">
+                    <InputLabelText className="">First Name</InputLabelText>
+                    <Input
+                      size="xl"
+                      className="h-[55px] rounded-lg mb-2 border-primary-100 bg-primary-inputShade px-2"
+                      variant="outline"
+                      isInvalid={!!(errors.firstName && touched.firstName)}
+                    >
+                      <InputField
+                        className=""
+                        placeholder="first name"
+                        value={values.firstName}
+                        onChangeText={handleChange("firstName")}
+                        onBlur={handleBlur("firstName")}
+                        keyboardType="default"
+                        autoCapitalize="none"
+                      />
+                    </Input>
+                    {errors.firstName && touched.firstName && (
+                      <ThemedText
+                        type="b4_body"
+                        className="text-error-500 mb-4"
+                      >
+                        {errors.firstName}
+                      </ThemedText>
+                    )}
+                  </ThemedView>
+                  <ThemedView className="flex-1 w-1/2">
+                    <InputLabelText className="">Last Name</InputLabelText>
+                    <Input
+                      size="xl"
+                      className="h-[55px] rounded-lg mb-2 border-primary-100 bg-primary-inputShade px-2"
+                      variant="outline"
+                      isInvalid={!!(errors.lastName && touched.lastName)}
+                    >
+                      <InputField
+                        className=""
+                        placeholder="last name"
+                        value={values.lastName}
+                        onChangeText={handleChange("lastName")}
+                        onBlur={handleBlur("lastName")}
+                        keyboardType="default"
+                        autoCapitalize="none"
+                      />
+                    </Input>
+                    {errors.lastName && touched.lastName && (
+                      <ThemedText
+                        type="b4_body"
+                        className="text-error-500 mb-4"
+                      >
+                        {errors.lastName}
+                      </ThemedText>
+                    )}
+                  </ThemedView>
                 </ThemedView>
+            
                 <ThemedView>
                   <InputLabelText className="">Email address</InputLabelText>
                   <Input

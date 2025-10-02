@@ -1,3 +1,4 @@
+import CustomToast from "@/components/Custom/CustomToast";
 import InputLabelText from "@/components/Custom/InputLabelText";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
@@ -5,15 +6,24 @@ import { ThemedView } from "@/components/ThemedView";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { Input, InputField } from "@/components/ui/input";
+import { useToast } from "@/components/ui/toast";
+import { usePost } from "@/lib/api";
 import { Link, useNavigation, useRouter } from "expo-router";
 import { Formik } from "formik";
-import { ChevronLeft } from "lucide-react-native";
+import {
+  ChevronLeft,
+  CircleCheckIcon,
+  HelpCircleIcon,
+  LucideIcon,
+} from "lucide-react-native";
 import React, { useEffect, useState } from "react";
 import {
+  ActivityIndicator,
   Image,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
+  Pressable,
   TouchableOpacity,
 } from "react-native";
 
@@ -28,7 +38,13 @@ export default function ForgetPassword() {
   const navigation = useNavigation();
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
   const router = useRouter();
-
+  const toast = useToast();
+  const { mutateAsync, error, loading } = usePost<
+    any,
+    {
+      email: string;
+    }
+  >("/auth/forgot-password");
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
@@ -104,7 +120,74 @@ export default function ForgetPassword() {
   }, []);
 
   const insets = useSafeAreaInsets();
+  const showNewToast = ({
+    title,
+    description,
+    icon,
+    action = "error",
+    variant = "solid",
+  }: {
+    title: string;
+    description: string;
+    icon: LucideIcon;
+    action: "error" | "success" | "info" | "muted" | "warning";
+    variant: "solid" | "outline";
+  }) => {
+    const newId = Math.random();
+    toast.show({
+      id: newId.toString(),
+      placement: "top",
+      duration: 3000,
+      render: ({ id }) => {
+        const uniqueToastId = "toast-" + id;
+        return (
+          <CustomToast
+            uniqueToastId={uniqueToastId}
+            icon={icon}
+            action={action}
+            title={title}
+            variant={variant}
+            description={description}
+          />
+        );
+      },
+    });
+  };
 
+  const handleSubmit = async (values: { email: string }) => {
+    try {
+      await mutateAsync({
+        email: values.email as string,
+      });
+      showNewToast({
+        title: "Success",
+        description: "Email sent successfully!",
+        icon: CircleCheckIcon,
+        action: "success",
+        variant: "solid",
+      });
+
+      router.push({
+        pathname: "/(onboarding)/signup-confirm-code",
+        params: { email: values.email, type: "password-reset" },
+      });
+    } catch (e: any) {
+      // Prefer server-provided message, then error.message, then hook error string
+      const message =
+        e?.data?.message ||
+        e?.message ||
+        (typeof error === "string" ? error : undefined) ||
+        "Sign up failed";
+
+      showNewToast({
+        title: "Forgot Password Failed",
+        description: message,
+        icon: HelpCircleIcon,
+        action: "error",
+        variant: "solid",
+      });
+    }
+  };
   return (
     <KeyboardAvoidingView
       className="flex-1 bg-white"
@@ -139,7 +222,7 @@ export default function ForgetPassword() {
             onSubmit={(values) => {
               console.log("Form submitted:", values);
               // Handle form submission logic here (e.g., API call)
-              router.push("/confirmation-code");
+              handleSubmit(values);
             }}
           >
             {({
@@ -178,10 +261,11 @@ export default function ForgetPassword() {
                   variant="solid"
                   size="2xl"
                   className="mt-5 rounded-[12px]"
+                  disabled={loading}
                   onPress={() => handleSubmit()}
                 >
                   <ThemedText type="s1_subtitle" className="text-white">
-                    Send
+                    {loading ? <ActivityIndicator color="white" /> : "Send"}
                   </ThemedText>
                 </Button>
               </ThemedView>
@@ -189,24 +273,24 @@ export default function ForgetPassword() {
           </Formik>
         </ThemedView>
       </ParallaxScrollView>
-      <ThemedView
-        className="absolute left-0 bg-white right-0 px-5"
+      <Link
+        href="../signup"
+        className="absolute left-0 bg-white right-0 px-5 mb-5"
         style={{
           bottom: isKeyboardVisible === true ? 0 : 0,
         }}
+        asChild
       >
         <ThemedText
           type="s1_subtitle"
           className="text-typography-950 py-6 text-center"
         >
           You don’t have an account?{" "}
-          <Link href="../signup" asChild>
-            <ThemedText type="s1_subtitle" className="text-primary-500">
-              Sign up{" "}
-            </ThemedText>
-          </Link>
+          <ThemedText type="s1_subtitle" className="text-primary-500 pt-6">
+            Sign up{" "}
+          </ThemedText>
         </ThemedText>
-      </ThemedView>
+      </Link>
     </KeyboardAvoidingView>
   );
 }

@@ -1,3 +1,4 @@
+import CustomToast from "@/components/Custom/CustomToast";
 import InputLabelText from "@/components/Custom/InputLabelText";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
@@ -5,14 +6,28 @@ import { ThemedView } from "@/components/ThemedView";
 import { Button } from "@/components/ui/button";
 import { EyeIcon, EyeOffIcon, Icon } from "@/components/ui/icon";
 import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
+import { Pressable } from "@/components/ui/pressable";
+import { useToast } from "@/components/ui/toast";
+import { useAuth } from "@/lib/api/index";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import Fontisto from "@expo/vector-icons/Fontisto";
-import { Link, useNavigation, useRouter } from "expo-router";
+import {
+  Link,
+  useLocalSearchParams,
+  useNavigation,
+  useRouter,
+} from "expo-router";
 import { Formik } from "formik";
-import { ChevronLeft } from "lucide-react-native";
+import {
+  ChevronLeft,
+  CircleCheckIcon,
+  HelpCircleIcon,
+  LucideIcon,
+} from "lucide-react-native";
 import React, { useEffect, useState } from "react";
 import {
+  ActivityIndicator,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
@@ -47,11 +62,87 @@ export default function Login() {
   const navigation = useNavigation();
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
+  const toast = useToast();
+  // Note: Each toast uses its own generated id; no need to persist in state.
+  // Optionally prefill the email field when navigating like: /login?email=user@site.com
+  const { email } = useLocalSearchParams<{ email?: string | string[] }>();
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
   const handleState = () => {
     setShowPassword((showState) => {
       return !showState;
     });
+  };
+  const { login, error, isLoading } = useAuth();
+  const showNewToast = ({
+    title,
+    description,
+    icon,
+    action = "error",
+    variant = "solid",
+  }: {
+    title: string;
+    description: string;
+    icon: LucideIcon;
+    action: "error" | "success" | "info" | "muted" | "warning";
+    variant: "solid" | "outline";
+  }) => {
+    const newId = Math.random();
+    toast.show({
+      id: newId.toString(),
+      placement: "top",
+      duration: 3000,
+      render: ({ id }) => {
+        const uniqueToastId = "toast-" + id;
+        return (
+          <CustomToast
+            uniqueToastId={uniqueToastId}
+            icon={icon}
+            action={action}
+            title={title}
+            variant={variant}
+            description={description}
+          />
+        );
+      },
+    });
+  };
+
+  const handleLogin = async ({
+    email,
+    password,
+  }: {
+    email: string;
+    password: string;
+  }) => {
+    try {
+      await login({
+        email,
+        password,
+      });
+      showNewToast({
+        title: "Success",
+        description: "Logged in successfully!",
+        icon: CircleCheckIcon,
+        action: "success",
+        variant: "solid",
+      });
+      router.push("/(tabs)");
+    } catch (e: any) {
+      // Prefer server-provided message, then error.message, then hook error string
+      const message =
+        e?.data?.message ||
+        e?.message ||
+        (typeof error === "string" ? error : undefined) ||
+        "Login failed";
+
+      showNewToast({
+        title: "Login Failed",
+        description: message,
+        icon: HelpCircleIcon,
+        action: "error",
+        variant: "solid",
+      });
+    }
   };
   const handleSocialLogin = (provider: any) => {
     console.log("Social login with:", provider);
@@ -153,18 +244,23 @@ export default function Login() {
         </ThemedView>
         <ThemedView className="flex-1 pb-20">
           <Formik
-            initialValues={{ email: "", password: "" }}
-            // validationSchema={validationSchema}
+            // Pick the first email if array; fallback to empty string
+            initialValues={{
+              email: Array.isArray(email) ? email[0] ?? "" : email ?? "",
+              password: "",
+            }}
+            enableReinitialize
+            validationSchema={validationSchema}
             onSubmit={(values) => {
               console.log("Form submitted:", values);
-              // Handle form submission logic here (e.g., API call)
-              router.push("/(tabs)");
+              handleLogin(values);
             }}
           >
             {({
               handleChange,
               handleBlur,
               handleSubmit,
+              setFieldValue,
               values,
               errors,
               touched,
@@ -226,11 +322,12 @@ export default function Login() {
                 <Button
                   variant="solid"
                   size="2xl"
+                  isDisabled={isLoading}
                   className="mt-5 rounded-[12px]"
                   onPress={() => handleSubmit()}
                 >
                   <ThemedText type="s1_subtitle" className="text-white">
-                    Login
+                    {isLoading ? <ActivityIndicator color="white" /> : "Login"}
                   </ThemedText>
                 </Button>
               </ThemedView>
@@ -269,24 +366,24 @@ export default function Login() {
           </ThemedView>
         </ThemedView>
       </ParallaxScrollView>
-      <ThemedView
-        className="absolute left-0 bg-white right-0 px-5"
-        style={{
-          bottom: isKeyboardVisible === true ? 0 : 0,
-        }}
-      >
-        <ThemedText
-          type="s1_subtitle"
-          className="text-typography-950 py-6 text-center"
+      <Link href="/(onboarding)/signup" asChild>
+        <Pressable
+          className="absolute left-0 mb-2 bg-white right-0 px-5"
+          style={{
+            bottom: isKeyboardVisible === true ? 0 : 0,
+          }}
         >
-          You don’t have an account?{" "}
-          <Link href="/(onboarding)/signup" asChild>
+          <ThemedText
+            type="s1_subtitle"
+            className="text-typography-950 py-6 text-center"
+          >
+            You don’t have an account?{" "}
             <ThemedText type="s1_subtitle" className="text-primary-500">
               Sign up{" "}
             </ThemedText>
-          </Link>
-        </ThemedText>
-      </ThemedView>
+          </ThemedText>
+        </Pressable>
+      </Link>
     </KeyboardAvoidingView>
   );
 }

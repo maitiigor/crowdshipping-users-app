@@ -15,6 +15,8 @@ import {
 } from "@/components/ui/drawer";
 
 import { VStack } from "@/components/ui/vstack";
+import { logout } from "@/store/slices/authSlice";
+import { IUserProfileResponse } from "@/types/IUserProfile";
 import type { LinkProps } from "expo-router";
 import { Link, usePathname, useRouter } from "expo-router";
 import {
@@ -33,6 +35,7 @@ import {
   Wallet,
 } from "lucide-react-native";
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { ThemedText } from "../ThemedText";
 import { ThemedView } from "../ThemedView";
 import { Icon } from "../ui/icon";
@@ -41,6 +44,8 @@ import { Pressable } from "../ui/pressable";
 interface IProps {
   showDrawer: boolean;
   setShowDrawer: React.Dispatch<React.SetStateAction<boolean>>;
+  userProfileData: IUserProfileResponse;
+  isLoading: boolean;
 }
 
 type MenuItem = {
@@ -111,15 +116,45 @@ const menuList: MenuItem[] = [
     linkTo: "/(onboarding)/privacy-policy",
   },
 ];
+// export const logoutAsync = createAsyncThunk(
+//   "auth/logoutAsync",
+//   async (_, { dispatch }) => {
+//     try {
+//       await api.post("/auth/logout"); // optional server logout
+//     } finally {
+//       // always clear client auth state
+//       dispatch(logout());
+//       localStorage.removeItem("token");
+//     }
+//   }
+// );
 export default function CustomSidebarMenu({
   showDrawer,
   setShowDrawer,
+  userProfileData,
+  isLoading,
 }: IProps) {
+  console.log("🚀 ~ CustomSidebarMenu ~ userProfileData:", userProfileData)
   const router = useRouter();
   const [showLogoutDrawer, setShowLogoutDrawer] = useState(false);
   // import { usePathname, useSegments } from "expo-router";
   const pathname = usePathname();
-
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    dispatch(logout());
+    // remove any persisted token/storage you use
+    void import("@react-native-async-storage/async-storage")
+      .then(({ default: AsyncStorage }) =>
+        AsyncStorage.removeItem("@crowdshipping/auth_token")
+      )
+      .catch(() => {});
+    void import("@react-native-async-storage/async-storage")
+      .then(({ default: AsyncStorage }) =>
+        AsyncStorage.removeItem("@crowdshipping/user_data")
+      )
+      .catch(() => {});
+    router.push("/(onboarding)/login");
+  };
   return (
     <>
       <Drawer
@@ -143,7 +178,7 @@ export default function CustomSidebarMenu({
             <VStack className="justify-normal">
               <ThemedText type="default">Welcome, back</ThemedText>
               <ThemedText type="s1_subtitle" className="text-typography-950">
-                Gbemisola
+                {isLoading ? "Loading..." : userProfileData?.data?.fullName}
               </ThemedText>
             </VStack>
           </DrawerHeader>
@@ -179,7 +214,7 @@ export default function CustomSidebarMenu({
                     type={pathname === item.linkTo ? "btn_giant" : "b2_body"}
                     className="text-typography-900"
                   >
-                    {item.name} 
+                    {item.name}
                   </ThemedText>
                 </Pressable>
               </Link>
@@ -252,7 +287,7 @@ export default function CustomSidebarMenu({
                 onPress={() => {
                   setShowLogoutDrawer(false);
                   setShowDrawer(false);
-                  router.push("/(onboarding)/login");
+                  handleLogout();
                 }}
                 className="flex-1 w-1/2 rounded-[12px]"
               >

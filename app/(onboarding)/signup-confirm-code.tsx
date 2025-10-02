@@ -1,4 +1,5 @@
 import { CustomModal } from "@/components/Custom/CustomModal";
+import CustomToast from "@/components/Custom/CustomToast";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
@@ -6,12 +7,24 @@ import { Button } from "@/components/ui/button";
 import { HStack } from "@/components/ui/hstack";
 import { Icon } from "@/components/ui/icon";
 import { Input, InputField } from "@/components/ui/input";
-import Entypo from "@expo/vector-icons/Entypo";
-import { Link, useNavigation, useRouter } from "expo-router";
+import { useToast } from "@/components/ui/toast";
+import { usePost } from "@/lib/api";
+import {
+  Link,
+  useLocalSearchParams,
+  useNavigation,
+  useRouter,
+} from "expo-router";
 import { Formik } from "formik";
-import { ChevronLeft } from "lucide-react-native";
+import {
+  ChevronLeft,
+  CircleCheckIcon,
+  HelpCircleIcon,
+  LucideIcon,
+} from "lucide-react-native";
 import React, { useEffect, useRef, useState } from "react";
 import {
+  ActivityIndicator,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
@@ -31,8 +44,31 @@ export default function SignUpConfirmationCode() {
   const navigation = useNavigation();
   const router = useRouter();
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
-  const [secondsLeft, setSecondsLeft] = useState(20); // countdown state
+  const [secondsLeft, setSecondsLeft] = useState(60); // countdown state
   const [showModal, setShowModal] = useState(false);
+  const { type, email } = useLocalSearchParams(); // password-reset | sign-up
+  const toast = useToast();
+
+  const { mutateAsync, error, loading } = usePost<
+    any,
+    {
+      type: string; //sign-up | password-reset
+      otp: string;
+      email: string;
+    }
+  >("/auth/verify-otp");
+  const {
+    mutateAsync: resendMutateAsync,
+    error: resendError,
+    loading: resendLoading,
+  } = usePost<
+    any,
+    {
+      type: string; //sign-up | password-reset
+      email: string;
+    }
+  >("/auth/resend-otp");
+
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
@@ -114,9 +150,111 @@ export default function SignUpConfirmationCode() {
     return () => clearInterval(interval);
   }, [secondsLeft]);
 
-  const handleResend = () => {
-    // TODO: call your resend code API here
-    setSecondsLeft(20);
+  const showNewToast = ({
+    title,
+    description,
+    icon,
+    action = "error",
+    variant = "solid",
+  }: {
+    title: string;
+    description: string;
+    icon: LucideIcon;
+    action: "error" | "success" | "info" | "muted" | "warning";
+    variant: "solid" | "outline";
+  }) => {
+    const newId = Math.random();
+    toast.show({
+      id: newId.toString(),
+      placement: "top",
+      duration: 3000,
+      render: ({ id }) => {
+        const uniqueToastId = "toast-" + id;
+        return (
+          <CustomToast
+            uniqueToastId={uniqueToastId}
+            icon={icon}
+            action={action}
+            title={title}
+            variant={variant}
+            description={description}
+          />
+        );
+      },
+    });
+  };
+
+  const handleSubmit = async (values: { code: string[] }) => {
+    try {
+      const response = await mutateAsync({
+        type: type as string,
+        otp: values.code.join(""),
+        email: email as string,
+      });
+      console.log("🚀 ~ handleSubmit ~ response:", response)
+      showNewToast({
+        title: "Success",
+        description: "OTP verified successfully!",
+        icon: CircleCheckIcon,
+        action: "success",
+        variant: "solid",
+      });
+      if (type === "password-reset") {
+        router.push({
+          pathname: "/(onboarding)/reset-password",
+          params: { token: response?.data?.token, email: response?.data?.email },
+        });
+        return;
+      }
+      setShowModal(true);
+    } catch (e: any) {
+      // Prefer server-provided message, then error.message, then hook error string
+      const message =
+        e?.data?.message ||
+        e?.message ||
+        (typeof error === "string" ? error : undefined) ||
+        "Sign up failed";
+
+      showNewToast({
+        title: "OTP Failed",
+        description: message,
+        icon: HelpCircleIcon,
+        action: "error",
+        variant: "solid",
+      });
+    }
+  };
+  const handleResend = async () => {
+    try {
+      await resendMutateAsync({
+        type: type as string,
+        email: email as string,
+      });
+      showNewToast({
+        title: "Success",
+        description: "OTP resent successfully!",
+        icon: CircleCheckIcon,
+        action: "success",
+        variant: "solid",
+      });
+
+      setSecondsLeft(60);
+    } catch (e: any) {
+      // Prefer server-provided message, then error.message, then hook error string
+      const message =
+        e?.data?.message ||
+        e?.message ||
+        (typeof error === "string" ? error : undefined) ||
+        "Sign up failed";
+
+      showNewToast({
+        title: "OTP Resend Failed",
+        description: message,
+        icon: HelpCircleIcon,
+        action: "error",
+        variant: "solid",
+      });
+    }
   };
 
   const insets = useSafeAreaInsets();
@@ -136,7 +274,7 @@ export default function SignUpConfirmationCode() {
         <ThemedView className="flex-1">
           <ThemedView className=" justify-center items-center">
             <ThemedText type="s1_subtitle" className="mt-5">
-              Enter the 5-digit code sent to you at +2349038993922
+              Enter the 5-digit code sent to you at {email}
             </ThemedText>
           </ThemedView>
 
@@ -147,7 +285,7 @@ export default function SignUpConfirmationCode() {
               const code = values.code.join("");
               console.log("Submitting code:", code);
               // Handle form submission logic here (e.g., API call)
-              setShowModal(true);
+              handleSubmit(values);
             }}
           >
             {({ handleSubmit, values, errors, touched, setFieldValue }) => (
@@ -157,7 +295,7 @@ export default function SignUpConfirmationCode() {
                     <ThemedView key={idx} className="flex-1">
                       <Input
                         size="xl"
-                        className="h-[55px] w-full border-2  rounded-lg mb-2 "
+                        className="h-[65px] w-full border-2  rounded-lg mb-2 "
                         variant="outline"
                         isInvalid={!!(touched.code && errors.code)}
                       >
@@ -209,11 +347,12 @@ export default function SignUpConfirmationCode() {
                 <Button
                   variant="solid"
                   size="2xl"
+                  disabled={loading}
                   className="mt-5 rounded-[12px]"
                   onPress={() => handleSubmit()}
                 >
                   <ThemedText type="s1_subtitle" className="text-white">
-                    Verify
+                    {loading ? <ActivityIndicator color="white" /> : "Verify"}
                   </ThemedText>
                 </Button>
               </ThemedView>
@@ -240,12 +379,16 @@ export default function SignUpConfirmationCode() {
                 >
                   I didn’t receive a code{" "}
                 </ThemedText>
-                <Button onPress={handleResend} variant="link">
+                <Button
+                  disabled={resendLoading}
+                  onPress={handleResend}
+                  variant="link"
+                >
                   <ThemedText
                     type="s1_subtitle"
                     className="text-typography-950"
                   >
-                    Resend
+                    {resendLoading ? "Resending..." : "Resend"}
                   </ThemedText>
                 </Button>
               </ThemedView>
