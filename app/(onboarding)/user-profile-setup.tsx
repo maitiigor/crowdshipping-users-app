@@ -339,7 +339,7 @@ export default function UserProfileSetup() {
             enableReinitialize
             validationSchema={validationSchema}
             onSubmit={(values) => {
-              console.log("Form submitted:", values);
+              // console.log("Form submitted:", values);
               // Handle form submission logic here (e.g., API call)
               handleSubmit(values);
             }}
