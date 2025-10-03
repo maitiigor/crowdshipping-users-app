@@ -12,13 +12,8 @@ import {
 } from "@/components/ui/icon";
 import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
 import { useToast } from "@/components/ui/toast";
-import { usePatch, usePost } from "@/lib/api/index";
-import {
-  Link,
-  useLocalSearchParams,
-  useNavigation,
-  useRouter,
-} from "expo-router";
+import { usePatch } from "@/lib/api/index";
+import { useLocalSearchParams, useNavigation, useRouter } from "expo-router";
 import { Formik } from "formik";
 import { ChevronLeft, CircleCheckIcon, LucideIcon } from "lucide-react-native";
 import React, { useEffect, useState } from "react";
@@ -347,12 +342,14 @@ export default function Signup() {
           className="text-typography-950 py-6 text-center"
         >
           Already have an account?{" "}
-          <Pressable onPress={
-            () => { router.push({
-              pathname: "/(onboarding)/login",
-              params: { email: email },
-            });
-          }}>
+          <Pressable
+            onPress={() => {
+              router.push({
+                pathname: "/(onboarding)/login",
+                params: { email: email },
+              });
+            }}
+          >
             <ThemedText type="s1_subtitle" className="text-primary-500">
               Sign in{" "}
             </ThemedText>

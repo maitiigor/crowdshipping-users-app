@@ -134,7 +134,6 @@ export default function CustomSidebarMenu({
   userProfileData,
   isLoading,
 }: IProps) {
-  console.log("🚀 ~ CustomSidebarMenu ~ userProfileData:", userProfileData)
   const router = useRouter();
   const [showLogoutDrawer, setShowLogoutDrawer] = useState(false);
   // import { usePathname, useSegments } from "expo-router";
@@ -168,10 +167,14 @@ export default function CustomSidebarMenu({
         <DrawerContent className="w-[300px] md:w-[350px]">
           <DrawerHeader className="justify-start flex-row gap-2 pt-16">
             <Avatar size="lg">
-              <AvatarFallbackText>User Image</AvatarFallbackText>
+              <AvatarFallbackText>
+                {userProfileData?.data?.fullName}
+              </AvatarFallbackText>
               <AvatarImage
                 source={{
-                  uri: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+                  uri:
+                    userProfileData?.data?.profile.profilePicUrl ||
+                    '"https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"',
                 }}
               />
             </Avatar>

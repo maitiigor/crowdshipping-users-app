@@ -37,10 +37,14 @@ export async function apiFetch<T = unknown>(
   const { method = "GET", headers, query, body, token } = options;
   const url = buildUrl(path, query);
 
+  const isFormData =
+    typeof FormData !== "undefined" && body instanceof FormData;
+
   const requestHeaders: Record<string, string> = {
     Accept: "application/json, text/plain;q=0.9,*/*;q=0.8",
     "x-api-key": API_KEY,
-    ...(body ? { "Content-Type": "application/json" } : {}),
+    // Only set JSON content type if not uploading FormData
+    ...(!isFormData && body ? { "Content-Type": "application/json" } : {}),
     ...(token ? { Authorization: `Bearer ${token}` } : {}),
     ...headers,
   };
@@ -48,7 +52,11 @@ export async function apiFetch<T = unknown>(
   const res = await fetch(url, {
     method,
     headers: requestHeaders,
-    body: body ? JSON.stringify(body) : undefined,
+    body: isFormData
+      ? (body as FormData)
+      : body
+      ? JSON.stringify(body)
+      : undefined,
   });
 
   const text = await res.text();

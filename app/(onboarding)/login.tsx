@@ -188,7 +188,7 @@ export default function Login() {
             }}
           >
             <TouchableOpacity
-              onPress={() => navigation.goBack()}
+              onPress={() => router.push("/(onboarding)/welcome")}
               className="p-2 rounded   flex justify-center items-center"
             >
               <Icon

@@ -209,7 +209,7 @@ export default function Signup() {
       }
       // API expects: (+<country_code>)<nationalNumber> e.g. (+234)8022908484
       const formattedPhone = formatPhoneForApi(phone, preferCallingCode);
-      console.log("🚀 ~ handleSignUp ~ formattedPhone:", formattedPhone)
+      console.log("🚀 ~ handleSignUp ~ formattedPhone:", formattedPhone);
       await mutateAsync({
         accountType: "user",
         fullName: `${values.firstName.trim()} ${values.lastName.trim()}`,
@@ -281,6 +281,7 @@ export default function Signup() {
               handleChange,
               handleBlur,
               handleSubmit,
+              setFieldValue,
               values,
               errors,
               touched,
@@ -299,7 +300,9 @@ export default function Signup() {
                         className=""
                         placeholder="first name"
                         value={values.firstName}
-                        onChangeText={handleChange("firstName")}
+                        onChangeText={(text) =>
+                          setFieldValue("firstName", text.replace(/\s/g, ""))
+                        }
                         onBlur={handleBlur("firstName")}
                         keyboardType="default"
                         autoCapitalize="none"
@@ -326,7 +329,9 @@ export default function Signup() {
                         className=""
                         placeholder="last name"
                         value={values.lastName}
-                        onChangeText={handleChange("lastName")}
+                        onChangeText={(text) =>
+                          setFieldValue("lastName", text.replace(/\s/g, ""))
+                        }
                         onBlur={handleBlur("lastName")}
                         keyboardType="default"
                         autoCapitalize="none"
@@ -489,7 +494,6 @@ export default function Signup() {
           </ThemedText>
         </ThemedText>
       </Link>
-      
     </KeyboardAvoidingView>
   );
 }
