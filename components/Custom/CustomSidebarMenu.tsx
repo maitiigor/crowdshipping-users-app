@@ -186,7 +186,10 @@ export default function CustomSidebarMenu({
             </DrawerHeader>
             <Pressable
               onPress={() => {
-                router.push("/user-profile-setup");
+                router.push({
+                  pathname: "/user-profile-setup",
+                  params: { isHome: "true" },
+                });
                 setShowDrawer(false);
               }}
             >

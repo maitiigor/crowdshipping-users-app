@@ -35,7 +35,7 @@ import {
 } from "@/lib/api";
 import { formatPhoneForApi, isValidPhone } from "@/lib/phone";
 import { IUserProfileResponse } from "@/types/IUserProfile";
-import { useNavigation } from "expo-router";
+import { useLocalSearchParams, useNavigation } from "expo-router";
 import { Formik } from "formik";
 import {
   ChevronLeft,
@@ -86,11 +86,12 @@ export default function UserProfileSetup() {
   const toast = useToast();
   const [selectedPickupAddress, setSelectedPickupAddress] =
     useState<AddressSelection | null>(null);
+  const { isHome } = useLocalSearchParams();
   const { data } = useAuthenticatedQuery<IUserProfileResponse>(
     ["me"],
     "/user/profile"
   );
-  console.log("🚀 ~ UserProfileSetup ~ data:", data)
+  console.log("🚀 ~ UserProfileSetup ~ data:", data);
 
   // Helper: split full name into first/last
   const splitName = (
@@ -109,26 +110,26 @@ export default function UserProfileSetup() {
     const profile = data?.data?.profile;
     const names = splitName(data?.data?.fullName);
     return {
-      firstName: names.firstName || "",
-      lastName: names.lastName || "",
-      phoneNumber: data?.data?.phoneNumber || "",
-      country: profile?.country || "",
+      firstName: isHome === "true" ? names.firstName || "" : "",
+      lastName: isHome === "true" ? names.lastName || "" : "",
+      phoneNumber: isHome === "true" ? data?.data?.phoneNumber || "" : "",
+      country: isHome === "true" ? profile?.country || "" : "",
       location: {
-        lat: profile?.lat,
-        lng: profile?.lng,
-        address: profile?.address || "",
+        lat: isHome === "true" ? profile?.lat : undefined,
+        lng: isHome === "true" ? profile?.lng : undefined,
+        address: isHome === "true" ? profile?.address || "" : "",
       },
-      state: profile?.state || "",
-      city: profile?.city || "",
-      gender: profile?.gender || "",
+      state: isHome === "true" ? profile?.state || "" : "",
+      city: isHome === "true" ? profile?.city || "" : "",
+      gender: isHome === "true" ? profile?.gender || "" : "",
       dob: null as Date | null, // API sample has no DOB
-      profilePicUrl: profile?.profilePicUrl || "",
+      profilePicUrl: isHome === "true" ? profile?.profilePicUrl || "" : "",
     };
   }, [data]);
 
   // Sync auxiliary UI state (image preview, phone state, address picker) when data loads
   useEffect(() => {
-    if (!data?.data) return;
+    if (!data?.data || isHome !== "true") return;
     const profile = data.data.profile;
     setPickedImage(profile?.profilePicUrl || null);
     setPhone(data.data.phoneNumber || "");
@@ -138,7 +139,7 @@ export default function UserProfileSetup() {
         coordinates: { lat: profile.lat, lng: profile.lng },
       });
     }
-  }, [data]);
+  }, [data, isHome]);
   const { mutateAsync, error, loading } = useAuthenticatedPatch<
     any,
     {
