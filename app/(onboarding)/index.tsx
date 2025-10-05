@@ -4,9 +4,10 @@ import { ThemedView } from "@/components/ThemedView";
 import { Button } from "@/components/ui/button";
 import { SearchIcon } from "@/components/ui/icon";
 import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
+import { useIsLoggedIn } from "@/hooks/useIsLoggedIn";
 import { changeAppLanguage, LANGUAGE_STORAGE_KEY } from "@/lib/i18n";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Link, useNavigation } from "expo-router";
+import { Link, Redirect, useNavigation } from "expo-router";
 import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FlatList, Pressable } from "react-native";
@@ -28,6 +29,7 @@ const languages = [
 export default function Index() {
   // hide the header for this screen
   const navigation = useNavigation();
+
   const { t, i18n } = useTranslation();
   const [selectedLanguage, setSelectedLanguage] = useState<string | null>(null);
 
@@ -48,6 +50,9 @@ export default function Index() {
       .then((saved) => saved && setSelectedLanguage(saved))
       .catch(() => {});
   }, []);
+
+
+
   return (
     <SafeAreaView className="flex-1 bg-white">
       <ParallaxScrollView

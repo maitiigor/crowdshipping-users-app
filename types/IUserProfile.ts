@@ -22,12 +22,21 @@ export interface IUserProfileData {
 
 export interface IUserProfileProfile {
   _id: string;
+  language: string;
   profilePicUrl: string;
   country: string;
   city: string;
   state: string;
+  rating: Rating;
   gender: string;
-  geoLocation: IUserProfileGeoLocation;
+  address: string;
+  lng: number;
+  lat: number;
+}
+
+export interface Rating {
+  avg: number;
+  count: number;
 }
 
 export interface IUserProfileGeoLocation {

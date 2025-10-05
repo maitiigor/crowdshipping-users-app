@@ -28,10 +28,10 @@ function AppContent() {
   const colorScheme = useColorScheme();
   const { isInitializing } = useInitializeAuth();
 
-  // Show loading state while initializing authentication
-  // if (isInitializing) {
-  //   return null; // Or return a loading spinner component if you have one
-  // }
+  // Wait until auth is restored from storage before rendering navigation
+  if (isInitializing) {
+    return null;
+  }
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>

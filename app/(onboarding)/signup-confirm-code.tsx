@@ -59,7 +59,7 @@ export default function SignUpConfirmationCode() {
   >("/auth/verify-otp");
   const {
     mutateAsync: resendMutateAsync,
-    error: resendError,
+    // error: resendError,
     loading: resendLoading,
   } = usePost<
     any,
@@ -191,7 +191,7 @@ export default function SignUpConfirmationCode() {
         otp: values.code.join(""),
         email: email as string,
       });
-      console.log("🚀 ~ handleSubmit ~ response:", response)
+      console.log("🚀 ~ handleSubmit ~ response:", response);
       showNewToast({
         title: "Success",
         description: "OTP verified successfully!",
@@ -202,7 +202,10 @@ export default function SignUpConfirmationCode() {
       if (type === "password-reset") {
         router.push({
           pathname: "/(onboarding)/reset-password",
-          params: { token: response?.data?.token, email: response?.data?.email },
+          params: {
+            token: response?.data?.token,
+            email: response?.data?.email,
+          },
         });
         return;
       }
@@ -420,7 +423,7 @@ export default function SignUpConfirmationCode() {
             description="Welcome to Crowdshipping! You're ready to start sending or receiving packages."
             title="Registration Successful!"
             img={require("@/assets/images/onboarding/modal-success.png")}
-            firstBtnLink={"/(onboarding)/user-profile-setup"}
+            firstBtnLink={"/user-profile-setup"}
             firstBtnText="Update profile"
             setShowModal={setShowModal}
             showModal={showModal}

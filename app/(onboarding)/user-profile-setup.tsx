@@ -90,6 +90,7 @@ export default function UserProfileSetup() {
     ["me"],
     "/user/profile"
   );
+  console.log("🚀 ~ UserProfileSetup ~ data:", data)
 
   // Helper: split full name into first/last
   const splitName = (
@@ -113,9 +114,9 @@ export default function UserProfileSetup() {
       phoneNumber: data?.data?.phoneNumber || "",
       country: profile?.country || "",
       location: {
-        lat: 0,
-        lng: 0,
-        address: profile?.geoLocation?.address || "",
+        lat: profile?.lat,
+        lng: profile?.lng,
+        address: profile?.address || "",
       },
       state: profile?.state || "",
       city: profile?.city || "",
@@ -131,10 +132,10 @@ export default function UserProfileSetup() {
     const profile = data.data.profile;
     setPickedImage(profile?.profilePicUrl || null);
     setPhone(data.data.phoneNumber || "");
-    if (profile?.geoLocation?.address) {
+    if (profile?.address) {
       setSelectedPickupAddress({
-        address: profile.geoLocation.address,
-        coordinates: { lat: 0, lng: 0 },
+        address: profile.address,
+        coordinates: { lat: profile.lat, lng: profile.lng },
       });
     }
   }, [data]);
@@ -253,8 +254,8 @@ export default function UserProfileSetup() {
     lastName: string;
     phoneNumber: string;
     location: {
-      lat: number;
-      lng: number;
+      lat: number | undefined;
+      lng: number | undefined;
       address: string;
     };
     state: string;
@@ -265,6 +266,20 @@ export default function UserProfileSetup() {
     profilePicUrl: string;
   }) => {
     try {
+      // Ensure location coordinates are present
+      const lat = values.location.lat;
+      const lng = values.location.lng;
+      if (lat == null || lng == null) {
+        showNewToast({
+          title: "Missing location",
+          description: "Please select a pickup address",
+          icon: HelpCircleIcon,
+          action: "error",
+          variant: "solid",
+        });
+        return;
+      }
+
       // Validate and format phone before submitting
       const phoneApi = phoneInputRef.current as any;
       const preferCallingCode = phoneApi?.state?.code
@@ -293,8 +308,8 @@ export default function UserProfileSetup() {
         fullName: `${values.firstName} ${values.lastName}`,
         phoneNumber: formattedPhone,
         location: {
-          lat: values.location.lat,
-          lng: values.location.lng,
+          lat: lat,
+          lng: lng,
           address: values.location.address,
         },
         state: values.state,
