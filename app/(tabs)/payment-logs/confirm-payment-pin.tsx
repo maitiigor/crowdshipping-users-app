@@ -1,4 +1,5 @@
 import { CustomModal } from "@/components/Custom/CustomModal";
+import CustomToast from "@/components/Custom/CustomToast";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
@@ -6,9 +7,16 @@ import { Button } from "@/components/ui/button";
 import { HStack } from "@/components/ui/hstack";
 import { Icon } from "@/components/ui/icon";
 import { Input, InputField } from "@/components/ui/input";
-import { useNavigation, useRouter } from "expo-router";
+import { useToast } from "@/components/ui/toast";
+import { useAuthenticatedPatch } from "@/lib/api";
+import { useLocalSearchParams, useNavigation, useRouter } from "expo-router";
 import { Formik } from "formik";
-import { ChevronLeft } from "lucide-react-native";
+import {
+  ChevronLeft,
+  CircleCheckIcon,
+  HelpCircleIcon,
+  LucideIcon,
+} from "lucide-react-native";
 import React, { useEffect, useRef, useState } from "react";
 import {
   Keyboard,
@@ -22,16 +30,29 @@ import * as Yup from "yup";
 const validationSchema = Yup.object().shape({
   code: Yup.array()
     .of(Yup.string().matches(/^\d$/, "Digit only").required("Required"))
-    .length(4, "Enter 4 digits"),
+    .length(6, "Enter 6 digits"),
 });
 
 export default function ConfirmPaymentPin() {
   // hide the header for this screen
   const navigation = useNavigation();
   const router = useRouter();
+  const toast = useToast();
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
   const [secondsLeft, setSecondsLeft] = useState(20); // countdown state
   const [showModal, setShowModal] = useState(false);
+  const { fromPage, amount, currency, transferCode, trxReference } =
+    useLocalSearchParams();
+  const { mutateAsync, loading, error } = useAuthenticatedPatch<
+    any,
+    {
+      otp: string;
+      amount: number;
+      currency: string;
+      trxReference: string;
+      transferCode: string;
+    }
+  >("/wallet/verify-withdrawal");
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
@@ -122,7 +143,77 @@ export default function ConfirmPaymentPin() {
 
   // refs to control focus for each input
   const inputsRef = useRef<any[]>([]);
+  const showNewToast = ({
+    title,
+    description,
+    icon,
+    action = "error",
+    variant = "solid",
+  }: {
+    title: string;
+    description: string;
+    icon: LucideIcon;
+    action: "error" | "success" | "info" | "muted" | "warning";
+    variant: "solid" | "outline";
+  }) => {
+    const newId = Math.random();
+    toast.show({
+      id: newId.toString(),
+      placement: "top",
+      duration: 3000,
+      render: ({ id }) => {
+        const uniqueToastId = "toast-" + id;
+        return (
+          <CustomToast
+            uniqueToastId={uniqueToastId}
+            icon={icon}
+            action={action}
+            title={title}
+            variant={variant}
+            description={description}
+          />
+        );
+      },
+    });
+  };
 
+  const handleSubmit = async (values: { code: string[] }) => {
+    try {
+      const response = await mutateAsync({
+        otp: values.code.join(""),
+        amount: Number(amount),
+        currency: String(currency),
+        trxReference: String(trxReference),
+        transferCode: String(transferCode),
+      });
+      console.log("🚀 ~ handleSubmit ~ response:", response);
+      showNewToast({
+        title: "Success",
+        description: "OTP verified successfully!",
+        icon: CircleCheckIcon,
+        action: "success",
+        variant: "solid",
+      });
+      router.push({
+        pathname: "/(tabs)/payment-logs/main",
+      });
+    } catch (e: any) {
+      // Prefer server-provided message, then error.message, then hook error string
+      const message =
+        e?.data?.message ||
+        e?.message ||
+        (typeof error === "string" ? error : undefined) ||
+        "Sign up failed";
+
+      showNewToast({
+        title: "OTP Failed",
+        description: message,
+        icon: HelpCircleIcon,
+        action: "error",
+        variant: "solid",
+      });
+    }
+  };
   return (
     <KeyboardAvoidingView
       className="flex-1 bg-white"
@@ -140,23 +231,22 @@ export default function ConfirmPaymentPin() {
           </ThemedView>
 
           <Formik
-            initialValues={{ code: ["", "", "", ""] }}
+            initialValues={{ code: ["", "", "", "", "", ""] }}
             validationSchema={validationSchema}
             onSubmit={(values) => {
               const code = values.code.join("");
               console.log("Submitting code:", code);
-              // Handle form submission logic here (e.g., API call)
-              setShowModal(true);
+              handleSubmit(values);
             }}
           >
             {({ handleSubmit, values, errors, touched, setFieldValue }) => (
               <ThemedView className="mt-5 flex-1 w-full">
                 <HStack space="md" className="h-24" reversed={false}>
-                  {Array.from({ length: 4 }).map((_, idx) => (
+                  {Array.from({ length: 6 }).map((_, idx) => (
                     <ThemedView key={idx} className="flex-1">
                       <Input
                         size="xl"
-                        className="h-20 w-full border-2  rounded-lg mb-2 "
+                        className="h-[65px] w-full border-2  rounded-lg mb-2 "
                         variant="outline"
                         isInvalid={!!(touched.code && errors.code)}
                       >
@@ -187,7 +277,7 @@ export default function ConfirmPaymentPin() {
                           keyboardType="number-pad"
                           textContentType="oneTimeCode"
                           autoCapitalize="none"
-                          returnKeyType={idx === 4 ? "done" : "next"}
+                          returnKeyType={idx === 5 ? "done" : "next"}
                           autoFocus={idx === 0}
                           maxLength={1}
                           className="text-center "
@@ -220,7 +310,7 @@ export default function ConfirmPaymentPin() {
           </Formik>
 
           {/* replace the static countdown block */}
-          <ThemedView className="pt-5">
+          {/* <ThemedView className="pt-5 hidden">
             {secondsLeft > 0 ? (
               <ThemedText
                 type="s1_subtitle"
@@ -249,7 +339,7 @@ export default function ConfirmPaymentPin() {
                 </Button>
               </ThemedView>
             )}
-          </ThemedView>
+          </ThemedView> */}
         </ThemedView>
       </ParallaxScrollView>
 

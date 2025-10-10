@@ -1,4 +1,5 @@
 import { EmptyModal } from "@/components/Custom/EmptyModal";
+import { EmptyState } from "@/components/Custom/EmptyState";
 import NotificationIcon from "@/components/Custom/NotificationIcon";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
@@ -6,7 +7,7 @@ import { ThemedView } from "@/components/ThemedView";
 import { Icon } from "@/components/ui/icon";
 import { Image } from "@/components/ui/image";
 import { useNavigation, useRouter } from "expo-router";
-import { ChevronLeft, CircleQuestionMark, CircleX, Copy } from "lucide-react-native";
+import { ChevronLeft, CircleQuestionMark, CircleX, Copy, Gem } from "lucide-react-native";
 import React, { useEffect, useRef, useState } from "react";
 import {
   FlatList,
@@ -156,6 +157,14 @@ export default function PromoScreen() {
             <FlatList
               data={[1, 2]}
               scrollEnabled={false}
+              ListEmptyComponent={
+                <EmptyState
+                  title="No promo offers yet"
+                  description="Your promo offers will appear here."
+                  icon={Gem}
+                  className="mt-10"
+                />
+              }
               contentContainerClassName="pb-[300px]"
               ItemSeparatorComponent={() => <View style={{ height: 12 }} />}
               renderItem={({ item }) => (
@@ -172,6 +181,7 @@ export default function PromoScreen() {
                         <Image
                           source={require("@/assets/images/home/promo-large.png")}
                           className="w-12 h-12"
+                          alt="promo"
                           resizeMode="contain"
                         />
                         <ThemedView className="flex-1 flex-row  gap-2 items-center">
@@ -206,7 +216,7 @@ export default function PromoScreen() {
             size="lg"
           >
             {/* close icon */}
-           <TouchableOpacity
+            <TouchableOpacity
               onPress={() => setShowModal(false)}
               className="absolute -top-0 right-0"
             >
@@ -222,6 +232,7 @@ export default function PromoScreen() {
               <Image
                 source={require("@/assets/images/home/promo-large.png")}
                 className="w-32 h-32"
+                alt="promo"
                 resizeMode="contain"
               />
               <ThemedText

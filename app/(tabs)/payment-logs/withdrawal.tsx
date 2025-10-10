@@ -1,40 +1,83 @@
 import { AddressSelection } from "@/components/Custom/AddressPicker";
-import { CustomModal } from "@/components/Custom/CustomModal";
+import BankDropdown from "@/components/Custom/BankDropdown";
+import CustomToast from "@/components/Custom/CustomToast";
 import InputLabelText from "@/components/Custom/InputLabelText";
 import NotificationIcon from "@/components/Custom/NotificationIcon";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { Button } from "@/components/ui/button";
-import { ChevronDownIcon, Icon, SearchIcon } from "@/components/ui/icon";
-import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
-import {
-  Select,
-  SelectBackdrop,
-  SelectContent,
-  SelectDragIndicator,
-  SelectDragIndicatorWrapper,
-  SelectIcon,
-  SelectInput,
-  SelectItem,
-  SelectPortal,
-  SelectTrigger,
-} from "@/components/ui/select";
-import { Link, useLocalSearchParams, useNavigation, useRouter } from "expo-router";
+import { Icon } from "@/components/ui/icon";
+import { Input, InputField } from "@/components/ui/input";
+import { useToast } from "@/components/ui/toast";
+import { useAuthenticatedPost, useAuthenticatedQuery } from "@/lib/api";
+import { IWalletRequestResponse } from "@/types/IWalletRequest";
+import { formatCurrency } from "@/utils/helper";
+import { Link, useNavigation, useRouter } from "expo-router";
 import { Formik } from "formik";
-import { ChevronLeft } from "lucide-react-native";
+import {
+  ChevronLeft,
+  CircleCheckIcon,
+  HelpCircleIcon,
+  LucideIcon,
+} from "lucide-react-native";
 import React, { useEffect, useState } from "react";
-import { KeyboardAvoidingView, TouchableOpacity } from "react-native";
+import {
+  ActivityIndicator,
+  KeyboardAvoidingView,
+  TouchableOpacity,
+} from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import * as Yup from "yup";
 export default function WithdrawalScreen() {
   const navigation = useNavigation();
   const router = useRouter();
-  const { id } = useLocalSearchParams();
+  const toast = useToast();
   const insets = useSafeAreaInsets();
-  const [selectedPickupAddress, setSelectedPickupAddress] =
-    useState<AddressSelection | null>(null);
-  const [showModal, setShowModal] = useState(false);
-
+  const [selectedPickupAddress] = useState<AddressSelection | null>(null);
+  const [bankValues, setBankValues] = useState({ bankCode: "", bankName: "" });
+  console.log("🚀 ~ WithdrawalScreen ~ bankValues:", bankValues);
+  const [currency, setCurrency] = useState("NGN"); //NGN | USD
+  const { data, isLoading } = useAuthenticatedQuery<
+    IWalletRequestResponse | undefined
+    >(["wallet"], "/wallet/fetch");
+  const validationSchema = Yup.object().shape({
+    amount: Yup.number()
+      .typeError("Amount must be a number")
+      .required("Amount is required")
+      .min(100, "Minimum withdrawal is 100")
+      .max(
+        data?.data.wallet.availableBalance || 0,
+        "Amount exceeds available balance"
+      ),
+    bankCode: Yup.string().required("Bank is required"),
+    accountNumber: Yup.string()
+      .required("Account Number is required")
+      .matches(/^\d+$/, "Account Number must be digits only")
+      .min(10, "Account Number must be at least 10 digits"),
+    accountName: Yup.string().required("Account Name is required"),
+  });
+  const {
+    mutateAsync: mutateResolveAccount,
+    loading: loadingResolveAccount,
+    isSuccess: isSuccessResolveAccount,
+  } = useAuthenticatedPost<
+    any,
+    {
+      bankCode: string;
+      accountNumber: string;
+    }
+  >("/wallet/resolve-account");
+  const { mutateAsync, loading, error } = useAuthenticatedPost<
+    any,
+    {
+      amount: number;
+      bankName: string;
+      bankCode: string;
+      accountNumber: string;
+      accountName: string;
+    }
+  >("/wallet/initiate-withdrawal");
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
@@ -90,7 +133,90 @@ export default function WithdrawalScreen() {
       headerRight: () => <NotificationIcon />,
     });
   }, [navigation]);
+  const showNewToast = ({
+    title,
+    description,
+    icon,
+    action = "error",
+    variant = "solid",
+  }: {
+    title: string;
+    description: string;
+    icon: LucideIcon;
+    action: "error" | "success" | "info" | "muted" | "warning";
+    variant: "solid" | "outline";
+  }) => {
+    const newId = Math.random();
+    toast.show({
+      id: newId.toString(),
+      placement: "top",
+      duration: 3000,
+      render: ({ id }) => {
+        const uniqueToastId = "toast-" + id;
+        return (
+          <CustomToast
+            uniqueToastId={uniqueToastId}
+            icon={icon}
+            action={action}
+            title={title}
+            variant={variant}
+            description={description}
+          />
+        );
+      },
+    });
+  };
 
+  const handleInitiateWithdrawal = async (values: {
+    amount: number;
+    bankName: string;
+    bankCode: string;
+    accountNumber: string;
+    accountName: string;
+  }) => {
+    try {
+      const response = await mutateAsync({
+        amount: values.amount,
+        bankName: values.bankName,
+        bankCode: values.bankCode,
+        accountNumber: values.accountNumber,
+        accountName: values.accountName,
+      });
+      console.log("🚀 ~ handleInitiateWithdrawal ~ response:", response)
+      showNewToast({
+        title: "Success",
+        description: "Withdrawal Request successfully!",
+        icon: CircleCheckIcon,
+        action: "success",
+        variant: "solid",
+      });
+      router.push({
+        pathname: "/(tabs)/confirm-payment-pin",
+        params: {
+          fromPage: "withdrawal",
+          amount: values.amount,
+          currency: currency,
+          trxReference: response.data.trxReference,
+          transferCode: response.data.transferCode,
+        },
+      });
+    } catch (e: any) {
+      // Prefer server-provided message, then error.message, then hook error string
+      const message =
+        e?.data?.message ||
+        e?.message ||
+        (typeof error === "string" ? error : undefined) ||
+        "Withdrawal Request failed";
+
+      showNewToast({
+        title: "Withdrawal Request Failed",
+        description: message,
+        icon: HelpCircleIcon,
+        action: "error",
+        variant: "solid",
+      });
+    }
+  };
   return (
     <KeyboardAvoidingView
       className="flex-1 bg-white"
@@ -106,18 +232,20 @@ export default function WithdrawalScreen() {
               initialValues={{
                 amount: "",
                 bankName: "",
+                bankCode: "",
                 accountNumber: "",
+                accountName: "",
               }}
-              // validationSchema={validationSchema}
+              validationSchema={validationSchema}
               onSubmit={(values) => {
                 const payload = {
                   ...values,
-                  // force date to null if booking type is instant
-
-                  selectedPickupAddress,
+                  amount: parseInt(values.amount, 10),
+                  bankCode: bankValues.bankCode,
+                  bankName: bankValues.bankName,
                 };
                 console.log("Form submitted:", payload);
-                router.back();
+                handleInitiateWithdrawal(payload);
               }}
             >
               {({
@@ -162,71 +290,54 @@ export default function WithdrawalScreen() {
                         Wallet Balance
                       </ThemedText>
                       <ThemedText type="default" className="text-primary-500">
-                        $0.00
+                        {isLoading
+                          ? "Loading..."
+                          : formatCurrency(
+                              data?.data.wallet.availableBalance,
+                              "NGN",
+                              "en-NG"
+                            ) || formatCurrency(0.0, "NGN", "en-NG")}
                       </ThemedText>
                     </ThemedView>
                   </ThemedView>
                   <ThemedView>
-                    <InputLabelText type="b2_body">
-                      Select Bank Name
-                    </InputLabelText>
-                    <Select
-                      selectedValue={values.bankName}
-                      onValueChange={handleChange("bankName")}
-                    >
-                      <SelectTrigger
-                        size="xl"
-                        className="h-[55px] rounded-lg border-primary-100  bg-primary-inputShade px-2"
-                      >
-                        <SelectInput
-                          placeholder="Select a bank"
-                          value={values.bankName}
-                          className="flex-1"
-                        />
-                        <SelectIcon className="mr-3" as={ChevronDownIcon} />
-                      </SelectTrigger>
-                      <SelectPortal>
-                        <SelectBackdrop />
-                        <SelectContent>
-                          <SelectDragIndicatorWrapper>
-                            <SelectDragIndicator />
-                          </SelectDragIndicatorWrapper>
-                          <Input
-                            size="lg"
-                            className="h-[55px] m-3 rounded-t rounded-2xl"
-                            variant="outline"
-                          >
-                            <InputSlot className="pl-3">
-                              <InputIcon as={SearchIcon} />
-                            </InputSlot>
-                            <InputField placeholder={'Search...'} />
-                          </Input>
-                          {[
-                            {
-                              label: "Access Bank",
-                              value: "access_bank",
-                            },
-                            {
-                              label: "Citibank",
-                              value: "citibank",
-                            },
-                          ].map((category) => (
-                            <SelectItem
-                              key={category.value}
-                              value={category.value}
-                              label={category.label}
-                            >
-                              {category.label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </SelectPortal>
-                    </Select>
-                    {errors.bankName && touched.bankName && (
-                      <ThemedText type="b4_body" className="text-error-500">
-                        {errors.bankName}
-                      </ThemedText>
-                    )}
+                    <BankDropdown
+                      errors={
+                        errors.bankCode && touched.bankCode
+                          ? { bankCode: errors.bankCode }
+                          : {}
+                      }
+                      touched={
+                        errors.bankCode && touched.bankCode
+                          ? { bankCode: true }
+                          : {}
+                      }
+                      values={bankValues}
+                      handleChange={async (code: string, name: string) => {
+                        setFieldValue("bankCode", code);
+                        setFieldValue("bankName", name);
+                        setBankValues({ bankCode: code, bankName: name });
+                        // If user already entered a 10-digit account number, resolve immediately
+                        if (
+                          values.accountNumber &&
+                          values.accountNumber.length === 10
+                        ) {
+                          try {
+                            const response = await mutateResolveAccount({
+                              bankCode: code,
+                              accountNumber: values.accountNumber,
+                            });
+                            const resolvedName =
+                              response?.data?.account_name || "";
+                            if (resolvedName) {
+                              setFieldValue("accountName", resolvedName);
+                            }
+                          } catch (err) {
+                            console.error("Error resolving account:", err);
+                          }
+                        }
+                      }}
+                    />
                   </ThemedView>
                   <ThemedView className="flex flex-1 gap-3 w-full">
                     <ThemedView className="flex-1 w-full">
@@ -245,11 +356,51 @@ export default function WithdrawalScreen() {
                           className=""
                           placeholder="Enter Account Number"
                           value={values.accountNumber}
-                          onChangeText={handleChange("accountNumber")}
+                          onChangeText={async (text: string) => {
+                            // Keep only digits
+                            const digits = text.replace(/\D/g, "");
+                            console.log("🚀 ~ digits:", digits);
+                            setFieldValue("accountNumber", digits);
+
+                            // Clear account name while typing until we have a full number
+                            if (digits.length !== 10) {
+                              setFieldValue("accountName", "");
+                              return;
+                            }
+
+                            // Resolve when bank is selected and account number is 10 digits
+                            if (bankValues.bankCode && digits.length === 10) {
+                              try {
+                                const response = await mutateResolveAccount({
+                                  bankCode: bankValues.bankCode,
+                                  accountNumber: digits,
+                                });
+                                const resolvedName =
+                                  response?.data?.account_name || "";
+                                if (resolvedName) {
+                                  setFieldValue("accountName", resolvedName);
+                                }
+                              } catch (err: any) {
+                                console.error("Error resolving account:", err);
+                                // Add toast for user feedback
+                                showNewToast({
+                                  title: "Account Resolution Failed",
+                                  description:
+                                    err?.data?.message ||
+                                    err?.message ||
+                                    "Unable to verify account. Please check details and try again.",
+                                  icon: HelpCircleIcon, // Ensure this icon is imported
+                                  action: "error",
+                                  variant: "solid",
+                                });
+                              }
+                            }
+                          }}
                           onBlur={handleBlur("accountNumber")}
                           keyboardType="numeric"
                           autoCapitalize="none"
                         />
+                        {loadingResolveAccount && <ActivityIndicator />}
                       </Input>
                       {errors.accountNumber && touched.accountNumber && (
                         <ThemedText
@@ -259,8 +410,43 @@ export default function WithdrawalScreen() {
                           {errors.accountNumber}
                         </ThemedText>
                       )}
+                    </ThemedView>
+                  </ThemedView>
+                  <ThemedView className="flex flex-1 gap-3 w-full">
+                    <ThemedView className="flex-1 w-full">
+                      <InputLabelText className="">Account Name</InputLabelText>
+                      <Input
+                        size="xl"
+                        isDisabled={isSuccessResolveAccount}
+                        className="h-[55px] border-primary-100 rounded-lg mb-2 bg-primary-inputShade px-2"
+                        variant="outline"
+                        isInvalid={
+                          !!(errors.accountName && touched.accountName)
+                        }
+                      >
+                        <InputField
+                          className=""
+                          placeholder="Account name will auto-fill"
+                          value={values.accountName}
+                          onChangeText={handleChange("accountName")}
+                          onBlur={handleBlur("accountName")}
+                          // Let users edit if needed; leave default keyboard
+                          autoCapitalize="none"
+                        />
+                      </Input>
+                      {errors.accountName && touched.accountName && (
+                        <ThemedText
+                          type="b4_body"
+                          className="text-error-500 mb-4"
+                        >
+                          {errors.accountName}
+                        </ThemedText>
+                      )}
                       <Link href={`/payment-logs/choose-beneficiary`} asChild>
-                        <ThemedText type="b2_body" className="text-primary-500 text-right">
+                        <ThemedText
+                          type="b2_body"
+                          className="text-primary-500 text-right"
+                        >
                           Choose Beneficiary
                         </ThemedText>
                       </Link>
@@ -274,7 +460,11 @@ export default function WithdrawalScreen() {
                     onPress={() => handleSubmit()}
                   >
                     <ThemedText type="s1_subtitle" className="text-white">
-                      Continue
+                      {loading ? (
+                        <ActivityIndicator color="white" />
+                      ) : (
+                        "Continue"
+                      )}
                     </ThemedText>
                   </Button>
                 </ThemedView>
@@ -283,7 +473,6 @@ export default function WithdrawalScreen() {
           </ThemedView>
         </ThemedView>
       </ParallaxScrollView>
-   
     </KeyboardAvoidingView>
   );
 }
