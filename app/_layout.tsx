@@ -24,6 +24,7 @@ import { PaystackProvider } from "react-native-paystack-webview";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Provider } from "react-redux";
 // Note: react-phone-number-input CSS is web-only; avoid importing in native bundles.
+import * as ExpoLinking from "expo-linking";
 
 // Stripe publishable key - you should move this to environment variables
 const STRIPE_PUBLISHABLE_KEY =
@@ -74,7 +75,10 @@ export default function RootLayout() {
     "Poppins-SemiBold": require("../assets/fonts/Poppins/Poppins-SemiBold.ttf"),
   });
   const [i18nReady, setI18nReady] = React.useState(false);
-
+  const stripeReturnUrl = React.useMemo(
+    () => ExpoLinking.createURL("/payment-logs/top-up"),
+    []
+  );
   // Load phone input CSS only on web to show country flags (web only)
   React.useEffect(() => {
     if (Platform.OS === "web") {
@@ -103,6 +107,7 @@ export default function RootLayout() {
             debug={__DEV__}
           >
             <StripeProvider
+              // urlScheme={stripeReturnUrl}
               publishableKey={STRIPE_PUBLISHABLE_KEY}
               merchantIdentifier={STRIPE_MERCHANT_IDENTIFIER}
             >

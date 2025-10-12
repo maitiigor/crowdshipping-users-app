@@ -25,6 +25,7 @@ import {
 } from "@/lib/api";
 import { IWalletRequestResponse } from "@/types/IWalletRequest";
 import { formatCurrency } from "@/utils/helper";
+import * as ExpoLinking from "expo-linking";
 import { Link, useNavigation, useRouter } from "expo-router";
 import { Formik } from "formik";
 import {
@@ -74,6 +75,11 @@ export default function TopUpScreen() {
       paymentType: string; //paystack | stripe
     }
   >("/wallet/initiate-funding");
+
+  const stripeReturnUrl = React.useMemo(
+    () => ExpoLinking.createURL("/payment-logs/top-up"),
+    []
+  );
 
   const { mutateAsync: mutateVerifyTopUp, loading: loadingVerifyTopUp } =
     useAuthenticatedPatch<
@@ -192,7 +198,7 @@ export default function TopUpScreen() {
         {
           paymentIntentClientSecret: clientSecret,
           merchantDisplayName: "Crowdshipping",
-          returnURL: "crowdshippingusernewapp://", // Deep link for redirect payment methods
+          returnURL: stripeReturnUrl, // Deep link for redirect payment methods
           defaultBillingDetails: {
             name: userProfile?.data.fullName || "Customer Name", // You might want to get this from user data
           },

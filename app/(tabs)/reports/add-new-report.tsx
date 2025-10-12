@@ -1,16 +1,17 @@
-import { KeyboardAvoidingView, TouchableOpacity } from "react-native";
+import { ActivityIndicator, KeyboardAvoidingView, TouchableOpacity } from "react-native";
 
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedView } from "@/components/ThemedView";
 
-import { useLocalSearchParams, useNavigation, useRouter } from "expo-router";
+import { useNavigation, useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 
-import CustomSidebarMenu from "@/components/Custom/CustomSidebarMenu";
+import CustomToast from "@/components/Custom/CustomToast";
 import FileUploader, { PickedFile } from "@/components/Custom/fileUploader";
 import InputLabelText from "@/components/Custom/InputLabelText";
 import NotificationIcon from "@/components/Custom/NotificationIcon";
 import { ThemedText } from "@/components/ThemedText";
+import { Button } from "@/components/ui/button";
 import { ChevronDownIcon, Icon } from "@/components/ui/icon";
 import { Input, InputField } from "@/components/ui/input";
 import {
@@ -26,20 +27,32 @@ import {
   SelectTrigger,
 } from "@/components/ui/select";
 import { Textarea, TextareaInput } from "@/components/ui/textarea";
+import { useToast } from "@/components/ui/toast";
+import { useAuthenticatedPost } from "@/lib/api";
 import { Formik } from "formik";
-import { ChevronLeft } from "lucide-react-native";
+import {
+  ChevronLeft,
+  CircleCheckIcon,
+  HelpCircleIcon,
+  LucideIcon,
+} from "lucide-react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Button } from "@/components/ui/button";
+import * as Yup from "yup";
+
 // MenuItem type removed (unused)
 const reportTypeList = [
   {
-    label: "Against a Customer",
-    value: "Against a Customer",
+    label: "Customer",
+    value: "customer",
   },
   {
-    label: "Against a Booking",
-    value: "Against a Booking",
+    label: "Booking",
+    value: "booking",
   },
+  {
+    label: "Others",
+    value: "others",
+  }
 ];
 const againstCustomerList = [
   {
@@ -53,6 +66,10 @@ const againstCustomerList = [
   {
     label: "Wrong address",
     value: "Wrong address",
+  },
+  {
+    label: "Others",
+    value: "Others",
   },
 ];
 const againstBookingList = [
@@ -72,14 +89,70 @@ const againstBookingList = [
     label: "Late delivery resulting in loss",
     value: "Late delivery resulting in loss",
   },
+  {
+    label: "Others",
+    value: "Others",
+  },
 ];
+const validationSchema = Yup.object().shape({
+  reportType: Yup.string().required("Report type is required"),
+  natureOfReport: Yup.string().required("Nature of report is required"),
+  otherOption: Yup.string(),
+  reportAmount: Yup.number()
+    .transform((value, originalValue) => {
+      if (typeof originalValue === "string") {
+        const parsed = parseFloat(originalValue.replace(/,/g, ""));
+        return Number.isNaN(parsed) ? undefined : parsed;
+      }
+      return value;
+    })
+    .typeError("Report amount must be a number")
+    .required("Report amount is required")
+    .positive("Report amount must be positive"),
+  trackingId: Yup.string().when("reportType", (reportType: any, schema: any) =>
+    reportType === "Booking"
+      ? schema.required("Tracking ID is required for bookings")
+      : schema
+  ),
+  description: Yup.string()
+    .required("Description is required")
+    .min(20, "Description must be at least 20 characters")
+    .max(500, "Description cannot exceed 500 characters"),
+  attachment: Yup.mixed(),
+});
+type ReportFormValues = {
+  reportType: string;
+  natureOfReport: string;
+  otherOption: string;
+  reportAmount: string;
+  trackingId: string;
+  description: string;
+  evidence: string;
+};
+
 export default function AddNewReportScreen() {
   const navigation = useNavigation();
   const router = useRouter();
-  const [showDrawer, setShowDrawer] = useState(false);
+  const toast = useToast();
   const [file, setFile] = useState<PickedFile | null>(null);
   const insets = useSafeAreaInsets();
-  const { id } = useLocalSearchParams();
+  const {
+    mutateAsync: uploadFile,
+    loading: isUploading,
+    error: uploadError,
+  } = useAuthenticatedPost<{ url: string }, FormData>("/storage-upload");
+  const { mutateAsync, error, loading } = useAuthenticatedPost<
+    any,
+    {
+      reportType: string; //customer | booking | other
+      natureOfReport: string;
+      otherOption: string;
+      reportAmount: number;
+      trackingId: string; //if reportType is booking then trackingId is required(e.g PKG-8RLM6TOOO)
+      description: string;
+      evidence: string; //url of the file uploaded
+    }
+  >("/issue/log/report");
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
@@ -135,6 +208,84 @@ export default function AddNewReportScreen() {
       headerRight: () => <NotificationIcon />,
     });
   }, [navigation]);
+  const showNewToast = ({
+    title,
+    description,
+    icon,
+    action = "error",
+    variant = "solid",
+  }: {
+    title: string;
+    description: string;
+    icon: LucideIcon;
+    action: "error" | "success" | "info" | "muted" | "warning";
+    variant: "solid" | "outline";
+  }) => {
+    const newId = Math.random();
+    toast.show({
+      id: newId.toString(),
+      placement: "top",
+      duration: 3000,
+      render: ({ id }) => {
+        const uniqueToastId = "toast-" + id;
+        return (
+          <CustomToast
+            uniqueToastId={uniqueToastId}
+            icon={icon}
+            action={action}
+            title={title}
+            variant={variant}
+            description={description}
+          />
+        );
+      },
+    });
+  };
+
+  const handleReportSubmit = async (values: {
+    reportType: string;
+    natureOfReport: string;
+    otherOption: string;
+    reportAmount: number;
+    trackingId: string;
+    description: string;
+    evidence: string;
+  }) => {
+    try {
+      await mutateAsync({
+        ...values,
+        reportType: values.reportType.toLowerCase() || "",
+        evidence: values.evidence || "",
+      });
+
+      showNewToast({
+        title: "Report Submitted",
+        description: "Your report has been submitted successfully.",
+        icon: CircleCheckIcon,
+        action: "success",
+        variant: "solid",
+      });
+      // Optionally, navigate back or to another screen
+      setTimeout(() => {
+        router.back();
+      }, 500);
+    } catch (e: any) {
+      // Prefer server-provided message, then error.message, then hook error string
+      const message =
+        e?.data?.message ||
+        e?.message ||
+        (typeof error === "string" ? error : undefined) ||
+        "Sign up failed";
+
+      showNewToast({
+        title: "Report Request Failed",
+        description: message,
+        icon: HelpCircleIcon,
+        action: "error",
+        variant: "solid",
+      });
+    }
+  };
   return (
     <KeyboardAvoidingView
       className="flex-1 bg-white"
@@ -146,27 +297,45 @@ export default function AddNewReportScreen() {
       >
         <ThemedView className="flex-1">
           <ThemedView className="flex-1 gap-3 pb-20 mt-3">
-            <Formik
+            <Formik<ReportFormValues>
               initialValues={{
                 reportType: "",
                 natureOfReport: "",
-                otherOptions: "",
+                otherOption: "",
                 reportAmount: "",
                 trackingId: "",
                 description: "",
-                attachment: "",
+                evidence: "",
               }}
-              // validationSchema={validationSchema}
+              validationSchema={validationSchema}
               onSubmit={(values) => {
+                const numericAmount =
+                  typeof values.reportAmount === "string"
+                    ? parseFloat(values.reportAmount)
+                    : values.reportAmount;
+
+                if (!Number.isFinite(numericAmount)) {
+                  showNewToast({
+                    title: "Invalid amount",
+                    description: "Please enter a valid report amount.",
+                    icon: HelpCircleIcon,
+                    action: "error",
+                    variant: "solid",
+                  });
+                  return;
+                }
+
                 const payload = {
-                  ...values,
-                  attachment: file,
+                  reportType: values.reportType,
+                  natureOfReport: values.natureOfReport,
+                  otherOption: values.otherOption,
+                  reportAmount: numericAmount,
+                  trackingId: values.trackingId,
+                  description: values.description,
+                  evidence: values.evidence,
                 };
                 console.log("Form submitted:", payload);
-                router.push({
-                  pathname: "/(tabs)/reports/list",
-                  params: { id: id },
-                });
+                handleReportSubmit(payload);
               }}
             >
               {({
@@ -187,7 +356,7 @@ export default function AddNewReportScreen() {
                     >
                       <SelectTrigger
                         size="xl"
-                        className="h-[55px] rounded-lg border-primary-100  bg-primary-inputShade px-2"
+                        className="h-[3.4375rem] rounded-lg border-primary-100  bg-primary-inputShade px-2"
                       >
                         <SelectInput
                           placeholder="Select type"
@@ -230,7 +399,7 @@ export default function AddNewReportScreen() {
                     >
                       <SelectTrigger
                         size="xl"
-                        className="h-[55px] rounded-lg border-primary-100 bg-primary-inputShade px-2"
+                        className="h-[3.4375rem] rounded-lg border-primary-100 bg-primary-inputShade px-2"
                       >
                         <SelectInput
                           placeholder=""
@@ -279,25 +448,23 @@ export default function AddNewReportScreen() {
                     </InputLabelText>
                     <Input
                       size="xl"
-                      className="h-[55px] rounded-lg border-primary-100 bg-primary-inputShade px-2"
+                      className="h-[3.4375rem] rounded-lg border-primary-100 bg-primary-inputShade px-2"
                       variant="outline"
-                      isInvalid={
-                        !!(errors.otherOptions && touched.otherOptions)
-                      }
+                      isInvalid={!!(errors.otherOption && touched.otherOption)}
                     >
                       <InputField
                         className=""
                         placeholder="Enter other options"
-                        value={values.otherOptions}
-                        onChangeText={handleChange("otherOptions")}
-                        onBlur={handleBlur("otherOptions")}
+                        value={values.otherOption}
+                        onChangeText={handleChange("otherOption")}
+                        onBlur={handleBlur("otherOption")}
                         keyboardType="default"
                         autoCapitalize="none"
                       />
                     </Input>
-                    {errors.otherOptions && touched.otherOptions && (
+                    {errors.otherOption && touched.otherOption && (
                       <ThemedText type="b4_body" className="text-error-500">
-                        {errors.otherOptions}
+                        {errors.otherOption}
                       </ThemedText>
                     )}
                   </ThemedView>
@@ -307,10 +474,10 @@ export default function AddNewReportScreen() {
                     </InputLabelText>
                     <Input
                       size="xl"
-                      className="h-[55px] rounded-lg border-primary-100 bg-primary-inputShade px-2"
+                      className="h-[3.4375rem] rounded-lg border-primary-100 bg-primary-inputShade px-2"
                       variant="outline"
                       isInvalid={
-                        !!(errors.otherOptions && touched.otherOptions)
+                        !!(errors.reportAmount && touched.reportAmount)
                       }
                     >
                       <InputField
@@ -335,11 +502,9 @@ export default function AddNewReportScreen() {
                     </InputLabelText>
                     <Input
                       size="xl"
-                      className="h-[55px] rounded-lg border-primary-100 bg-primary-inputShade px-2"
+                      className="h-[3.4375rem] rounded-lg border-primary-100 bg-primary-inputShade px-2"
                       variant="outline"
-                      isInvalid={
-                        !!(errors.otherOptions && touched.otherOptions)
-                      }
+                      isInvalid={!!(errors.trackingId && touched.trackingId)}
                     >
                       <InputField
                         className=""
@@ -366,7 +531,7 @@ export default function AddNewReportScreen() {
                       isReadOnly={false}
                       isInvalid={!!(errors.description && touched.description)}
                       isDisabled={false}
-                      className="w-full h-[150px] border-primary-100 bg-primary-inputShade"
+                      className="w-full h-[9.375rem] border-primary-100 bg-primary-inputShade"
                     >
                       <TextareaInput
                         clearButtonMode="while-editing"
@@ -392,7 +557,56 @@ export default function AddNewReportScreen() {
                   </ThemedView>
                   <FileUploader
                     value={file}
-                    onChange={setFile}
+                    onChange={async (picked) => {
+                      setFile(picked);
+                      if (!picked) {
+                        setFieldValue("evidence", "");
+                        return;
+                      }
+                      try {
+                        const form = new FormData();
+                        const fileName = picked.name || `upload-${Date.now()}`;
+                        const fileType =
+                          picked.mimeType || "application/octet-stream";
+
+                        form.append("file", {
+                          uri: picked.uri,
+                          name: fileName,
+                          type: fileType,
+                        } as any);
+
+                        const res = await uploadFile(form);
+                        const url = (res as any)?.data?.data;
+                        if (!url) {
+                          throw new Error("Upload failed");
+                        }
+                        setFieldValue("evidence", url);
+                        showNewToast({
+                          title: "File uploaded",
+                          description: "Your attachment is ready.",
+                          icon: CircleCheckIcon,
+                          action: "success",
+                          variant: "solid",
+                        });
+                      } catch (err: any) {
+                        setFieldValue("evidence", "");
+                        setFile(null);
+                        const message =
+                          err?.data?.message ||
+                          err?.message ||
+                          (typeof uploadError === "string"
+                            ? uploadError
+                            : undefined) ||
+                          "We couldn't upload your file.";
+                        showNewToast({
+                          title: "Upload failed",
+                          description: message,
+                          icon: HelpCircleIcon,
+                          action: "error",
+                          variant: "solid",
+                        });
+                      }
+                    }}
                     className="w-full flex border-2 justify-center items-center border-dotted border-primary-200 rounded-lg p-4"
                     size={50}
                     previewShape="rounded"
@@ -401,6 +615,7 @@ export default function AddNewReportScreen() {
                     allowImages
                     allowVideos
                     allowDocuments
+                    disabled={isUploading}
                   />
                   <ThemedView className="mt-5 flex-row gap-3">
                     <Button
@@ -409,9 +624,7 @@ export default function AddNewReportScreen() {
                       onPress={() => {
                         router.back();
                       }}
-                      className={`border-2 flex-1 p-3 border-primary-500 rounded-xl 
-                              
-                                 `}
+                      className={`border-2 flex-1 p-3 border-primary-500 rounded-xl`}
                     >
                       <ThemedText
                         type="s2_subtitle"
@@ -424,6 +637,7 @@ export default function AddNewReportScreen() {
                       onPress={() => handleSubmit()}
                       size="2xl"
                       variant="solid"
+                      isDisabled={loading || isUploading}
                       className={`border-2 flex-1 p-3 border-primary-500 rounded-xl 
                                bg-primary-500`}
                     >
@@ -431,7 +645,9 @@ export default function AddNewReportScreen() {
                         type="s2_subtitle"
                         className={` text-center text-white`}
                       >
-                        Submit Report
+                        {loading || isUploading
+                          ? <ActivityIndicator color="white" />
+                          : "Submit Report"}
                       </ThemedText>
                     </Button>
                   </ThemedView>
@@ -440,10 +656,6 @@ export default function AddNewReportScreen() {
             </Formik>
           </ThemedView>
         </ThemedView>
-        <CustomSidebarMenu
-          showDrawer={showDrawer}
-          setShowDrawer={setShowDrawer}
-        />
       </ParallaxScrollView>
     </KeyboardAvoidingView>
   );

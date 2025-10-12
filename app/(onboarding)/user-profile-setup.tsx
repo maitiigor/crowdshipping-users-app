@@ -81,7 +81,7 @@ export default function UserProfileSetup() {
   // const router = useRouter();
   const phoneInputRef = useRef<any>(null);
   const [pickedImage, setPickedImage] = useState<string | null>(null);
-  console.log("🚀 ~ UserProfileSetup ~ pickedImage:", pickedImage)
+  console.log("🚀 ~ UserProfileSetup ~ pickedImage:", pickedImage);
   const [showModal, setShowModal] = useState(false);
   const [phone, setPhone] = useState("");
   const toast = useToast();
@@ -92,6 +92,24 @@ export default function UserProfileSetup() {
     ["me"],
     "/user/profile"
   );
+  const { mutateAsync, error, loading } = useAuthenticatedPatch<
+    any,
+    {
+      fullName: string;
+      phoneNumber: string;
+      location: {
+        lat: number;
+        lng: number;
+        address: string;
+      };
+      state: string;
+      city: string;
+      country: string;
+      gender: string; //male | female | other
+      dob: string;
+      profilePicUrl: string;
+    }
+  >("/user/update-profile");
   console.log("🚀 ~ UserProfileSetup ~ data:", data);
 
   // Helper: split full name into first/last
@@ -141,24 +159,7 @@ export default function UserProfileSetup() {
       });
     }
   }, [data, isHome]);
-  const { mutateAsync, error, loading } = useAuthenticatedPatch<
-    any,
-    {
-      fullName: string;
-      phoneNumber: string;
-      location: {
-        lat: number;
-        lng: number;
-        address: string;
-      };
-      state: string;
-      city: string;
-      country: string;
-      gender: string; //male | female | other
-      dob: string;
-      profilePicUrl: string;
-    }
-  >("/user/update-profile");
+
   const { mutateAsync: uploadImage, loading: isUploading } =
     useAuthenticatedPost<{ url: string }, FormData>("/storage-upload");
   useEffect(() => {
