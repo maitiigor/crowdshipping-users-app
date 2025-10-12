@@ -59,6 +59,40 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
   const [sheetOpen, setSheetOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const normalizeAsset = useCallback((asset: ImagePicker.ImagePickerAsset) => {
+    const extractExtension = (input?: string | null) => {
+      if (!input) return undefined;
+      const sanitized = input.split("?").shift() ?? input;
+      const parts = sanitized.split(".");
+      return parts.length > 1 ? parts.pop()?.toLowerCase() : undefined;
+    };
+
+    const extension =
+      extractExtension(asset.fileName) || extractExtension(asset.uri);
+    const filename =
+      asset.fileName || `photo-${Date.now()}.${extension ?? "jpg"}`;
+
+    const mimeByExtension: Record<string, string> = {
+      jpg: "image/jpeg",
+      jpeg: "image/jpeg",
+      png: "image/png",
+      webp: "image/webp",
+      heic: "image/heic",
+      heif: "image/heif",
+    };
+
+    const mimeType =
+      asset.mimeType ||
+      (extension ? mimeByExtension[extension] : undefined) ||
+      "image/jpeg";
+
+    return {
+      ...asset,
+      fileName: filename,
+      mimeType,
+    } satisfies ImagePicker.ImagePickerAsset;
+  }, []);
+
   const borderRadius = useMemo(() => {
     if (shape === "circle") return size / 2;
     if (shape === "rounded") return 16;
@@ -72,20 +106,20 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
     setLoading(true);
     try {
       const result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        mediaTypes: ["images"],
         allowsEditing,
         aspect,
         quality,
       });
       if (!result.canceled) {
-        const asset = result.assets[0];
+        const asset = normalizeAsset(result.assets[0]);
         onChange(asset.uri, asset);
       }
     } finally {
       setLoading(false);
       setSheetOpen(false);
     }
-  }, [allowsEditing, aspect, disabled, onChange, quality]);
+  }, [allowsEditing, aspect, disabled, normalizeAsset, onChange, quality]);
 
   const takePhoto = useCallback(async () => {
     if (disabled) return;
@@ -94,19 +128,21 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
     setLoading(true);
     try {
       const result = await ImagePicker.launchCameraAsync({
+        mediaTypes: ["images"],
         allowsEditing,
         aspect,
         quality,
       });
+      console.log("🚀 ~ ImageUploader ~ result:", result)
       if (!result.canceled) {
-        const asset = result.assets[0];
+        const asset = normalizeAsset(result.assets[0]);
         onChange(asset.uri, asset);
       }
     } finally {
       setLoading(false);
       setSheetOpen(false);
     }
-  }, [allowsEditing, aspect, disabled, onChange, quality]);
+  }, [allowsEditing, aspect, disabled, normalizeAsset, onChange, quality]);
 
   return (
     <AnimatedPressable

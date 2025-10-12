@@ -1,5 +1,6 @@
 import { AddressSelection } from "@/components/Custom/AddressPicker";
 import BankDropdown from "@/components/Custom/BankDropdown";
+import { CustomModal } from "@/components/Custom/CustomModal";
 import CustomToast from "@/components/Custom/CustomToast";
 import InputLabelText from "@/components/Custom/InputLabelText";
 import NotificationIcon from "@/components/Custom/NotificationIcon";
@@ -34,13 +35,12 @@ export default function WithdrawalScreen() {
   const router = useRouter();
   const toast = useToast();
   const insets = useSafeAreaInsets();
-  const [selectedPickupAddress] = useState<AddressSelection | null>(null);
   const [bankValues, setBankValues] = useState({ bankCode: "", bankName: "" });
   console.log("🚀 ~ WithdrawalScreen ~ bankValues:", bankValues);
-  const [currency, setCurrency] = useState("NGN"); //NGN | USD
   const { data, isLoading } = useAuthenticatedQuery<
     IWalletRequestResponse | undefined
-    >(["wallet"], "/wallet/fetch");
+  >(["wallet"], "/wallet/fetch");
+  const [showModal, setShowModal] = useState(false);
   const validationSchema = Yup.object().shape({
     amount: Yup.number()
       .typeError("Amount must be a number")
@@ -182,7 +182,7 @@ export default function WithdrawalScreen() {
         accountNumber: values.accountNumber,
         accountName: values.accountName,
       });
-      console.log("🚀 ~ handleInitiateWithdrawal ~ response:", response)
+      console.log("🚀 ~ handleInitiateWithdrawal ~ response:", response);
       showNewToast({
         title: "Success",
         description: "Withdrawal Request successfully!",
@@ -190,16 +190,17 @@ export default function WithdrawalScreen() {
         action: "success",
         variant: "solid",
       });
-      router.push({
-        pathname: "/(tabs)/confirm-payment-pin",
-        params: {
-          fromPage: "withdrawal",
-          amount: values.amount,
-          currency: currency,
-          trxReference: response.data.trxReference,
-          transferCode: response.data.transferCode,
-        },
-      });
+      setShowModal(true);
+      // router.push({
+      //   pathname: "/(tabs)/confirm-payment-pin",
+      //   params: {
+      //     fromPage: "withdrawal",
+      //     amount: values.amount,
+      //     currency: currency,
+      //     trxReference: response.data.trxReference,
+      //     transferCode: response.data.transferCode,
+      //   },
+      // });
     } catch (e: any) {
       // Prefer server-provided message, then error.message, then hook error string
       const message =
@@ -442,7 +443,7 @@ export default function WithdrawalScreen() {
                           {errors.accountName}
                         </ThemedText>
                       )}
-                      <Link href={`/payment-logs/choose-beneficiary`} asChild>
+                      <Link className="hidden" href={`/payment-logs/choose-beneficiary`} asChild>
                         <ThemedText
                           type="b2_body"
                           className="text-primary-500 text-right"
@@ -456,6 +457,7 @@ export default function WithdrawalScreen() {
                   <Button
                     variant="solid"
                     size="2xl"
+                    disabled={loading}
                     className="mt-5 rounded-[12px]"
                     onPress={() => handleSubmit()}
                   >
@@ -473,6 +475,29 @@ export default function WithdrawalScreen() {
           </ThemedView>
         </ThemedView>
       </ParallaxScrollView>
+      {showModal && (
+        <>
+          <CustomModal
+            description="Your withdrawal request has been submitted and is pending admin verification."
+            title="Withdrawal Request Submitted"
+            img={require("@/assets/images/onboarding/modal-success.png")}
+            firstBtnLink={""}
+            firstBtnText="Go Back"
+            onFirstClick={() => {
+              setShowModal(false);
+              router.back();
+            }}
+            // secondBtnLink={""}
+            // secondBtnText=""
+            setShowModal={() => {
+              setShowModal(false);
+              router.back();
+            }}
+            showModal={showModal}
+            size="lg"
+          />
+        </>
+      )}
     </KeyboardAvoidingView>
   );
 }

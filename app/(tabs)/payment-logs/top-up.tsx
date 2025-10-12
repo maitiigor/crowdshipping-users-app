@@ -1,3 +1,6 @@
+import { default as PaystackSvg } from "@/assets/svgs/paystack.svg";
+import { default as StripeSvg } from "@/assets/svgs/stripe.svg";
+import CustomToast from "@/components/Custom/CustomToast";
 import InputLabelText from "@/components/Custom/InputLabelText";
 import NotificationIcon from "@/components/Custom/NotificationIcon";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
@@ -5,7 +8,6 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { Button } from "@/components/ui/button";
 import { CircleIcon, Icon } from "@/components/ui/icon";
-import { Image } from "@/components/ui/image";
 import { Input, InputField } from "@/components/ui/input";
 import {
   Radio,
@@ -14,30 +16,76 @@ import {
   RadioIndicator,
   RadioLabel,
 } from "@/components/ui/radio";
+import { useToast } from "@/components/ui/toast";
 import { VStack } from "@/components/ui/vstack";
+import {
+  useAuthenticatedPatch,
+  useAuthenticatedPost,
+  useAuthenticatedQuery,
+} from "@/lib/api";
+import { IWalletRequestResponse } from "@/types/IWalletRequest";
+import { formatCurrency } from "@/utils/helper";
 import { Link, useNavigation, useRouter } from "expo-router";
 import { Formik } from "formik";
-import { ChevronLeft } from "lucide-react-native";
+import {
+  ChevronLeft,
+  CircleCheckIcon,
+  HelpCircleIcon,
+  LucideIcon,
+} from "lucide-react-native";
 import React, { useEffect, useState } from "react";
-import { TouchableOpacity } from "react-native";
-const paymentList = [
+import { ActivityIndicator, Linking, TouchableOpacity } from "react-native";
+import * as Yup from "yup";
+// Payment SDK imports
+import { IUserProfileResponse } from "@/types/IUserProfile";
+import { useStripe } from "@stripe/stripe-react-native";
+import { usePaystack } from "react-native-paystack-webview";
 
-  {
-    id: "1",
-    img: require("@/assets/images/home/payment/mastercard.png"),
-    title: "**** **** ****  5745",
-  },
-  {
-    id: "2",
-    img: require("@/assets/images/home/payment/mastercard.png"),
-    title: "**** **** **** 7890",
-  },
-];
+const validationSchema = Yup.object().shape({
+  amount: Yup.number()
+    .typeError("Amount must be a number")
+    .required("Amount is required")
+    .min(100, "Minimum withdrawal is 100"),
+  paymentType: Yup.string().required("Please select a payment method"),
+});
+
+const STRIPE_MERCHANT_IDENTIFIER =
+  process.env.EXPO_PUBLIC_STRIPE_MERCHANT_IDENTIFIER;
+
 export default function TopUpScreen() {
   const navigation = useNavigation();
   const router = useRouter();
-  const [selectedFilter, setSelectedFilter] = useState("withdrawal");
-  
+  const toast = useToast();
+  const stripe = useStripe();
+  const { popup } = usePaystack();
+  const [currency] = useState("NGN"); //NGN | USD
+  const { data: userProfile } = useAuthenticatedQuery<IUserProfileResponse>(
+    ["me"],
+    "/user/profile"
+  );
+  const { data, refetch } = useAuthenticatedQuery<
+    IWalletRequestResponse | undefined
+  >(["wallet"], "/wallet/fetch");
+
+  const { mutateAsync, loading, error } = useAuthenticatedPost<
+    any,
+    {
+      amount: number;
+      paymentType: string; //paystack | stripe
+    }
+  >("/wallet/initiate-funding");
+
+  const { mutateAsync: mutateVerifyTopUp, loading: loadingVerifyTopUp } =
+    useAuthenticatedPatch<
+      any,
+      {
+        amountToPay: number;
+        paymentType: string; //paystack | stripe
+        currency: string;
+        trxReference: string;
+      }
+    >("/wallet/verify-funding");
+
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
@@ -93,14 +141,330 @@ export default function TopUpScreen() {
       headerRight: () => <NotificationIcon />,
     });
   }, [navigation, router]);
-  useEffect(() => {
-    // Ensure "withdrawal" is active when the screen mounts and every time it gains focus
-    setSelectedFilter("withdrawal");
-    const unsubscribe = navigation.addListener("focus", () => {
-      setSelectedFilter("withdrawal");
+
+  const paymentTypes = [
+    { id: 1, name: "Paystack", value: "paystack", Icon: PaystackSvg },
+    { id: 2, name: "Stripe", value: "stripe", Icon: StripeSvg },
+  ];
+
+  const showNewToast = ({
+    title,
+    description,
+    icon,
+    action = "error",
+    variant = "solid",
+  }: {
+    title: string;
+    description: string;
+    icon: LucideIcon;
+    action: "error" | "success" | "info" | "muted" | "warning";
+    variant: "solid" | "outline";
+  }) => {
+    const newId = Math.random();
+    toast.show({
+      id: newId.toString(),
+      placement: "top",
+      duration: 3000,
+      render: ({ id }) => {
+        const uniqueToastId = "toast-" + id;
+        return (
+          <CustomToast
+            uniqueToastId={uniqueToastId}
+            icon={icon}
+            action={action}
+            title={title}
+            variant={variant}
+            description={description}
+          />
+        );
+      },
     });
-    return unsubscribe;
-  }, [navigation]);
+  };
+
+  const handleStripePayment = async (
+    clientSecret: string,
+    amountToPay: number,
+    reference: string
+  ) => {
+    try {
+      // Initialize payment sheet
+      const paymentSheetConfig: Parameters<typeof stripe.initPaymentSheet>[0] =
+        {
+          paymentIntentClientSecret: clientSecret,
+          merchantDisplayName: "Crowdshipping",
+          returnURL: "crowdshippingusernewapp://", // Deep link for redirect payment methods
+          defaultBillingDetails: {
+            name: userProfile?.data.fullName || "Customer Name", // You might want to get this from user data
+          },
+          style: "automatic",
+          googlePay: {
+            merchantCountryCode: "NG",
+            testEnv: true, // Set to false for production
+          },
+          applePay: STRIPE_MERCHANT_IDENTIFIER
+            ? {
+                merchantCountryCode: "NG",
+              }
+            : undefined,
+        };
+
+      const { error: initError } = await stripe.initPaymentSheet(
+        paymentSheetConfig
+      );
+
+      if (initError) {
+        throw new Error(initError.message);
+      }
+
+      // Present payment sheet
+      const { error: presentError } = await stripe.presentPaymentSheet();
+
+      if (presentError) {
+        if (presentError.code === "Canceled") {
+          showNewToast({
+            title: "Payment Cancelled",
+            description: "You cancelled the payment process",
+            icon: HelpCircleIcon,
+            action: "info",
+            variant: "solid",
+          });
+          return;
+        }
+        throw new Error(presentError.message);
+      }
+
+      // Payment successful, verify with backend
+      await verifyPayment(amountToPay, "stripe", reference);
+    } catch (error: any) {
+      console.log("🚀 ~ handleStripePayment ~ error:", error);
+      showNewToast({
+        title: "Payment Failed",
+        description: error.message || "Failed to process Stripe payment",
+        icon: HelpCircleIcon,
+        action: "error",
+        variant: "solid",
+      });
+    }
+  };
+
+  const launchPaystackCheckout = ({
+    accessCode,
+    reference,
+    amountToPay,
+    redirectUrl,
+  }: {
+    accessCode?: string;
+    reference: string;
+    amountToPay: number;
+    redirectUrl?: string;
+  }) => {
+    if (!popup?.checkout && !popup?.newTransaction) {
+      showNewToast({
+        title: "Payment Unavailable",
+        description: "Unable to launch Paystack checkout right now.",
+        icon: HelpCircleIcon,
+        action: "error",
+        variant: "solid",
+      });
+      return;
+    }
+
+    const customerEmail = userProfile?.data.email;
+    if (!customerEmail) {
+      showNewToast({
+        title: "Missing Email",
+        description:
+          "We couldn't find your email address. Please update your profile before topping up.",
+        icon: HelpCircleIcon,
+        action: "error",
+        variant: "solid",
+      });
+      return;
+    }
+
+    const amountInNaira = Math.round(amountToPay / 100);
+
+    const paystackRequest: any = {
+      email: customerEmail,
+      amount: amountInNaira,
+      reference,
+      metadata: {
+        custom_fields: [
+          {
+            display_name: userProfile?.data.fullName || "Crowdshipping User",
+            variable_name: "top_up_reference",
+            value: reference,
+          },
+        ],
+        accessCode,
+        redirectUrl,
+      },
+      onSuccess: (response: {
+        reference?: string;
+        transaction?: string;
+        status?: string;
+      }) => {
+        const resolvedReference =
+          response?.reference || response?.transaction || reference;
+        verifyPayment(amountInNaira, "paystack", resolvedReference);
+      },
+      onCancel: () => {
+        showNewToast({
+          title: "Payment Cancelled",
+          description: "You cancelled the payment process",
+          icon: HelpCircleIcon,
+          action: "info",
+          variant: "solid",
+        });
+      },
+      onError: (err: { message?: string }) => {
+        showNewToast({
+          title: "Payment Failed",
+          description:
+            err?.message || "Unable to complete Paystack payment at the moment",
+          icon: HelpCircleIcon,
+          action: "error",
+          variant: "solid",
+        });
+      },
+    };
+
+    const launchMethod =
+      accessCode && popup?.newTransaction
+        ? popup.newTransaction
+        : popup.checkout;
+
+    if (!launchMethod) {
+      showNewToast({
+        title: "Payment Unavailable",
+        description: "Unable to start Paystack checkout right now.",
+        icon: HelpCircleIcon,
+        action: "error",
+        variant: "solid",
+      });
+      return;
+    }
+
+    if (accessCode) {
+      paystackRequest.access_code = accessCode;
+    }
+
+    try {
+      launchMethod(paystackRequest);
+    } catch (err: any) {
+      console.error("Paystack checkout failed", err);
+      showNewToast({
+        title: "Unable to start Paystack",
+        description:
+          err?.message ||
+          "We couldn't start the Paystack checkout. Please try again.",
+        icon: HelpCircleIcon,
+        action: "error",
+        variant: "solid",
+      });
+
+      if (redirectUrl) {
+        Linking.openURL(redirectUrl);
+      }
+    }
+  };
+
+  const verifyPayment = async (
+    amountToPay: number,
+    paymentType: string,
+    reference: string
+  ) => {
+    console.log("🚀 ~ verifyPayment ~ reference:", reference);
+    console.log("🚀 ~ verifyPayment ~ paymentType:", paymentType);
+    console.log("🚀 ~ verifyPayment ~ amountToPay:", amountToPay);
+    try {
+      await mutateVerifyTopUp({
+        amountToPay: amountToPay,
+        paymentType: paymentType,
+        currency: currency,
+        trxReference: reference,
+      });
+
+      showNewToast({
+        title: "Success",
+        description: "Top-up completed successfully!",
+        icon: CircleCheckIcon,
+        action: "success",
+        variant: "solid",
+      });
+
+      // Refresh wallet data
+      refetch();
+
+      // Navigate back or to success screen
+      setTimeout(() => {
+        router.back();
+      }, 1500);
+    } catch (error: any) {
+      showNewToast({
+        title: "Verification Failed",
+        description: error?.message || "Failed to verify payment",
+        icon: HelpCircleIcon,
+        action: "error",
+        variant: "solid",
+      });
+    }
+  };
+
+  const handleInitiateTopUp = async (values: {
+    amount: number;
+    paymentType: string;
+  }) => {
+    try {
+      const response = await mutateAsync({
+        amount: values.amount,
+        paymentType: values.paymentType,
+      });
+
+      console.log("🚀 ~ handleInitiateTopUp ~ response:", response);
+
+      if (response?.code === 200) {
+        const { data } = response;
+
+        if (values.paymentType === "paystack") {
+          // Handle Paystack payment
+          if (data.accessCode) {
+            launchPaystackCheckout({
+              accessCode: data.accessCode,
+              reference: data.reference,
+              amountToPay: data.amountToPay,
+              redirectUrl: data.redirectUrl,
+            });
+          } else if (data.redirectUrl) {
+            // Fallback to opening hosted page if inline checkout fails
+            Linking.openURL(data.redirectUrl);
+          }
+        } else if (values.paymentType === "stripe") {
+          // Handle Stripe payment
+          await handleStripePayment(
+            data.clientSecret,
+            data.amountToPay,
+            data.reference
+          );
+        }
+      }
+    } catch (e: any) {
+      const message =
+        e?.data?.message ||
+        e?.message ||
+        (typeof error === "string" ? error : undefined) ||
+        "Top-Up Request failed";
+
+      showNewToast({
+        title: "Top-Up Request Failed",
+        description: message,
+        icon: HelpCircleIcon,
+        action: "error",
+        variant: "solid",
+      });
+    }
+  };
+
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: "#FFFFFF", dark: "#353636" }}
@@ -110,7 +474,11 @@ export default function TopUpScreen() {
           <ThemedView className="flex justify-center items-center">
             <ThemedView className="p-5  w-full justify-center items-center rounded-xl h-[100px] bg-primary-500">
               <ThemedText type="h3_header" className="text-white">
-                0.00
+                {formatCurrency(
+                  data?.data.wallet.availableBalance,
+                  "NGN",
+                  "en-NG"
+                )}
               </ThemedText>
             </ThemedView>
           </ThemedView>
@@ -119,18 +487,16 @@ export default function TopUpScreen() {
             <Formik
               initialValues={{
                 amount: "",
-                paymentMethod: "",
+                paymentType: "",
               }}
-              // validationSchema={validationSchema}
+              validationSchema={validationSchema}
               onSubmit={(values) => {
                 const payload = {
                   ...values,
-                  // force date to null if booking type is instant
+                  amount: Number(values.amount),
                 };
                 console.log("Form submitted:", payload);
-                router.push({
-                  pathname: "/(tabs)/payment-logs/confirm-payment-pin",
-                });
+                handleInitiateTopUp(payload);
               }}
             >
               {({
@@ -173,37 +539,38 @@ export default function TopUpScreen() {
                   <ThemedText type="s1_subtitle">Select Card</ThemedText>
                   <ThemedView className="mt-5 border p-3 rounded-xl border-typography-100">
                     <RadioGroup
-                      value={values.paymentMethod}
+                      value={values.paymentType}
                       onChange={(isSelected) =>
-                        setFieldValue("paymentMethod", isSelected)
+                        setFieldValue("paymentType", isSelected)
                       }
                     >
-                      <VStack space="2xl">
-                        {paymentList.map((item) => (
-                          <Radio
-                            size="lg"
-                            key={item.id}
-                            className="flex-row justify-between items-center p-2"
-                            value={item?.id}
-                          >
-                            <ThemedView className="flex-row items-center gap-5">
-                              <Image
-                                source={item.img}
-                                resizeMode="contain"
-                                alt={item.title}
-                                className="w-10 h-10"
-                              />
-                              <RadioLabel>
-                                <ThemedText type="b2_body" className="">
-                                  {item.title}
-                                </ThemedText>
-                              </RadioLabel>
-                            </ThemedView>
-                            <RadioIndicator>
-                              <RadioIcon as={CircleIcon} />
-                            </RadioIndicator>
-                          </Radio>
-                        ))}
+                      <VStack space="md">
+                        {paymentTypes.map(
+                          ({ id, name, value, Icon: SvgIcon }) => (
+                            <Radio
+                              size="lg"
+                              key={id}
+                              className="flex-row justify-between items-center p-2"
+                              value={value}
+                            >
+                              <ThemedView className="flex-row items-center gap-5">
+                                <SvgIcon
+                                  width={36}
+                                  height={36}
+                                  color={"#0288d1"}
+                                />
+                                <RadioLabel>
+                                  <ThemedText type="b2_body" className="">
+                                    {name}
+                                  </ThemedText>
+                                </RadioLabel>
+                              </ThemedView>
+                              <RadioIndicator>
+                                <RadioIcon as={CircleIcon} />
+                              </RadioIndicator>
+                            </Radio>
+                          )
+                        )}
                       </VStack>
                     </RadioGroup>
                     <ThemedView className="mt-5">
@@ -212,7 +579,7 @@ export default function TopUpScreen() {
                           type="b2_body"
                           className="text-primary-500 text-right"
                         >
-                          + Add New Card
+                          + Update Bank Account
                         </ThemedText>
                       </Link>
                     </ThemedView>
@@ -220,11 +587,16 @@ export default function TopUpScreen() {
                   <Button
                     variant="solid"
                     size="2xl"
+                    disabled={loading || loadingVerifyTopUp}
                     className="mt-5 rounded-[12px]"
                     onPress={() => handleSubmit()}
                   >
                     <ThemedText type="s1_subtitle" className="text-white">
-                      Top Up
+                      {loading || loadingVerifyTopUp ? (
+                        <ActivityIndicator color="white" />
+                      ) : (
+                        "Top Up"
+                      )}
                     </ThemedText>
                   </Button>
                 </ThemedView>

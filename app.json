@@ -9,7 +9,11 @@
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSCameraUsageDescription": "This app uses the camera to scan payment cards.",
+        "NSPhotoLibraryUsageDescription": "This app accesses your photo library for payment purposes."
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -17,7 +21,11 @@
         "backgroundColor": "#fff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.zeus001.crowdshippingusernewapp"
+      "package": "com.zeus001.crowdshippingusernewapp",
+      "permissions": [
+        "android.permission.INTERNET",
+        "android.permission.ACCESS_NETWORK_STATE"
+      ]
     },
     "web": {
       "bundler": "metro",

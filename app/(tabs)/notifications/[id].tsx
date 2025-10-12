@@ -118,7 +118,7 @@ const NotificationDetail = () => {
                   variant="circular"
                   className="h-12 w-12 rounded-full"
                 />
-                <SkeletonText _lines={2} gap={4} className="h-3 flex-1" />
+                <SkeletonText _lines={2} gap={4} className="h-3 w-[85.5%] flex-1" />
               </HStack>
               <SkeletonText _lines={3} gap={4} className="h-3" />
             </Box>

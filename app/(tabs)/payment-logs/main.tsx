@@ -30,6 +30,7 @@ export default function PaymentLogScreen() {
   const { data, isLoading, refetch } = useAuthenticatedQuery<
     IWalletRequestResponse | undefined
   >(["wallet"], "/wallet/fetch");
+  console.log("🚀 ~ PaymentLogScreen ~ data:", data)
   const filterList = [
     {
       label: "Withdrawal",

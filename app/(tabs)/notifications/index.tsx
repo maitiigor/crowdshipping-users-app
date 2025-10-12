@@ -113,16 +113,16 @@ export default function NotificationScreen() {
                 </Box>
               </ThemedView>
             ))
-          ) : (
+            ) : (
             <FlatList
               data={unreadNotifications}
               ListEmptyComponent={
-                <EmptyState
-                  title="No notifications yet"
-                  description="You'll see your updates here when available."
-                  icon={BellIcon}
-                  className="mt-10"
-                />
+              <EmptyState
+                title="No unread notifications"
+                description="You have no unread notifications at the moment. Check back later for updates."
+                icon={BellIcon}
+                className="mt-10"
+              />
               }
               contentContainerClassName="pb-[200px]"
               ItemSeparatorComponent={() => <View style={{ height: 12 }} />}

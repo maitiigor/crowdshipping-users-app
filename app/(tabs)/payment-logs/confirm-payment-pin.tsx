@@ -346,7 +346,7 @@ export default function ConfirmPaymentPin() {
       {showModal && (
         <>
           <CustomModal
-            description="Your balance will be added your yue wallet"
+            description="Your balance will be added your wallet"
             title="Top Up Successful!"
             img={require("@/assets/images/onboarding/modal-success.png")}
             firstBtnLink={"/(tabs)/payment-receipt"}

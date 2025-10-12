@@ -50,18 +50,21 @@ export function AddressPicker({
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const [loading, setLoading] = useState(false);
   const [mapOpen, setMapOpen] = useState(false);
+  const [searchError, setSearchError] = useState<string | null>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Fetch suggestions from Nominatim with debouncing
   useEffect(() => {
     if (!query || query.length < 3) {
       setSuggestions([]);
+      setSearchError(null);
       return;
     }
     if (debounceRef.current) clearTimeout(debounceRef.current);
     debounceRef.current = setTimeout(async () => {
       try {
         setLoading(true);
+        setSearchError(null);
         const url = `${NOMINATIM_BASE}/search?format=json&q=${encodeURIComponent(
           query
         )}&addressdetails=0&limit=5`;
@@ -105,6 +108,7 @@ export function AddressPicker({
     setSuggestions([]);
     // Propagate clear to parent so controlled value also clears
     onSelect({ address: "", coordinates: { lat: 0, lng: 0 } });
+    setSearchError(null);
   }, [onSelect]);
 
   const initialCoords = useMemo<Coordinates>(() => {
@@ -166,6 +170,49 @@ export function AddressPicker({
     [onSelect]
   );
 
+  const resolveTypedQuery = useCallback(async () => {
+    const trimmed = query.trim();
+    if (trimmed.length < 3) return;
+
+    if (suggestions.length > 0) {
+      handlePick(suggestions[0]);
+      setSearchError(null);
+      return;
+    }
+
+    try {
+      setLoading(true);
+      setSearchError(null);
+      const url = `${NOMINATIM_BASE}/search?format=json&q=${encodeURIComponent(
+        trimmed
+      )}&addressdetails=0&limit=1`;
+      const res = await fetch(url, {
+        headers: {
+          Accept: "application/json",
+          "User-Agent": "crowdshipping-users-app/1.0 (AddressPicker)",
+        },
+      });
+      const data: Suggestion[] = await res.json();
+      if (Array.isArray(data) && data.length > 0) {
+        handlePick(data[0]);
+        setSearchError(null);
+      } else {
+        setSearchError(
+          "We couldn't find that address. Try a more specific search or drop a pin on the map."
+        );
+      }
+    } catch {
+      setSearchError(
+        "We couldn't look up that address right now. Check your connection and try again."
+      );
+    } finally {
+      setLoading(false);
+    }
+  }, [query, suggestions, handlePick]);
+
+  const trimmedQuery = query.trim();
+  const canResolveQuery = trimmedQuery.length >= 3;
+
   return (
     <ThemedView>
       <View>
@@ -183,6 +230,10 @@ export function AddressPicker({
               style={{ fontSize: 20 }}
               autoCapitalize="none"
               autoCorrect={false}
+              onSubmitEditing={() => {
+                void resolveTypedQuery();
+              }}
+              returnKeyType="search"
             />
 
             {!!(query || value?.address) && (
@@ -220,6 +271,29 @@ export function AddressPicker({
               variant="link"
               onPress={handleHideSuggestions}
             >
+              {canResolveQuery && (
+                <Button
+                  variant="link"
+                  size="xl"
+                  className="justify-start px-2 mt-2"
+                  onPress={() => {
+                    void resolveTypedQuery();
+                  }}
+                  isDisabled={loading}
+                >
+                  <ThemedText numberOfLines={2}>
+                    Use “{trimmedQuery}”
+                  </ThemedText>
+                </Button>
+              )}
+              {searchError && (
+                <ThemedText
+                  type="btn_medium"
+                  className="text-error-500 px-2 mt-1"
+                >
+                  {searchError}
+                </ThemedText>
+              )}
               <ThemedText
                 type="btn_medium"
                 className="text-left px-2 underline"
@@ -304,6 +378,29 @@ function leafletHtml(center: Coordinates) {
       html, body { height: 100%; width: 100%; margin: 0; padding: 0; overflow: hidden; }
       #map { 
         position: absolute; 
+        {canResolveQuery && (
+          <Button
+            variant="link"
+            size="xl"
+            className="justify-start px-2 mt-2"
+            onPress={() => {
+              void resolveTypedQuery();
+            }}
+            isDisabled={loading}
+          >
+            <ThemedText numberOfLines={2}>
+              Use “{trimmedQuery}”
+            </ThemedText>
+          </Button>
+        )}
+        {searchError && (
+          <ThemedText
+            type="btn_medium"
+            className="text-error-500 px-2 mt-1"
+          >
+            {searchError}
+          </ThemedText>
+        )}
         inset: 0; 
         height: 100%; 
         width: 100%; 

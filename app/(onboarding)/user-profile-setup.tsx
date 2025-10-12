@@ -81,6 +81,7 @@ export default function UserProfileSetup() {
   // const router = useRouter();
   const phoneInputRef = useRef<any>(null);
   const [pickedImage, setPickedImage] = useState<string | null>(null);
+  console.log("🚀 ~ UserProfileSetup ~ pickedImage:", pickedImage)
   const [showModal, setShowModal] = useState(false);
   const [phone, setPhone] = useState("");
   const toast = useToast();

@@ -423,8 +423,8 @@ export default function SignUpConfirmationCode() {
             description="Welcome to Crowdshipping! You're ready to start sending or receiving packages."
             title="Registration Successful!"
             img={require("@/assets/images/onboarding/modal-success.png")}
-            firstBtnLink={"/user-profile-setup"}
-            firstBtnText="Update profile"
+            firstBtnLink={"/(onboarding)/login"}
+            firstBtnText="Sign In"
             setShowModal={setShowModal}
             showModal={showModal}
             size="lg"
