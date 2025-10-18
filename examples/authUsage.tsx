@@ -25,7 +25,7 @@ import {
 // // Authenticated endpoint (token automatically included)
 // const userProfile = await authenticatedApi.get("/user/profile");
 export const LoginExample = () => {
-  const { login, isLoading, error, isAuthenticated, register } = useAuth();
+  const { login, isLoading, error, isAuthenticated } = useAuth();
 
   const handleLogin = async () => {
     try {
@@ -39,18 +39,7 @@ export const LoginExample = () => {
     }
   };
 
-  const handleRegister = async () => {
-    try {
-      await register({
-        email: "user@example.com",
-        password: "password123",
-        name: "John Doe",
-      });
-      Alert.alert("Success", "Registered successfully!");
-    } catch {
-      Alert.alert("Error", "Registration failed");
-    }
-  };
+  
 
   if (isAuthenticated) {
     return <Text>Already logged in!</Text>;
@@ -93,7 +82,6 @@ export const ApiCallExamples = {
       console.error("Error fetching user profile:", error);
     }
   },
-  
 
   // Create a new item (authenticated POST request)
   createUserItem: async (itemData: any) => {

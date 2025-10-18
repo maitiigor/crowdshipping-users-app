@@ -5,6 +5,8 @@ import { ThemedView } from "@/components/ThemedView";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { Image } from "@/components/ui/image";
+import { useAuthenticatedQuery } from "@/lib/api";
+import { IBookingDetailsResponse } from "@/types/IBookingHistory";
 import { useLocalSearchParams, useNavigation, useRouter } from "expo-router";
 import { ChevronLeft, Clock3 } from "lucide-react-native";
 import React, { useEffect } from "react";
@@ -15,6 +17,14 @@ export default function BookingDetailScreen() {
   const router = useRouter();
   const { id, selectedFilter } = useLocalSearchParams();
   console.log("🚀 ~ BookingDetailScreen ~ selectedFilter:", selectedFilter);
+  const {
+    data: bookingDetailsData,
+    isLoading: isLoadingBookingDetails,
+    refetch: refetchBookingDetails,
+  } = useAuthenticatedQuery<IBookingDetailsResponse | undefined>(
+    ["booking", id],
+    `/trip/booking/history/${id}`
+  );
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
@@ -71,6 +81,15 @@ export default function BookingDetailScreen() {
       headerRight: () => <NotificationIcon />,
     });
   }, [navigation]);
+
+  if (isLoadingBookingDetails) {
+    return (
+      <ThemedView className="flex-1 justify-center items-center">
+        <ThemedText type="btn_medium">Loading booking details...</ThemedText>
+      </ThemedView>
+    );
+  }
+
   return (
     <>
       <ParallaxScrollView
@@ -82,10 +101,12 @@ export default function BookingDetailScreen() {
               <ThemedView className="p-5 border rounded-lg border-primary-500">
                 <Image
                   source={{
-                    uri: "https://plus.unsplash.com/premium_photo-1663047788002-765d78050d53?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                    uri:
+                      bookingDetailsData?.data?.parcels?.[0]?.productImage ||
+                      "https://plus.unsplash.com/premium_photo-1663047788002-765d78050d53?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
                   }}
                   size="2xl"
-                  alt={"image"}
+                  alt={"Product image"}
                 />
               </ThemedView>
             </ThemedView>
@@ -107,7 +128,7 @@ export default function BookingDetailScreen() {
                         Booking ID
                       </ThemedText>
                       <ThemedText type="btn_medium" className="">
-                        ID2350847391
+                        {bookingDetailsData?.data?.bookingRef || "N/A"}
                       </ThemedText>
                     </ThemedView>
                     <ThemedView className="flex-row justify-between">
@@ -115,10 +136,11 @@ export default function BookingDetailScreen() {
                         type="btn_medium"
                         className="text-typography-600"
                       >
-                        Date of Booking
+                        Tracking ID
                       </ThemedText>
                       <ThemedText type="btn_medium" className="">
-                        June 12. 2025 | 10:00 am
+                        {bookingDetailsData?.data?.parcelGroup?.trackingId ||
+                          "N/A"}
                       </ThemedText>
                     </ThemedView>
                     <ThemedView className="flex-row justify-between">
@@ -128,8 +150,41 @@ export default function BookingDetailScreen() {
                       >
                         Pickup Location
                       </ThemedText>
-                      <ThemedText type="btn_medium" className="">
-                        123 Main St, Springfield
+                      <ThemedText
+                        type="btn_medium"
+                        className="flex-1 text-right"
+                        numberOfLines={2}
+                      >
+                        {bookingDetailsData?.data?.parcelGroup?.pickUpLocation
+                          ?.address || "N/A"}
+                      </ThemedText>
+                    </ThemedView>
+                    <ThemedView className="flex-row justify-between">
+                      <ThemedText
+                        type="btn_medium"
+                        className="text-typography-600"
+                      >
+                        Dropoff Location
+                      </ThemedText>
+                      <ThemedText
+                        type="btn_medium"
+                        className="flex-1 text-right"
+                        numberOfLines={2}
+                      >
+                        {bookingDetailsData?.data?.parcelGroup?.dropOffLocation
+                          ?.address || "N/A"}
+                      </ThemedText>
+                    </ThemedView>
+                    <ThemedView className="flex-row justify-between">
+                      <ThemedText
+                        type="btn_medium"
+                        className="text-typography-600"
+                      >
+                        Product Type
+                      </ThemedText>
+                      <ThemedText type="btn_medium" className="capitalize">
+                        {bookingDetailsData?.data?.parcels?.[0]?.productType ||
+                          "N/A"}
                       </ThemedText>
                     </ThemedView>
                     <ThemedView className="flex-row justify-between">
@@ -140,7 +195,10 @@ export default function BookingDetailScreen() {
                         Weight
                       </ThemedText>
                       <ThemedText type="btn_medium" className="">
-                        5000 Kg
+                        {bookingDetailsData?.data?.parcels?.[0]
+                          ?.productWeight || "N/A"}{" "}
+                        {bookingDetailsData?.data?.parcels?.[0]?.productUnit ||
+                          ""}
                       </ThemedText>
                     </ThemedView>
                     <ThemedView className="flex-row justify-between items-center">
@@ -154,7 +212,22 @@ export default function BookingDetailScreen() {
                         type="b4_body"
                         className="bg-[#CDF5E0] px-4 py-2 rounded-lg capitalize text-[#009A49]"
                       >
-                        {selectedFilter === "all" ? "pending" : selectedFilter}
+                        {bookingDetailsData?.data?.status?.toLowerCase() ||
+                          "N/A"}
+                      </ThemedText>
+                    </ThemedView>
+                    <ThemedView className="flex-row justify-between items-center">
+                      <ThemedText
+                        type="btn_medium"
+                        className="text-typography-600"
+                      >
+                        Payment Status
+                      </ThemedText>
+                      <ThemedText
+                        type="b4_body"
+                        className="bg-[#FEF3E7] px-4 py-2 rounded-lg capitalize text-[#F59E0B]"
+                      >
+                        {bookingDetailsData?.data?.paymentStatus || "N/A"}
                       </ThemedText>
                     </ThemedView>
                   </ThemedView>
@@ -175,7 +248,8 @@ export default function BookingDetailScreen() {
                         Name
                       </ThemedText>
                       <ThemedText type="btn_medium" className="">
-                        John Doe
+                        {bookingDetailsData?.data?.parcelGroup?.receiverName ||
+                          "N/A"}
                       </ThemedText>
                     </ThemedView>
 
@@ -187,7 +261,116 @@ export default function BookingDetailScreen() {
                         Phone Number
                       </ThemedText>
                       <ThemedText type="btn_medium" className="">
-                        +234 0390 942 9428
+                        {bookingDetailsData?.data?.parcelGroup?.receiverPhone ||
+                          "N/A"}
+                      </ThemedText>
+                    </ThemedView>
+                    <ThemedView className="flex-row justify-between">
+                      <ThemedText
+                        type="btn_medium"
+                        className="text-typography-600"
+                      >
+                        Alternative Phone
+                      </ThemedText>
+                      <ThemedText type="btn_medium" className="">
+                        {bookingDetailsData?.data?.parcelGroup
+                          ?.alternativePhone || "N/A"}
+                      </ThemedText>
+                    </ThemedView>
+                  </ThemedView>
+                </ThemedView>
+                <ThemedView>
+                  <ThemedText
+                    type="btn_giant"
+                    className="text-typography-800 pb-1"
+                  >
+                    Sender Information
+                  </ThemedText>
+                  <ThemedView className="border border-primary-50 p-5 rounded-2xl flex gap-5">
+                    <ThemedView className="flex-row justify-between">
+                      <ThemedText
+                        type="btn_medium"
+                        className="text-typography-600"
+                      >
+                        Name
+                      </ThemedText>
+                      <ThemedText type="btn_medium" className="">
+                        {bookingDetailsData?.data?.sender?.fullName || "N/A"}
+                      </ThemedText>
+                    </ThemedView>
+                    <ThemedView className="flex-row justify-between">
+                      <ThemedText
+                        type="btn_medium"
+                        className="text-typography-600"
+                      >
+                        User ID
+                      </ThemedText>
+                      <ThemedText type="btn_medium" className="">
+                        {bookingDetailsData?.data?.sender?.userId || "N/A"}
+                      </ThemedText>
+                    </ThemedView>
+                    <ThemedView className="flex-row justify-between">
+                      <ThemedText
+                        type="btn_medium"
+                        className="text-typography-600"
+                      >
+                        Location
+                      </ThemedText>
+                      <ThemedText
+                        type="btn_medium"
+                        className="flex-1 text-right"
+                        numberOfLines={2}
+                      >
+                        {bookingDetailsData?.data?.sender?.profile?.geoLocation
+                          ?.address || "N/A"}
+                      </ThemedText>
+                    </ThemedView>
+                  </ThemedView>
+                </ThemedView>
+                <ThemedView>
+                  <ThemedText
+                    type="btn_giant"
+                    className="text-typography-800 pb-1"
+                  >
+                    Traveller Information
+                  </ThemedText>
+                  <ThemedView className="border border-primary-50 p-5 rounded-2xl flex gap-5">
+                    <ThemedView className="flex-row justify-between">
+                      <ThemedText
+                        type="btn_medium"
+                        className="text-typography-600"
+                      >
+                        Name
+                      </ThemedText>
+                      <ThemedText type="btn_medium" className="">
+                        {bookingDetailsData?.data?.traveller?.fullName || "N/A"}
+                      </ThemedText>
+                    </ThemedView>
+                    <ThemedView className="flex-row justify-between">
+                      <ThemedText
+                        type="btn_medium"
+                        className="text-typography-600"
+                      >
+                        User ID
+                      </ThemedText>
+                      <ThemedText type="btn_medium" className="">
+                        {bookingDetailsData?.data?.traveller?.userId || "N/A"}
+                      </ThemedText>
+                    </ThemedView>
+                    <ThemedView className="flex-row justify-between">
+                      <ThemedText
+                        type="btn_medium"
+                        className="text-typography-600"
+                      >
+                        Location
+                      </ThemedText>
+                      <ThemedText
+                        type="btn_medium"
+                        className="flex-1 text-right"
+                        numberOfLines={2}
+                      >
+                        {bookingDetailsData?.data?.traveller?.profile
+                          ?.geoLocation?.address || "N/A"}
                       </ThemedText>
                     </ThemedView>
                   </ThemedView>

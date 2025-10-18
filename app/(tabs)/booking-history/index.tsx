@@ -5,11 +5,19 @@ import { FlatList, TouchableOpacity, View } from "react-native";
 import NotificationIcon from "@/components/Custom/NotificationIcon";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
+import { Box } from "@/components/ui/box";
+import { HStack } from "@/components/ui/hstack";
 import { Icon } from "@/components/ui/icon";
 import { Image } from "@/components/ui/image";
-import { ChevronLeft, ChevronRight, Dot } from "lucide-react-native";
+import { Skeleton, SkeletonText } from "@/components/ui/skeleton";
 import { useAuthenticatedQuery } from "@/lib/api";
-import { IWalletRequestResponse } from "@/types/IWalletRequest";
+import { IBookingHistoryResponse } from "@/types/IBookingHistory";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+import { ChevronLeft, ChevronRight, Dot } from "lucide-react-native";
+
+// dayjs fromNow plugin
+dayjs.extend(relativeTime);
 
 const filterList = [
   {
@@ -31,27 +39,28 @@ const filterList = [
   {
     label: "Cancelled",
     value: "cancelled",
-  }
+  },
 ];
 export default function BookingHistoryScreen() {
   const navigation = useNavigation();
   const router = useRouter();
   const [selectedFilter, setSelectedFilter] = useState("all");
-  
-    // Build fetchOptions conditionally
-    const fetchOptions = selectedFilter
-      ? { query: { booking_status: selectedFilter.toLowerCase() } }
-      : undefined;
-  
-    // Include the filter in the query key for proper caching
-    const queryKey = selectedFilter
-      ? ["booking", selectedFilter.toLowerCase()]
-      : ["booking"];
-  
-    const { data, isLoading, refetch } = useAuthenticatedQuery<
-      IWalletRequestResponse | undefined
-    >(queryKey, "/trip/booking/history");
-    console.log("🚀 ~ BookingHistoryScreen ~ data:", data)
+
+  // Build fetchOptions conditionally
+  const fetchOptions = selectedFilter
+    ? { query: { booking_status: selectedFilter.toLowerCase() } }
+    : undefined;
+
+  // Include the filter in the query key for proper caching
+  const queryKey = selectedFilter
+    ? ["booking", selectedFilter.toLowerCase()]
+    : ["booking"];
+
+  const { data, isLoading, refetch, isFetching } = useAuthenticatedQuery<
+    IBookingHistoryResponse | undefined
+  >(queryKey, "/trip/booking/history");
+  console.log("🚀 ~ BookingHistoryScreen ~ data:", data);
+
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
@@ -142,73 +151,96 @@ export default function BookingHistoryScreen() {
           />
         </ThemedView>
         <ThemedView className="mt-5">
-          <FlatList
-            data={[1, 2, 3, 4, 5, 6, 7, 8]}
-            contentContainerClassName="pb-20"
-            ItemSeparatorComponent={() => <View style={{ height: 12 }} />}
-            renderItem={({ item }) => (
-              <TouchableOpacity
-                onPress={() => {
-                  router.push({
-                    pathname: "/(tabs)/booking-history/[id]",
-                    params: {
-                      selectedFilter: selectedFilter,
-                      id: item,
-                    },
-                  });
-                }}
-                className={`border border-typography-100 flex-row justify-between items-center p-4 rounded-xl`}
-              >
-                {/* Make this container flexible and allow children to shrink */}
-                <ThemedView className="flex-row items-center gap-2 flex-1 min-w-0">
-                  <Image
-                    source={require("@/assets/images/home/cube-icon.png")}
-                    alt="cube icon"
-                    size="sm"
-                    resizeMode="contain"
-                    className=""
-                  />
-                  {/* Ensure the text area can wrap/shrink */}
-                  <ThemedView className="flex-1 min-w-0">
-                    <ThemedText
-                      type="b2_body"
-                      className="flex-wrap"
-                      numberOfLines={2}
-                      ellipsizeMode="tail"
-                    >
-                      HWDSF776567DS
-                    </ThemedText>
-                    <ThemedView className="flex-row items-center">
+          {isLoading ? (
+            Array.from({ length: 7 }).map((_: any, index: number) => (
+              <ThemedView key={index} className="w-full">
+                <Box className="w-full gap-4 p-3 rounded-md ">
+                  <SkeletonText _lines={3} className="h-2" />
+                  <HStack className="gap-1 align-middle">
+                    <Skeleton
+                      variant="circular"
+                      className="h-[24px] w-[28px] mr-2"
+                    />
+                    <SkeletonText _lines={2} gap={1} className="h-2 w-2/5" />
+                  </HStack>
+                </Box>
+              </ThemedView>
+            ))
+          ) : (
+            <FlatList
+              data={data?.data || []}
+              contentContainerClassName="pb-20"
+              ItemSeparatorComponent={() => <View style={{ height: 12 }} />}
+              refreshing={isFetching}
+              onRefresh={() => {
+                refetch();
+              }}
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  onPress={() => {
+                    router.push({
+                      pathname: "/(tabs)/booking-history/[id]",
+                      params: {
+                        selectedFilter: selectedFilter,
+                        id: item?._id,
+                      },
+                    });
+                  }}
+                  className={`border border-typography-100 flex-row justify-between items-center p-4 rounded-xl`}
+                >
+                  {/* Make this container flexible and allow children to shrink */}
+                  <ThemedView className="flex-row items-center gap-2 flex-1 min-w-0">
+                    <Image
+                      source={require("@/assets/images/home/cube-icon.png")}
+                      alt="cube icon"
+                      size="sm"
+                      resizeMode="contain"
+                      className=""
+                    />
+                    {/* Ensure the text area can wrap/shrink */}
+                    <ThemedView className="flex-1 min-w-0">
                       <ThemedText
-                        type="c1_caption"
-                        className="text-typography-700 capitalize"
+                        type="b2_body"
+                        className="flex-wrap"
+                        numberOfLines={2}
+                        ellipsizeMode="tail"
                       >
-                        {selectedFilter}
+                        {item?.bookingRef}
                       </ThemedText>
-                      <Icon
-                        as={Dot}
-                        size="md"
-                        className="text-typography-500"
-                      />
-                      <ThemedText
-                        type="c1_caption"
-                        className="text-typography-700 "
-                      >
-                        June 24
-                      </ThemedText>
+                      <ThemedView className="flex-row items-center">
+                        <ThemedText
+                          type="c1_caption"
+                          className="text-typography-700 capitalize"
+                        >
+                          {selectedFilter}
+                        </ThemedText>
+                        <Icon
+                          as={Dot}
+                          size="md"
+                          className="text-typography-500"
+                        />
+                        <ThemedText
+                          type="c1_caption"
+                          className="text-typography-700 "
+                        >
+                          {item?.createdAt
+                            ? dayjs(item.createdAt).format("MMMM D")
+                            : ""}
+                        </ThemedText>
+                      </ThemedView>
                     </ThemedView>
                   </ThemedView>
-                </ThemedView>
 
-                <Icon
-                  as={ChevronRight}
-                  size="3xl"
-                  className="text-typography-800"
-                />
-              </TouchableOpacity>
-            )}
-            keyExtractor={(item) => item.toString()}
-          />
+                  <Icon
+                    as={ChevronRight}
+                    size="3xl"
+                    className="text-typography-800"
+                  />
+                </TouchableOpacity>
+              )}
+              keyExtractor={(item) => item?._id.toString()}
+            />
+          )}
         </ThemedView>
       </ThemedView>
     </ThemedView>

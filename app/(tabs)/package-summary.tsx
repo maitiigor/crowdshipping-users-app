@@ -27,7 +27,7 @@ export default function PackageSummaryScreen() {
   const navigation = useNavigation();
   const router = useRouter();
   const { tripId, amount } = useLocalSearchParams();
-  const { data,refetch,isLoading } = useAuthenticatedQuery<
+  const { data, refetch, isLoading } = useAuthenticatedQuery<
     IPickupTripDetailsResponse | undefined
   >(["pickup-details", tripId], `/trip/packages/${tripId}`);
   console.log("🚀 ~ PackageSummaryScreen ~ data:", data);
@@ -87,16 +87,23 @@ export default function PackageSummaryScreen() {
       headerRight: () => <NotificationIcon />,
     });
   }, [navigation]);
-    // i want to refetch the notifications when the user comes back to this screen
-    useEffect(() => {
-      const unsubscribe = navigation.addListener("focus", () => {
-        // The screen is focused
-        // Call any action
-        refetch();
-      });
-  
-      return unsubscribe;
-    }, [navigation, refetch]);
+  // i want to refetch the notifications when the user comes back to this screen
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      // The screen is focused
+      // Call any action
+      refetch();
+    });
+
+    return unsubscribe;
+  }, [navigation, refetch]);
+  if (isLoading) {
+    return (
+      <ThemedView className="flex-1 justify-center items-center">
+        <ThemedText type="btn_medium">Loading package details...</ThemedText>
+      </ThemedView>
+    );
+  }
   return (
     <>
       <ParallaxScrollView
