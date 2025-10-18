@@ -10,19 +10,32 @@ import {
   AvatarFallbackText,
   AvatarImage,
 } from "@/components/ui/avatar";
+import { Box } from "@/components/ui/box";
+import { HStack } from "@/components/ui/hstack";
 import { Icon } from "@/components/ui/icon";
+import { Skeleton, SkeletonText } from "@/components/ui/skeleton";
+import { useAuthenticatedQuery } from "@/lib/api";
+import { IConversationsResponse } from "@/types/IConversation";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 import { ChevronLeft } from "lucide-react-native";
 
+// dayjs fromNow plugin
+dayjs.extend(relativeTime);
 export default function ChatScreen() {
   const navigation = useNavigation();
   const router = useRouter();
   const [selectedFilter, setSelectedFilter] = useState("all");
+  const { data, isLoading, refetch } = useAuthenticatedQuery<
+    IConversationsResponse | undefined
+  >(["conversations"], "/conversations");
+  console.log("🚀 ~ ChatScreen ~ data:", data);
   const filterList = [
     {
       label: "Chats",
       value: "chats",
       onPress: () => {
-        return
+        return;
       },
     },
     {
@@ -98,6 +111,16 @@ export default function ChatScreen() {
     });
     return unsubscribe;
   }, [navigation]);
+  // i want to refetch the notifications when the user comes back to this screen
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      // The screen is focused
+      // Call any action
+      refetch();
+    });
+
+    return unsubscribe;
+  }, [navigation, refetch]);
   return (
     <ThemedView className="flex-1 bg-white pt-3">
       <ThemedView className="flex-1 pb-20 px-[18px] overflow-hidden">
@@ -127,68 +150,99 @@ export default function ChatScreen() {
           ))}
         </ThemedView>
         <ThemedView className="mt-5">
-          <FlatList
-            data={[1, 2, 3, 4, 5, 6, 7, 8]}
-            contentContainerClassName="pb-20"
-            ItemSeparatorComponent={() => <View style={{ height: 12 }} />}
-            renderItem={({ item }) => (
-              <TouchableOpacity
-                onPress={() => {
-                  router.push({
-                    pathname: "/(tabs)/inbox/chats/chat-details",
-                    params: {
-                      selectedFilter: selectedFilter,
-                      id: item,
-                    },
-                  });
-                }}
-                className={` flex-row justify-between items-center p-4`}
-              >
-                {/* Make this container flexible and allow children to shrink */}
-                <ThemedView className="flex-row items-center gap-2 flex-1 min-w-0">
-                  <Avatar size="lg">
-                    <AvatarFallbackText>User Image</AvatarFallbackText>
-                    <AvatarImage
-                      source={{
-                        uri: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-                      }}
-                    />
-                  </Avatar>
-                  {/* Ensure the text area can wrap/shrink */}
-                  <ThemedView className="flex-1 min-w-0">
-                    <ThemedView className="flex-row gap-5 justify-between items-center">
-                      <ThemedText
-                        type="b2_body"
-                        className="flex-wrap"
-                        numberOfLines={2}
-                        ellipsizeMode="tail"
-                      >
-                        Segun Johnson
-                      </ThemedText>
-                      <ThemedText type="btn_medium" className="">
-                        24
-                      </ThemedText>
-                    </ThemedView>
-                    <ThemedView className="flex-row pt-1 gap-5 items-center justify-between">
-                      <ThemedText
-                        type="default"
-                        className="text-typography-700 flex-1 capitalize"
-                      >
-                        Hi, Good morning sir
-                      </ThemedText>
-
-                      <ThemedView className="w-8 h-8 bg-primary-500 rounded-full flex items-center justify-center">
-                        <ThemedText type="btn_tiny" className="text-white">
-                          24
+          {isLoading ? (
+            Array.from({ length: 10 }).map((_: any, index: number) => {
+              console.log("render item", index);
+              return (
+                <ThemedView key={index} className="w-full">
+                  <Box className="w-full gap-4 py-3 rounded-md ">
+                    <HStack className="gap-1 align-middle">
+                      <Skeleton
+                        variant="circular"
+                        className="h-[44px] w-[45px] mr-2"
+                      />
+                      <SkeletonText
+                        _lines={2}
+                        gap={4}
+                        className="h-2 w-[82%] flex-1"
+                      />
+                      <SkeletonText _lines={1} className="h-2" />
+                    </HStack>
+                  </Box>
+                </ThemedView>
+              );
+            })
+          ) : (
+            <FlatList
+              data={data?.data}
+              contentContainerClassName="pb-20"
+              ItemSeparatorComponent={() => <View style={{ height: 12 }} />}
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  onPress={() => {
+                    router.push({
+                      pathname: "/(tabs)/inbox/chats/chat-details",
+                      params: {
+                        selectedFilter: selectedFilter,
+                        id: item?.conversationId,
+                        participantName: item?.participant.fullName,
+                      },
+                    });
+                  }}
+                  className={` flex-row justify-between items-center p-4`}
+                >
+                  {/* Make this container flexible and allow children to shrink */}
+                  <ThemedView className="flex-row items-center gap-2 flex-1 min-w-0">
+                    <Avatar size="lg">
+                      <AvatarFallbackText>
+                        {item?.participant.fullName}
+                      </AvatarFallbackText>
+                      <AvatarImage
+                        source={{
+                          uri: item?.participant.profileImage,
+                        }}
+                      />
+                    </Avatar>
+                    {/* Ensure the text area can wrap/shrink */}
+                    <ThemedView className="flex-1 min-w-0">
+                      <ThemedView className="flex-row gap-5 justify-between items-center">
+                        <ThemedText
+                          type="b2_body"
+                          className="flex-wrap"
+                          numberOfLines={2}
+                          ellipsizeMode="tail"
+                        >
+                          {item.participant.fullName}
                         </ThemedText>
+                        <ThemedText type="btn_medium" className="">
+                          {dayjs(item.lastMessageAt).fromNow()}
+                        </ThemedText>
+                      </ThemedView>
+                      <ThemedView className="flex-row pt-1 gap-5 items-center justify-between">
+                        <ThemedText
+                          type="default"
+                          className="text-typography-700 flex-1 capitalize"
+                        >
+                          {item.lastMessage.length > 30
+                            ? item.lastMessage.substring(0, 30) + "..."
+                            : item.lastMessage}
+                        </ThemedText>
+
+                        {item.unreadCount > 0 && (
+                          <ThemedView className="w-8 h-8 bg-primary-500 rounded-full flex items-center justify-center">
+                            <ThemedText type="btn_tiny" className="text-white">
+                              {item.unreadCount}
+                            </ThemedText>
+                          </ThemedView>
+                        )}
                       </ThemedView>
                     </ThemedView>
                   </ThemedView>
-                </ThemedView>
-              </TouchableOpacity>
-            )}
-            keyExtractor={(item) => item.toString()}
-          />
+                </TouchableOpacity>
+              )}
+              keyExtractor={(item) => item?.conversationId.toString()}
+            />
+          )}
         </ThemedView>
       </ThemedView>
     </ThemedView>

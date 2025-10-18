@@ -161,8 +161,9 @@ export default function NotificationScreen() {
                         type="default"
                         className="text-typography-700 flex-1"
                       >
-                        Your delivery #ID342424 from California to Nigeria is
-                        confirmed.
+                       {item.message.length > 80
+                          ? item.message.substring(0, 80) + "..."
+                          : item.message}
                       </ThemedText>
                     </ThemedView>
                   </ThemedView>

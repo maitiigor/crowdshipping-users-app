@@ -4,7 +4,9 @@ import {
   createMotionAnimatedComponent,
   MotionComponentProps,
 } from "@legendapp/motion";
+import * as FileSystem from "expo-file-system";
 import { Image } from "expo-image";
+import { manipulateAsync, SaveFormat } from "expo-image-manipulator";
 import * as ImagePicker from "expo-image-picker";
 import { Upload } from "lucide-react-native";
 import React, { useCallback, useMemo, useState } from "react";
@@ -99,6 +101,58 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
     return 8;
   }, [shape, size]);
 
+  // Compress picked images before passing them back to the caller.
+  const compressImageAsset = useCallback(
+    async (asset: ImagePicker.ImagePickerAsset) => {
+      if (!asset?.uri) return asset;
+      const mimeLower = asset.mimeType?.toLowerCase();
+      if (mimeLower?.includes("gif")) {
+        return asset;
+      }
+
+      const uriLower = asset.uri.toLowerCase();
+      const fileLower = asset.fileName?.toLowerCase();
+      const isPng =
+        mimeLower?.includes("png") ||
+        uriLower.endsWith(".png") ||
+        (fileLower?.endsWith(".png") ?? false);
+
+      const targetFormat = isPng ? SaveFormat.PNG : SaveFormat.JPEG;
+      const targetMime = isPng ? "image/png" : "image/jpeg";
+      const compressedQuality = Math.min(Math.max(quality ?? 0.8, 0.05), 1);
+
+      try {
+        const manipulated = await manipulateAsync(asset.uri, [], {
+          compress: compressedQuality,
+          format: targetFormat,
+        });
+        const fileInfo = await FileSystem.getInfoAsync(manipulated.uri);
+        const baseName =
+          asset.fileName?.replace(/\.[^/.]+$/, "") ||
+          manipulated.uri
+            .split("/")
+            .pop()
+            ?.replace(/\.[^/.]+$/, "") ||
+          "image";
+
+        return {
+          ...asset,
+          uri: manipulated.uri,
+          fileName: `${baseName}${isPng ? ".png" : ".jpg"}`,
+          fileSize:
+            fileInfo.exists && typeof fileInfo.size === "number"
+              ? fileInfo.size
+              : asset.fileSize,
+          mimeType: targetMime,
+        } satisfies ImagePicker.ImagePickerAsset;
+      } catch (error) {
+        console.warn("Failed to compress image asset", error);
+        return asset;
+      }
+    },
+    [quality]
+  );
+
   const pickFromLibrary = useCallback(async () => {
     if (disabled) return;
     const perm = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -113,13 +167,22 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
       });
       if (!result.canceled) {
         const asset = normalizeAsset(result.assets[0]);
-        onChange(asset.uri, asset);
+        const processed = await compressImageAsset(asset);
+        onChange(processed.uri, processed);
       }
     } finally {
       setLoading(false);
       setSheetOpen(false);
     }
-  }, [allowsEditing, aspect, disabled, normalizeAsset, onChange, quality]);
+  }, [
+    allowsEditing,
+    aspect,
+    compressImageAsset,
+    disabled,
+    normalizeAsset,
+    onChange,
+    quality,
+  ]);
 
   const takePhoto = useCallback(async () => {
     if (disabled) return;
@@ -133,16 +196,25 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
         aspect,
         quality,
       });
-      console.log("🚀 ~ ImageUploader ~ result:", result)
+      console.log("🚀 ~ ImageUploader ~ result:", result);
       if (!result.canceled) {
         const asset = normalizeAsset(result.assets[0]);
-        onChange(asset.uri, asset);
+        const processed = await compressImageAsset(asset);
+        onChange(processed.uri, processed);
       }
     } finally {
       setLoading(false);
       setSheetOpen(false);
     }
-  }, [allowsEditing, aspect, disabled, normalizeAsset, onChange, quality]);
+  }, [
+    allowsEditing,
+    aspect,
+    compressImageAsset,
+    disabled,
+    normalizeAsset,
+    onChange,
+    quality,
+  ]);
 
   return (
     <AnimatedPressable

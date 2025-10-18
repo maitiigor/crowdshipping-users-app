@@ -5,7 +5,9 @@ import {
   MotionComponentProps,
 } from "@legendapp/motion";
 import * as DocumentPicker from "expo-document-picker";
+import * as FileSystem from "expo-file-system";
 import { Image } from "expo-image";
+import { manipulateAsync, SaveFormat } from "expo-image-manipulator";
 import * as ImagePicker from "expo-image-picker";
 import * as VideoThumbnails from "expo-video-thumbnails";
 import {
@@ -157,6 +159,54 @@ const FileUploader: React.FC<FileUploaderProps> = ({
   const [sheetOpen, setSheetOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  // Compress picked images client-side before sharing them with the app.
+  const compressImageAsset = useCallback(
+    async (asset: ImagePicker.ImagePickerAsset) => {
+      if (!asset?.uri) return asset;
+      if (asset.mimeType?.includes("gif")) {
+        return asset;
+      }
+
+      const inferredPng =
+        asset.mimeType?.includes("png") ||
+        asset.uri.toLowerCase().endsWith(".png") ||
+        asset.fileName?.toLowerCase().endsWith(".png");
+      const targetFormat = inferredPng ? SaveFormat.PNG : SaveFormat.JPEG;
+      const targetMime = inferredPng ? "image/png" : "image/jpeg";
+      const compressedQuality = Math.min(Math.max(quality ?? 0.8, 0.05), 1);
+
+      try {
+        const manipulated = await manipulateAsync(asset.uri, [], {
+          compress: compressedQuality,
+          format: targetFormat,
+        });
+        const fileInfo = await FileSystem.getInfoAsync(manipulated.uri);
+        const baseName =
+          asset.fileName?.replace(/\.[^/.]+$/, "") ||
+          manipulated.uri
+            .split("/")
+            .pop()
+            ?.replace(/\.[^/.]+$/, "") ||
+          "image";
+
+        return {
+          ...asset,
+          uri: manipulated.uri,
+          fileName: `${baseName}${inferredPng ? ".png" : ".jpg"}`,
+          fileSize:
+            fileInfo.exists && typeof fileInfo.size === "number"
+              ? fileInfo.size
+              : asset.fileSize,
+          mimeType: targetMime,
+        };
+      } catch (error) {
+        console.warn("Failed to compress image asset", error);
+        return asset;
+      }
+    },
+    [quality]
+  );
+
   const borderRadius = useMemo(() => {
     if (previewShape === "circle") return size / 2;
     if (previewShape === "rounded") return 16;
@@ -210,6 +260,10 @@ const FileUploader: React.FC<FileUploaderProps> = ({
       if (!result.canceled) {
         const asset = result.assets[0];
         const type = categorize(asset.mimeType, asset.fileName || asset.uri);
+        const processedAsset =
+          type === "image" && allowImages
+            ? await compressImageAsset(asset)
+            : asset;
         let thumbnailUri: string | undefined;
         if (type === "video" && generateVideoThumbnail) {
           try {
@@ -221,13 +275,17 @@ const FileUploader: React.FC<FileUploaderProps> = ({
           } catch {}
         }
         const picked: PickedFile = {
-          uri: asset.uri,
-          name: asset.fileName || null,
-          size: asset.fileSize || null,
-          mimeType: asset.mimeType || null,
+          uri: processedAsset.uri,
+          name:
+            processedAsset.fileName ||
+            processedAsset.uri.split("/").pop() ||
+            asset.fileName ||
+            null,
+          size: processedAsset.fileSize || null,
+          mimeType: processedAsset.mimeType || asset.mimeType || null,
           type,
           thumbnailUri: thumbnailUri || null,
-          asset,
+          asset: processedAsset,
         };
         // If choosing an image but documents are disabled it's still fine; just emit
         if (
@@ -244,6 +302,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({
   }, [
     allowImages,
     allowVideos,
+    compressImageAsset,
     disabled,
     generateVideoThumbnail,
     onChange,
@@ -265,6 +324,10 @@ const FileUploader: React.FC<FileUploaderProps> = ({
       if (!result.canceled) {
         const asset = result.assets[0];
         const type = categorize(asset.mimeType, asset.fileName || asset.uri);
+        const processedAsset =
+          type === "image" && allowImages
+            ? await compressImageAsset(asset)
+            : asset;
         let thumbnailUri: string | undefined;
         if (type === "video" && generateVideoThumbnail) {
           try {
@@ -276,13 +339,17 @@ const FileUploader: React.FC<FileUploaderProps> = ({
           } catch {}
         }
         const picked: PickedFile = {
-          uri: asset.uri,
-          name: asset.fileName || null,
-          size: asset.fileSize || null,
-          mimeType: asset.mimeType || null,
+          uri: processedAsset.uri,
+          name:
+            processedAsset.fileName ||
+            processedAsset.uri.split("/").pop() ||
+            asset.fileName ||
+            null,
+          size: processedAsset.fileSize || null,
+          mimeType: processedAsset.mimeType || asset.mimeType || null,
           type,
           thumbnailUri: thumbnailUri || null,
-          asset,
+          asset: processedAsset,
         };
         if (
           (type === "image" && allowImages) ||
@@ -298,6 +365,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({
   }, [
     allowImages,
     allowVideos,
+    compressImageAsset,
     disabled,
     generateVideoThumbnail,
     onChange,
@@ -410,7 +478,10 @@ const FileUploader: React.FC<FileUploaderProps> = ({
         )}
       </View>
       {!!helperText && (
-        <ThemedText type="s2_subtitle" className="mt-2 text-typography-800 text-center">
+        <ThemedText
+          type="s2_subtitle"
+          className="mt-2 text-typography-800 text-center"
+        >
           {helperText}
         </ThemedText>
       )}

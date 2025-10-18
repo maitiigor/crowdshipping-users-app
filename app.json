@@ -12,7 +12,8 @@
       "supportsTablet": true,
       "infoPlist": {
         "NSCameraUsageDescription": "This app uses the camera to scan payment cards.",
-        "NSPhotoLibraryUsageDescription": "This app accesses your photo library for payment purposes."
+        "NSPhotoLibraryUsageDescription": "This app accesses your photo library for payment purposes.",
+        "NSMicrophoneUsageDescription": "Microphone access lets you record and send voice messages."
       }
     },
     "android": {
@@ -24,7 +25,8 @@
       "package": "com.zeus001.crowdshippingusernewapp",
       "permissions": [
         "android.permission.INTERNET",
-        "android.permission.ACCESS_NETWORK_STATE"
+        "android.permission.ACCESS_NETWORK_STATE",
+        "android.permission.RECORD_AUDIO"
       ]
     },
     "web": {
@@ -56,7 +58,8 @@
           }
         }
       ],
-      "expo-localization"
+      "expo-localization",
+      "expo-audio"
     ],
     "experiments": {
       "typedRoutes": true
