@@ -18,7 +18,8 @@ import { useAuthenticatedQuery } from "@/lib/api";
 import { IConversationsResponse } from "@/types/IConversation";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { ChevronLeft } from "lucide-react-native";
+import { BellIcon, ChevronLeft, MessageCircle } from "lucide-react-native";
+import { EmptyState } from "@/components/Custom/EmptyState";
 
 // dayjs fromNow plugin
 dayjs.extend(relativeTime);
@@ -175,6 +176,14 @@ export default function ChatScreen() {
           ) : (
             <FlatList
               data={data?.data}
+              ListEmptyComponent={
+                <EmptyState
+                  title="No chats"
+                  description="You have no chats at the moment. Start a conversation to get started."
+                  icon={MessageCircle}
+                  className="mt-10"
+                />
+              }
               contentContainerClassName="pb-20"
               ItemSeparatorComponent={() => <View style={{ height: 12 }} />}
               renderItem={({ item }) => (

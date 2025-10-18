@@ -18,7 +18,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import { WebView } from "react-native-webview";
 import { Icon } from "../ui/icon";
 import { Pressable } from "../ui/pressable";
@@ -294,13 +294,19 @@ export function AddressPicker({
                   {searchError}
                 </ThemedText>
               )}
+            </Button>
+            <TouchableOpacity
+              onPress={handleHideSuggestions}
+              className=" py-2"
+            >
+              
               <ThemedText
                 type="btn_medium"
                 className="text-left px-2 underline"
               >
                 Hide
               </ThemedText>
-            </Button>
+            </TouchableOpacity>
           </ThemedView>
         )}
       </View>

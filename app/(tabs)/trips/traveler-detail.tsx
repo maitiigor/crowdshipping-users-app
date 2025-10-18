@@ -342,7 +342,7 @@ export default function TravelerDetail() {
               size="2xl"
               onPress={() => {
                 router.push({
-                  pathname: "/(tabs)/road-delivery",
+                  pathname: "/(tabs)/trips/air-sea-delivery",
                   params: { id: id },
                 });
               }}

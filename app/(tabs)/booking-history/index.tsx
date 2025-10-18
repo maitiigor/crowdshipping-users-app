@@ -8,6 +8,8 @@ import { ThemedView } from "@/components/ThemedView";
 import { Icon } from "@/components/ui/icon";
 import { Image } from "@/components/ui/image";
 import { ChevronLeft, ChevronRight, Dot } from "lucide-react-native";
+import { useAuthenticatedQuery } from "@/lib/api";
+import { IWalletRequestResponse } from "@/types/IWalletRequest";
 
 const filterList = [
   {
@@ -26,11 +28,30 @@ const filterList = [
     label: "Delivered",
     value: "delivered",
   },
+  {
+    label: "Cancelled",
+    value: "cancelled",
+  }
 ];
 export default function BookingHistoryScreen() {
   const navigation = useNavigation();
   const router = useRouter();
   const [selectedFilter, setSelectedFilter] = useState("all");
+  
+    // Build fetchOptions conditionally
+    const fetchOptions = selectedFilter
+      ? { query: { booking_status: selectedFilter.toLowerCase() } }
+      : undefined;
+  
+    // Include the filter in the query key for proper caching
+    const queryKey = selectedFilter
+      ? ["booking", selectedFilter.toLowerCase()]
+      : ["booking"];
+  
+    const { data, isLoading, refetch } = useAuthenticatedQuery<
+      IWalletRequestResponse | undefined
+    >(queryKey, "/trip/booking/history");
+    console.log("🚀 ~ BookingHistoryScreen ~ data:", data)
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,

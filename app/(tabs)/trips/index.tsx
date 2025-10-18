@@ -22,6 +22,7 @@ export default function TripDelivery() {
   const navigation = useNavigation();
   const router = useRouter();
   const { id } = useLocalSearchParams();
+  console.log("🚀 ~ TripDelivery ~ id:", id);
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
@@ -78,7 +79,9 @@ export default function TripDelivery() {
     });
   }, [navigation]);
 
-  const [activeTripType, setActiveTripType] = useState<number>(2);
+  const [activeTripType, setActiveTripType] = useState<number>(
+    id ? parseInt(id as string, 10) : 2
+  );
   const tripTypes = [
     { id: 1, name: "Ground", Icon: GroundSvg },
     { id: 2, name: "Maritime", Icon: RideSvg },
@@ -110,7 +113,16 @@ export default function TripDelivery() {
                 return (
                   <TouchableOpacity
                     key={id}
-                    onPress={() => setActiveTripType(id)}
+                    onPress={() => {
+                      if (id !== 1) {
+                        setActiveTripType(id);
+                      } else {
+                        router.push({
+                          pathname: "/(tabs)/trips/road-delivery",
+                        });
+                        setActiveTripType(1);
+                      }
+                    }}
                     className={`flex-1 items-center p-4 rounded-xl border ${
                       active
                         ? "bg-primary-500 border-primary-300"

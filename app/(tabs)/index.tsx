@@ -29,15 +29,18 @@ type MenuItem = {
   img: string | ImageSourcePropType | undefined;
   titleKey: "home.land" | "home.air" | "home.sea";
   linkTo: string;
+  id: string;
 };
-const deliveryType: MenuItem[] = [
+const deliveryType = [
   {
     img: require("@/assets/images/home/road-delivery.png"),
+    id: "1",
     titleKey: "home.land",
-    linkTo: "/(tabs)/road-delivery",
+    linkTo: "/(tabs)/trips/road-delivery",
   },
   {
     img: require("@/assets/images/home/flight-delivery.png"),
+    id: "2",
     titleKey: "home.air",
     linkTo: "/(tabs)/trips",
   },
@@ -45,9 +48,10 @@ const deliveryType: MenuItem[] = [
   {
     img: require("@/assets/images/home/maritime-delivery.png"),
     titleKey: "home.sea",
+    id: "3",
     linkTo: "/(tabs)/trips",
   },
-];
+] as const;
 export default function HomeScreen() {
   const navigation = useNavigation();
   const [showDrawer, setShowDrawer] = useState(false);
@@ -60,6 +64,8 @@ export default function HomeScreen() {
 
   const { t } = useTranslation();
   useEffect(() => {
+    const fullName =
+      (data as any)?.data?.fullName ?? (data as any)?.fullName ?? "User";
     navigation.setOptions({
       headerShown: true,
       headerShadowVisible: false,
@@ -74,7 +80,7 @@ export default function HomeScreen() {
         <ThemedView className="flex justify-center items-center">
           <ThemedText className="text-center" type="s1_subtitle">
             {/* Example: Keep static or make dynamic via user profile */}
-            Hello, Gbemisola
+            Hello, {isLoading ? "..." : fullName}
           </ThemedText>
           <ThemedView className="flex-row gap-2 items-center">
             <Icon as={MapPin} size="lg" className="text-primary-500" />
@@ -109,7 +115,7 @@ export default function HomeScreen() {
         </TouchableOpacity>
       ),
     });
-  }, [navigation, t, t]);
+  }, [navigation, t, data?.data.fullName]);
   const ongoingTrips = [
     {
       id: "1",
@@ -148,7 +154,10 @@ export default function HomeScreen() {
           {deliveryType.map((item, index) => (
             <Pressable
               key={item.titleKey}
-              onPress={() => router.push(item.linkTo as any)}
+              onPress={() => router.push({
+                pathname: item.linkTo,
+                params: { id: item.id },
+              })}
               className="flex items-center gap-2 h-[165px] w-full"
               style={
                 {

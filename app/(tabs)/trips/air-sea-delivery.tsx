@@ -9,7 +9,6 @@ import React, { useEffect, useState } from "react";
 import AddressPickerComponent, {
   AddressSelection,
 } from "@/components/Custom/AddressPicker";
-import CustomSidebarMenu from "@/components/Custom/CustomSidebarMenu";
 import InputLabelText from "@/components/Custom/InputLabelText";
 import NotificationIcon from "@/components/Custom/NotificationIcon";
 import { ThemedText } from "@/components/ThemedText";
@@ -54,12 +53,15 @@ const airTransportTypes = [
   { label: "Drones", value: "drones" },
 ];
 // validationSchema removed (unused)
-export default function RoadDeliveryScreen() {
+export default function AirSeaDeliveryScreen() {
   const navigation = useNavigation();
   const router = useRouter();
   const [showDrawer, setShowDrawer] = useState(false);
   const [selectedPickupAddress, setSelectedPickupAddress] =
     useState<AddressSelection | null>(null);
+  // const { data, isLoading, refetch } = useAuthenticatedQuery<
+  //   INotificationsResponse | undefined
+  // >(["road-trip"], "/trip/vehicle/categories");
   const [selectedDropOffAddress, setSelectedDropOffAddress] =
     useState<AddressSelection | null>(null);
   const insets = useSafeAreaInsets();
@@ -216,11 +218,7 @@ export default function RoadDeliveryScreen() {
                   </ThemedView>
                   <ThemedView>
                     <InputLabelText>
-                      {id === "3"
-                        ? "Air Craft Option"
-                        : id === "2"
-                        ? "Fleet Option"
-                        : "Vehicle Option"}
+                      {id === "3" ? "Air Craft Option" : "Fleet Option"}
                     </InputLabelText>
                     <Select
                       selectedValue={values.vehicle}
@@ -252,17 +250,7 @@ export default function RoadDeliveryScreen() {
                                   {type.label}
                                 </SelectItem>
                               ))
-                            : id === "2"
-                            ? waterTransportTypes.map((type) => (
-                                <SelectItem
-                                  key={type.value}
-                                  value={type.value}
-                                  label={type.label}
-                                >
-                                  {type.label}
-                                </SelectItem>
-                              ))
-                            : vehiclesTypes.map((type) => (
+                            : waterTransportTypes.map((type) => (
                                 <SelectItem
                                   key={type.value}
                                   value={type.value}
@@ -291,12 +279,10 @@ export default function RoadDeliveryScreen() {
                       source={
                         id === "3"
                           ? require("@/assets/images/home/flight-delivery.png")
-                          : id === "2"
-                          ? require("@/assets/images/home/maritime-delivery.png")
-                          : require("@/assets/images/home/bike.png")
+                          : require("@/assets/images/home/maritime-delivery.png")
                       }
                       size="2xl"
-                      alt={"bike"}
+                      alt={"Delivery Illustration"}
                     />
 
                     <ThemedText type="default" className="mt-2">
@@ -319,10 +305,6 @@ export default function RoadDeliveryScreen() {
             </Formik>
           </ThemedView>
         </ThemedView>
-        <CustomSidebarMenu
-          showDrawer={showDrawer}
-          setShowDrawer={setShowDrawer}
-        />
       </ParallaxScrollView>
     </KeyboardAvoidingView>
   );
