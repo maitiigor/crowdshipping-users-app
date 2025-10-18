@@ -1,4 +1,5 @@
 import { BottomDrawer } from "@/components/Custom/BottomDrawer";
+import CustomToast from "@/components/Custom/CustomToast";
 import NotificationIcon from "@/components/Custom/NotificationIcon";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
@@ -11,42 +12,79 @@ import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
 import { Pressable } from "@/components/ui/pressable";
+import { useToast } from "@/components/ui/toast";
+import { useAuthenticatedPatch } from "@/lib/api";
+import { IPickupByDriverResponse } from "@/types/IPickupByDriver";
+import { formatCurrency } from "@/utils/helper";
 import Entypo from "@expo/vector-icons/Entypo";
-import { useNavigation, useRouter } from "expo-router";
-import { Bell, ChevronLeft, SearchIcon } from "lucide-react-native";
-import React, { useEffect, useState } from "react";
-import { FlatList, TouchableOpacity, View } from "react-native";
-import MapView from "react-native-maps";
+import { useLocalSearchParams, useNavigation, useRouter } from "expo-router";
+import {
+  ChevronLeft,
+  CircleCheckIcon,
+  HelpCircleIcon,
+  SearchIcon,
+} from "lucide-react-native";
+import React, { useEffect, useMemo, useState } from "react";
+import {
+  ActivityIndicator,
+  FlatList,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import MapView, { Marker } from "react-native-maps";
 
-const driverList = [
-  {
-    id: "1",
-    name: "Segun Johnson",
-    location: "Ikeja",
-    rating: 4.5,
-    time: "2 min",
-  },
-  {
-    id: "2",
-    name: "Abdulkadir Newton",
-    location: "Victoria Island",
-    rating: 4.7,
-    time: "3 min",
-  },
-  {
-    id: "3",
-    name: "Driver 3",
-    location: "Lekki",
-    rating: 4.6,
-    time: "4 min",
-  },
-];
 export default function NearbyDriverScreen() {
   const navigation = useNavigation();
   const router = useRouter();
+  const { id, response } = useLocalSearchParams();
+  console.log("🚀 ~ NearbyDriverScreen ~ id:", id);
+  const [search, setSearch] = useState("");
+  const toast = useToast();
+  const fallbackTripId = "";
+  const tripId = useMemo(() => {
+    if (Array.isArray(id) && id.length > 0) return String(id[0]);
+    if (typeof id === "string" && id.trim().length > 0) return id;
+    return fallbackTripId;
+  }, [id]);
+  const { mutateAsync, error, loading } = useAuthenticatedPatch<
+    any,
+    {
+      driverId: string;
+      amount: number;
+    }
+  >(`/trip/select/driver/${tripId}`);
+  const responseObj: IPickupByDriverResponse | null = (() => {
+    if (response == null) return null;
+    const respStr = String(response).trim();
+    if (!respStr || respStr === "undefined" || respStr === "null") return null;
+    try {
+      const decoded = decodeURIComponent(respStr);
+      const parsed = JSON.parse(decoded);
+      if (typeof parsed === "string") {
+        try {
+          return JSON.parse(parsed) as IPickupByDriverResponse;
+        } catch (innerErr) {
+          console.warn(
+            "NearbyDriverScreen: failed to parse nested response param",
+            innerErr
+          );
+          return null;
+        }
+      }
+      return parsed as IPickupByDriverResponse;
+    } catch (err) {
+      console.warn("NearbyDriverScreen: failed to parse response param", err);
+      return null;
+    }
+  })();
+  console.log("🚀 ~ NearbyDriverScreen ~ responseObj:", responseObj);
   const [snap, setSnap] = useState(0.4);
   const [selectedDriver, setselectedDriver] = useState<any>(null);
   console.log("🚀 ~ NearbyDriverScreen ~ snap:", snap);
+
+  // Use actual nearby drivers from API response or empty array as fallback
+  const driverList = responseObj?.data?.nearby_drivers || [];
+  console.log("🚀 ~ NearbyDriverScreen ~ driverList:", driverList);
 
   useEffect(() => {
     navigation.setOptions({
@@ -103,6 +141,49 @@ export default function NearbyDriverScreen() {
       headerRight: () => <NotificationIcon />,
     });
   }, [navigation, router]);
+  const showNewToast = ({
+    title,
+    description,
+    icon,
+    action = "error",
+    variant = "solid",
+  }: {
+    title: string;
+    description: string;
+    icon: typeof HelpCircleIcon;
+    action: "error" | "success" | "info" | "muted" | "warning";
+    variant: "solid" | "outline";
+  }) => {
+    const toastId = Math.random().toString();
+    toast.show({
+      id: toastId,
+      placement: "top",
+      duration: 3000,
+      render: ({ id: innerId }) => (
+        <CustomToast
+          uniqueToastId={`toast-${innerId}`}
+          icon={icon}
+          action={action}
+          title={title}
+          variant={variant}
+          description={description}
+        />
+      ),
+    });
+  };
+  const initialLatitude = selectedDriver
+    ? selectedDriver.geoLocation?.coordinates?.[1] ?? 0
+    : responseObj?.data?.nearby_drivers?.[0]?.geoLocation?.coordinates?.[1] ??
+      0;
+  const initialLongitude = selectedDriver
+    ? selectedDriver.geoLocation?.coordinates?.[0] ?? 0
+    : responseObj?.data?.nearby_drivers?.[0]?.geoLocation?.coordinates?.[0] ??
+      0;
+  const filtered = useMemo(() => {
+    const q = search.trim().toLowerCase();
+    if (!q) return driverList;
+    return driverList.filter((c) => c.user?.fullName.toLowerCase().includes(q));
+  }, [driverList, search]);
   return (
     <ThemedView className="flex-1 bg-white relative">
       {/* map */}
@@ -122,20 +203,37 @@ export default function NearbyDriverScreen() {
             Amount
           </ThemedText>
           <ThemedText type="btn_large" className="text-typography-950">
-            ₦2,913,500
+            {formatCurrency(responseObj?.data?.amount, "NGN", "en-NG")}
           </ThemedText>
         </ThemedView>
       </View>
       <MapView
         style={{ height: "100%", width: "100%" }}
         initialRegion={{
-          latitude: 6.5244,
-          longitude: 3.3792,
+          latitude: initialLatitude,
+          longitude: initialLongitude,
           latitudeDelta: 0.05,
           longitudeDelta: 0.05,
         }}
         showsUserLocation
-      />
+      >
+        {driverList.map((driver: any) => {
+          const longitude = driver?.geoLocation?.coordinates?.[0] ?? 0;
+          const latitude = driver?.geoLocation?.coordinates?.[1] ?? 0;
+          const isSelected = selectedDriver?._id === driver._id;
+
+          return (
+            <Marker
+              key={driver._id ?? `${latitude}-${longitude}`}
+              coordinate={{ latitude, longitude }}
+              title={driver.user?.fullName}
+              description={`${driver.minutesAway ?? "-"} min away`}
+              pinColor={isSelected ? "green" : "red"}
+              onPress={() => setselectedDriver(driver)}
+            />
+          );
+        })}
+      </MapView>
 
       <ThemedView className="absolute bottom-10 left-0 right-0 px-5">
         <Button variant="solid" size="2xl" className="mt-5 rounded-[12px]">
@@ -165,11 +263,15 @@ export default function NearbyDriverScreen() {
                 <InputSlot className="pl-3">
                   <InputIcon as={SearchIcon} />
                 </InputSlot>
-                <InputField placeholder={"Search Driver"} />
+                <InputField
+                  value={search}
+                  onChangeText={setSearch}
+                  placeholder={"Search Driver"}
+                />
               </Input>
             )}
             <FlatList
-              data={driverList}
+              data={filtered}
               nestedScrollEnabled
               showsVerticalScrollIndicator
               keyboardShouldPersistTaps="handled"
@@ -178,7 +280,7 @@ export default function NearbyDriverScreen() {
                 <Pressable
                   onPress={() => setselectedDriver(item)}
                   className={`flex-row items-center justify-between p-3 rounded-xl bg-primary-inputShade border  ${
-                    selectedDriver === item
+                    selectedDriver?._id ?? null === item._id
                       ? "bg-primary-0 border-primary-300"
                       : "border-typography-200"
                   }`}
@@ -186,11 +288,11 @@ export default function NearbyDriverScreen() {
                   <ThemedView className="flex-row gap-3">
                     <Avatar size="lg">
                       <AvatarFallbackText>
-                        {item.name.charAt(0)} {index + 1}
+                        {item.user.fullName}
                       </AvatarFallbackText>
                       <AvatarImage
                         source={{
-                          uri: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+                          uri: item.profilePicUrl || "",
                         }}
                       />
                     </Avatar>
@@ -199,23 +301,25 @@ export default function NearbyDriverScreen() {
                         type="s2_subtitle"
                         className="text-typography-800"
                       >
-                        {item.name}
+                        {item.user.fullName}
                       </ThemedText>
                       <ThemedText type="default">
-                        ⭐ {item.rating} (243)
+                        ⭐ {item.rating.avg} ({item.rating.count})
                       </ThemedText>
                     </ThemedView>
                   </ThemedView>
 
                   <ThemedView className="flex gap-1">
-                    <ThemedText type="s2_subtitle">{item.time}</ThemedText>
+                    <ThemedText type="s2_subtitle">
+                      {item.minutesAway} min
+                    </ThemedText>
                     <ThemedText type="default" className="text-typography-500">
                       Away
                     </ThemedText>
                   </ThemedView>
                 </Pressable>
               )}
-              keyExtractor={(item, index) => `${item.id}-${index}`}
+              keyExtractor={(item, index) => `${item._id}-${index}`}
               contentContainerStyle={{ paddingBottom: 100 }}
               // i need gap between each item
               ItemSeparatorComponent={() => <View className="h-2" />}
@@ -225,15 +329,54 @@ export default function NearbyDriverScreen() {
         {selectedDriver && (
           <ThemedView className="absolute bottom-0 left-0 right-0 px-5">
             <Button
-              onPress={() => {
-                router.push("/(tabs)/package-summary");
+              disabled={loading}
+              onPress={async () => {
+                try {
+                  const response = await mutateAsync({
+                    driverId: selectedDriver._id,
+                    amount: responseObj?.data?.amount || 0,
+                  });
+                  console.log("🚀 ~ NearbyDriverScreen ~ response:", response);
+                  setTimeout(() => {
+                    router.push({
+                      pathname: "/(tabs)/package-summary",
+                      params: {
+                        tripId: tripId,
+                        amount: responseObj?.data?.amount || 0,
+                      },
+                    });
+                  }, 500);
+
+                  showNewToast({
+                    title: "Driver selection saved",
+                    description: "Your driver selection was saved successfully",
+                    icon: CircleCheckIcon,
+                    action: "success",
+                    variant: "solid",
+                  });
+                } catch (error: any) {
+                  const message =
+                    error?.data?.message ||
+                    error?.message ||
+                    (typeof error === "string" ? error : undefined) ||
+                    "Unable to add packages";
+                  console.log("🚀 ~ handleFormSubmit ~ message:", message);
+
+                  showNewToast({
+                    title: "Driver selection failed",
+                    description: message,
+                    icon: HelpCircleIcon,
+                    action: "error",
+                    variant: "solid",
+                  });
+                }
               }}
               variant="solid"
               size="2xl"
               className="mt-5 rounded-[12px]"
             >
               <ThemedText type="s1_subtitle" className="text-white">
-                Continue
+                {loading ? <ActivityIndicator color="white" /> : "Continue"}
               </ThemedText>
             </Button>
           </ThemedView>

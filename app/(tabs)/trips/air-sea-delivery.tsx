@@ -65,7 +65,7 @@ export default function AirSeaDeliveryScreen() {
   const [selectedDropOffAddress, setSelectedDropOffAddress] =
     useState<AddressSelection | null>(null);
   const insets = useSafeAreaInsets();
-  const { id } = useLocalSearchParams();
+  const { id, tripTypeId } = useLocalSearchParams();
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
@@ -150,7 +150,7 @@ export default function AirSeaDeliveryScreen() {
                 // setShowModal(true);
                 router.push({
                   pathname: "/(tabs)/add-package",
-                  params: { id: id },
+                  params: { id: id, tripTypeId: tripTypeId },
                 });
               }}
             >
@@ -218,7 +218,7 @@ export default function AirSeaDeliveryScreen() {
                   </ThemedView>
                   <ThemedView>
                     <InputLabelText>
-                      {id === "3" ? "Air Craft Option" : "Fleet Option"}
+                      {tripTypeId === "3" ? "Air Craft Option" : "Fleet Option"}
                     </InputLabelText>
                     <Select
                       selectedValue={values.vehicle}
@@ -240,7 +240,7 @@ export default function AirSeaDeliveryScreen() {
                           <SelectDragIndicatorWrapper>
                             <SelectDragIndicator />
                           </SelectDragIndicatorWrapper>
-                          {id === "3"
+                          {tripTypeId === "3"
                             ? airTransportTypes.map((type) => (
                                 <SelectItem
                                   key={type.value}
@@ -277,7 +277,7 @@ export default function AirSeaDeliveryScreen() {
 
                     <Image
                       source={
-                        id === "3"
+                        tripTypeId === "3"
                           ? require("@/assets/images/home/flight-delivery.png")
                           : require("@/assets/images/home/maritime-delivery.png")
                       }

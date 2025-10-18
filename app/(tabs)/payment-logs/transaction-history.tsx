@@ -16,7 +16,6 @@ import {
   CircleCheckBig,
   History,
   ListFilterPlus,
-  Receipt,
 } from "lucide-react-native";
 import React, { useEffect, useState } from "react";
 import { FlatList, TouchableOpacity, View } from "react-native";
@@ -36,7 +35,7 @@ export default function TransactionHistoryScreen() {
     ? ["wallet", selectedFilter.toLowerCase()]
     : ["wallet"];
 
-  const { data, isLoading, refetch } = useAuthenticatedQuery<
+  const { data, isLoading, refetch, isFetching } = useAuthenticatedQuery<
     IWalletRequestResponse | undefined
   >(queryKey, "/wallet/fetch", fetchOptions);
 
@@ -170,6 +169,10 @@ export default function TransactionHistoryScreen() {
                     className="mt-10"
                   />
                 }
+                refreshing={isFetching}
+                onRefresh={() => {
+                  refetch();
+                }}
                 contentContainerClassName="pb-20"
                 ItemSeparatorComponent={() => <View style={{ height: 5 }} />}
                 renderItem={({ item }) => (

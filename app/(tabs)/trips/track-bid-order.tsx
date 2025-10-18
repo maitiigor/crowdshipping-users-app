@@ -25,7 +25,7 @@ export default function TripDetailsScreen() {
   const router = useRouter();
   const [snap, setSnap] = useState(0.5);
   const [rating, setRating] = useState<number>(0);
-  const { id } = useLocalSearchParams();
+  const { tripTypeId } = useLocalSearchParams();
 
   useEffect(() => {
     navigation.setOptions({

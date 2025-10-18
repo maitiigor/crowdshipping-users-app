@@ -295,11 +295,7 @@ export function AddressPicker({
                 </ThemedText>
               )}
             </Button>
-            <TouchableOpacity
-              onPress={handleHideSuggestions}
-              className=" py-2"
-            >
-              
+            <TouchableOpacity onPress={handleHideSuggestions} className=" py-2">
               <ThemedText
                 type="btn_medium"
                 className="text-left px-2 underline"

@@ -525,7 +525,7 @@ export default function TopUpScreen() {
                     >
                       <InputField
                         className=""
-                        placeholder="Min. N100"
+                        placeholder="Min. N5000"
                         value={values.amount}
                         onChangeText={handleChange("amount")}
                         onBlur={handleBlur("amount")}

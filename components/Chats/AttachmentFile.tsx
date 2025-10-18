@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Image, Text, TouchableOpacity, View } from "react-native";
+import { Image, TouchableOpacity } from "react-native";
 
 export default function AttachmentFile({
   uri,
@@ -7,11 +7,10 @@ export default function AttachmentFile({
 }: {
   uri: string;
   handleAttachmentPress: (uri: string) => void;
-  }) {
-    const [imageUri, setImageUri] = useState(
-      uri ||
-        "https://dummyimage.com/600x400/e3d7e3/000000.png&text=not+found"
-    );
+}) {
+  const [imageUri, setImageUri] = useState(
+    uri || "https://dummyimage.com/600x400/e3d7e3/000000.png&text=not+found"
+  );
   return (
     <TouchableOpacity
       activeOpacity={0.9}
@@ -21,12 +20,6 @@ export default function AttachmentFile({
       <Image
         source={{ uri: imageUri }}
         resizeMode="cover"
-        onLoad={(event) => {
-          const { width, height } = event.nativeEvent.source;
-          if (width > 220 || height > 220) {
-            console.log("Image is too big:", width, height);
-          }
-        }}
         onError={() => {
           console.warn("Failed to load image:", uri);
           // Set fallback image

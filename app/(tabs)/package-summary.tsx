@@ -1,22 +1,24 @@
+import CustomImage from "@/components/Custom/CustomImage";
 import NotificationIcon from "@/components/Custom/NotificationIcon";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
-import { Image } from "@/components/ui/image";
-import { Link, useNavigation, useRouter } from "expo-router";
+import { useAuthenticatedQuery } from "@/lib/api";
+import { IPickupTripDetailsResponse } from "@/types/IPickupByDriver";
+import { useLocalSearchParams, useNavigation, useRouter } from "expo-router";
 import {
-  Bell,
   Calendar,
   ChevronLeft,
+  Mail,
   Map,
   MapPin,
+  Package,
   PenLine,
   Phone,
-  SquarePlus,
   UserRound,
-  Wallet,
+  Weight,
 } from "lucide-react-native";
 import React, { useEffect } from "react";
 import { TouchableOpacity } from "react-native";
@@ -24,6 +26,11 @@ import { TouchableOpacity } from "react-native";
 export default function PackageSummaryScreen() {
   const navigation = useNavigation();
   const router = useRouter();
+  const { tripId, amount } = useLocalSearchParams();
+  const { data,refetch,isLoading } = useAuthenticatedQuery<
+    IPickupTripDetailsResponse | undefined
+  >(["pickup-details", tripId], `/trip/packages/${tripId}`);
+  console.log("🚀 ~ PackageSummaryScreen ~ data:", data);
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
@@ -80,147 +87,266 @@ export default function PackageSummaryScreen() {
       headerRight: () => <NotificationIcon />,
     });
   }, [navigation]);
+    // i want to refetch the notifications when the user comes back to this screen
+    useEffect(() => {
+      const unsubscribe = navigation.addListener("focus", () => {
+        // The screen is focused
+        // Call any action
+        refetch();
+      });
+  
+      return unsubscribe;
+    }, [navigation, refetch]);
   return (
     <>
       <ParallaxScrollView
         headerBackgroundColor={{ light: "#FFFFFF", dark: "#353636" }}
       >
-        <ThemedView className="flex-1">
-          <ThemedView className="flex-1 gap-3 pb-40 mt-3">
-            <ThemedView className="flex justify-center items-center">
-              <Button
-                variant="solid"
-                size="2xl"
-                className=" w-[60%] mb-5 rounded-[12px]"
-                onPress={() => {
-                  router.push("/(tabs)/edit-package");
-                }}
-              >
-                <Icon as={PenLine} size="lg" className="text-white" />
-                <ThemedText type="default" className="text-white">
-                  Modify Package
-                </ThemedText>
-              </Button>
-              <ThemedView className="p-5 border rounded-lg border-primary-500">
-                <Image
-                  source={{
-                    uri: "https://plus.unsplash.com/premium_photo-1663047788002-765d78050d53?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                  }}
-                  size="2xl"
-                  alt={"image"}
-                />
-              </ThemedView>
-            </ThemedView>
-            <ThemedText className="flex-1 bg-white">
-              <ThemedView className="">
-                <ThemedView className="flex gap-8">
-                  <ThemedView className="flex gap-3">
-                    <ThemedText type="btn_giant" className="mt-5 ">
-                      Delivery Details (ID2350847391)
+        <ThemedView className="flex-1 gap-20 pb-60">
+          {data?.data.packages.map((pkg) => {
+            return (
+              <ThemedView key={pkg?._id} className="flex-1 gap-3  mt-3">
+                <ThemedView className="flex justify-center items-center">
+                  <Button
+                    variant="solid"
+                    size="2xl"
+                    className=" w-[60%] mb-5 rounded-[12px]"
+                    onPress={() => {
+                      router.push({
+                        pathname: "/(tabs)/edit-package",
+                        params: { tripId: tripId },
+                      });
+                    }}
+                  >
+                    <Icon as={PenLine} size="lg" className="text-white" />
+                    <ThemedText type="default" className="text-white">
+                      Modify Package
                     </ThemedText>
-                    <ThemedView className="flex-row items-center gap-2">
-                      <Icon as={Map} size="3xl" className="text-primary-500" />
-                      <ThemedText className="text-typography-500">
-                        Pick up location
-                      </ThemedText>
-                    </ThemedView>
-                    <ThemedView className="flex-row items-center gap-2">
-                      <Icon
-                        as={MapPin}
-                        size="3xl"
-                        className="text-primary-500"
-                      />
-                      <ThemedText className="text-typography-500">
-                        Tangerang City, Banten 15138
-                      </ThemedText>
-                    </ThemedView>
-                    <ThemedView className="flex-row items-center gap-2">
-                      <Icon
-                        as={Calendar}
-                        size="3xl"
-                        className="text-primary-500"
-                      />
-                      <ThemedText className="text-typography-500">
-                        June 5, 2025
-                      </ThemedText>
-                    </ThemedView>
-                    <ThemedView className="flex-row items-center gap-2">
-                      <Icon
-                        as={Wallet}
-                        size="3xl"
-                        className="text-primary-500"
-                      />
-                      <ThemedText className="text-typography-500">
-                        June 5, 2025
-                      </ThemedText>
-                    </ThemedView>
-                  </ThemedView>
-                  <ThemedView className="flex gap-3">
-                    <ThemedText type="btn_giant" className="">
-                      Sender
-                    </ThemedText>
-                    <ThemedView className="flex-row items-center gap-2">
-                      <Icon
-                        as={UserRound}
-                        size="3xl"
-                        className="text-primary-500"
-                      />
-                      <ThemedText className="text-typography-500">
-                        John Doe
-                      </ThemedText>
-                    </ThemedView>
-                    <ThemedView className="flex-row items-center gap-2">
-                      <Icon
-                        as={Phone}
-                        size="3xl"
-                        className="text-primary-500"
-                      />
-                      <ThemedText className="text-typography-500">
-                        0812040737, 0816436275
-                      </ThemedText>
-                    </ThemedView>
-                  </ThemedView>
-                  <ThemedView className="flex gap-3">
-                    <ThemedText type="btn_giant" className="">
-                      Driver
-                    </ThemedText>
-                    <ThemedView className="flex-row items-center gap-2">
-                      <Icon
-                        as={UserRound}
-                        size="3xl"
-                        className="text-primary-500"
-                      />
-                      <ThemedText className="text-typography-500">
-                        Jane Doe
-                      </ThemedText>
-                    </ThemedView>
-                    <ThemedView className="flex-row items-center gap-2">
-                      <Icon
-                        as={Phone}
-                        size="3xl"
-                        className="text-primary-500"
-                      />
-                      <ThemedText className="text-typography-500">
-                        0812040737, 0816436275
-                      </ThemedText>
-                    </ThemedView>
+                  </Button>
+                  <ThemedView className="p-5 border rounded-lg border-primary-500">
+                    <CustomImage
+                      uri={pkg.productImage}
+                      size="2xl"
+                      alt={"image"}
+                    />
                   </ThemedView>
                 </ThemedView>
-              </ThemedView>
-            </ThemedText>
-            <Link
-              href={"/(tabs)/add-package"}
-              asChild
-              className="flex-row gap-2 mt-3 justify-center items-center"
-            >
-              <ThemedView className="flex-row gap-2 justify-center items-center">
-                <Icon as={SquarePlus} size="3xl" className="text-primary-600" />
-                <ThemedText type="default" className="text-primary-600">
-                  Add Another Package
+
+                {/* Package Details Section */}
+                <ThemedView className="flex gap-3 mt-3 rounded-lg p-5 border border-typography-300 shadow-md">
+                  <ThemedText type="btn_giant" className="">
+                    Package Details
+                  </ThemedText>
+                  <ThemedView className="flex-row items-center gap-2">
+                    <Icon
+                      as={Package}
+                      size="3xl"
+                      className="text-primary-500"
+                    />
+                    <ThemedText className="text-typography-500 capitalize">
+                      Category: {pkg.productCategory}
+                    </ThemedText>
+                  </ThemedView>
+                  <ThemedView className="flex-row items-center gap-2">
+                    <Icon
+                      as={Package}
+                      size="3xl"
+                      className="text-primary-500"
+                    />
+                    <ThemedText className="text-typography-500">
+                      Type: {pkg.productType}
+                    </ThemedText>
+                  </ThemedView>
+                  <ThemedView className="flex-row items-center gap-2">
+                    <Icon as={Weight} size="3xl" className="text-primary-500" />
+                    <ThemedText className="text-typography-500">
+                      Weight: {pkg.productWeight} {pkg.productUnit}
+                    </ThemedText>
+                  </ThemedView>
+                  {pkg.productDescription && (
+                    <ThemedView className="flex-row items-start gap-2">
+                      <Icon
+                        as={PenLine}
+                        size="3xl"
+                        className="text-primary-500"
+                      />
+                      <ThemedText className="text-typography-500 flex-1">
+                        Description: {pkg.productDescription}
+                      </ThemedText>
+                    </ThemedView>
+                  )}
+                </ThemedView>
+
+                <ThemedText className="flex-1 bg-white">
+                  <ThemedView className="">
+                    <ThemedView className="flex gap-8">
+                      <ThemedView className="flex gap-3">
+                        <ThemedText type="btn_giant" className="mt-5 ">
+                          Delivery Details {data?.data?.trackingId}
+                        </ThemedText>
+                        <ThemedView className="flex-row items-center gap-2">
+                          <Icon
+                            as={Map}
+                            size="3xl"
+                            className="text-primary-500"
+                          />
+                          <ThemedText className="text-typography-500 flex-1">
+                            Pick up: {data?.data?.pickUpLocation.address}
+                          </ThemedText>
+                        </ThemedView>
+                        <ThemedView className="flex-row items-center gap-2">
+                          <Icon
+                            as={MapPin}
+                            size="3xl"
+                            className="text-primary-500"
+                          />
+                          <ThemedText className="text-typography-500 flex-1">
+                            Drop off: {data?.data?.dropOffLocation.address}
+                          </ThemedText>
+                        </ThemedView>
+                        <ThemedView className="flex-row items-center gap-2">
+                          <Icon
+                            as={Calendar}
+                            size="3xl"
+                            className="text-primary-500"
+                          />
+                          <ThemedText className="text-typography-500">
+                            {data?.data?.bookingType === "schedule" &&
+                            data?.data?.scheduleDate
+                              ? new Date(
+                                  data.data.scheduleDate
+                                ).toLocaleDateString("en-US", {
+                                  year: "numeric",
+                                  month: "long",
+                                  day: "numeric",
+                                })
+                              : "Immediate"}
+                          </ThemedText>
+                        </ThemedView>
+                        <ThemedView className="flex-row items-center gap-2">
+                          <Icon
+                            as={Weight}
+                            size="3xl"
+                            className="text-primary-500"
+                          />
+                          <ThemedText className="text-typography-500">
+                            Weight: {data?.data?.weight} kg
+                          </ThemedText>
+                        </ThemedView>
+                      </ThemedView>
+                      <ThemedView className="flex gap-3">
+                        <ThemedText type="btn_giant" className="">
+                          Sender
+                        </ThemedText>
+                        <ThemedView className="flex-row items-center gap-2">
+                          <Icon
+                            as={UserRound}
+                            size="3xl"
+                            className="text-primary-500"
+                          />
+                          <ThemedText className="text-typography-500">
+                            {data?.data?.sender?.fullName}
+                          </ThemedText>
+                        </ThemedView>
+                        <ThemedView className="flex-row items-center gap-2">
+                          <Icon
+                            as={Phone}
+                            size="3xl"
+                            className="text-primary-500"
+                          />
+                          <ThemedText className="text-typography-500">
+                            {data?.data?.sender?.phoneNumber}
+                          </ThemedText>
+                        </ThemedView>
+                        <ThemedView className="flex-row items-center gap-2">
+                          <Icon
+                            as={Mail}
+                            size="3xl"
+                            className="text-primary-500"
+                          />
+                          <ThemedText className="text-typography-500">
+                            {data?.data?.sender?.email}
+                          </ThemedText>
+                        </ThemedView>
+                      </ThemedView>
+                      <ThemedView className="flex gap-3">
+                        <ThemedText type="btn_giant" className="">
+                          Driver
+                        </ThemedText>
+                        <ThemedView className="flex-row items-center gap-2">
+                          <Icon
+                            as={UserRound}
+                            size="3xl"
+                            className="text-primary-500"
+                          />
+                          <ThemedText className="text-typography-500">
+                            {data?.data?.driver?.fullName}
+                          </ThemedText>
+                        </ThemedView>
+                        <ThemedView className="flex-row items-center gap-2">
+                          <Icon
+                            as={Phone}
+                            size="3xl"
+                            className="text-primary-500"
+                          />
+                          <ThemedText className="text-typography-500">
+                            {data?.data?.driver?.phoneNumber}
+                          </ThemedText>
+                        </ThemedView>
+                        <ThemedView className="flex-row items-center gap-2">
+                          <Icon
+                            as={Mail}
+                            size="3xl"
+                            className="text-primary-500"
+                          />
+                          <ThemedText className="text-typography-500">
+                            {data?.data?.driver?.email}
+                          </ThemedText>
+                        </ThemedView>
+                      </ThemedView>
+                      <ThemedView className="flex gap-3">
+                        <ThemedText type="btn_giant" className="">
+                          Receiver
+                        </ThemedText>
+                        <ThemedView className="flex-row items-center gap-2">
+                          <Icon
+                            as={UserRound}
+                            size="3xl"
+                            className="text-primary-500"
+                          />
+                          <ThemedText className="text-typography-500">
+                            {data?.data?.reciver?.receiverName}
+                          </ThemedText>
+                        </ThemedView>
+                        <ThemedView className="flex-row items-center gap-2">
+                          <Icon
+                            as={Phone}
+                            size="3xl"
+                            className="text-primary-500"
+                          />
+                          <ThemedText className="text-typography-500">
+                            {data?.data?.reciver?.receiverPhone}
+                          </ThemedText>
+                        </ThemedView>
+                        {data?.data?.reciver?.alternativePhone && (
+                          <ThemedView className="flex-row items-center gap-2">
+                            <Icon
+                              as={Phone}
+                              size="3xl"
+                              className="text-primary-500"
+                            />
+                            <ThemedText className="text-typography-500">
+                              Alt: {data?.data?.reciver?.alternativePhone}
+                            </ThemedText>
+                          </ThemedView>
+                        )}
+                      </ThemedView>
+                    </ThemedView>
+                  </ThemedView>
                 </ThemedText>
               </ThemedView>
-            </Link>
-          </ThemedView>
+            );
+          })}
         </ThemedView>
       </ParallaxScrollView>
       <ThemedView className="absolute bottom-0 pt-5 pb-10 bg-white left-0 right-0 px-5 flex-row justify-center items-center gap-3">
@@ -236,7 +362,10 @@ export default function PackageSummaryScreen() {
           variant="solid"
           size="2xl"
           onPress={() => {
-            router.push("/(tabs)/confirm-price");
+            router.push({
+              pathname: "/(tabs)/confirm-price",
+              params: { amount: amount, tripId: tripId },
+            });
           }}
           className="flex-1 rounded-[12px] mx-1"
         >

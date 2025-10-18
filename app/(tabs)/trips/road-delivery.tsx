@@ -322,7 +322,7 @@ export default function RoadDeliveryScreen() {
       });
       showNewToast({
         title: "Success",
-        description: "Account Updated successfully!",
+        description: "Road Delivery Initiated successfully!",
         icon: CircleCheckIcon,
         action: "success",
         variant: "solid",
@@ -341,7 +341,6 @@ export default function RoadDeliveryScreen() {
         (typeof error === "string" ? error : undefined) ||
         "Sign up failed";
       console.log("🚀 ~ handleSubmit ~ message:", message);
-      ("Sign up failed");
       showNewToast({
         title: "Delivery Process Failed",
         description: message,

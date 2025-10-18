@@ -2,6 +2,7 @@ import { useNavigation, useRouter } from "expo-router";
 import React, { useEffect } from "react";
 import { FlatList, TouchableOpacity, View } from "react-native";
 
+import { EmptyState } from "@/components/Custom/EmptyState";
 import NotificationIcon from "@/components/Custom/NotificationIcon";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
@@ -14,7 +15,6 @@ import { INotificationsResponse } from "@/types/INotification";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { BellIcon, ChevronLeft } from "lucide-react-native";
-import { EmptyState } from "@/components/Custom/EmptyState";
 
 // dayjs fromNow plugin
 
@@ -23,7 +23,7 @@ dayjs.extend(relativeTime);
 export default function NotificationScreen() {
   const navigation = useNavigation();
   const router = useRouter();
-  const { data, isLoading, refetch } = useAuthenticatedQuery<
+  const { data, isLoading, refetch, isFetching } = useAuthenticatedQuery<
     INotificationsResponse | undefined
   >(["notifications"], "/notification");
   const notifList = Array.isArray(data?.data) ? data!.data : [];
@@ -113,16 +113,20 @@ export default function NotificationScreen() {
                 </Box>
               </ThemedView>
             ))
-            ) : (
+          ) : (
             <FlatList
               data={unreadNotifications}
+              refreshing={isFetching}
+              onRefresh={() => {
+                refetch();
+              }}
               ListEmptyComponent={
-              <EmptyState
-                title="No unread notifications"
-                description="You have no unread notifications at the moment. Check back later for updates."
-                icon={BellIcon}
-                className="mt-10"
-              />
+                <EmptyState
+                  title="No unread notifications"
+                  description="You have no unread notifications at the moment. Check back later for updates."
+                  icon={BellIcon}
+                  className="mt-10"
+                />
               }
               contentContainerClassName="pb-[200px]"
               ItemSeparatorComponent={() => <View style={{ height: 12 }} />}
@@ -161,7 +165,7 @@ export default function NotificationScreen() {
                         type="default"
                         className="text-typography-700 flex-1"
                       >
-                       {item.message.length > 80
+                        {item.message.length > 80
                           ? item.message.substring(0, 80) + "..."
                           : item.message}
                       </ThemedText>

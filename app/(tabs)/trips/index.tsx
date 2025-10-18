@@ -21,8 +21,8 @@ import { TouchableOpacity } from "react-native";
 export default function TripDelivery() {
   const navigation = useNavigation();
   const router = useRouter();
-  const { id } = useLocalSearchParams();
-  console.log("🚀 ~ TripDelivery ~ id:", id);
+  const { tripTypeId } = useLocalSearchParams();
+  console.log("🚀 ~ TripDelivery ~ tripTypeId:", tripTypeId);
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
@@ -80,7 +80,7 @@ export default function TripDelivery() {
   }, [navigation]);
 
   const [activeTripType, setActiveTripType] = useState<number>(
-    id ? parseInt(id as string, 10) : 2
+    tripTypeId ? parseInt(tripTypeId as string, 10) : 2
   );
   const tripTypes = [
     { id: 1, name: "Ground", Icon: GroundSvg },

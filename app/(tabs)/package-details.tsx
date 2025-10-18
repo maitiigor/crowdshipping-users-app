@@ -5,21 +5,21 @@ import { ThemedView } from "@/components/ThemedView";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { Image } from "@/components/ui/image";
-import {
-  Link,
-  useLocalSearchParams,
-  useNavigation,
-  useRouter,
-} from "expo-router";
+import { useLocalSearchParams, useNavigation, useRouter } from "expo-router";
 
-import { ChevronLeft, SquarePlus } from "lucide-react-native";
+import { ChevronLeft } from "lucide-react-native";
 import React, { useEffect } from "react";
-import { Text, TouchableOpacity } from "react-native";
+import { TouchableOpacity } from "react-native";
 
 export default function PackageDetailScreen() {
   const navigation = useNavigation();
   const router = useRouter();
-  const { id } = useLocalSearchParams();
+  const { id, response, tripTypeId } = useLocalSearchParams();
+  const responseObj = response
+    ? JSON.parse(decodeURIComponent(String(response)))
+    : null;
+  console.log("🚀 ~ PackageDetailScreen ~ id:", id);
+  console.log("🚀 ~ PackageDetailScreen ~ response:", responseObj);
 
   useEffect(() => {
     navigation.setOptions({
@@ -27,7 +27,7 @@ export default function PackageDetailScreen() {
       headerTitle: () => {
         return (
           <ThemedText type="s1_subtitle" className="text-center">
-            Add Package
+            Add Package(this is not used)
           </ThemedText>
         );
       },
@@ -123,7 +123,7 @@ export default function PackageDetailScreen() {
           </ThemedView>
         </ThemedView>
 
-        {id === "3" || id === "2" ? (
+        {tripTypeId === "3" || tripTypeId === "2" ? (
           <Button
             variant="solid"
             size="2xl"
@@ -147,7 +147,10 @@ export default function PackageDetailScreen() {
             onPress={() => {
               router.push({
                 pathname: "/(tabs)/nearby-driver",
-                params: { id: id },
+                params: {
+                  id: id,
+                  response: encodeURIComponent(JSON.stringify(response)),
+                },
               });
             }}
           >

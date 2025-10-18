@@ -154,10 +154,12 @@ export default function HomeScreen() {
           {deliveryType.map((item, index) => (
             <Pressable
               key={item.titleKey}
-              onPress={() => router.push({
-                pathname: item.linkTo,
-                params: { id: item.id },
-              })}
+              onPress={() =>
+                router.push({
+                  pathname: item.linkTo,
+                  params: { tripTypeId: item.id },
+                })
+              }
               className="flex items-center gap-2 h-[165px] w-full"
               style={
                 {

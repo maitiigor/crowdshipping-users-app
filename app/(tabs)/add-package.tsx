@@ -47,6 +47,7 @@ import {
 } from "lucide-react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as Yup from "yup";
+
 // MenuItem type removed (unused)
 const productCategoryList = [
   {
@@ -170,9 +171,9 @@ export default function AddPackageScreen() {
   const [receiverPhoneValue, setReceiverPhoneValue] = useState("");
   const [alternativePhoneValue, setAlternativePhoneValue] = useState("");
   const insets = useSafeAreaInsets();
-  const { id } = useLocalSearchParams();
+  const { id, tripTypeId } = useLocalSearchParams();
 
-  const fallbackTripId = "68f3965d3337be3c241c9cab";
+  const fallbackTripId = "";
   const tripId = useMemo(() => {
     if (Array.isArray(id) && id.length > 0) return String(id[0]);
     if (typeof id === "string" && id.trim().length > 0) return id;
@@ -371,9 +372,7 @@ export default function AddPackageScreen() {
           productDescription: pkg.productDescription,
         })),
       };
-      console.log("🚀 ~ handleFormSubmit ~ payload:", payload);
-
-      await mutateAsync(payload);
+      const response = await mutateAsync(payload);
       showNewToast({
         title: "Package saved",
         description: "Your packages were added successfully",
@@ -382,9 +381,14 @@ export default function AddPackageScreen() {
         variant: "solid",
       });
 
+      // sender
       router.push({
         pathname: "/(tabs)/package-details",
-        params: { id: tripId },
+        params: {
+          id: tripId,
+          tripTypeId: tripTypeId,
+          response: encodeURIComponent(JSON.stringify(response)),
+        },
       });
     } catch (submitError: any) {
       const message =
