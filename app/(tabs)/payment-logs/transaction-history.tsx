@@ -10,6 +10,8 @@ import { Menu, MenuItem, MenuItemLabel } from "@/components/ui/menu";
 import { Skeleton, SkeletonText } from "@/components/ui/skeleton";
 import { useAuthenticatedQuery } from "@/lib/api";
 import { IWalletRequestResponse } from "@/types/IWalletRequest";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 import { useNavigation, useRouter } from "expo-router";
 import {
   ChevronLeft,
@@ -20,6 +22,8 @@ import {
 import React, { useEffect, useState } from "react";
 import { FlatList, TouchableOpacity, View } from "react-native";
 
+// dayjs fromNow plugin
+dayjs.extend(relativeTime);
 export default function TransactionHistoryScreen() {
   const navigation = useNavigation();
   const router = useRouter();
@@ -226,7 +230,12 @@ export default function TransactionHistoryScreen() {
                       numberOfLines={2}
                       ellipsizeMode="tail"
                     >
-                      1 hour ago
+                      {dayjs(item.updatedAt || item.createdAt)
+                        .fromNow()
+                        .replace(/\bminutes\b/g, "mins")
+                        .replace(/\bminute\b/g, "min")
+                        .replace(/\bseconds\b/g, "secs")
+                        .replace(/\bsecond\b/g, "sec")}
                     </ThemedText>
                   </TouchableOpacity>
                 )}

@@ -172,8 +172,7 @@ export default function CustomSidebarMenu({
                 <AvatarImage
                   source={{
                     uri:
-                      userProfileData?.data?.profile.profilePicUrl ||
-                      "https://dummyimage.com/600x400/cccccc/000000.png&text=User",
+                      userProfileData?.data?.profile.profilePicUrl,
                   }}
                 />
               </Avatar>

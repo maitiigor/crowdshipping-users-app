@@ -10,6 +10,7 @@ import { Skeleton, SkeletonText } from "@/components/ui/skeleton";
 import { useAuthenticatedPost, useAuthenticatedQuery } from "@/lib/api";
 import { IWalletRequestResponse } from "@/types/IWalletRequest";
 import { formatCurrency } from "@/utils/helper";
+import dayjs from "dayjs";
 import { useNavigation, useRouter } from "expo-router";
 import { ChevronLeft, CircleCheckBig } from "lucide-react-native";
 import React, { useEffect, useState } from "react";
@@ -20,6 +21,10 @@ import {
   View,
 } from "react-native";
 
+import relativeTime from "dayjs/plugin/relativeTime";
+
+// dayjs fromNow plugin
+dayjs.extend(relativeTime);
 export default function PaymentLogScreen() {
   const navigation = useNavigation();
   const router = useRouter();
@@ -30,7 +35,7 @@ export default function PaymentLogScreen() {
   const { data, isLoading, refetch } = useAuthenticatedQuery<
     IWalletRequestResponse | undefined
   >(["wallet"], "/wallet/fetch");
-  console.log("🚀 ~ PaymentLogScreen ~ data:", data)
+  console.log("🚀 ~ PaymentLogScreen ~ data:", data);
   const filterList = [
     {
       label: "Withdrawal",
@@ -264,7 +269,12 @@ export default function PaymentLogScreen() {
                         numberOfLines={2}
                         ellipsizeMode="tail"
                       >
-                        1 hour ago
+                        {dayjs(item.updatedAt || item.createdAt)
+                          .fromNow()
+                          .replace(/\bminutes\b/g, "mins")
+                          .replace(/\bminute\b/g, "min")
+                          .replace(/\bseconds\b/g, "secs")
+                          .replace(/\bsecond\b/g, "sec")}
                       </ThemedText>
                     </TouchableOpacity>
                   )}

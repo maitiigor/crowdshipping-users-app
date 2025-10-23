@@ -27,7 +27,7 @@ export default function ChatScreen() {
   const navigation = useNavigation();
   const router = useRouter();
   const [selectedFilter, setSelectedFilter] = useState("all");
-  const { data, isLoading, refetch } = useAuthenticatedQuery<
+  const { data, isLoading, refetch, isFetching } = useAuthenticatedQuery<
     IConversationsResponse | undefined
   >(["conversations"], "/conversations");
   console.log("🚀 ~ ChatScreen ~ data:", data);
@@ -176,6 +176,10 @@ export default function ChatScreen() {
           ) : (
             <FlatList
               data={data?.data}
+              refreshing={isFetching}
+              onRefresh={() => {
+                refetch();
+              }}
               ListEmptyComponent={
                 <EmptyState
                   title="No chats"
@@ -224,7 +228,12 @@ export default function ChatScreen() {
                           {item.participant.fullName}
                         </ThemedText>
                         <ThemedText type="btn_medium" className="">
-                          {dayjs(item.lastMessageAt).fromNow()}
+                          {dayjs(item.lastMessageAt)
+                            .fromNow()
+                            .replace(/\bminutes\b/g, "mins")
+                            .replace(/\bminute\b/g, "min")
+                            .replace(/\bseconds\b/g, "secs")
+                            .replace(/\bsecond\b/g, "sec")}
                         </ThemedText>
                       </ThemedView>
                       <ThemedView className="flex-row pt-1 gap-5 items-center justify-between">
@@ -234,7 +243,7 @@ export default function ChatScreen() {
                         >
                           {item.lastMessage.length > 30
                             ? item.lastMessage.substring(0, 30) + "..."
-                            : item.lastMessage}
+                            : item.lastMessage || "No messages yet"}
                         </ThemedText>
 
                         {item.unreadCount > 0 && (

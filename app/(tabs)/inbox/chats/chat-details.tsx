@@ -121,7 +121,7 @@ const VoiceMessagePlayer: React.FC<VoiceMessagePlayerProps> = ({
 
   return (
     <ThemedView
-      className={`flex-row items-center gap-3 rounded-xl px-3 py-2 ${
+      className={`flex-row items-center gap-3 w-[300px] rounded-xl px-3 py-2 ${
         isSender ? "bg-white/20" : "bg-white"
       }`}
     >
@@ -903,7 +903,7 @@ export default function ChatDetailsScreen() {
               contentContainerStyle={{ gap: 12, paddingBottom: 24 }}
               showsVerticalScrollIndicator={false}
             >
-              {isLoading || isFetching ? (
+              {isLoading ? (
                 <ThemedView className="w-full items-center justify-center py-12">
                   <ActivityIndicator size="large" color="#2F80ED" />
                 </ThemedView>

@@ -19,6 +19,8 @@ export interface IWalletRequestTransaction {
   referenceId: string;
   previousBalance: number;
   currentBalance: number;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface IWalletRequestWallet {

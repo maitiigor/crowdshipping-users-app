@@ -66,6 +66,7 @@ export default function HomeScreen() {
   useEffect(() => {
     const fullName =
       (data as any)?.data?.fullName ?? (data as any)?.fullName ?? "User";
+    const address = data?.data?.profile.address ?? "No address set";
     navigation.setOptions({
       headerShown: true,
       headerShadowVisible: false,
@@ -82,10 +83,12 @@ export default function HomeScreen() {
             {/* Example: Keep static or make dynamic via user profile */}
             Hello, {isLoading ? "..." : fullName}
           </ThemedText>
-          <ThemedView className="flex-row gap-2 items-center">
+          <ThemedView className="flex-row gap-2 items-center bottom-1">
             <Icon as={MapPin} size="lg" className="text-primary-500" />
             <ThemedText className="text-center" type="c2_caption">
-              Ikeja Army cantonment,...
+              {address.length > 25
+                ? address.substring(0, 25) + "..."
+                : address || "No address set"}
             </ThemedText>
             <Icon as={ChevronDown} size="2xl" className="text-typography-600" />
           </ThemedView>

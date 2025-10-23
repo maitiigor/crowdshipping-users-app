@@ -41,6 +41,7 @@ import * as Yup from "yup";
 import { IUserProfileResponse } from "@/types/IUserProfile";
 import { useStripe } from "@stripe/stripe-react-native";
 import { usePaystack } from "react-native-paystack-webview";
+import { INotificationsResponse } from "@/types/INotification";
 
 const validationSchema = Yup.object().shape({
   amount: Yup.number()
@@ -64,6 +65,9 @@ export default function TopUpScreen() {
     ["me"],
     "/user/profile"
   );
+  const { refetch: refetchNotifications } = useAuthenticatedQuery<
+      INotificationsResponse | undefined
+    >(["notifications"], "/notification");
   const { data, refetch } = useAuthenticatedQuery<
     IWalletRequestResponse | undefined
   >(["wallet"], "/wallet/fetch");
@@ -89,6 +93,7 @@ export default function TopUpScreen() {
         paymentType: string; //paystack | stripe
         currency: string;
         trxReference: string;
+        paymentIntentId?: string;
       }
     >("/wallet/verify-funding");
 
@@ -190,7 +195,8 @@ export default function TopUpScreen() {
   const handleStripePayment = async (
     clientSecret: string,
     amountToPay: number,
-    reference: string
+    reference: string,
+    paymentIntentId: string
   ) => {
     try {
       // Initialize payment sheet
@@ -240,7 +246,7 @@ export default function TopUpScreen() {
       }
 
       // Payment successful, verify with backend
-      await verifyPayment(amountToPay, "stripe", reference);
+      await verifyPayment(amountToPay, "stripe", reference, paymentIntentId);
     } catch (error: any) {
       console.log("🚀 ~ handleStripePayment ~ error:", error);
       showNewToast({
@@ -288,7 +294,7 @@ export default function TopUpScreen() {
       return;
     }
 
-    const amountInNaira = Math.round(amountToPay / 100);
+    const amountInNaira = Math.round(amountToPay);
 
     const paystackRequest: any = {
       email: customerEmail,
@@ -378,7 +384,8 @@ export default function TopUpScreen() {
   const verifyPayment = async (
     amountToPay: number,
     paymentType: string,
-    reference: string
+    reference: string,
+    paymentIntentId?: string
   ) => {
     console.log("🚀 ~ verifyPayment ~ reference:", reference);
     console.log("🚀 ~ verifyPayment ~ paymentType:", paymentType);
@@ -389,6 +396,7 @@ export default function TopUpScreen() {
         paymentType: paymentType,
         currency: currency,
         trxReference: reference,
+        paymentIntentId: paymentIntentId,
       });
 
       showNewToast({
@@ -401,12 +409,14 @@ export default function TopUpScreen() {
 
       // Refresh wallet data
       refetch();
+      refetchNotifications();
 
       // Navigate back or to success screen
       setTimeout(() => {
         router.back();
       }, 1500);
     } catch (error: any) {
+      console.log("🚀 ~ verifyPayment ~ error:", error)
       showNewToast({
         title: "Verification Failed",
         description: error?.message || "Failed to verify payment",
@@ -450,7 +460,8 @@ export default function TopUpScreen() {
           await handleStripePayment(
             data.clientSecret,
             data.amountToPay,
-            data.reference
+            data.reference,
+            data.paymentIntentId
           );
         }
       }
