@@ -4,6 +4,11 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useAuthenticatedQuery } from "@/lib/api";
+import { ISingleAirTripResponse } from "@/types/air-sea/IAirTrip";
+import { ISingleSeaMaritimeResponse } from "@/types/air-sea/ISeaMaritime";
+import { newUserTimeZoneFormatDate, paramToString } from "@/utils/helper";
 import { useLocalSearchParams, useNavigation, useRouter } from "expo-router";
 import { ChevronLeft, MapPin } from "lucide-react-native";
 import React, { useEffect } from "react";
@@ -12,7 +17,37 @@ import { TouchableOpacity } from "react-native";
 export default function TravelerDetail() {
   const navigation = useNavigation();
   const router = useRouter();
-  const { id } = useLocalSearchParams();
+  const { activeTripType, tripId } = useLocalSearchParams();
+  const tripIdStr = paramToString(tripId);
+  const activeTripTypeStr = paramToString(activeTripType);
+  const isAirTrip = activeTripTypeStr === "2";
+  const isMaritimeTrip = !isAirTrip;
+  const {
+    data: airTripData,
+    isLoading: airTripLoading,
+    isFetching: airTripFetching,
+    refetch: refetchAirTrip,
+  } = useAuthenticatedQuery<ISingleAirTripResponse | undefined>(
+    ["trips-air", tripIdStr],
+    tripIdStr ? `/trip/available/air/${tripIdStr}` : "",
+    undefined,
+    {
+      enabled: isAirTrip && Boolean(tripIdStr),
+    }
+  );
+  const {
+    data: maritimeData,
+    isLoading: maritimeLoading,
+    isFetching: maritimeFetching,
+    refetch: refetchMaritime,
+  } = useAuthenticatedQuery<ISingleSeaMaritimeResponse | undefined>(
+    ["trips-maritime", tripIdStr],
+    tripIdStr ? `/trip/available/maritime/${tripIdStr}` : "",
+    undefined,
+    {
+      enabled: isMaritimeTrip && Boolean(tripIdStr),
+    }
+  );
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
@@ -69,6 +104,154 @@ export default function TravelerDetail() {
     });
   }, [navigation]);
 
+  const airTrip = airTripData?.data;
+  const maritimeTrip = maritimeData?.data;
+  const baseTrip = isAirTrip ? airTrip?.trip : maritimeTrip?.trip;
+
+  const cleanText = (value?: string | null) => {
+    if (!value) {
+      return "";
+    }
+    const trimmed = value.trim();
+    return trimmed;
+  };
+
+  const formatValue = (value?: string | number | null) => {
+    if (value === null || value === undefined) {
+      return "—";
+    }
+    const stringValue = String(value).trim();
+    return stringValue.length ? stringValue : "—";
+  };
+
+  const formatDate = (value?: string) =>
+    value ? newUserTimeZoneFormatDate(value, "MMM D, YYYY") : "—";
+
+  const buildRouteLabel = (
+    origin?: string | null,
+    destination?: string | null
+  ) => {
+    const from = cleanText(origin);
+    const to = cleanText(destination);
+    if (from && to) {
+      return `${from} → ${to}`;
+    }
+    if (from) {
+      return from;
+    }
+    if (to) {
+      return to;
+    }
+    return "—";
+  };
+
+  const routeLabel = isAirTrip
+    ? buildRouteLabel(airTrip?.departureCity, airTrip?.arrivalCity)
+    : buildRouteLabel(maritimeTrip?.departurePort, maritimeTrip?.arrivalPort);
+
+  const airTripTitle = cleanText(airTrip?.airlineName);
+  const airTripId = cleanText(airTrip?.trip?.tripId);
+  const maritimeTripTitle = cleanText(maritimeTrip?.vesselName);
+  const maritimeTripId = cleanText(maritimeTrip?.trip?.tripId);
+
+  const tripTitle = isAirTrip
+    ? airTripTitle || (airTripId ? `Trip ${airTripId}` : "Air Trip")
+    : maritimeTripTitle ||
+      (maritimeTripId ? `Trip ${maritimeTripId}` : "Maritime Trip");
+
+  const detailRows =
+    isAirTrip && airTrip
+      ? [
+          { label: "Trip ID", value: formatValue(airTrip.trip?.tripId) },
+          { label: "Airline", value: formatValue(airTrip.airlineName) },
+          {
+            label: "Flight Number",
+            value: formatValue(airTrip.flightNumber),
+          },
+          {
+            label: "Departure City",
+            value: formatValue(airTrip.departureCity),
+          },
+          {
+            label: "Arrival City",
+            value: formatValue(airTrip.arrivalCity),
+          },
+          {
+            label: "Departure Date",
+            value: formatDate(airTrip.trip?.departureDate),
+          },
+          {
+            label: "Arrival Date",
+            value: formatDate(airTrip.trip?.arrivalDate),
+          },
+          { label: "Status", value: formatValue(airTrip.trip?.status) },
+        ]
+      : !isAirTrip && maritimeTrip
+      ? [
+          { label: "Trip ID", value: formatValue(maritimeTrip.trip?.tripId) },
+          {
+            label: "MMSI Number",
+            value: formatValue(maritimeTrip.mmsiNumber),
+          },
+          {
+            label: "Vessel Name",
+            value: formatValue(maritimeTrip.vesselName),
+          },
+          {
+            label: "Vessel Operator",
+            value: formatValue(maritimeTrip.vesselOperator),
+          },
+          {
+            label: "Voyage Number",
+            value: formatValue(maritimeTrip.voyageNumber),
+          },
+          {
+            label: "Container Number",
+            value: formatValue(maritimeTrip.containerNumber),
+          },
+          {
+            label: "Departure Port",
+            value: formatValue(maritimeTrip.departurePort),
+          },
+          {
+            label: "Arrival Port",
+            value: formatValue(maritimeTrip.arrivalPort),
+          },
+          {
+            label: "Departure Date",
+            value: formatDate(maritimeTrip.trip?.departureDate),
+          },
+          {
+            label: "Arrival Date",
+            value: formatDate(maritimeTrip.trip?.arrivalDate),
+          },
+          { label: "Status", value: formatValue(maritimeTrip.trip?.status) },
+        ]
+      : [];
+
+  const creator = baseTrip?.creator;
+  const creatorName = cleanText(creator?.fullName);
+  const creatorLocation = [
+    cleanText(creator?.profile?.city),
+    cleanText(creator?.profile?.state),
+    cleanText(creator?.profile?.country),
+  ]
+    .filter(Boolean)
+    .join(", ");
+  const creatorAddress = cleanText(creator?.profile?.address);
+
+  const isBusy = isAirTrip
+    ? airTripLoading || airTripFetching
+    : maritimeLoading || maritimeFetching;
+
+  const handleRetry = () => {
+    if (isAirTrip) {
+      refetchAirTrip();
+    } else {
+      refetchMaritime();
+    }
+  };
+
   return (
     <>
       <ParallaxScrollView
@@ -76,277 +259,123 @@ export default function TravelerDetail() {
       >
         <ThemedView className="flex-1">
           <ThemedView className="flex-1 pb-20 gap-5">
-            {id === "3" ? (
-              <ThemedView className="border border-primary-50 p-5 rounded-2xl flex gap-5">
-                <ThemedView className="flex gap-5">
-                  <ThemedView className="flex justify-between flex-1 gap-1 pb-4">
+            <ThemedView className="border border-primary-50 bg-white p-6 rounded-3xl flex gap-6">
+              {isBusy ? (
+                <ThemedView className="gap-4">
+                  <Skeleton className="h-6 w-1/2 rounded-lg" />
+                  <Skeleton className="h-4 w-3/4 rounded-lg" />
+                  {Array.from({ length: 6 }).map((_, index) => (
+                    <Skeleton
+                      key={`trip-detail-skeleton-${index}`}
+                      className="h-4 w-full rounded-lg"
+                    />
+                  ))}
+                </ThemedView>
+              ) : baseTrip ? (
+                <>
+                  <ThemedView className="gap-3">
                     <ThemedText
                       type="s1_subtitle"
-                      className="text-typography-800 flex-1"
+                      className="text-typography-900"
                     >
-                      Urgent Documents to VI
+                      {tripTitle}
                     </ThemedText>
-                    <ThemedView className="flex-row flex-1 items-center gap-1">
-                      <Icon as={MapPin} />
-                      <ThemedText type="default">
-                        Ikeja, Lagos→Canada
+                    <ThemedView className="flex-row flex-wrap items-center gap-1">
+                      <Icon as={MapPin} size="md" />
+                      <ThemedText
+                        type="default"
+                        className="text-typography-600"
+                      >
+                        {routeLabel}
                       </ThemedText>
                     </ThemedView>
                   </ThemedView>
-                  <ThemedView className="flex-row gap-2 justify-between">
-                    <ThemedText
-                      type="s2_subtitle"
-                      className="text-typography-800"
-                    >
-                      Airline Name
-                    </ThemedText>
-                    <ThemedText
-                      type="default"
-                      className="text-typography-500 flex-1 text-right"
-                    >
-                      Ethiopian Airline
-                    </ThemedText>
+                  <ThemedView className="gap-3">
+                    {detailRows.map(({ label, value }) => (
+                      <ThemedView
+                        key={label}
+                        className="flex-row items-start justify-between gap-3"
+                      >
+                        <ThemedText
+                          type="s2_subtitle"
+                          className="text-typography-800"
+                        >
+                          {label}
+                        </ThemedText>
+                        <ThemedText
+                          type="default"
+                          className="text-typography-500 flex-1 text-right"
+                        >
+                          {value}
+                        </ThemedText>
+                      </ThemedView>
+                    ))}
                   </ThemedView>
-                  <ThemedView className="flex-row gap-2 justify-between">
-                    <ThemedText
-                      type="s2_subtitle"
-                      className="text-typography-800"
-                    >
-                      Flight Number
-                    </ThemedText>
-                    <ThemedText
-                      type="default"
-                      className="text-typography-500 flex-1 text-right"
-                    >
-                      ET 786
-                    </ThemedText>
-                  </ThemedView>
-                  <ThemedView className="flex-row gap-2 justify-between">
-                    <ThemedText
-                      type="s2_subtitle"
-                      className="text-typography-800"
-                    >
-                      Departure Date
-                    </ThemedText>
-                    <ThemedText
-                      type="default"
-                      className="text-typography-500 flex-1 text-right"
-                    >
-                      2023-10-10
-                    </ThemedText>
-                  </ThemedView>
-                  <ThemedView className="flex-row gap-2 justify-between">
-                    <ThemedText
-                      type="s2_subtitle"
-                      className="text-typography-800"
-                    >
-                      Arrival Dates
-                    </ThemedText>
-                    <ThemedText
-                      type="default"
-                      className="text-typography-500 flex-1 text-right"
-                    >
-                      2024-10-10
-                    </ThemedText>
-                  </ThemedView>
-                  <ThemedView className="flex-row gap-2 justify-between">
-                    <ThemedText
-                      type="s2_subtitle"
-                      className="text-typography-800"
-                    >
-                      Available Capacity
-                    </ThemedText>
-                    <ThemedText
-                      type="default"
-                      className="text-typography-500 flex-1 text-right"
-                    >
-                      2kg
-                    </ThemedText>
-                  </ThemedView>
-                  <ThemedView className="flex-row gap-2 justify-between">
-                    <ThemedText
-                      type="s2_subtitle"
-                      className="text-typography-800"
-                    >
-                      Dimension
-                    </ThemedText>
-                    <ThemedText
-                      type="default"
-                      className="text-typography-500 flex-1 text-right"
-                    >
-                      30 x 30 x 30 cm
-                    </ThemedText>
-                  </ThemedView>
-                  <ThemedText
-                    type="default"
-                    className="text-typography-600 flex-1 text-left"
-                  >
-                    Posted by Amina Bello  • 35m ago
-                  </ThemedText>
-                </ThemedView>
-              </ThemedView>
-            ) : (
-              <ThemedView className="border border-primary-50 p-5 rounded-2xl flex gap-5">
-                <ThemedView className="flex gap-5">
-                  <ThemedView className="flex justify-between flex-1 gap-1 pb-4">
-                    <ThemedText
-                      type="s1_subtitle"
-                      className="text-typography-800 flex-1"
-                    >
-                      Urgent Documents to VI
-                    </ThemedText>
-                    <ThemedView className="flex-row flex-1 items-center gap-1">
-                      <Icon as={MapPin} />
-                      <ThemedText type="default">
-                        Ikeja, Lagos→Canada
+                  {creatorName ? (
+                    <ThemedView className="p-4 border border-primary-100 bg-primary-50/60 rounded-2xl gap-1">
+                      <ThemedText
+                        type="s2_subtitle"
+                        className="text-typography-800"
+                      >
+                        {creatorName}
                       </ThemedText>
+                      {creatorLocation ? (
+                        <ThemedText
+                          type="default"
+                          className="text-typography-600"
+                        >
+                          {creatorLocation}
+                        </ThemedText>
+                      ) : null}
+                      {creatorAddress ? (
+                        <ThemedText
+                          type="c1_caption"
+                          className="text-typography-500"
+                        >
+                          {creatorAddress}
+                        </ThemedText>
+                      ) : null}
                     </ThemedView>
-                  </ThemedView>
-                  <ThemedView className="flex-row gap-2 justify-between">
-                    <ThemedText
-                      type="s2_subtitle"
-                      className="text-typography-800"
-                    >
-                      Vessel name
-                    </ThemedText>
-                    <ThemedText
-                      type="default"
-                      className="text-typography-500 flex-1 text-right"
-                    >
-                      MSC Zoe
-                    </ThemedText>
-                  </ThemedView>
-                  <ThemedView className="flex-row gap-2 flex-1 justify-between">
-                    <ThemedText
-                      type="s2_subtitle"
-                      className="text-typography-800"
-                    >
-                      Vessel operator
-                    </ThemedText>
-                    <ThemedText
-                      type="default"
-                      className="text-typography-500 flex-1 text-right"
-                    >
-                      Shipping Company
-                    </ThemedText>
-                  </ThemedView>
-                  <ThemedView className="flex-row gap-2 justify-between">
-                    <ThemedText
-                      type="s2_subtitle"
-                      className="text-typography-800"
-                    >
-                      Container Number
-                    </ThemedText>
-                    <ThemedText
-                      type="default"
-                      className="text-typography-500 flex-1 text-right"
-                    >
-                      MSCU 123456-7
-                    </ThemedText>
-                  </ThemedView>
-                  <ThemedView className="flex-row gap-2 justify-between">
-                    <ThemedText
-                      type="s2_subtitle"
-                      className="text-typography-800"
-                    >
-                      Departure Port
-                    </ThemedText>
-                    <ThemedText
-                      type="default"
-                      className="text-typography-500 flex-1 text-right"
-                    >
-                      Lagos Port
-                    </ThemedText>
-                  </ThemedView>
-                  <ThemedView className="flex-row gap-2 justify-between">
-                    <ThemedText
-                      type="s2_subtitle"
-                      className="text-typography-800"
-                    >
-                      Arrival Port
-                    </ThemedText>
-                    <ThemedText
-                      type="default"
-                      className="text-typography-500 flex-1 text-right"
-                    >
-                      Canada Port
-                    </ThemedText>
-                  </ThemedView>
-                  <ThemedView className="flex-row gap-2 justify-between">
-                    <ThemedText
-                      type="s2_subtitle"
-                      className="text-typography-800"
-                    >
-                      Voyage Number
-                    </ThemedText>
-                    <ThemedText
-                      type="default"
-                      className="text-typography-500 flex-1 text-right"
-                    >
-                      012W
-                    </ThemedText>
-                  </ThemedView>
-                  <ThemedView className="flex-row gap-2 justify-between">
-                    <ThemedText
-                      type="s2_subtitle"
-                      className="text-typography-800"
-                    >
-                      Departure Date
-                    </ThemedText>
-                    <ThemedText
-                      type="default"
-                      className="text-typography-500 flex-1 text-right"
-                    >
-                      01/01/2023
-                    </ThemedText>
-                  </ThemedView>
-                  <ThemedView className="flex-row gap-2 justify-between">
-                    <ThemedText
-                      type="s2_subtitle"
-                      className="text-typography-800"
-                    >
-                      Arrival Date
-                    </ThemedText>
-                    <ThemedText
-                      type="default"
-                      className="text-typography-500 flex-1 text-right"
-                    >
-                      01/01/2023
-                    </ThemedText>
-                  </ThemedView>
-                  <ThemedView className="flex-row gap-2 justify-between">
-                    <ThemedText
-                      type="s2_subtitle"
-                      className="text-typography-800"
-                    >
-                      Available Capacity
-                    </ThemedText>
-                    <ThemedText
-                      type="default"
-                      className="text-typography-500 flex-1 text-right"
-                    >
-                      20ft Container
-                    </ThemedText>
-                  </ThemedView>
+                  ) : null}
+                </>
+              ) : (
+                <ThemedView className="items-center gap-4">
+                  <ThemedText
+                    type="s2_subtitle"
+                    className="text-typography-800 text-center"
+                  >
+                    Trip details unavailable
+                  </ThemedText>
                   <ThemedText
                     type="default"
-                    className="text-typography-600 flex-1 text-left"
+                    className="text-typography-500 text-center"
                   >
-                    Posted by Amina Bello  • 35m ago
+                    We couldn&apos;t load this trip. Please try again.
                   </ThemedText>
+                  <Button variant="outline" size="lg" onPress={handleRetry}>
+                    <ThemedText type="b2_body" className="text-primary-500">
+                      Retry
+                    </ThemedText>
+                  </Button>
                 </ThemedView>
-              </ThemedView>
-            )}
+              )}
+            </ThemedView>
             <Button
               variant="solid"
               size="2xl"
+              className="flex-1 rounded-[12px] mx-1"
+              isDisabled={
+                !baseTrip || !tripIdStr || !activeTripTypeStr || isBusy
+              }
               onPress={() => {
+                if (!tripIdStr || !activeTripTypeStr || !baseTrip) {
+                  return;
+                }
                 router.push({
-                  pathname: "/(tabs)/trips/air-sea-delivery",
-                  params: { id: id },
+                  pathname: "/(tabs)/trips/air-sea/air-sea-delivery",
+                  params: { activeTripType: activeTripType, tripId: tripId },
                 });
               }}
-              className="flex-1 rounded-[12px] mx-1"
             >
               <ThemedText type="s2_subtitle" className="text-white text-center">
                 Enter Delivery Details
