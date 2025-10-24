@@ -3,10 +3,12 @@ import NotificationIcon from "@/components/Custom/NotificationIcon";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
+import CancelBookingModal from "@/components/Trips/CancelBookingModal";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { useAuthenticatedQuery } from "@/lib/api";
 import { IPickupTripDetailsResponse } from "@/types/IPickupByDriver";
+import { paramToString } from "@/utils/helper";
 import { useLocalSearchParams, useNavigation, useRouter } from "expo-router";
 import {
   Calendar,
@@ -20,16 +22,18 @@ import {
   UserRound,
   Weight,
 } from "lucide-react-native";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { TouchableOpacity } from "react-native";
 
 export default function PackageSummaryScreen() {
   const navigation = useNavigation();
   const router = useRouter();
   const { tripId, amount } = useLocalSearchParams();
+  const tripIdStr = paramToString(tripId);
   const { data, refetch, isLoading } = useAuthenticatedQuery<
     IPickupTripDetailsResponse | undefined
   >(["pickup-details", tripId], `/trip/packages/${tripId}`);
+  const [showModal, setShowModal] = useState(false);
   console.log("🚀 ~ PackageSummaryScreen ~ data:", data);
   useEffect(() => {
     navigation.setOptions({
@@ -361,6 +365,7 @@ export default function PackageSummaryScreen() {
           <ThemedText
             type="s2_subtitle"
             className="text-primary-500 text-center "
+            onPress={() => setShowModal(true)}
           >
             Cancel order
           </ThemedText>
@@ -381,6 +386,15 @@ export default function PackageSummaryScreen() {
           </ThemedText>
         </Button>
       </ThemedView>
+      {showModal && (
+        <>
+          <CancelBookingModal
+            responseId={tripIdStr!}
+            showModal={showModal}
+            setShowModal={setShowModal}
+          />
+        </>
+      )}
     </>
   );
 }

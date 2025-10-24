@@ -383,7 +383,7 @@ export default function AddPackageScreen() {
 
       // sender
       router.push({
-        pathname: "/(tabs)/package-details",
+        pathname: "/(tabs)/nearby-driver",
         params: {
           id: tripId,
           tripTypeId: tripTypeId,
@@ -608,6 +608,7 @@ export default function AddPackageScreen() {
                         labelClassName="b2_body"
                         value={values.scheduleDate as unknown as Date | null}
                         onChange={(date) => setFieldValue("scheduleDate", date)}
+                        minimumDate={new Date(new Date().setHours(0, 0, 0, 0))}
                       />
                       {errors.scheduleDate &&
                         (touched.scheduleDate || submitCount > 0) && (

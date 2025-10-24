@@ -7,14 +7,25 @@ import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
 import { useToast } from "@/components/ui/toast";
-import { useAuthenticatedPatch, useAuthenticatedQuery } from "@/lib/api";
+import {
+  useAuthenticatedPatch,
+  useAuthenticatedPost,
+  useAuthenticatedQuery,
+} from "@/lib/api";
 import { INotificationsResponse } from "@/types/INotification";
+import { IWalletRequestResponse } from "@/types/IWalletRequest";
 import { formatCurrency } from "@/utils/helper";
 import { useLocalSearchParams, useNavigation, useRouter } from "expo-router";
 import { Formik } from "formik";
-import { ChevronLeft, HelpCircleIcon, SearchIcon } from "lucide-react-native";
-import React, { useEffect } from "react";
-import { TouchableOpacity } from "react-native";
+import {
+  ChevronLeft,
+  CircleCheckIcon,
+  HelpCircleIcon,
+  LucideIcon,
+  SearchIcon,
+} from "lucide-react-native";
+import React, { useEffect, useMemo, useState } from "react";
+import { ActivityIndicator, TouchableOpacity } from "react-native";
 
 import * as Yup from "yup";
 
@@ -30,6 +41,9 @@ export default function ConfirmPrice() {
   const { refetch: notifyRefetch } = useAuthenticatedQuery<
     INotificationsResponse | undefined
   >(["notifications"], "/notification");
+  const { data, isLoading } = useAuthenticatedQuery<
+    IWalletRequestResponse | undefined
+  >(["wallet"], "/wallet/fetch");
   const { mutateAsync, error, loading } = useAuthenticatedPatch<
     any,
     {
@@ -37,7 +51,32 @@ export default function ConfirmPrice() {
       amount: number;
     }
   >(`/trip/confirm/package/${tripId}`);
+  const {
+    mutateAsync: applyDiscount,
+    error: discountError,
+    loading: discountLoading,
+  } = useAuthenticatedPost<
+    any,
+    {
+      discountCode: string;
+    }
+  >(`/trip/apply/discount`);
   const router = useRouter();
+  const baseAmount = useMemo(() => {
+    const amountValue = Array.isArray(amount) ? amount[0] : amount;
+    const parsed =
+      typeof amountValue === "string"
+        ? parseFloat(amountValue)
+        : Number(amountValue);
+    return Number.isFinite(parsed) ? parsed : 0;
+  }, [amount]);
+  const [discountPercentage, setDiscountPercentage] = useState<number | null>(
+    null
+  );
+  const [discountValue, setDiscountValue] = useState<number>(0);
+  const [appliedDiscountCode, setAppliedDiscountCode] = useState<string | null>(
+    null
+  );
 
   useEffect(() => {
     navigation.setOptions({
@@ -104,7 +143,7 @@ export default function ConfirmPrice() {
   }: {
     title: string;
     description: string;
-    icon: typeof HelpCircleIcon;
+    icon: LucideIcon;
     action: "error" | "success" | "info" | "muted" | "warning";
     variant: "solid" | "outline";
   }) => {
@@ -126,13 +165,106 @@ export default function ConfirmPrice() {
     });
   };
 
+  const formatPercentage = (value: number) =>
+    parseFloat(value.toFixed(2)).toString();
+
+  const handleApplyDiscount = async (
+    discountCodeValue: string,
+    setFieldValue: (
+      field: string,
+      value: unknown,
+      shouldValidate?: boolean | undefined
+    ) => void
+  ) => {
+    const trimmedCode = discountCodeValue?.trim();
+
+    if (!trimmedCode) {
+      showNewToast({
+        title: "Discount Required",
+        description: "Enter a discount code before applying.",
+        icon: HelpCircleIcon,
+        action: "warning",
+        variant: "solid",
+      });
+      return;
+    }
+
+    if (baseAmount <= 0) {
+      showNewToast({
+        title: "Invalid Amount",
+        description: "Unable to apply a discount to this amount.",
+        icon: HelpCircleIcon,
+        action: "error",
+        variant: "solid",
+      });
+      return;
+    }
+
+    try {
+      const response = await applyDiscount({
+        discountCode: trimmedCode,
+      });
+
+      const percentageFromResponse = Number(response?.data?.discount);
+
+      if (
+        !Number.isFinite(percentageFromResponse) ||
+        percentageFromResponse <= 0
+      ) {
+        setDiscountPercentage(null);
+        setDiscountValue(0);
+        setAppliedDiscountCode(null);
+        setFieldValue("amount", baseAmount);
+        showNewToast({
+          title: "Discount Unavailable",
+          description: "We couldn't calculate a valid discount for this code.",
+          icon: HelpCircleIcon,
+          action: "error",
+          variant: "solid",
+        });
+        return;
+      }
+
+      const computedDiscountValue = (baseAmount * percentageFromResponse) / 100;
+      const newAmount = Math.max(baseAmount - computedDiscountValue, 0);
+
+      setDiscountPercentage(percentageFromResponse);
+      setDiscountValue(computedDiscountValue);
+      setAppliedDiscountCode(trimmedCode);
+      setFieldValue("amount", Number(newAmount.toFixed(2)));
+      showNewToast({
+        title: "Discount Applied",
+        description: `You saved ${formatCurrency(
+          computedDiscountValue,
+          "NGN",
+          "en-NG"
+        )}.`,
+        icon: CircleCheckIcon,
+        action: "success",
+        variant: "solid",
+      });
+    } catch (discountErr: any) {
+      showNewToast({
+        title: "Discount Failed",
+        description:
+          discountErr?.data?.message ||
+          discountErr?.message ||
+          (typeof discountError === "string" ? discountError : undefined) ||
+          "Unable to apply discount at the moment.",
+        icon: HelpCircleIcon,
+        action: "error",
+        variant: "solid",
+      });
+    }
+  };
+
   const handleFormSubmit = async (values: {
     discount: string;
     amount: number;
   }) => {
     try {
       const payload = {
-        discountCode: values.discount,
+        discountCode: values.discount?.trim() || "",
         amount: values.amount,
       };
       const response = await mutateAsync(payload);
@@ -145,13 +277,24 @@ export default function ConfirmPrice() {
         action: "success",
         variant: "solid",
       });
+      const trimmedDiscountCode = values.discount?.trim() || "";
+      const discountAmountParam =
+        discountPercentage !== null && discountValue > 0
+          ? discountValue.toString()
+          : "";
+      const discountPercentageParam =
+        discountPercentage !== null && discountPercentage > 0
+          ? discountPercentage.toString()
+          : "";
       router.push({
         pathname: "/(tabs)/choose-payment-type",
         params: {
-          tripId: tripId,
-          amount: response?.data?.amount,
-          responseId: response?.data?.id,
-          discountCode: values.discount,
+          amount: (response?.data?.amount ?? values.amount).toString(),
+          responseId: response?.data?.id ? String(response?.data?.id) : "",
+          discountCode: trimmedDiscountCode,
+          originalAmount: baseAmount.toString(),
+          discountAmount: discountAmountParam,
+          discountPercentage: discountPercentageParam,
         },
       });
     } catch (submitError: any) {
@@ -174,7 +317,7 @@ export default function ConfirmPrice() {
     <Formik
       initialValues={{
         discount: "",
-        amount: parseInt(amount as string, 10),
+        amount: baseAmount,
       }}
       validationSchema={validationSchema}
       onSubmit={handleFormSubmit}
@@ -186,6 +329,7 @@ export default function ConfirmPrice() {
         values,
         errors,
         touched,
+        setFieldValue,
       }) => (
         <>
           <ParallaxScrollView
@@ -197,16 +341,29 @@ export default function ConfirmPrice() {
                   <ThemedText type="b2_body" className="text-center">
                     Total Waybill cost
                   </ThemedText>
+                  {discountPercentage !== null && (
+                    <ThemedText
+                      type="default"
+                      className="text-center text-typography-400 line-through"
+                    >
+                      {formatCurrency(baseAmount, "NGN", "en-NG")}
+                    </ThemedText>
+                  )}
                   <ThemedText
                     type="h4_header"
                     className="text-center text-primary-600 pt-1"
                   >
-                    {formatCurrency(
-                      parseInt(amount as string, 10),
-                      "NGN",
-                      "en-NG"
-                    )}
+                    {formatCurrency(values.amount || 0, "NGN", "en-NG")}
                   </ThemedText>
+                  {discountPercentage !== null && (
+                    <ThemedText
+                      type="b3_body"
+                      className="text-center text-success-600 mt-1"
+                    >
+                      Discount applied: -{formatPercentage(discountPercentage)}%
+                      ({formatCurrency(discountValue, "NGN", "en-NG")} saved)
+                    </ThemedText>
+                  )}
                 </ThemedView>
                 <ThemedView>
                   <ThemedView className="flex gap-4">
@@ -223,21 +380,42 @@ export default function ConfirmPrice() {
                           className=""
                           placeholder="Enter Discount code"
                           value={values.discount}
-                          onChangeText={handleChange("discount")}
+                          onChangeText={(text) => {
+                            handleChange("discount")(text);
+                            if (
+                              appliedDiscountCode &&
+                              appliedDiscountCode !== text.trim()
+                            ) {
+                              setDiscountPercentage(null);
+                              setDiscountValue(0);
+                              setAppliedDiscountCode(null);
+                              setFieldValue("amount", baseAmount);
+                            }
+                          }}
                           onBlur={handleBlur("discount")}
                           keyboardType="default"
                           autoCapitalize="none"
                         />
-                        {/* <Button
+                        <Button
                           variant="solid"
                           size="2xl"
                           className="rounded-[12px] mr-1"
-                          onPress={() => handleSubmit()}
+                          onPress={() =>
+                            handleApplyDiscount(values.discount, setFieldValue)
+                          }
+                          disabled={discountLoading}
                         >
-                          <ThemedText type="s2_subtitle" className="text-white">
-                            Apply
-                          </ThemedText>
-                        </Button> */}
+                          {discountLoading ? (
+                            <ActivityIndicator color="white" />
+                          ) : (
+                            <ThemedText
+                              type="s2_subtitle"
+                              className="text-white"
+                            >
+                              Apply
+                            </ThemedText>
+                          )}
+                        </Button>
                       </Input>
                       {errors.discount && touched.discount && (
                         <ThemedText type="b4_body" className="text-error-500">
@@ -245,7 +423,47 @@ export default function ConfirmPrice() {
                         </ThemedText>
                       )}
                     </ThemedView>
+                    <ThemedView className=" flex-row items-center justify-between">
+                      <ThemedText className="text-typography-800">
+                        Wallet Balance
+                      </ThemedText>
+                      <ThemedText type="default" className="text-primary-500">
+                        {isLoading
+                          ? "Loading..."
+                          : formatCurrency(
+                              data?.data.wallet.availableBalance,
+                              "NGN",
+                              "en-NG"
+                            ) || formatCurrency(0.0, "NGN", "en-NG")}
+                      </ThemedText>
+                    </ThemedView>
                   </ThemedView>
+                  {discountPercentage !== null && (
+                    <ThemedView className="mt-4 border border-success-100 bg-success-50 p-4 rounded-2xl">
+                      <ThemedView className="flex-row justify-between">
+                        <ThemedText type="b2_body" className="text-success-600">
+                          Discount ({formatPercentage(discountPercentage)}%)
+                        </ThemedText>
+                        <ThemedText type="b2_body" className="text-success-600">
+                          -{formatCurrency(discountValue, "NGN", "en-NG")}
+                        </ThemedText>
+                      </ThemedView>
+                      <ThemedView className="flex-row justify-between mt-2">
+                        <ThemedText
+                          type="b2_body"
+                          className="text-typography-800"
+                        >
+                          New total payable
+                        </ThemedText>
+                        <ThemedText
+                          type="b2_body"
+                          className="text-typography-950"
+                        >
+                          {formatCurrency(values.amount || 0, "NGN", "en-NG")}
+                        </ThemedText>
+                      </ThemedView>
+                    </ThemedView>
+                  )}
                 </ThemedView>
                 <ThemedView className="">
                   <ThemedText type="btn_giant" className="mt-5">
@@ -332,7 +550,11 @@ export default function ConfirmPrice() {
               className="flex-1 rounded-[12px] mx-1"
             >
               <ThemedText type="s2_subtitle" className="text-white text-center">
-                Confirm Order
+                {loading ? (
+                  <ActivityIndicator color="white" />
+                ) : (
+                  "Confirm Order"
+                )}
               </ThemedText>
             </Button>
           </ThemedView>

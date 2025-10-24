@@ -36,7 +36,7 @@ const PhoneNumberInput = forwardRef<PhoneNumberInputRef, PhoneNumberInputProps>(
       placeholder = "Your phone number",
       layout = "first",
       disabled = false,
-      defaultCode,
+      defaultCode = "NG",
       countryPickerProps,
       containerStyle,
       flagButtonStyle,
