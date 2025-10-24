@@ -222,7 +222,7 @@ export default function BiddingScreen() {
             firstBtnLink={""}
             onFirstClick={() => {
               router.push({
-                pathname: "/(tabs)/trips/track-bid-order",
+                pathname: "/(tabs)/trips/air-sea/track-bid-order",
                 params: { id: id },
               });
               setShowModal(false);

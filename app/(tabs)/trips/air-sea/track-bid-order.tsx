@@ -147,8 +147,8 @@ export default function TripDetailsScreen() {
                 className=" rounded-[12px] flex-1"
                 onPress={() => {
                   router.push({
-                    pathname: "/(tabs)/trips/confirm-pay",
-                    params: { id: tripTypeId as string },
+                    pathname: "/(tabs)/trips/air-sea/confirm-pay",
+                    params: { tripTypeId: tripTypeId as string },
                   });
                 }}
               >

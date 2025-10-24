@@ -394,7 +394,7 @@ export default function AddSeaMaritimePackageScreen() {
 
       // sender
       router.push({
-        pathname: "/(tabs)/nearby-driver",
+        pathname: "/(tabs)/trips/air-sea/bidding-screen",
         params: {
           tripId: tripIdStr,
           response: encodeURIComponent(JSON.stringify(response)),
