@@ -26,8 +26,7 @@ import {
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useLocalSearchParams, useNavigation, useRouter } from "expo-router";
-import { t } from "i18next";
-import { BellIcon, ChevronLeft, MapPin, Plane, Ship } from "lucide-react-native";
+import { ChevronLeft, MapPin, Plane, Ship } from "lucide-react-native";
 import React, { useEffect, useState } from "react";
 import { FlatList, TouchableOpacity, View } from "react-native";
 
@@ -159,7 +158,6 @@ export default function TripDelivery() {
                         router.push({
                           pathname: "/(tabs)/trips/road-delivery",
                         });
-                        setActiveTripType(1);
                       }
                     }}
                     className={`flex-1 items-center p-4 rounded-xl border ${

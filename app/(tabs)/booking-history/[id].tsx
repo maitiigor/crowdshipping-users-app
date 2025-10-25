@@ -2,6 +2,7 @@ import NotificationIcon from "@/components/Custom/NotificationIcon";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
+import CancelBookingModal from "@/components/Trips/CancelBookingModal";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { Image } from "@/components/ui/image";
@@ -9,13 +10,15 @@ import { useAuthenticatedQuery } from "@/lib/api";
 import { IBookingDetailsResponse } from "@/types/IBookingHistory";
 import { useLocalSearchParams, useNavigation, useRouter } from "expo-router";
 import { ChevronLeft, Clock3 } from "lucide-react-native";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { TouchableOpacity } from "react-native";
 
 export default function BookingDetailScreen() {
   const navigation = useNavigation();
   const router = useRouter();
   const { id, selectedFilter } = useLocalSearchParams();
+    const [showModal, setShowModal] = useState(false);
+  
   console.log("🚀 ~ BookingDetailScreen ~ selectedFilter:", selectedFilter);
   const {
     data: bookingDetailsData,
@@ -456,7 +459,7 @@ export default function BookingDetailScreen() {
           </ThemedView>
         </ThemedView>
       </ParallaxScrollView>
-      {selectedFilter !== "delivered" && (
+      {bookingDetailsData?.data?.status?.toLowerCase() !== "delivered" && (
         <ThemedView className="absolute bottom-0 pt-5 pb-10 bg-white left-0 right-0 px-5 flex-row justify-center items-center gap-3">
           <Button
             onPress={() => {
@@ -476,13 +479,24 @@ export default function BookingDetailScreen() {
           <Button
             variant="solid"
             size="2xl"
-            onPress={() => {}}
+            onPress={() => {
+              setShowModal(true);
+            }}
             className="flex-1 rounded-[12px] mx-1"
           >
             <ThemedText type="s2_subtitle" className="text-white text-center">
               Cancel Booking
             </ThemedText>
           </Button>
+          {showModal && (
+            <>
+              <CancelBookingModal
+                responseId={bookingDetailsData?.data?.parcelGroupId as string}
+                showModal={showModal}
+                setShowModal={setShowModal}
+              />
+            </>
+          )}
         </ThemedView>
       )}
     </>

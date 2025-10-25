@@ -14,7 +14,8 @@ import { useAuthenticatedQuery } from "@/lib/api";
 import { IBookingHistoryResponse } from "@/types/IBookingHistory";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { ChevronLeft, ChevronRight, Dot } from "lucide-react-native";
+import { Book, ChevronLeft, ChevronRight, Dot } from "lucide-react-native";
+import { EmptyState } from "@/components/Custom/EmptyState";
 
 // dayjs fromNow plugin
 dayjs.extend(relativeTime);
@@ -175,6 +176,14 @@ export default function BookingHistoryScreen() {
               onRefresh={() => {
                 refetch();
               }}
+              ListEmptyComponent={
+                <EmptyState
+                  title="No Bookings available"
+                  description="There are no bookings available at the moment. Check back later for updates."
+                  icon={Book}
+                  className="mt-10"
+                />
+              }
               renderItem={({ item }) => (
                 <TouchableOpacity
                   onPress={() => {
