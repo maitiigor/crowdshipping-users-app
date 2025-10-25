@@ -405,7 +405,8 @@ export default function BookingDetailScreen() {
                 </ThemedView>
               </ThemedView>
             </ThemedText>
-            {selectedFilter === "delivered" && (
+            {bookingDetailsData?.data?.status?.toLowerCase() ===
+              "delivered" && (
               <ThemedView className="pt-5 pb-10 bg-white left-0 right-0 flex justify-center items-center gap-5">
                 <Button
                   onPress={() => {
