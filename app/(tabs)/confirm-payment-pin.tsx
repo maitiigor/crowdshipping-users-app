@@ -8,7 +8,9 @@ import { HStack } from "@/components/ui/hstack";
 import { Icon } from "@/components/ui/icon";
 import { Input, InputField } from "@/components/ui/input";
 import { useToast } from "@/components/ui/toast";
+import { useCountry } from "@/hooks/useCountry";
 import { useAuthenticatedPatch } from "@/lib/api";
+import { useAppSelector } from "@/store";
 import { paramToString } from "@/utils/helper";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 import { Formik } from "formik";
@@ -60,7 +62,14 @@ export default function ConfirmPaymentPin() {
   const [, setIsKeyboardVisible] = useState(false);
   const [secondsLeft, setSecondsLeft] = useState(20); // countdown state
   const [showModal, setShowModal] = useState(false);
-  const [currency] = useState("NGN"); //NGN | USD
+  const { country, countryCode } = useCountry();
+  // Get the selected country from Redux
+  const selectedCountry = useAppSelector(
+    (state) => state.country.selectedCountry
+  );
+  const currencyCode = selectedCountry?.currencies?.[0];
+  const selectedCurrency = currencyCode?.code || "NGN";
+  const [currency] = useState(selectedCurrency || "NGN"); //NGN | USD
   const { mutateAsync, loading, error } = useAuthenticatedPatch<
     any,
     {

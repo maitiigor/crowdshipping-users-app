@@ -130,7 +130,7 @@ export default function PackageDetailScreen() {
             className="mt-5 rounded-[12px]"
             onPress={() => {
               router.push({
-                pathname: "/(tabs)/trips/bidding-screen",
+                pathname: "/(tabs)/trips/air-sea/bidding-screen",
                 params: { id: id },
               });
             }}

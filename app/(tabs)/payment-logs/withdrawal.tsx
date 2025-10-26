@@ -11,7 +11,9 @@ import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { Input, InputField } from "@/components/ui/input";
 import { useToast } from "@/components/ui/toast";
+import { useCountry } from "@/hooks/useCountry";
 import { useAuthenticatedPost, useAuthenticatedQuery } from "@/lib/api";
+import { useAppSelector } from "@/store";
 import { IWalletRequestResponse } from "@/types/IWalletRequest";
 import { formatCurrency } from "@/utils/helper";
 import { Link, useNavigation, useRouter } from "expo-router";
@@ -41,6 +43,13 @@ export default function WithdrawalScreen() {
     IWalletRequestResponse | undefined
   >(["wallet"], "/wallet/fetch");
   const [showModal, setShowModal] = useState(false);
+    const { countryCode } = useCountry();
+    // Get the selected country from Redux
+    const selectedCountry = useAppSelector(
+      (state) => state.country.selectedCountry
+    );
+    const currency = selectedCountry?.currencies?.[0];
+    const selectedCurrency = currency?.code || "NGN";
   const validationSchema = Yup.object().shape({
     amount: Yup.number()
       .typeError("Amount must be a number")
@@ -295,9 +304,14 @@ export default function WithdrawalScreen() {
                           ? "Loading..."
                           : formatCurrency(
                               data?.data.wallet.availableBalance,
-                              "NGN",
-                              "en-NG"
-                            ) || formatCurrency(0.0, "NGN", "en-NG")}
+                              selectedCurrency,
+                              `en-${countryCode}`
+                            ) ||
+                            formatCurrency(
+                              0.0,
+                              selectedCurrency,
+                              `en-${countryCode}`
+                            )}
                       </ThemedText>
                     </ThemedView>
                   </ThemedView>
@@ -443,7 +457,11 @@ export default function WithdrawalScreen() {
                           {errors.accountName}
                         </ThemedText>
                       )}
-                      <Link className="hidden" href={`/payment-logs/choose-beneficiary`} asChild>
+                      <Link
+                        className="hidden"
+                        href={`/payment-logs/choose-beneficiary`}
+                        asChild
+                      >
                         <ThemedText
                           type="b2_body"
                           className="text-primary-500 text-right"

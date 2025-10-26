@@ -7,7 +7,9 @@ import { HStack } from "@/components/ui/hstack";
 import { Icon } from "@/components/ui/icon";
 import { Skeleton, SkeletonText } from "@/components/ui/skeleton";
 import { VStack } from "@/components/ui/vstack";
+import { useCountry } from "@/hooks/useCountry";
 import { useAuthenticatedQuery } from "@/lib/api";
+import { useAppSelector } from "@/store";
 import { ISingleReportResponse } from "@/types/IReport";
 import { formatCurrency } from "@/utils/helper";
 import dayjs from "dayjs";
@@ -38,6 +40,13 @@ const ReportDetails = () => {
   >(["report", id], `/issue/report/${id}`);
 
   const report = data?.data;
+  const {countryCode } = useCountry();
+  // Get the selected country from Redux
+  const selectedCountry = useAppSelector(
+    (state) => state.country.selectedCountry
+  );
+  const currency = selectedCountry?.currencies?.[0];
+  const selectedCurrency = currency?.code || "NGN";
 
   useEffect(() => {
     navigation.setOptions({
@@ -212,14 +221,18 @@ const ReportDetails = () => {
                   />
                   <SummaryRow
                     label="Report Amount"
-                    value={formatCurrency(report.reportAmount, "NGN", "en-NG")}
+                    value={formatCurrency(
+                      report.reportAmount,
+                      selectedCurrency,
+                      `en-${countryCode}`
+                    )}
                   />
                   <SummaryRow
                     label="Amount Refunded"
                     value={formatCurrency(
                       report.amountRefunded,
-                      "NGN",
-                      "en-NG"
+                      selectedCurrency,
+                      `en-${countryCode}`
                     )}
                   />
                   <SummaryRow

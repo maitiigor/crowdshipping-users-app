@@ -7,11 +7,13 @@ import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
 import { useToast } from "@/components/ui/toast";
+import { useCountry } from "@/hooks/useCountry";
 import {
   useAuthenticatedPatch,
   useAuthenticatedPost,
   useAuthenticatedQuery,
 } from "@/lib/api";
+import { useAppSelector } from "@/store";
 import { INotificationsResponse } from "@/types/INotification";
 import { IWalletRequestResponse } from "@/types/IWalletRequest";
 import { formatCurrency } from "@/utils/helper";
@@ -61,6 +63,13 @@ export default function ConfirmPrice() {
       discountCode: string;
     }
   >(`/trip/apply/discount`);
+  const { country, countryCode } = useCountry();
+  // Get the selected country from Redux
+  const selectedCountry = useAppSelector(
+    (state) => state.country.selectedCountry
+  );
+  const currency = selectedCountry?.currencies?.[0];
+  const selectedCurrency = currency?.code || "NGN";
   const router = useRouter();
   const baseAmount = useMemo(() => {
     const amountValue = Array.isArray(amount) ? amount[0] : amount;
@@ -236,8 +245,8 @@ export default function ConfirmPrice() {
         title: "Discount Applied",
         description: `You saved ${formatCurrency(
           computedDiscountValue,
-          "NGN",
-          "en-NG"
+          selectedCurrency,
+          `en-${countryCode}`
         )}.`,
         icon: CircleCheckIcon,
         action: "success",
@@ -346,14 +355,22 @@ export default function ConfirmPrice() {
                       type="default"
                       className="text-center text-typography-400 line-through"
                     >
-                      {formatCurrency(baseAmount, "NGN", "en-NG")}
+                      {formatCurrency(
+                        baseAmount,
+                        selectedCurrency,
+                        `en-${countryCode}`
+                      )}
                     </ThemedText>
                   )}
                   <ThemedText
                     type="h4_header"
                     className="text-center text-primary-600 pt-1"
                   >
-                    {formatCurrency(values.amount || 0, "NGN", "en-NG")}
+                    {formatCurrency(
+                      values.amount || 0,
+                      selectedCurrency,
+                      `en-${countryCode}`
+                    )}
                   </ThemedText>
                   {discountPercentage !== null && (
                     <ThemedText
@@ -361,7 +378,13 @@ export default function ConfirmPrice() {
                       className="text-center text-success-600 mt-1"
                     >
                       Discount applied: -{formatPercentage(discountPercentage)}%
-                      ({formatCurrency(discountValue, "NGN", "en-NG")} saved)
+                      (
+                      {formatCurrency(
+                        discountValue,
+                        selectedCurrency,
+                        `en-${countryCode}`
+                      )}{" "}
+                      saved)
                     </ThemedText>
                   )}
                 </ThemedView>
@@ -432,9 +455,14 @@ export default function ConfirmPrice() {
                           ? "Loading..."
                           : formatCurrency(
                               data?.data.wallet.availableBalance,
-                              "NGN",
-                              "en-NG"
-                            ) || formatCurrency(0.0, "NGN", "en-NG")}
+                              selectedCurrency,
+                              `en-${countryCode}`
+                            ) ||
+                            formatCurrency(
+                              0.0,
+                              selectedCurrency,
+                              `en-${countryCode}`
+                            )}
                       </ThemedText>
                     </ThemedView>
                   </ThemedView>
@@ -445,7 +473,12 @@ export default function ConfirmPrice() {
                           Discount ({formatPercentage(discountPercentage)}%)
                         </ThemedText>
                         <ThemedText type="b2_body" className="text-success-600">
-                          -{formatCurrency(discountValue, "NGN", "en-NG")}
+                          -
+                          {formatCurrency(
+                            discountValue,
+                            selectedCurrency,
+                            `en-${countryCode}`
+                          )}
                         </ThemedText>
                       </ThemedView>
                       <ThemedView className="flex-row justify-between mt-2">
@@ -459,7 +492,11 @@ export default function ConfirmPrice() {
                           type="b2_body"
                           className="text-typography-950"
                         >
-                          {formatCurrency(values.amount || 0, "NGN", "en-NG")}
+                          {formatCurrency(
+                            values.amount || 0,
+                            selectedCurrency,
+                            `en-${countryCode}`
+                          )}
                         </ThemedText>
                       </ThemedView>
                     </ThemedView>

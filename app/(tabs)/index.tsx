@@ -14,16 +14,19 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { BottomDrawer } from "@/components/Custom/BottomDrawer";
+import { CountrySelector } from "@/components/Custom/CountrySelector";
 import CustomSidebarMenu from "@/components/Custom/CustomSidebarMenu";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { Image } from "@/components/ui/image";
 import { Pressable } from "@/components/ui/pressable";
+import { useCountry } from "@/hooks/useCountry";
 import { useAuthenticatedQuery } from "@/lib/api";
 import { IUserProfileResponse } from "@/types/IUserProfile";
 import Feather from "@expo/vector-icons/Feather";
 import { ChevronDown, MapPin } from "lucide-react-native";
 import MapView from "react-native-maps";
+import { useAppDispatch, useAppSelector } from "@/store";
 
 type MenuItem = {
   img: string | ImageSourcePropType | undefined;
@@ -60,6 +63,11 @@ export default function HomeScreen() {
     ["me"],
     "/user/profile"
   );
+  
+
+  // const { country, countryCode, countryFlag, callingCode, language, selectByCode} = useCountry();
+ 
+  // country.name, country.currencies, country.callingCodes, etc.
   const router = useRouter();
 
   const { t } = useTranslation();
@@ -108,14 +116,12 @@ export default function HomeScreen() {
         </TouchableOpacity>
       ),
       headerRight: () => (
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          style={{ paddingHorizontal: 0 }}
-        >
-          <ThemedText className="text-center" type="s1_subtitle">
-            NG
-          </ThemedText>
-        </TouchableOpacity>
+        <CountrySelector
+          showCountryName={false}
+          flagSize={42}
+          flagClassName="bottom-5"
+          textSize="s1_subtitle"
+        />
       ),
     });
   }, [navigation, t, data?.data.fullName]);

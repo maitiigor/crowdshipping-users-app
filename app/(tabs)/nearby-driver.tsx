@@ -13,7 +13,9 @@ import { Icon } from "@/components/ui/icon";
 import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
 import { Pressable } from "@/components/ui/pressable";
 import { useToast } from "@/components/ui/toast";
+import { useCountry } from "@/hooks/useCountry";
 import { useAuthenticatedPatch } from "@/lib/api";
+import { useAppSelector } from "@/store";
 import { IPickupByDriverResponse } from "@/types/IPickupByDriver";
 import { formatCurrency } from "@/utils/helper";
 import Entypo from "@expo/vector-icons/Entypo";
@@ -52,7 +54,14 @@ export default function NearbyDriverScreen() {
       driverId: string;
       amount: number;
     }
-  >(`/trip/select/driver/${tripId}`);
+    >(`/trip/select/driver/${tripId}`);
+    const { country, countryCode } = useCountry();
+    // Get the selected country from Redux
+    const selectedCountry = useAppSelector(
+      (state) => state.country.selectedCountry
+    );
+    const currency = selectedCountry?.currencies?.[0];
+    const selectedCurrency = currency?.code || "NGN";
   const responseObj: IPickupByDriverResponse | null = (() => {
     if (response == null) return null;
     const respStr = String(response).trim();
@@ -203,7 +212,7 @@ export default function NearbyDriverScreen() {
             Amount
           </ThemedText>
           <ThemedText type="btn_large" className="text-typography-950">
-            {formatCurrency(responseObj?.data?.amount, "NGN", "en-NG")}
+            {formatCurrency(responseObj?.data?.amount, selectedCurrency, `en-${countryCode}`)}
           </ThemedText>
         </ThemedView>
       </View>

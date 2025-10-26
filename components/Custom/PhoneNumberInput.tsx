@@ -1,3 +1,4 @@
+import { useCountry } from "@/hooks/useCountry";
 import React, { forwardRef, useImperativeHandle, useRef } from "react";
 import { StyleProp, TextInputProps, TextStyle, ViewStyle } from "react-native";
 import PhoneInput from "react-native-phone-number-input";
@@ -12,7 +13,6 @@ export interface PhoneNumberInputProps {
   placeholder?: string;
   layout?: "first" | "second";
   disabled?: boolean;
-  defaultCode?: string; // country code like 'US', 'GB'
   countryPickerProps?: any;
   containerStyle?: StyleProp<ViewStyle>;
   flagButtonStyle?: StyleProp<ViewStyle>;
@@ -36,7 +36,6 @@ const PhoneNumberInput = forwardRef<PhoneNumberInputRef, PhoneNumberInputProps>(
       placeholder = "Your phone number",
       layout = "first",
       disabled = false,
-      defaultCode = "NG",
       countryPickerProps,
       containerStyle,
       flagButtonStyle,
@@ -47,6 +46,8 @@ const PhoneNumberInput = forwardRef<PhoneNumberInputRef, PhoneNumberInputProps>(
     },
     ref
   ) => {
+    const { countryCode } = useCountry();
+
     const innerRef = useRef<any>(null);
     useImperativeHandle(ref, () => innerRef.current);
 
@@ -55,7 +56,7 @@ const PhoneNumberInput = forwardRef<PhoneNumberInputRef, PhoneNumberInputProps>(
         ref={innerRef}
         value={value}
         layout={layout}
-        defaultCode={defaultCode as any}
+        defaultCode={countryCode}
         disabled={disabled}
         countryPickerProps={{
           withFilter: true,

@@ -3,10 +3,11 @@ import { INotificationsResponse } from "@/types/INotification";
 import { useRouter } from "expo-router";
 import { Bell } from "lucide-react-native";
 import React from "react";
-import { TouchableOpacity } from "react-native";
+import { Platform, TouchableOpacity } from "react-native";
 import { ThemedText } from "../ThemedText";
 import { ThemedView } from "../ThemedView";
 import { Icon } from "../ui/icon";
+import { P } from "@expo/html-elements";
 
 interface IProps {}
 export default function NotificationIcon({}: IProps) {
@@ -24,9 +25,17 @@ export default function NotificationIcon({}: IProps) {
       style={{ paddingHorizontal: 0 }}
       className="relative"
     >
-      <ThemedView className="absolute -top-2 -right-2 z-10">
+      <ThemedView
+        className={`absolute  z-10 ${
+          Platform.OS === "ios" ? "-top-2 -right-2" : "-top-0 -right-0"
+        }`}
+      >
         {unreadCount > 0 && (
-          <ThemedView className="w-6 h-6 bg-red-600 rounded-full flex justify-center items-center">
+          <ThemedView
+            className={` bg-red-600 rounded-full flex justify-center items-center ${
+              Platform.OS === "ios" ? "w-6 h-6" : "w-5 h-5"
+            }`}
+          >
             <ThemedText type="btn_tiny" className="text-white text-center">
               {isLoading ? ".." : unreadCount}
             </ThemedText>

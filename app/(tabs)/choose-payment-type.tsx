@@ -17,7 +17,9 @@ import {
 } from "@/components/ui/radio";
 import { useToast } from "@/components/ui/toast";
 import { VStack } from "@/components/ui/vstack";
+import { useCountry } from "@/hooks/useCountry";
 import { useAuthenticatedPatch, useAuthenticatedQuery } from "@/lib/api";
+import { useAppSelector } from "@/store";
 import { INotificationsResponse } from "@/types/INotification";
 import { IUserProfileResponse } from "@/types/IUserProfile";
 import { formatCurrency } from "@/utils/helper";
@@ -95,6 +97,13 @@ export default function ChoosePaymentType() {
   const { refetch: refetchNotifications } = useAuthenticatedQuery<
     INotificationsResponse | undefined
   >(["notifications"], "/notification");
+  const { country, countryCode } = useCountry();
+  // Get the selected country from Redux
+  const selectedCountry = useAppSelector(
+    (state) => state.country.selectedCountry
+  );
+  const currency = selectedCountry?.currencies?.[0];
+  const selectedCurrency = currency?.code || "NGN";
   const { mutateAsync, error } = useAuthenticatedPatch<
     any,
     {
@@ -700,14 +709,14 @@ export default function ChoosePaymentType() {
                         type="b3_body"
                         className="text-white/70 line-through"
                       >
-                        {formatCurrency(originalAmountNumber, "NGN", "en-NG")}
+                        {formatCurrency(originalAmountNumber, selectedCurrency, `en-${countryCode}`)}
                       </ThemedText>
                     )}
                     <ThemedText type="h3_header" className="text-white">
                       {formatCurrency(
                         Number.isFinite(amountNumber) ? amountNumber : 0,
-                        "NGN",
-                        "en-NG"
+                        selectedCurrency,
+                        `en-${countryCode}`
                       )}
                     </ThemedText>
                     <ThemedText type="b3_body" className="text-white/80 mt-1">
@@ -716,7 +725,7 @@ export default function ChoosePaymentType() {
                     {hasDiscount && (
                       <ThemedText type="b4_body" className="text-white/90 mt-1">
                         You save{" "}
-                        {formatCurrency(discountAmountNumber, "NGN", "en-NG")}{" "}
+                        {formatCurrency(discountAmountNumber, selectedCurrency, `en-${countryCode}`)}{" "}
                         (-
                         {formatPercentageValue(discountPercentageNumber)}%)
                       </ThemedText>
@@ -732,7 +741,7 @@ export default function ChoosePaymentType() {
                         {discountCodeValue ? ` (${discountCodeValue})` : ""}
                       </ThemedText>
                       <ThemedText type="b2_body" className="text-success-600">
-                        -{formatCurrency(discountAmountNumber, "NGN", "en-NG")}
+                        -{formatCurrency(discountAmountNumber, selectedCurrency, `en-${countryCode}`)}
                       </ThemedText>
                     </ThemedView>
                     <ThemedView className="flex-row justify-between mt-2">
@@ -760,7 +769,11 @@ export default function ChoosePaymentType() {
                         type="b2_body"
                         className="text-typography-950"
                       >
-                        {formatCurrency(amountNumber, "NGN", "en-NG")}
+                        {formatCurrency(
+                          amountNumber,
+                          selectedCurrency,
+                          `en-${countryCode}`
+                        )}
                       </ThemedText>
                     </ThemedView>
                   </ThemedView>

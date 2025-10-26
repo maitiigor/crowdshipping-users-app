@@ -21,6 +21,8 @@ import {
   View,
 } from "react-native";
 
+import { useCountry } from "@/hooks/useCountry";
+import { useAppSelector } from "@/store";
 import relativeTime from "dayjs/plugin/relativeTime";
 
 // dayjs fromNow plugin
@@ -35,7 +37,15 @@ export default function PaymentLogScreen() {
   const { data, isLoading, refetch } = useAuthenticatedQuery<
     IWalletRequestResponse | undefined
   >(["wallet"], "/wallet/fetch");
-  console.log("🚀 ~ PaymentLogScreen ~ data:", data);
+  const { country, countryCode } = useCountry();
+  console.log("🚀 ~ ChoosePaymentType ~ country:", country);
+  // Get the selected country from Redux
+  const selectedCountry = useAppSelector(
+    (state) => state.country.selectedCountry
+  );
+  const currency = selectedCountry?.currencies?.[0];
+  const selectedCurrency = currency?.code || "NGN";
+  console.log("🚀 ~ HomeScreen ~ currency:", selectedCurrency);
   const filterList = [
     {
       label: "Withdrawal",
@@ -161,8 +171,8 @@ export default function PaymentLogScreen() {
                 <ThemedText type="h3_header" className="text-white mt-4">
                   {formatCurrency(
                     data?.data.wallet.availableBalance,
-                    "NGN",
-                    "en-NG"
+                    selectedCurrency,
+                    `en-${countryCode}`
                   )}
                 </ThemedText>
               </ThemedView>

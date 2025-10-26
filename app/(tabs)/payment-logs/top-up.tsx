@@ -38,10 +38,12 @@ import React, { useEffect, useState } from "react";
 import { ActivityIndicator, Linking, TouchableOpacity } from "react-native";
 import * as Yup from "yup";
 // Payment SDK imports
+import { useCountry } from "@/hooks/useCountry";
+import { useAppSelector } from "@/store";
+import { INotificationsResponse } from "@/types/INotification";
 import { IUserProfileResponse } from "@/types/IUserProfile";
 import { useStripe } from "@stripe/stripe-react-native";
 import { usePaystack } from "react-native-paystack-webview";
-import { INotificationsResponse } from "@/types/INotification";
 
 const validationSchema = Yup.object().shape({
   amount: Yup.number()
@@ -60,14 +62,21 @@ export default function TopUpScreen() {
   const toast = useToast();
   const stripe = useStripe();
   const { popup } = usePaystack();
-  const [currency] = useState("NGN"); //NGN | USD
+  const { countryCode } = useCountry();
+  // Get the selected country from Redux
+  const selectedCountry = useAppSelector(
+    (state) => state.country.selectedCountry
+  );
+  const currencyCode = selectedCountry?.currencies?.[0];
+  const selectedCurrency = currencyCode?.code || "NGN";
+  const [currency] = useState(selectedCurrency); //NGN | USD
   const { data: userProfile } = useAuthenticatedQuery<IUserProfileResponse>(
     ["me"],
     "/user/profile"
   );
   const { refetch: refetchNotifications } = useAuthenticatedQuery<
-      INotificationsResponse | undefined
-    >(["notifications"], "/notification");
+    INotificationsResponse | undefined
+  >(["notifications"], "/notification");
   const { data, refetch } = useAuthenticatedQuery<
     IWalletRequestResponse | undefined
   >(["wallet"], "/wallet/fetch");
@@ -416,7 +425,7 @@ export default function TopUpScreen() {
         router.back();
       }, 1500);
     } catch (error: any) {
-      console.log("🚀 ~ verifyPayment ~ error:", error)
+      console.log("🚀 ~ verifyPayment ~ error:", error);
       showNewToast({
         title: "Verification Failed",
         description: error?.message || "Failed to verify payment",
@@ -493,8 +502,8 @@ export default function TopUpScreen() {
               <ThemedText type="h3_header" className="text-white">
                 {formatCurrency(
                   data?.data.wallet.availableBalance,
-                  "NGN",
-                  "en-NG"
+                  selectedCurrency,
+                  `en-${countryCode}`
                 )}
               </ThemedText>
             </ThemedView>
