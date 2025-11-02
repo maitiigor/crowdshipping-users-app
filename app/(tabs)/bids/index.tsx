@@ -25,7 +25,7 @@ dayjs.extend(relativeTime);
 export default function TripDelivery() {
   const navigation = useNavigation();
   const router = useRouter();
-  console.log("🚀 ~ TripDelivery ~ router:", router)
+  console.log("🚀 ~ TripDelivery ~ router:", router);
   const { tripTypeId } = useLocalSearchParams();
   console.log("🚀 ~ TripDelivery ~ tripTypeId:", tripTypeId);
   const [activeTripType, setActiveTripType] = useState<number>(
@@ -128,7 +128,7 @@ export default function TripDelivery() {
                 <InputSlot className="pl-3">
                   <InputIcon as={SearchIcon} />
                 </InputSlot>
-                <InputField placeholder={"Search for jobs..."} />
+                <InputField placeholder={"Search for available trips..."} />
               </Input>
             </ThemedView>
 
@@ -229,21 +229,25 @@ export default function TripDelivery() {
                           >
                             {item.bidId}
                           </ThemedText>
-                          <Button variant="solid" className={`${
-                            item.parcelGroup?.status === "accepted"
-                              ? "bg-green-100"
-                              : item.parcelGroup?.status === "pending"
-                              ? "bg-yellow-100"
-                              : "bg-red-100"
-                          } px-3 py-1 rounded-lg`}>
+                          <Button
+                            variant="solid"
+                            className={`${
+                              item.parcelGroup?.status === "accepted"
+                                ? "bg-green-100"
+                                : item.parcelGroup?.status === "pending"
+                                ? "bg-yellow-100"
+                                : "bg-red-100"
+                            } px-3 py-1 rounded-lg`}
+                          >
                             <ThemedText
                               type="btn_medium"
                               className={`
-                                ${item.parcelGroup?.status === "accepted"
-                                  ? "text-green-800"
-                                  : item.parcelGroup?.status === "pending"
-                                  ? "text-yellow-800"
-                                  : "text-red-800"
+                                ${
+                                  item.parcelGroup?.status === "accepted"
+                                    ? "text-green-800"
+                                    : item.parcelGroup?.status === "pending"
+                                    ? "text-yellow-800"
+                                    : "text-red-800"
                                 }
                               `}
                             >

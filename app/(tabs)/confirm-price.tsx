@@ -15,6 +15,7 @@ import {
 } from "@/lib/api";
 import { useAppSelector } from "@/store";
 import { INotificationsResponse } from "@/types/INotification";
+import { IPickupTripDetailsResponse } from "@/types/IPickupByDriver";
 import { IWalletRequestResponse } from "@/types/IWalletRequest";
 import { formatCurrency } from "@/utils/helper";
 import { useLocalSearchParams, useNavigation, useRouter } from "expo-router";
@@ -53,6 +54,14 @@ export default function ConfirmPrice() {
       amount: number;
     }
   >(`/trip/confirm/package/${tripId}`);
+  const {
+    data: pickupData,
+    refetch: refetchPickupData,
+    isLoading: isLoadingPickupData,
+  } = useAuthenticatedQuery<IPickupTripDetailsResponse | undefined>(
+    ["pickup-details", tripId],
+    `/trip/packages/${tripId}`
+  );
   const {
     mutateAsync: applyDiscount,
     error: discountError,
@@ -503,7 +512,8 @@ export default function ConfirmPrice() {
                     </ThemedView>
                   )}
                 </ThemedView>
-                <ThemedView className="">
+                {/* PLEASE FILL IN DELIVERY DETAILS 😴 */}
+                {/* <ThemedView className="">
                   <ThemedText type="btn_giant" className="mt-5">
                     Delivery Details (ID2350847391)
                   </ThemedText>
@@ -575,7 +585,7 @@ export default function ConfirmPrice() {
                       </ThemedText>
                     </ThemedView>
                   </ThemedView>
-                </ThemedView>
+                </ThemedView> */}
               </ThemedView>
             </ThemedView>
           </ParallaxScrollView>

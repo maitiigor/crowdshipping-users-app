@@ -142,7 +142,7 @@ export default function TripDelivery() {
                 <InputSlot className="pl-3">
                   <InputIcon as={SearchIcon} />
                 </InputSlot>
-                <InputField placeholder={"Search for jobs..."} />
+                <InputField placeholder={"Search for available trips..."} />
               </Input>
             </ThemedView>
 

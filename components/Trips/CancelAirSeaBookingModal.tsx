@@ -147,7 +147,10 @@ export default function CancelAirSeaBookingModal({
           <ThemedView className="flex-row gap-4 w-full justify-center">
             <Button
               className="flex-1 bg-background-100 rounded-xl items-center"
-              onTouchEnd={() => setShowModal(false)}
+              onTouchEnd={() => {
+                setShowModal(false);
+                router.back();
+              }}
             >
               <ThemedText type="btn_large" className="text-typography-700">
                 Go Back
