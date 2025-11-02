@@ -83,6 +83,7 @@ export default function TransactionHistoryScreen() {
             }}
           >
             <TouchableOpacity
+              onLongPress={() => router.push("/(tabs)")}
               onPress={() => navigation.goBack()}
               className="p-2 rounded   flex justify-center items-center"
             >

@@ -1,16 +1,10 @@
 import ErrandsSvg from "@/assets/svgs/errands.svg";
-import GroundSvg from "@/assets/svgs/ground.svg";
 import RideSvg from "@/assets/svgs/ride.svg";
 import { EmptyState } from "@/components/Custom/EmptyState";
 import NotificationIcon from "@/components/Custom/NotificationIcon";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
-import {
-  Avatar,
-  AvatarFallbackText,
-  AvatarImage,
-} from "@/components/ui/avatar";
 import { Box } from "@/components/ui/box";
 import { Button } from "@/components/ui/button";
 import { HStack } from "@/components/ui/hstack";
@@ -18,15 +12,12 @@ import { Icon, SearchIcon } from "@/components/ui/icon";
 import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
 import { Skeleton, SkeletonText } from "@/components/ui/skeleton";
 import { useAuthenticatedQuery } from "@/lib/api";
-import { IAirTripDatum, IAirTripResponse } from "@/types/air-sea/IAirTrip";
-import {
-  ISeaMaritimeDatum,
-  ISeaMaritimeResponse,
-} from "@/types/air-sea/ISeaMaritime";
+import { ISeaMaritimeResponse } from "@/types/air-sea/ISeaMaritime";
+import { IBidTripsDatum, IBidTripsResponse } from "@/types/IBids";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useLocalSearchParams, useNavigation, useRouter } from "expo-router";
-import { ChevronLeft, MapPin, Plane, Ship } from "lucide-react-native";
+import { ChevronLeft, Plane, Ship } from "lucide-react-native";
 import React, { useEffect, useState } from "react";
 import { FlatList, TouchableOpacity, View } from "react-native";
 
@@ -34,6 +25,7 @@ dayjs.extend(relativeTime);
 export default function TripDelivery() {
   const navigation = useNavigation();
   const router = useRouter();
+  console.log("🚀 ~ TripDelivery ~ router:", router)
   const { tripTypeId } = useLocalSearchParams();
   console.log("🚀 ~ TripDelivery ~ tripTypeId:", tripTypeId);
   const [activeTripType, setActiveTripType] = useState<number>(
@@ -44,33 +36,28 @@ export default function TripDelivery() {
     isLoading: airTripLoading,
     refetch: refetchAirTrips,
     isFetching: isFetchingAirTrips,
-  } = useAuthenticatedQuery<IAirTripResponse | undefined>(
-    ["trips-air", activeTripType === 2],
-    "/trip/available/air"
+  } = useAuthenticatedQuery<IBidTripsResponse | undefined>(
+    ["trips-bid-air", activeTripType === 2],
+    "/trip/my/air-bids"
   );
+  console.log("🚀 ~ TripDelivery ~ airTripData:", airTripData);
   const {
     data: maritimeData,
     isLoading: maritimeLoading,
     refetch: refetchMaritime,
     isFetching: isFetchingMaritime,
   } = useAuthenticatedQuery<ISeaMaritimeResponse | undefined>(
-    ["trips-maritime", activeTripType === 3],
-    "/trip/available/maritimes"
+    ["trips-bid-maritime", activeTripType === 3],
+    "/trip/my/maritime-bids"
   );
-  console.log("🚀 ~ TripDelivery ~ tripTypeId:", tripTypeId);
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
       headerTitle: () => {
         return (
           <ThemedText type="s1_subtitle" className="text-center">
-            Trips(
-            {activeTripType === 1
-              ? "Land"
-              : activeTripType === 2
-              ? "Air"
-              : "Maritime"}
-            )
+            Bids(
+            {activeTripType === 2 ? "Air" : "Maritime"})
           </ThemedText>
         );
       },
@@ -122,7 +109,6 @@ export default function TripDelivery() {
   }, [navigation, activeTripType]);
 
   const tripTypes = [
-    { id: 1, name: "Ground", Icon: GroundSvg },
     { id: 2, name: "Air", Icon: ErrandsSvg },
     { id: 3, name: "Maritime", Icon: RideSvg },
   ];
@@ -206,8 +192,8 @@ export default function TripDelivery() {
                   (activeTripType === 2
                     ? airTripData?.data || []
                     : maritimeData?.data || []) as (
-                    | IAirTripDatum
-                    | ISeaMaritimeDatum
+                    | IBidTripsDatum
+                    | IBidTripsDatum
                   )[]
                 }
                 refreshing={isFetchingAirTrips || isFetchingMaritime}
@@ -221,8 +207,8 @@ export default function TripDelivery() {
                 }}
                 ListEmptyComponent={
                   <EmptyState
-                    title="No trips available"
-                    description="There are no trips available at the moment. Check back later for updates."
+                    title="No Bids available"
+                    description="There are no bids available at the moment. Check back later for updates."
                     icon={activeTripType === 2 ? Plane : Ship}
                     className="mt-10"
                   />
@@ -230,63 +216,57 @@ export default function TripDelivery() {
                 contentContainerClassName=""
                 ItemSeparatorComponent={() => <View style={{ height: 12 }} />}
                 renderItem={({ item }) => {
-                  const departureRaw =
-                    item.trip?.departureDate ?? item.trip?.departureDate;
-                  const arrivalRaw =
-                    item.trip?.arrivalDate ?? item.trip?.arrivalDate;
-                  const departure = departureRaw ? dayjs(departureRaw) : null;
-                  const arrival = arrivalRaw ? dayjs(arrivalRaw) : null;
                   return (
-                    <ThemedView className="border border-primary-50 p-5 rounded-2xl flex gap-5">
-                      <ThemedView className="flex-row gap-3">
-                        <ThemedView>
-                          <Avatar size="lg">
-                            <AvatarFallbackText>
-                              {item?.trip.creator.fullName}
-                            </AvatarFallbackText>
-                            <AvatarImage
-                              source={{
-                                uri:
-                                  item?.trip.creator.profile.profilePicUrl ||
-                                  "",
-                              }}
-                            />
-                          </Avatar>
-                        </ThemedView>
-                        <ThemedView className="flex flex-1 gap-1">
-                          <ThemedText
-                            type="s2_subtitle"
-                            className="text-typography-800"
-                          >
-                            {item?.trip.creator.fullName}
-                          </ThemedText>
-                          <ThemedView className="flex-row flex-1 items-center gap-1">
-                            <Icon as={MapPin} />
-                            <ThemedText type="default">
-                              {activeTripType === 2
-                                ? `${(item as IAirTripDatum).departureCity}→${
-                                    (item as IAirTripDatum).arrivalCity
-                                  }`
-                                : `${
-                                    (item as ISeaMaritimeDatum).departurePort
-                                  }→${(item as ISeaMaritimeDatum).arrivalPort}`}
-                            </ThemedText>
-                          </ThemedView>
-                        </ThemedView>
-                      </ThemedView>
+                    <ThemedView
+                      key={item._id}
+                      className="border border-primary-50 p-5 rounded-2xl flex gap-5"
+                    >
                       <ThemedView>
+                        <ThemedView className="flex-row justify-between flex-1 gap-2">
+                          <ThemedText
+                            type="s1_subtitle"
+                            className="text-typography-800 flex-1"
+                          >
+                            {item.bidId}
+                          </ThemedText>
+                          <Button variant="solid" className={`${
+                            item.parcelGroup?.status === "accepted"
+                              ? "bg-green-100"
+                              : item.parcelGroup?.status === "pending"
+                              ? "bg-yellow-100"
+                              : "bg-red-100"
+                          } px-3 py-1 rounded-lg`}>
+                            <ThemedText
+                              type="btn_medium"
+                              className={`
+                                ${item.parcelGroup?.status === "accepted"
+                                  ? "text-green-800"
+                                  : item.parcelGroup?.status === "pending"
+                                  ? "text-yellow-800"
+                                  : "text-red-800"
+                                }
+                              `}
+                            >
+                              {item.parcelGroup?.status}
+                            </ThemedText>
+                          </Button>
+                        </ThemedView>
                         <ThemedView className="flex-row gap-2">
                           <ThemedText
                             type="s2_subtitle"
                             className="text-typography-800"
                           >
-                            Departure:
+                            From:
                           </ThemedText>
                           <ThemedText
                             type="default"
                             className="text-typography-500"
                           >
-                            {departure ? `${departure.fromNow()}` : "—"}
+                            {activeTripType === 2
+                              ? (item as IBidTripsDatum).parcelGroup
+                                  .pickUpLocation.address
+                              : (item as IBidTripsDatum).parcelGroup
+                                  .pickUpLocation.address}
                           </ThemedText>
                         </ThemedView>
                         <ThemedView className="flex-row gap-2">
@@ -294,27 +274,13 @@ export default function TripDelivery() {
                             type="s2_subtitle"
                             className="text-typography-800"
                           >
-                            Arrival:
+                            To:
                           </ThemedText>
                           <ThemedText
                             type="default"
                             className="text-typography-500"
                           >
-                            {arrival ? `${arrival.format("MMM D, YYYY")}` : "—"}
-                          </ThemedText>
-                        </ThemedView>
-                        <ThemedView className="flex-row gap-2">
-                          <ThemedText
-                            type="s2_subtitle"
-                            className="text-typography-800"
-                          >
-                            Status:
-                          </ThemedText>
-                          <ThemedText
-                            type="default"
-                            className="text-typography-500"
-                          >
-                            {item.trip?.status || "—"}
+                            VI, Lagos
                           </ThemedText>
                         </ThemedView>
                       </ThemedView>
@@ -323,20 +289,20 @@ export default function TripDelivery() {
                         size="2xl"
                         onPress={() => {
                           router.push({
-                            pathname: "/(tabs)/trips/traveler-detail",
+                            pathname: "/(tabs)/bids/bid-trip-details",
                             params: {
-                              activeTripType: activeTripType.toString(),
-                              tripId: item._id,
+                              bidId: item._id,
+                              tripTypeId: activeTripType,
                             },
                           });
                         }}
-                        className="flex-1 rounded-[12px] mx-1"
+                        className=" rounded-[12px] mx-1"
                       >
                         <ThemedText
                           type="s2_subtitle"
                           className="text-white text-center"
                         >
-                          Bid in Space
+                          View BId
                         </ThemedText>
                       </Button>
                     </ThemedView>
@@ -345,80 +311,6 @@ export default function TripDelivery() {
                 keyExtractor={(item, index) => `${item._id}-${index}`}
               />
             )}
-
-            {/* <ThemedView className="mt-5">
-              <ThemedText type="h5_header" className="pb-2">
-                Your biding
-              </ThemedText>
-              {[1].map((_, index) => (
-                <ThemedView
-                  key={index}
-                  className="border border-primary-50 p-5 rounded-2xl flex gap-5"
-                >
-                  <ThemedView>
-                    <ThemedView className="flex-row justify-between flex-1 gap-2">
-                      <ThemedText
-                        type="s1_subtitle"
-                        className="text-typography-800 flex-1"
-                      >
-                        Urgent Documents to VI
-                      </ThemedText>
-                      <Button variant="solid" className="bg-primary-50">
-                        <ThemedText
-                          type="btn_medium"
-                          className="text-primary-500"
-                        >
-                          Bidding
-                        </ThemedText>
-                      </Button>
-                    </ThemedView>
-                    <ThemedView className="flex-row gap-2">
-                      <ThemedText
-                        type="s2_subtitle"
-                        className="text-typography-800"
-                      >
-                        From:
-                      </ThemedText>
-                      <ThemedText
-                        type="default"
-                        className="text-typography-500"
-                      >
-                        Ikeja port, Lagos
-                      </ThemedText>
-                    </ThemedView>
-                    <ThemedView className="flex-row gap-2">
-                      <ThemedText
-                        type="s2_subtitle"
-                        className="text-typography-800"
-                      >
-                        To:
-                      </ThemedText>
-                      <ThemedText
-                        type="default"
-                        className="text-typography-500"
-                      >
-                        VI, Lagos
-                      </ThemedText>
-                    </ThemedView>
-                  </ThemedView>
-                  <Button
-                    variant="solid"
-                    size="2xl"
-                    onPress={() => {
-                      router.push("/(tabs)/choose-payment-type");
-                    }}
-                    className=" rounded-[12px] mx-1"
-                  >
-                    <ThemedText
-                      type="s2_subtitle"
-                      className="text-white text-center"
-                    >
-                      View BIds (3)
-                    </ThemedText>
-                  </Button>
-                </ThemedView>
-              ))}
-            </ThemedView> */}
           </ThemedView>
         </ThemedView>
       </ParallaxScrollView>

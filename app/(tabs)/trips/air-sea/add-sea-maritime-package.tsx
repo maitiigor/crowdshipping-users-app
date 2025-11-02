@@ -10,7 +10,6 @@ import { ThemedView } from "@/components/ThemedView";
 import { useLocalSearchParams, useNavigation, useRouter } from "expo-router";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 
-import { AddressSelection } from "@/components/Custom/AddressPicker";
 import CustomToast from "@/components/Custom/CustomToast";
 import DateField from "@/components/Custom/DateField";
 import ImageUploader from "@/components/Custom/ImageUploader";
@@ -49,63 +48,27 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as Yup from "yup";
 
-// MenuItem type removed (unused)
-const productCategoryList = [
-  {
-    label: "Perishable",
-    value: "Perishable",
-  },
-  {
-    label: "Electronics",
-    value: "Electronics",
-  },
-  {
-    label: "Clothing",
-    value: "Clothing",
-  },
-  {
-    label: "Home & Kitchen",
-    value: "Home & Kitchen",
-  },
-];
-const productTypeList = [
-  {
-    label: "Pizza",
-    value: "Pizza",
-  },
-  {
-    label: "Groceries",
-    value: "Groceries",
-  },
-  {
-    label: "Other",
-    value: "Other",
-  },
-];
-
-type ProductUnit = "kg" | "lb";
+type ProductUnit = "kg" | "lb" | "mcg" | "mg" | "g" | "oz" | "t" | "mt";
 
 type PackageFormValues = {
-  productCategory: string;
   productType: string;
   productWeight: string;
   productUnit: ProductUnit;
   productImage: string;
   productDescription: string;
-  receiverName: string;
-  receiverPhone: string;
-  alternativePhone: string;
 };
 
 type FormValues = {
   entityType: "air" | "maritime";
   bookingType: "" | "instant" | "schedule";
   scheduleDate: Date | null;
+  receiverName: string;
+  receiverPhone: string;
+  alternativePhone: string;
   packages: PackageFormValues[];
 };
 
 const packageSchema = Yup.object({
-  productCategory: Yup.string().required("Product category is required"),
   productType: Yup.string().required("Product name is required"),
   productWeight: Yup.string()
     .required("Weight is required")
@@ -115,19 +78,15 @@ const packageSchema = Yup.object({
       return Number.isFinite(numeric) && numeric > 0;
     }),
   productUnit: Yup.mixed<ProductUnit>()
-    .oneOf(["kg", "lb"], "Select a weight unit")
+    .oneOf(
+      ["kg", "lb", "mcg", "mg", "g", "oz", "t", "mt"],
+      "Select a weight unit"
+    )
     .required("Weight unit is required"),
   productImage: Yup.string().required("Package image is required"),
   productDescription: Yup.string()
     .max(500, "Description cannot exceed 500 characters")
     .required("Description is required"),
-  receiverName: Yup.string()
-    .min(2, "Receiver name must be at least 2 characters")
-    .required("Receiver name is required"),
-  receiverPhone: Yup.string().required("Receiver phone number is required"),
-  alternativePhone: Yup.string().required(
-    "Alternative phone number is required"
-  ),
 });
 
 const validationSchema = Yup.object({
@@ -144,16 +103,23 @@ const validationSchema = Yup.object({
       then: (schema) => schema.required("Schedule date is required"),
       otherwise: (schema) => schema.nullable(),
     }),
+  receiverName: Yup.string()
+    .min(2, "Receiver name must be at least 2 characters")
+    .required("Receiver name is required"),
+  receiverPhone: Yup.string().required("Receiver phone number is required"),
+  alternativePhone: Yup.string().required(
+    "Alternative phone number is required"
+  ),
   packages: Yup.array().of(packageSchema).min(1, "Add at least one package"),
 });
 type UpdatePackagePayload = {
+  entityType: "air" | "maritime";
   bookingType: "instant" | "schedule";
   scheduleDate?: string;
   receiverName: string;
   receiverPhone: string;
   alternativePhone?: string;
   packages: {
-    productCategory: string;
     productType: string;
     productWeight: number;
     productUnit: ProductUnit;
@@ -168,15 +134,11 @@ export default function AddSeaMaritimePackageScreen() {
   const toast = useToast();
   const receiverPhoneInputRef = useRef<any>(null);
   const alternativePhoneInputRef = useRef<any>(null);
-  const [selectedPickupAddress, setSelectedPickupAddress] =
-    useState<AddressSelection | null>(null);
-  const [selectedDropOffAddress, setSelectedDropOffAddress] =
-    useState<AddressSelection | null>(null);
   const [packageImages, setPackageImages] = useState<string[]>([""]);
   const [receiverPhoneValue, setReceiverPhoneValue] = useState("");
   const [alternativePhoneValue, setAlternativePhoneValue] = useState("");
   const insets = useSafeAreaInsets();
-  const { tripId, entityType, activeTripType } = useLocalSearchParams();
+  const { tripId, entityType, pickupLat, pickupLng, pickupAddress } = useLocalSearchParams();
   const entitityTypeStr = paramToString(entityType ?? "air");
 
   const fallbackTripId = "";
@@ -200,17 +162,16 @@ export default function AddSeaMaritimePackageScreen() {
       entityType: entitityTypeStr!.toLowerCase() === "air" ? "air" : "maritime",
       bookingType: "",
       scheduleDate: null,
+      receiverName: "",
+      receiverPhone: "",
+      alternativePhone: "",
       packages: [
         {
-          productCategory: "",
           productType: "",
           productWeight: "",
           productUnit: "kg",
           productImage: "",
           productDescription: "",
-          receiverName: "",
-          receiverPhone: "",
-          alternativePhone: "",
         },
       ],
     }),
@@ -223,7 +184,11 @@ export default function AddSeaMaritimePackageScreen() {
       headerTitle: () => {
         return (
           <ThemedText type="s1_subtitle" className="text-center">
-            Add Package
+            Add Package(
+            {entitityTypeStr?.toLocaleLowerCase() === "air"
+              ? "Air"
+              : "Maritime"}
+            )
           </ThemedText>
         );
       },
@@ -257,6 +222,7 @@ export default function AddSeaMaritimePackageScreen() {
             }}
           >
             <TouchableOpacity
+              onLongPress={() => router.push("/(tabs)")}
               onPress={() => navigation.goBack()}
               className="p-2 rounded   flex justify-center items-center"
             >
@@ -271,7 +237,7 @@ export default function AddSeaMaritimePackageScreen() {
       ),
       headerRight: () => <NotificationIcon />,
     });
-  }, [navigation]);
+  }, [navigation, entitityTypeStr]);
 
   const showNewToast = ({
     title,
@@ -306,10 +272,7 @@ export default function AddSeaMaritimePackageScreen() {
 
   const handleFormSubmit = async (values: FormValues) => {
     try {
-      // Get receiver info from first package
-      const firstPackage = values.packages[0];
-
-      const receiverRaw = receiverPhoneValue || firstPackage.receiverPhone;
+      const receiverRaw = receiverPhoneValue || values.receiverPhone;
       const receiverCode = receiverPhoneInputRef.current?.state?.code
         ? String(receiverPhoneInputRef.current.state.code)
         : undefined;
@@ -330,8 +293,7 @@ export default function AddSeaMaritimePackageScreen() {
       );
 
       let formattedAlternativePhone = "";
-      const alternativeRaw =
-        alternativePhoneValue || firstPackage.alternativePhone;
+      const alternativeRaw = alternativePhoneValue || values.alternativePhone;
       if (alternativeRaw) {
         const altCode = alternativePhoneInputRef.current?.state?.code
           ? String(alternativePhoneInputRef.current.state.code)
@@ -365,17 +327,18 @@ export default function AddSeaMaritimePackageScreen() {
       }
 
       const payload: UpdatePackagePayload = {
+        entityType:
+          entitityTypeStr!.toLowerCase() === "air" ? "air" : "maritime",
         bookingType: values.bookingType as "instant" | "schedule",
         scheduleDate:
           values.bookingType === "schedule" && values.scheduleDate
             ? new Date(values.scheduleDate).toISOString().split("T")[0]
             : "",
-        receiverName: firstPackage.receiverName.trim(),
+        receiverName: values.receiverName.trim(),
         receiverPhone: formattedReceiverPhone,
         alternativePhone: formattedAlternativePhone,
 
         packages: values.packages.map((pkg) => ({
-          productCategory: pkg.productCategory.toLowerCase(),
           productType: pkg.productType.toLowerCase(),
           productWeight: Number(pkg.productWeight),
           productUnit: pkg.productUnit,
@@ -384,6 +347,7 @@ export default function AddSeaMaritimePackageScreen() {
         })),
       };
       const response = await mutateAsync(payload);
+      console.log("🚀 ~ handleFormSubmit ~ response:", response);
       showNewToast({
         title: "Package saved",
         description: "Your packages were added successfully",
@@ -396,8 +360,11 @@ export default function AddSeaMaritimePackageScreen() {
       router.push({
         pathname: "/(tabs)/trips/air-sea/bidding-screen",
         params: {
-          tripId: tripIdStr,
-          response: encodeURIComponent(JSON.stringify(response)),
+          tripId: response?.data.id || tripIdStr,
+          entityType: response?.data.entityType,
+          pickupLat: pickupLat,
+          pickupLng: pickupLng,
+          pickupAddress: pickupAddress,
         },
       });
     } catch (submitError: any) {
@@ -417,61 +384,7 @@ export default function AddSeaMaritimePackageScreen() {
       });
     }
   };
-  useEffect(() => {
-    navigation.setOptions({
-      headerShown: true,
-      headerTitle: () => {
-        return (
-          <ThemedText type="s1_subtitle" className="text-center">
-            Add Package
-          </ThemedText>
-        );
-      },
-      headerTitleAlign: "center",
-      headerTitleStyle: { fontSize: 20 }, // Increased font size
-      headerShadowVisible: false,
-      headerStyle: {
-        backgroundColor: "#FFFFFF",
-        elevation: 0, // Android
-        shadowOpacity: 0, // iOS
-        shadowColor: "transparent", // iOS
-        borderBottomWidth: 0,
-      },
-      headerLeft: () => (
-        <ThemedView
-          style={{
-            shadowColor: "#FDEFEB1A",
-            shadowOffset: { width: 0, height: 1 },
-            shadowOpacity: 0.102,
-            shadowRadius: 3,
-            elevation: 4,
-          }}
-        >
-          <ThemedView
-            style={{
-              shadowColor: "#0000001A",
-              shadowOffset: { width: 0, height: 1 },
-              shadowOpacity: 0.102,
-              shadowRadius: 2,
-              elevation: 2,
-            }}
-          >
-            <TouchableOpacity
-              onPress={() => navigation.goBack()}
-              className="p-2 rounded   flex justify-center items-center"
-            >
-              <Icon
-                as={ChevronLeft}
-                size="3xl"
-                className="text-typography-900"
-              />
-            </TouchableOpacity>
-          </ThemedView>
-        </ThemedView>
-      ),
-      headerRight: () => <NotificationIcon />,
-    });
-  }, [navigation]);
+
   return (
     <KeyboardAvoidingView
       className="flex-1 bg-white"
@@ -500,96 +413,6 @@ export default function AddSeaMaritimePackageScreen() {
               console.log("🚀 ~ AddPackageScreen ~ errors:", errors);
               return (
                 <ThemedView className="flex-1 gap-5 pb-20 mt-3">
-                  <ThemedView>
-                    <InputLabelText className="">Receiver Name</InputLabelText>
-                    <Input
-                      size="xl"
-                      className="h-[55px] rounded-lg border-primary-100 bg-primary-inputShade px-2"
-                      variant="outline"
-                      isInvalid={
-                        !!(
-                          errors.packages?.[0] &&
-                          typeof errors.packages[0] === "object" &&
-                          "receiverName" in errors.packages[0] &&
-                          ((touched.packages?.[0] &&
-                            typeof touched.packages[0] === "object" &&
-                            "receiverName" in touched.packages[0]) ||
-                            submitCount > 0)
-                        )
-                      }
-                    >
-                      <InputField
-                        placeholder="Enter receiver's name"
-                        value={values.packages[0]?.receiverName}
-                        onChangeText={handleChange("packages[0].receiverName")}
-                        onBlur={handleBlur("packages[0].receiverName")}
-                        keyboardType="default"
-                        autoCapitalize="words"
-                      />
-                    </Input>
-                    {errors.packages?.[0] &&
-                      typeof errors.packages[0] === "object" &&
-                      "receiverName" in errors.packages[0] &&
-                      ((touched.packages?.[0] &&
-                        typeof touched.packages[0] === "object" &&
-                        "receiverName" in touched.packages[0]) ||
-                        submitCount > 0) && (
-                        <ThemedText type="b4_body" className="text-error-500">
-                          {errors.packages[0].receiverName}
-                        </ThemedText>
-                      )}
-                  </ThemedView>
-
-                  <ThemedView>
-                    <InputLabelText className="">
-                      Receiver Phone Number
-                    </InputLabelText>
-                    <PhoneNumberInput
-                      ref={receiverPhoneInputRef}
-                      value={values.packages[0]?.receiverPhone}
-                      onChangeFormattedText={(text) => {
-                        setReceiverPhoneValue(text);
-                        setFieldValue("packages[0].receiverPhone", text);
-                      }}
-                    />
-                    {errors.packages?.[0] &&
-                      typeof errors.packages[0] === "object" &&
-                      "receiverPhone" in errors.packages[0] &&
-                      ((touched.packages?.[0] &&
-                        typeof touched.packages[0] === "object" &&
-                        "receiverPhone" in touched.packages[0]) ||
-                        submitCount > 0) && (
-                        <ThemedText type="b4_body" className="text-error-500">
-                          {errors.packages[0].receiverPhone}
-                        </ThemedText>
-                      )}
-                  </ThemedView>
-
-                  <ThemedView>
-                    <InputLabelText className="">
-                      Alternative Phone Number
-                    </InputLabelText>
-                    <PhoneNumberInput
-                      ref={alternativePhoneInputRef}
-                      value={values.packages[0]?.alternativePhone}
-                      onChangeFormattedText={(text) => {
-                        setAlternativePhoneValue(text);
-                        setFieldValue("packages[0].alternativePhone", text);
-                      }}
-                    />
-                    {errors.packages?.[0] &&
-                      typeof errors.packages[0] === "object" &&
-                      "alternativePhone" in errors.packages[0] &&
-                      ((touched.packages?.[0] &&
-                        typeof touched.packages[0] === "object" &&
-                        "alternativePhone" in touched.packages[0]) ||
-                        submitCount > 0) && (
-                        <ThemedText type="b4_body" className="text-error-500">
-                          {errors.packages[0].alternativePhone}
-                        </ThemedText>
-                      )}
-                  </ThemedView>
-
                   <ThemedView>
                     <InputLabelText type="b2_body">Booking Type</InputLabelText>
                     <Select
@@ -649,6 +472,76 @@ export default function AddSeaMaritimePackageScreen() {
                     </ThemedView>
                   )}
 
+                  <ThemedView>
+                    <InputLabelText className="">Receiver Name</InputLabelText>
+                    <Input
+                      size="xl"
+                      className="h-[55px] rounded-lg border-primary-100 bg-primary-inputShade px-2"
+                      variant="outline"
+                      isInvalid={
+                        !!(
+                          errors.receiverName &&
+                          (touched.receiverName || submitCount > 0)
+                        )
+                      }
+                    >
+                      <InputField
+                        placeholder="Enter receiver's name"
+                        value={values.receiverName}
+                        onChangeText={handleChange("receiverName")}
+                        onBlur={handleBlur("receiverName")}
+                        keyboardType="default"
+                        autoCapitalize="words"
+                      />
+                    </Input>
+                    {errors.receiverName &&
+                      (touched.receiverName || submitCount > 0) && (
+                        <ThemedText type="b4_body" className="text-error-500">
+                          {errors.receiverName}
+                        </ThemedText>
+                      )}
+                  </ThemedView>
+
+                  <ThemedView>
+                    <InputLabelText className="">
+                      Receiver Phone Number
+                    </InputLabelText>
+                    <PhoneNumberInput
+                      ref={receiverPhoneInputRef}
+                      value={values.receiverPhone}
+                      onChangeFormattedText={(text) => {
+                        setReceiverPhoneValue(text);
+                        setFieldValue("receiverPhone", text);
+                      }}
+                    />
+                    {errors.receiverPhone &&
+                      (touched.receiverPhone || submitCount > 0) && (
+                        <ThemedText type="b4_body" className="text-error-500">
+                          {errors.receiverPhone}
+                        </ThemedText>
+                      )}
+                  </ThemedView>
+
+                  <ThemedView>
+                    <InputLabelText className="">
+                      Alternative Phone Number
+                    </InputLabelText>
+                    <PhoneNumberInput
+                      ref={alternativePhoneInputRef}
+                      value={values.alternativePhone}
+                      onChangeFormattedText={(text) => {
+                        setAlternativePhoneValue(text);
+                        setFieldValue("alternativePhone", text);
+                      }}
+                    />
+                    {errors.alternativePhone &&
+                      (touched.alternativePhone || submitCount > 0) && (
+                        <ThemedText type="b4_body" className="text-error-500">
+                          {errors.alternativePhone}
+                        </ThemedText>
+                      )}
+                  </ThemedView>
+
                   <FieldArray name="packages">
                     {({ push, remove }) => (
                       <ThemedView className="flex gap-6">
@@ -689,60 +582,6 @@ export default function AddSeaMaritimePackageScreen() {
                                 )}
                               </ThemedView>
 
-                              <ThemedView className="mb-4">
-                                <InputLabelText type="b2_body">
-                                  Product Category
-                                </InputLabelText>
-                                <Select
-                                  selectedValue={pkg.productCategory}
-                                  onValueChange={(val) =>
-                                    setFieldValue(
-                                      `packages[${index}].productCategory`,
-                                      val
-                                    )
-                                  }
-                                >
-                                  <SelectTrigger
-                                    size="xl"
-                                    className="h-[55px] rounded-lg border-primary-100 bg-primary-inputShade px-2"
-                                  >
-                                    <SelectInput
-                                      placeholder="Select a category"
-                                      value={pkg.productCategory}
-                                      className="flex-1"
-                                    />
-                                    <SelectIcon
-                                      className="mr-3"
-                                      as={ChevronDownIcon}
-                                    />
-                                  </SelectTrigger>
-                                  <SelectPortal>
-                                    <SelectBackdrop />
-                                    <SelectContent>
-                                      <SelectDragIndicatorWrapper>
-                                        <SelectDragIndicator />
-                                      </SelectDragIndicatorWrapper>
-                                      {productCategoryList.map((category) => (
-                                        <SelectItem
-                                          key={category.value}
-                                          value={category.value}
-                                          label={category.label}
-                                        />
-                                      ))}
-                                    </SelectContent>
-                                  </SelectPortal>
-                                </Select>
-                                {pkgErrors.productCategory &&
-                                  (pkgTouched.productCategory ||
-                                    submitCount > 0) && (
-                                    <ThemedText
-                                      type="b4_body"
-                                      className="text-error-500"
-                                    >
-                                      {pkgErrors.productCategory}
-                                    </ThemedText>
-                                  )}
-                              </ThemedView>
                               <ThemedView className="mb-4">
                                 <InputLabelText type="b2_body">
                                   Product Name
@@ -868,6 +707,12 @@ export default function AddSeaMaritimePackageScreen() {
                                           </SelectDragIndicatorWrapper>
                                           <SelectItem label="kg" value="kg" />
                                           <SelectItem label="lb" value="lb" />
+                                          <SelectItem label="mcg" value="mcg" />
+                                          <SelectItem label="mg" value="mg" />
+                                          <SelectItem label="g" value="g" />
+                                          <SelectItem label="oz" value="oz" />
+                                          <SelectItem label="t" value="t" />
+                                          <SelectItem label="mt" value="mt" />
                                         </SelectContent>
                                       </SelectPortal>
                                     </Select>
@@ -1051,15 +896,11 @@ export default function AddSeaMaritimePackageScreen() {
                           className="mt-2 rounded-[12px] border-dashed"
                           onPress={() => {
                             push({
-                              productCategory: "",
                               productType: "",
                               productWeight: "",
                               productUnit: "kg",
                               productImage: "",
                               productDescription: "",
-                              receiverName: "",
-                              receiverPhone: "",
-                              alternativePhone: "",
                             });
                             setPackageImages((prev) => [...prev, ""]);
                           }}

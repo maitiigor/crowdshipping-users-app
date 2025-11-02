@@ -13,7 +13,7 @@ import { useAppSelector } from "@/store";
 import { ISingleReportResponse } from "@/types/IReport";
 import { formatCurrency } from "@/utils/helper";
 import dayjs from "dayjs";
-import { useLocalSearchParams, useNavigation } from "expo-router";
+import { useLocalSearchParams, useNavigation, useRouter } from "expo-router";
 import {
   ArrowLeft,
   CalendarClock,
@@ -34,13 +34,13 @@ const statusStyles: Record<string, string> = {
 const ReportDetails = () => {
   const navigation = useNavigation();
   const { id } = useLocalSearchParams<{ id: string }>();
-
+  const router = useRouter();
   const { data, isLoading, refetch, isRefetching } = useAuthenticatedQuery<
     ISingleReportResponse | undefined
   >(["report", id], `/issue/report/${id}`);
 
   const report = data?.data;
-  const {countryCode } = useCountry();
+  const { countryCode } = useCountry();
   // Get the selected country from Redux
   const selectedCountry = useAppSelector(
     (state) => state.country.selectedCountry
@@ -68,6 +68,7 @@ const ReportDetails = () => {
       },
       headerLeft: () => (
         <TouchableOpacity
+          onLongPress={() => router.push("/(tabs)")}
           onPress={() => navigation.goBack()}
           className="p-2 rounded flex justify-center items-center"
         >

@@ -1,7 +1,6 @@
-import { useAuthenticatedPatch, useAuthenticatedQuery } from "@/lib/api";
+import { useAuthenticatedDelete, useAuthenticatedPatch, useAuthenticatedQuery } from "@/lib/api";
 import { INotificationsResponse } from "@/types/INotification";
 import { useRouter } from "expo-router";
-import { Formik } from "formik";
 import {
   CircleCheckIcon,
   HelpCircleIcon,
@@ -11,7 +10,6 @@ import React from "react";
 import { ActivityIndicator } from "react-native";
 import * as Yup from "yup";
 import CustomToast from "../Custom/CustomToast";
-import InputLabelText from "../Custom/InputLabelText";
 import { ThemedText } from "../ThemedText";
 import { ThemedView } from "../ThemedView";
 import { Button } from "../ui/button";
@@ -22,7 +20,6 @@ import {
   ModalContent,
   ModalHeader,
 } from "../ui/modal";
-import { Textarea, TextareaInput } from "../ui/textarea";
 import { useToast } from "../ui/toast";
 
 const validationSchema = Yup.object().shape({
@@ -33,7 +30,7 @@ interface IProps {
   showModal: boolean;
   setShowModal: (show: boolean) => void;
 }
-export default function CancelBookingModal({
+export default function CancelAirSeaBookingModal({
   responseId,
   showModal,
   setShowModal,
@@ -43,12 +40,9 @@ export default function CancelBookingModal({
   const { refetch: refetchNotifications } = useAuthenticatedQuery<
     INotificationsResponse | undefined
   >(["notifications"], "/notification");
-  const { mutateAsync, loading, error } = useAuthenticatedPatch<
-    any,
-    {
-      reason: string;
-    }
-  >(`/trip/cancel/package/${responseId}`);
+  const { mutateAsync, loading, error } = useAuthenticatedDelete<any, any>(
+    `/trip/cancel/bid/${responseId}`
+  );
 
   const showNewToast = ({
     title,
@@ -84,11 +78,9 @@ export default function CancelBookingModal({
     });
   };
 
-  const handleSubmit = async (reason: string) => {
+  const handleSubmit = async () => {
     try {
-      await mutateAsync({
-        reason,
-      });
+      await mutateAsync({});
       showNewToast({
         title: "Success",
         description: "Booking cancelled successfully!",
@@ -138,70 +130,38 @@ export default function CancelBookingModal({
           </ThemedText>
         </ModalHeader>
         <ModalBody className="my-4 w-full">
-          <Formik
-            initialValues={{
-              reason: "",
-            }}
-            validationSchema={validationSchema}
-            onSubmit={(formValues) => handleSubmit(formValues.reason)}
+          <ThemedText
+            type="b2_body"
+            className="text-typography-700 text-center mb-6 px-2"
           >
-            {({
-              handleChange,
-              handleBlur,
-              handleSubmit,
-              values,
-              errors,
-              touched,
-              setFieldValue,
-            }) => (
-              <>
-                <ThemedView>
-                  <InputLabelText type="b2_body" className="pb-1">
-                    Reason
-                  </InputLabelText>
-                  <Textarea
-                    size="lg"
-                    isReadOnly={false}
-                    isInvalid={!!(errors.reason && touched.reason)}
-                    isDisabled={false}
-                    className="w-full h-[150px] border-primary-100 bg-primary-inputShade"
-                  >
-                    <TextareaInput
-                      clearButtonMode="while-editing"
-                      value={values.reason}
-                      onChangeText={handleChange("reason")}
-                      onBlur={handleBlur("reason")}
-                      placeholder="Enter Reason"
-                      multiline
-                      numberOfLines={10}
-                      style={{ textAlignVertical: "top" }}
-                    />
-                    {/* clear button */}
-                  </Textarea>
-                  {errors.reason && touched.reason && (
-                    <ThemedText type="b4_body" className="text-error-500">
-                      {String(errors.reason)}
-                    </ThemedText>
-                  )}
-                </ThemedView>
-                <Button
-                  variant="solid"
-                  size="2xl"
-                  disabled={loading}
-                  onPress={() => handleSubmit()}
-                  className="mt-5 rounded-[12px]"
-                >
-                  <ThemedText type="s1_subtitle" className="text-white">
-                    {loading ? (
-                      <ActivityIndicator color="white" />
-                    ) : (
-                      "Cancel Booking"
-                    )}
-                  </ThemedText>
-                </Button>
-              </>
-            )}
-          </Formik>
+            Are you sure you want to cancel this booking? This action cannot be
+            undone.
+          </ThemedText>
+          <ThemedText
+            type="b2_body"
+            className="text-typography-700 text-center mb-6 px-2 "
+          >
+            By confirming, you acknowledge that any associated fees or penalties
+            may apply as per our cancellation policy.
+          </ThemedText>
+          <ThemedView className="flex-row gap-4 w-full justify-center">
+            <Button
+              className="flex-1 bg-background-100 rounded-xl items-center"
+              onTouchEnd={() => setShowModal(false)}
+            >
+              <ThemedText type="btn_large" className="text-typography-700">
+                Go Back
+              </ThemedText>
+            </Button>
+            <Button
+              className="flex-1 bg-red-100 rounded-xl items-center"
+              onTouchEnd={() => handleSubmit()}
+            >
+              <ThemedText type="btn_large" className="text-red-600">
+                {loading ? <ActivityIndicator color="white" /> : "Confirm"}
+              </ThemedText>
+            </Button>
+          </ThemedView>
         </ModalBody>
       </ModalContent>
     </Modal>

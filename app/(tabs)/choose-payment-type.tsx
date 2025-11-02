@@ -241,6 +241,7 @@ export default function ChoosePaymentType() {
             }}
           >
             <TouchableOpacity
+              onLongPress={() => router.push("/(tabs)")}
               onPress={() => navigation.goBack()}
               className="p-2 rounded flex justify-center items-center"
             >
@@ -709,7 +710,11 @@ export default function ChoosePaymentType() {
                         type="b3_body"
                         className="text-white/70 line-through"
                       >
-                        {formatCurrency(originalAmountNumber, selectedCurrency, `en-${countryCode}`)}
+                        {formatCurrency(
+                          originalAmountNumber,
+                          selectedCurrency,
+                          `en-${countryCode}`
+                        )}
                       </ThemedText>
                     )}
                     <ThemedText type="h3_header" className="text-white">
@@ -725,7 +730,11 @@ export default function ChoosePaymentType() {
                     {hasDiscount && (
                       <ThemedText type="b4_body" className="text-white/90 mt-1">
                         You save{" "}
-                        {formatCurrency(discountAmountNumber, selectedCurrency, `en-${countryCode}`)}{" "}
+                        {formatCurrency(
+                          discountAmountNumber,
+                          selectedCurrency,
+                          `en-${countryCode}`
+                        )}{" "}
                         (-
                         {formatPercentageValue(discountPercentageNumber)}%)
                       </ThemedText>
@@ -741,7 +750,12 @@ export default function ChoosePaymentType() {
                         {discountCodeValue ? ` (${discountCodeValue})` : ""}
                       </ThemedText>
                       <ThemedText type="b2_body" className="text-success-600">
-                        -{formatCurrency(discountAmountNumber, selectedCurrency, `en-${countryCode}`)}
+                        -
+                        {formatCurrency(
+                          discountAmountNumber,
+                          selectedCurrency,
+                          `en-${countryCode}`
+                        )}
                       </ThemedText>
                     </ThemedView>
                     <ThemedView className="flex-row justify-between mt-2">

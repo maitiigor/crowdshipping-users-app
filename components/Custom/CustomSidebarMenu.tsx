@@ -21,6 +21,7 @@ import { IUserProfileResponse } from "@/types/IUserProfile";
 import type { LinkProps } from "expo-router";
 import { Link, usePathname, useRouter } from "expo-router";
 import {
+  ArrowRightLeft,
   Bell,
   CircleDollarSign,
   Gift,
@@ -32,6 +33,7 @@ import {
   NotepadText,
   RotateCw,
   ScrollText,
+  TrainTrack,
   TruckElectric,
   Wallet,
 } from "lucide-react-native";
@@ -71,6 +73,16 @@ const menuList: MenuItem[] = [
     icon: TruckElectric,
     name: "Trips",
     linkTo: "/(tabs)/trips",
+  },
+  {
+    icon: ArrowRightLeft,
+    name: "Bidding History",
+    linkTo: "/(tabs)/bids",
+  },
+  {
+    icon: TrainTrack,
+    name: "Track Order",
+    linkTo: "/(tabs)/track-order",
   },
   {
     icon: MailPlus,

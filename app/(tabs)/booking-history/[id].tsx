@@ -69,6 +69,7 @@ export default function BookingDetailScreen() {
             }}
           >
             <TouchableOpacity
+              onLongPress={() => router.push("/(tabs)")}
               onPress={() => navigation.goBack()}
               className="p-2 rounded   flex justify-center items-center"
             >
@@ -106,7 +107,7 @@ export default function BookingDetailScreen() {
                   source={{
                     uri:
                       bookingDetailsData?.data?.parcels?.[0]?.productImage ||
-                      "https://plus.unsplash.com/premium_photo-1663047788002-765d78050d53?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                      "https://dummyimage.com/600x400/e3d7e3/000000.png&text=not+found",
                   }}
                   size="2xl"
                   alt={"Product image"}

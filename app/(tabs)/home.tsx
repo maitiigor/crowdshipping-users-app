@@ -2,13 +2,12 @@ import { StyleSheet, TouchableOpacity } from "react-native";
 
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 
-import Entypo from "@expo/vector-icons/Entypo";
-import { useNavigation, useRouter } from "expo-router";
-import React, { useEffect } from "react";
-import { ThemedView } from "@/components/ThemedView";
-import { ChevronLeft } from "lucide-react-native";
-import { Icon } from "@/components/ui/icon";
 import { ThemedText } from "@/components/ThemedText";
+import { ThemedView } from "@/components/ThemedView";
+import { Icon } from "@/components/ui/icon";
+import { useNavigation, useRouter } from "expo-router";
+import { ChevronLeft } from "lucide-react-native";
+import React, { useEffect } from "react";
 
 export default function SecondHomeScreen() {
   const navigation = useNavigation();
@@ -34,7 +33,7 @@ export default function SecondHomeScreen() {
         borderBottomWidth: 0,
       },
       headerLeft: () => (
-         <ThemedView
+        <ThemedView
           style={{
             shadowColor: "#FDEFEB1A",
             shadowOffset: { width: 0, height: 1 },

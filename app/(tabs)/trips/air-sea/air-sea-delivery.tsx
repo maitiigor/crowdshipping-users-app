@@ -180,6 +180,7 @@ export default function AirSeaDeliveryScreen() {
             }}
           >
             <TouchableOpacity
+              onLongPress={() => router.push("/(tabs)")}
               onPress={() => navigation.goBack()}
               className="p-2 rounded   flex justify-center items-center"
             >
@@ -367,6 +368,9 @@ export default function AirSeaDeliveryScreen() {
             tripId: response?.data.id,
             activeTripType: activeTripType,
             entityType: response?.data.entityType,
+            pickupLat: lat,
+            pickupLng: lng,
+            pickupAddress: address,
           },
         });
       }, 1000);
@@ -615,7 +619,7 @@ export default function AirSeaDeliveryScreen() {
                       {loading ? (
                         <ActivityIndicator color="white" />
                       ) : (
-                        "Continue"
+                        "Continue"  
                       )}
                     </ThemedText>
                   </Button>

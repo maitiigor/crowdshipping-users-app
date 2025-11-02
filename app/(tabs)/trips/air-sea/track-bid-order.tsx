@@ -1,9 +1,11 @@
 import { BottomDrawer } from "@/components/Custom/BottomDrawer";
+import CustomToast from "@/components/Custom/CustomToast";
 import InputLabelText from "@/components/Custom/InputLabelText";
 import NotificationIcon from "@/components/Custom/NotificationIcon";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
-import { Alert, AlertIcon, AlertText } from "@/components/ui/alert";
+import CancelAirSeaBookingModal from "@/components/Trips/CancelAirSeaBookingModal";
+import { Alert, AlertIcon } from "@/components/ui/alert";
 import {
   Avatar,
   AvatarFallbackText,
@@ -11,22 +13,102 @@ import {
 } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Icon, InfoIcon } from "@/components/ui/icon";
-import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
+import { Input, InputField, InputSlot } from "@/components/ui/input";
+import { Textarea, TextareaInput } from "@/components/ui/textarea";
+import { useToast } from "@/components/ui/toast";
+import { useCountry } from "@/hooks/useCountry";
+import { useAuthenticatedPatch, useAuthenticatedQuery } from "@/lib/api";
+import { useAppSelector } from "@/store";
+import { ISingleBidDetailsResponse } from "@/types/IBids";
+import { formatCurrency, paramToString } from "@/utils/helper";
 import { useLocalSearchParams, useNavigation, useRouter } from "expo-router";
 import { Formik } from "formik";
 
-import { ChevronLeft, Clock3, DollarSign, MapPin } from "lucide-react-native";
+import {
+  Activity,
+  ChevronLeft,
+  CircleCheckIcon,
+  Clock3,
+  HelpCircleIcon,
+  LucideIcon,
+  MapPin,
+} from "lucide-react-native";
 import React, { useEffect, useState } from "react";
-import { ScrollView, TouchableOpacity, View } from "react-native";
+import {
+  ActivityIndicator,
+  ScrollView,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import MapView from "react-native-maps";
+import * as Yup from "yup";
 
-export default function TripDetailsScreen() {
+export default function TripBidsNegotiationScreen() {
   const navigation = useNavigation();
   const router = useRouter();
+  const toast = useToast();
   const [snap, setSnap] = useState(0.5);
+  console.log("🚀 ~ TripBidsNegotiationScreen ~ snap:", snap);
   const [rating, setRating] = useState<number>(0);
-  const { tripTypeId } = useLocalSearchParams();
+  const { bidRef, bidAmount, entityType, tripId, bidId } =
+    useLocalSearchParams();
+  const bidIdStr = paramToString(bidId);
+  const tripIdStr = paramToString(tripId);
+  const entityTypeStr = paramToString(entityType);
+  const bidAmountNum = Number(paramToString(bidAmount));
+  const activeTripType =
+    entityTypeStr === "maritime" ? 1 : entityTypeStr === "air" ? 2 : 2;
 
+  // Fetch air/maritime details
+  const {
+    data: airDetailsData,
+    isLoading: airDetailsLoading,
+    isFetching: airDetailsFetching,
+    refetch: refetchAirDetails,
+  } = useAuthenticatedQuery<ISingleBidDetailsResponse | undefined>(
+    ["trips-bid-details", activeTripType === 1 ? "sea" : "air", bidIdStr],
+    `/trip/bid/detail/${bidIdStr}`,
+    undefined,
+    {
+      enabled: !!bidIdStr,
+    }
+  );
+
+  const { country, countryCode } = useCountry();
+  const [showModal, setShowModal] = useState(false);
+  // Get the selected country from Redux
+  const selectedCountry = useAppSelector(
+    (state) => state.country.selectedCountry
+  );
+  const currency = selectedCountry?.currencies?.[0];
+  const selectedCurrency = currency?.code || "NGN";
+  const selectedCurrencyCode = currency?.symbol || "₦";
+  const validationSchema = () => {
+    return Yup.object().shape({
+      bidAmount: Yup.number()
+        .typeError("Bid amount must be a number")
+        .required("Bid amount is required")
+        .min(
+          selectedCurrency === "NGN" ? 5000 : 100,
+          selectedCurrency === "NGN"
+            ? "Bid amount must be at least 5,000 NGN"
+            : "Bid amount must be at least 100"
+        ),
+      note: Yup.string().nullable().optional(),
+    });
+  };
+  const { mutateAsync, error, loading } = useAuthenticatedPatch<
+    any,
+    {
+      amount: number;
+      note: string;
+    }
+  >(`/trip/new/bid/${bidId}`);
+  const {
+    mutateAsync: acceptBid,
+    error: acceptBidError,
+    loading: acceptBidLoading,
+  } = useAuthenticatedPatch<any, {}>(`/trip/user/accept/bid/${bidId}`);
   useEffect(() => {
     navigation.setOptions({
       headerShown: false,
@@ -67,6 +149,7 @@ export default function TripDetailsScreen() {
             }}
           >
             <TouchableOpacity
+              onLongPress={() => router.push("/(tabs)")}
               onPress={() => navigation.goBack()}
               className="p-2 rounded   flex justify-center items-center"
             >
@@ -82,83 +165,230 @@ export default function TripDetailsScreen() {
       headerRight: () => <NotificationIcon />,
     });
   }, [navigation, router]);
+  const showNewToast = ({
+    title,
+    description,
+    icon,
+    action = "error",
+    variant = "solid",
+  }: {
+    title: string;
+    description: string;
+    icon: LucideIcon;
+    action: "error" | "success" | "info" | "muted" | "warning";
+    variant: "solid" | "outline";
+  }) => {
+    const newId = Math.random();
+    toast.show({
+      id: newId.toString(),
+      placement: "top",
+      duration: 3000,
+      render: ({ id }) => {
+        const uniqueToastId = "toast-" + id;
+        return (
+          <CustomToast
+            uniqueToastId={uniqueToastId}
+            icon={icon}
+            action={action}
+            title={title}
+            variant={variant}
+            description={description}
+          />
+        );
+      },
+    });
+  };
+  const handleSubmit = async (values: { amount: string; note: string }) => {
+    try {
+      if (
+        airDetailsData?.data?.parcelGroup?.status.toLowerCase() === "cancelled"
+      ) {
+        showNewToast({
+          title: "Bidding Re-Negotiation Process Failed",
+          description: "Cannot renegotiate bid for a cancelled trip.",
+          icon: HelpCircleIcon,
+          action: "error",
+          variant: "solid",
+        });
+        return;
+      }
+      const response = await mutateAsync({
+        amount: Number(values.amount),
+        note: values.note,
+      });
+
+      console.log("🚀 ~ handleSubmit ~ response:", response);
+      showNewToast({
+        title: "Success",
+        description: "Bid renegotiated successfully!",
+        icon: CircleCheckIcon,
+        action: "success",
+        variant: "solid",
+      });
+      refetchAirDetails();
+    } catch (e: any) {
+      // Prefer server-provided message, then error.message, then hook error string
+      const message =
+        e?.data?.message ||
+        e?.message ||
+        (typeof error === "string" ? error : undefined) ||
+        "Sign up failed";
+      showNewToast({
+        title: "Bidding Re-Negotiation Process Failed",
+        description: message,
+        icon: HelpCircleIcon,
+        action: "error",
+        variant: "solid",
+      });
+    }
+  };
+  const handleAcceptSubmit = async () => {
+    try {
+      if (
+        airDetailsData?.data?.parcelGroup?.status.toLowerCase() === "cancelled"
+      ) {
+        showNewToast({
+          title: "Bidding Re-Negotiation Process Failed",
+          description: "Cannot renegotiate bid for a cancelled trip.",
+          icon: HelpCircleIcon,
+          action: "error",
+          variant: "solid",
+        });
+        return;
+      }
+      const response = await acceptBid({});
+
+      console.log("🚀 ~ handleSubmit ~ response:", response);
+      showNewToast({
+        title: "Success",
+        description: "Bid accepted successfully!",
+        icon: CircleCheckIcon,
+        action: "success",
+        variant: "solid",
+      });
+      refetchAirDetails();
+      router.push({
+        pathname: "/(tabs)/choose-payment-type",
+        params: {
+          responseId: response.data.id as string,
+          amount: response.data.amount as string,
+        },
+      });
+    } catch (e: any) {
+      // Prefer server-provided message, then error.message, then hook error string
+      const message =
+        e?.data?.message ||
+        e?.message ||
+        (typeof error === "string" ? error : undefined) ||
+        "Sign up failed";
+      showNewToast({
+        title: "Bidding Re-Negotiation Process Failed",
+        description: message,
+        icon: HelpCircleIcon,
+        action: "error",
+        variant: "solid",
+      });
+    }
+  };
   return (
     <ThemedView className="flex-1 bg-white relative">
       {/* map */}
-      <View className="absolute  top-14 left-0 right-0 z-50 items-center">
-        <ThemedView className=" w-[90%]  p-3 rounded-lg  bg-white">
-          <ThemedView
-            className={`flex-row items-center
+      <View className="absolute top-14 left-0 right-0 z-50 items-center">
+        {airDetailsLoading || airDetailsFetching ? (
+          <ActivityIndicator />
+        ) : (
+          <ThemedView className=" w-[90%]  p-3 rounded-lg  bg-white">
+            <ThemedView
+              className={`flex-row items-center
              justify-between
           `}
-          >
-            <ThemedView className="flex-row gap-3">
-              <Avatar size="lg">
-                <AvatarFallbackText>John Donald</AvatarFallbackText>
-                <AvatarImage
-                  source={{
-                    uri: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-                  }}
-                />
-              </Avatar>
-              <ThemedView className="flex gap-1">
-                <ThemedText type="s2_subtitle" className="text-typography-800">
-                  John Donald
-                </ThemedText>
+            >
+              <ThemedView className="flex-row gap-3">
+                <Avatar size="lg">
+                  <AvatarFallbackText>
+                    {airDetailsData?.data?.parcelGroup?.trip.creator.fullName}
+                  </AvatarFallbackText>
+                  <AvatarImage
+                    source={{
+                      uri:
+                        airDetailsData?.data?.parcelGroup?.trip.creator.profile
+                          .profilePicUrl || "",
+                    }}
+                  />
+                </Avatar>
+                <ThemedView className="flex gap-1">
+                  <ThemedText
+                    type="s2_subtitle"
+                    className="text-typography-800"
+                  >
+                    {airDetailsData?.data?.parcelGroup?.trip.creator.fullName}
+                  </ThemedText>
 
-                <ThemedView className="flex-row flex-1 items-center gap-1">
-                  <Icon as={Clock3} />
-                  <ThemedText type="btn_small">Ikeja, Lagos→Canada</ThemedText>
-                </ThemedView>
-                <ThemedView className="flex-row flex-1 items-center gap-1">
-                  <Icon as={MapPin} />
-                  <ThemedText type="btn_small">Ikeja, Lagos→Canada</ThemedText>
+                  <ThemedView className="flex-row flex-1 items-center gap-1 w-[80%]">
+                    <Icon as={Clock3} />
+                    <ThemedText type="btn_small">
+                      {airDetailsData?.data.parcelGroup.pickUpLocation
+                        .address || "-"}
+                    </ThemedText>
+                  </ThemedView>
+                  <ThemedView className="flex-row flex-1 items-center gap-1 w-[80%]">
+                    <Icon as={MapPin} />
+                    <ThemedText type="btn_small">
+                      {airDetailsData?.data.parcelGroup.dropOffLocation
+                        .address || "-"}
+                    </ThemedText>
+                  </ThemedView>
                 </ThemedView>
               </ThemedView>
-            </ThemedView>
 
-            <ThemedView className="flex gap-1">
+              {/* <ThemedView className="flex gap-1">
               <ThemedText type="s2_subtitle">2km</ThemedText>
               <ThemedText type="default" className="text-typography-500">
                 Away
               </ThemedText>
+            </ThemedView> */}
+            </ThemedView>
+            <ThemedView className="flex-row mt-5 justify-between items-center  gap-3">
+              <ThemedText type="b2_body" className="text-typography-900">
+                {/* this will be updated to the driver re-negotiation price */}
+                {formatCurrency(
+                  airDetailsData?.data?.amount,
+                  airDetailsData?.data?.currency,
+                  `en-${countryCode}`
+                )}
+              </ThemedText>
+              <ThemedView className="flex-row w-[60%] justify-between gap-3">
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className=" rounded-[12px] "
+                  onPress={() => {
+                    router.back();
+                  }}
+                >
+                  <ThemedText type="btn_medium" className="text-primary-500">
+                    Decline
+                  </ThemedText>
+                </Button>
+                <Button
+                  variant="solid"
+                  size="lg"
+                  className=" rounded-[12px] flex-1"
+                  onPress={() => {
+                    handleAcceptSubmit();
+                  }}
+                >
+                  <ThemedText type="btn_medium" className="text-white">
+                    {airDetailsData?.data.parcelGroup?.status.toLowerCase() ===
+                    "accepted"
+                      ? "Accepted"
+                      : "Accept"}
+                  </ThemedText>
+                </Button>
+              </ThemedView>
             </ThemedView>
           </ThemedView>
-          <ThemedView className="flex-row mt-5 justify-between items-center  gap-3">
-            <ThemedText type="b2_body" className="text-typography-900">
-              $5000
-            </ThemedText>
-            <ThemedView className="flex-row w-[60%] justify-between gap-3">
-              <Button
-                variant="outline"
-                size="lg"
-                className=" rounded-[12px] "
-                onPress={() => {
-                  router.back();
-                }}
-              >
-                <ThemedText type="btn_medium" className="text-primary-500">
-                  Decline
-                </ThemedText>
-              </Button>
-              <Button
-                variant="solid"
-                size="lg"
-                className=" rounded-[12px] flex-1"
-                onPress={() => {
-                  router.push({
-                    pathname: "/(tabs)/trips/air-sea/confirm-pay",
-                    params: { tripTypeId: tripTypeId as string },
-                  });
-                }}
-              >
-                <ThemedText type="btn_medium" className="text-white">
-                  Accept
-                </ThemedText>
-              </Button>
-            </ThemedView>
-          </ThemedView>
-        </ThemedView>
+        )}
       </View>
       <MapView
         style={{ height: "100%", width: "100%" }}
@@ -171,18 +401,19 @@ export default function TripDetailsScreen() {
         showsUserLocation
       />
 
-      <ThemedView className="absolute bottom-10 left-0 right-0 px-5">
+      {/* <ThemedView className="absolute bottom-10 left-0 right-0 px-5">
         <Button variant="solid" size="2xl" className="mt-5 rounded-[12px]">
           <ThemedText type="btn_large" className="text-white">
             Select Driver
           </ThemedText>
         </Button>
-      </ThemedView>
+      </ThemedView> */}
       {/* drawer */}
       <BottomDrawer
         initialSnap={0.5}
         snapPoints={[0.5, 1]}
         onSnapChange={setSnap}
+        snap={snap}
       >
         <ThemedView className="py-3 flex-1">
           <ScrollView
@@ -192,15 +423,16 @@ export default function TripDetailsScreen() {
           >
             <Formik
               initialValues={{
-                bidAmount: "",
+                amount: bidAmount ? String(bidAmount) : "",
+                note: "",
               }}
               // validationSchema={validationSchema}
               onSubmit={(values) => {
                 const payload = {
                   ...values,
-                  // force date to null if booking type is instant
+                  amount: values?.amount ?? "",
                 };
-                console.log("Form submitted:", payload);
+                handleSubmit(payload);
               }}
             >
               {({
@@ -215,36 +447,91 @@ export default function TripDetailsScreen() {
                 <ThemedView className="flex gap-4 mt-5">
                   <ThemedView>
                     <InputLabelText className="">
-                      Your Bid Amount (in USD)
+                      Your Bid Amount (in {selectedCurrency})
                     </InputLabelText>
                     <Input
                       size="xl"
                       className="h-[55px] border-primary-100 rounded-lg mb-2 bg-primary-inputShade px-2"
                       variant="outline"
-                      isInvalid={!!(errors.bidAmount && touched.bidAmount)}
+                      isInvalid={!!(errors.amount && touched.amount)}
                     >
                       <InputField
                         className=""
                         placeholder="Input your bid amount"
-                        value={values.bidAmount}
-                        onChangeText={handleChange("bidAmount")}
-                        onBlur={handleBlur("bidAmount")}
+                        value={values.amount}
+                        onChangeText={handleChange("amount")}
+                        onBlur={handleBlur("amount")}
                         keyboardType="numeric"
                         autoCapitalize="none"
                       />
                       <InputSlot className="pl-3">
-                        <InputIcon as={DollarSign} />
+                        {selectedCurrencyCode}
                       </InputSlot>
                     </Input>
-                    {errors.bidAmount && touched.bidAmount && (
+                    {errors.amount && touched.amount && (
                       <ThemedText
                         type="b4_body"
                         className="text-error-500 mb-4"
                       >
-                        {errors.bidAmount}
+                        {errors.amount}
                       </ThemedText>
                     )}
                   </ThemedView>
+                  {
+                    // open note field
+                    snap < 1 && (
+                      <Button
+                        variant="link"
+                        size="md"
+                        className="p-0"
+                        onPress={() => {
+                          setSnap(1); // Expand drawer to full height
+                          setFieldValue("note", values.note ? "" : ""); // Toggle note field
+                        }}
+                      >
+                        <ThemedText type="b2_body" className="text-primary-500">
+                          {values.note
+                            ? "Remove Note"
+                            : "Add a Note (optional)"}
+                        </ThemedText>
+                      </Button>
+                    )
+                  }
+                  {snap === 1 && (
+                    <ThemedView>
+                      <InputLabelText type="b2_body" className="pb-1">
+                        Note
+                      </InputLabelText>
+                      <Textarea
+                        size="lg"
+                        isReadOnly={false}
+                        isInvalid={!!(errors.note && touched.note)}
+                        isDisabled={false}
+                        className="w-full h-[5.375rem] border-primary-100 bg-primary-inputShade"
+                      >
+                        <TextareaInput
+                          clearButtonMode="while-editing"
+                          value={values.note}
+                          onChangeText={handleChange("note")}
+                          onBlur={handleBlur("note")}
+                          placeholder="Enter note here..."
+                          multiline
+                          maxLength={500}
+                          numberOfLines={10}
+                          style={{ textAlignVertical: "top" }}
+                        />
+                        {/* clear button */}
+                      </Textarea>
+                      {errors.note && touched.note && (
+                        <ThemedText
+                          type="b4_body"
+                          className="text-error-500 mt-2"
+                        >
+                          {errors.note}
+                        </ThemedText>
+                      )}
+                    </ThemedView>
+                  )}
 
                   <ThemedView>
                     <Alert action="error" variant="solid" className=" p-2">
@@ -253,13 +540,15 @@ export default function TripDetailsScreen() {
                         as={InfoIcon}
                         className="text-error-600"
                       />
-                      <AlertText>
-                        <ThemedText type="b3_body" className="text-error-600">
-                          Please note: Once the booking is accepted and payment
-                          is completed, no modifications are allowed for
-                          Maritime and Air deliveries.
-                        </ThemedText>
-                      </AlertText>
+
+                      <ThemedText
+                        type="b3_body"
+                        className="text-error-600 flex-1 w-[80%]"
+                      >
+                        Please note: Once the booking is accepted and payment is
+                        completed, no modifications are allowed for Maritime and
+                        Air deliveries.
+                      </ThemedText>
                     </Alert>
                   </ThemedView>
 
@@ -269,7 +558,7 @@ export default function TripDetailsScreen() {
                       size="2xl"
                       className="mt-5 rounded-[12px] "
                       onPress={() => {
-                        router.back();
+                        setShowModal(true);
                       }}
                     >
                       <ThemedText
@@ -282,12 +571,12 @@ export default function TripDetailsScreen() {
                     <Button
                       variant="solid"
                       size="2xl"
-                      disabled={!values.bidAmount}
+                      disabled={!values.amount}
                       className="mt-5 rounded-[12px] flex-1"
                       onPress={() => handleSubmit()}
                     >
                       <ThemedText type="s1_subtitle" className="text-white">
-                        Send Bid
+                        {loading ? <Activity /> : "Send Bid"}
                       </ThemedText>
                     </Button>
                   </ThemedView>
@@ -302,11 +591,14 @@ export default function TripDetailsScreen() {
                     type="s1_subtitle"
                     className="text-typography-800 flex-1"
                   >
-                    Urgent Documents to VI
+                    {airDetailsData?.data.bidId}
                   </ThemedText>
                   <ThemedView className="flex-row flex-1 items-center gap-1">
                     <Icon as={MapPin} />
-                    <ThemedText type="default">Ikeja, Lagos→Canada</ThemedText>
+                    <ThemedText type="default">
+                      {airDetailsData?.data.parcelGroup.pickUpLocation
+                        .address || "-"}
+                    </ThemedText>
                   </ThemedView>
                 </ThemedView>
                 <ThemedView className="flex-row gap-2 justify-between">
@@ -320,7 +612,7 @@ export default function TripDetailsScreen() {
                     type="default"
                     className="text-typography-500 flex-1 text-right"
                   >
-                    2kg
+                    {airDetailsData?.data.parcelGroup.weight || "-"} kg
                   </ThemedText>
                 </ThemedView>
                 <ThemedView className="flex-row gap-2 justify-between">
@@ -334,7 +626,11 @@ export default function TripDetailsScreen() {
                     type="default"
                     className="text-typography-500 flex-1 text-right"
                   >
-                    $200
+                    {formatCurrency(
+                      airDetailsData?.data.amount,
+                      airDetailsData?.data.currency,
+                      `en-${countryCode}`
+                    ) || "-"}
                   </ThemedText>
                 </ThemedView>
               </ThemedView>
@@ -342,6 +638,13 @@ export default function TripDetailsScreen() {
           </ScrollView>
         </ThemedView>
       </BottomDrawer>
+      {showModal && (
+        <CancelAirSeaBookingModal
+          responseId={bidIdStr!}
+          showModal={showModal}
+          setShowModal={setShowModal}
+        />
+      )}
     </ThemedView>
   );
 }
