@@ -91,7 +91,7 @@ const menuList: MenuItem[] = [
   },
   {
     icon: Wallet,
-    name: "Payment logs",
+    name: "Wallet",
     linkTo: "/(tabs)/payment-logs/main",
   },
   {

@@ -72,7 +72,7 @@ export default function PaymentLogScreen() {
       headerTitle: () => {
         return (
           <ThemedText type="s1_subtitle" className="text-center">
-            Payment Logs
+            Wallet
           </ThemedText>
         );
       },
