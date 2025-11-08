@@ -38,7 +38,6 @@ export default function PaymentLogScreen() {
     IWalletRequestResponse | undefined
   >(["wallet"], "/wallet/fetch");
   const { country, countryCode } = useCountry();
-  console.log("🚀 ~ ChoosePaymentType ~ country:", country);
   // Get the selected country from Redux
   const selectedCountry = useAppSelector(
     (state) => state.country.selectedCountry

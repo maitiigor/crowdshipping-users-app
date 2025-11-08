@@ -1,29 +1,54 @@
 import { CustomModal } from "@/components/Custom/CustomModal";
+import CustomToast from "@/components/Custom/CustomToast";
 import InputLabelText from "@/components/Custom/InputLabelText";
 import NotificationIcon from "@/components/Custom/NotificationIcon";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { Button } from "@/components/ui/button";
-import { Icon } from "@/components/ui/icon";
+import { HelpCircleIcon, Icon } from "@/components/ui/icon";
 import { Textarea, TextareaInput } from "@/components/ui/textarea";
+import { useToast } from "@/components/ui/toast";
+import { useAuthenticatedPost } from "@/lib/api";
+import { paramToString } from "@/utils/helper";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useLocalSearchParams, useNavigation, useRouter } from "expo-router";
 import { Formik } from "formik";
-import { ChevronLeft } from "lucide-react-native";
-import React, { useEffect, useState } from "react";
-import { KeyboardAvoidingView, TouchableOpacity } from "react-native";
+import { Activity, ChevronLeft, CircleCheckIcon, LucideIcon } from "lucide-react-native";
+import React, { useCallback, useEffect, useState } from "react";
+import { ActivityIndicator, KeyboardAvoidingView, TouchableOpacity } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-
+import * as Yup from "yup";
+const validationSchema = Yup.object().shape({
+  review: Yup.string()
+    .min(10, "Review must be at least 10 characters")
+    .max(500, "Review cannot exceed 500 characters")
+    .required("Review is required"),
+  rating: Yup.number()
+    .min(1, "Rating must be at least 1 star")
+    .max(5, "Rating cannot exceed 5 stars")
+    .required("Rating is required"),
+});
 export default function DriverCustomerFeedback() {
   const navigation = useNavigation();
   const router = useRouter();
-  const { id, rating: selectedRating } = useLocalSearchParams();
+  const toast = useToast();
+  const { id, rating: selectedRating, travellerName } = useLocalSearchParams();
+  const idStr = paramToString(id);
+  const travellerNameStr = paramToString(travellerName);
   const [showModal, setShowModal] = useState(false);
   const insets = useSafeAreaInsets();
   const [rating, setRating] = useState<number>(
     selectedRating?.toString() ? parseInt(selectedRating?.toString()) : 0
   );
+  const { mutateAsync, error, loading } = useAuthenticatedPost<
+    any,
+    {
+      bookingId: string;
+      rating: number;
+      review: string;
+    }
+  >(`/rating/rate/delivery`);
   const handleStarClick = (value: number) => {
     setRating(value);
   };
@@ -82,6 +107,74 @@ export default function DriverCustomerFeedback() {
       headerRight: () => <NotificationIcon />,
     });
   }, [navigation, router]);
+  const showNewToast = useCallback(
+    ({
+      title,
+      description,
+      icon,
+      action = "error",
+      variant = "solid",
+    }: {
+      title: string;
+      description: string;
+      icon: LucideIcon;
+      action: "error" | "success" | "info" | "muted" | "warning";
+      variant: "solid" | "outline";
+    }) => {
+      const newId = Math.random();
+      toast.show({
+        id: newId.toString(),
+        placement: "top",
+        duration: 3000,
+        render: ({ id }) => {
+          const uniqueToastId = "toast-" + id;
+          return (
+            <CustomToast
+              uniqueToastId={uniqueToastId}
+              icon={icon}
+              action={action}
+              title={title}
+              variant={variant}
+              description={description}
+            />
+          );
+        },
+      });
+    },
+    [toast]
+  );
+  const handleReview = async (values: { rating: number; review: string }) => {
+    try {
+      await mutateAsync({
+        bookingId: idStr!,
+        rating: values.rating,
+        review: values.review,
+      });
+      showNewToast({
+        title: "Success",
+        description: `${travellerNameStr} reviewed successfully!`,
+        icon: CircleCheckIcon,
+        action: "success",
+        variant: "solid",
+      });
+      setShowModal(true);
+    } catch (e: any) {
+      // Prefer server-provided message, then error.message, then hook error string
+      const message =
+        e?.data?.message ||
+        e?.message ||
+        (typeof error === "string" ? error : undefined) ||
+        "Account Update failed";
+
+      showNewToast({
+        title: `${travellerNameStr} Review Failed`,
+        description: message,
+        icon: HelpCircleIcon,
+        action: "error",
+        variant: "solid",
+      });
+    }
+  };
   return (
     <KeyboardAvoidingView
       className="flex-1 bg-white"
@@ -98,15 +191,15 @@ export default function DriverCustomerFeedback() {
                 rating: selectedRating?.toString()
                   ? parseInt(selectedRating?.toString())
                   : 0,
-                comment: "",
+                review: "",
               }}
-              // validationSchema={validationSchema}
+              validationSchema={validationSchema}
               onSubmit={(values) => {
                 const payload = {
                   ...values,
                 };
                 console.log("Form submitted:", payload);
-                setShowModal(true);
+                handleReview(payload);
               }}
             >
               {({
@@ -125,7 +218,10 @@ export default function DriverCustomerFeedback() {
                       const filled = idx <= rating;
                       return (
                         <TouchableOpacity
-                          onPress={() => handleStarClick(idx)}
+                          onPress={() => {
+                            handleStarClick(idx);
+                            setFieldValue("rating", idx);
+                          }}
                           key={`star-${i}`}
                           className="mx-1"
                         >
@@ -145,25 +241,25 @@ export default function DriverCustomerFeedback() {
                     <Textarea
                       size="lg"
                       isReadOnly={false}
-                      isInvalid={!!(errors.comment && touched.comment)}
+                      isInvalid={!!(errors.review && touched.review)}
                       isDisabled={false}
                       className="w-full h-[150px] border-primary-100 bg-primary-inputShade"
                     >
                       <TextareaInput
                         clearButtonMode="while-editing"
-                        value={values.comment}
-                        onChangeText={handleChange("comment")}
-                        onBlur={handleBlur("comment")}
-                        placeholder="Enter Comment"
+                        value={values.review}
+                        onChangeText={handleChange("review")}
+                        onBlur={handleBlur("review")}
+                        placeholder="Enter Review"
                         multiline
                         numberOfLines={10}
                         style={{ textAlignVertical: "top" }}
                       />
                       {/* clear button */}
                     </Textarea>
-                    {errors.comment && touched.comment && (
+                    {errors.review && touched.review && (
                       <ThemedText type="b4_body" className="text-error-500">
-                        {String(errors.comment)}
+                        {String(errors.review)}
                       </ThemedText>
                     )}
                   </ThemedView>
@@ -173,9 +269,11 @@ export default function DriverCustomerFeedback() {
                     className="mt-5 rounded-[12px]"
                     onPress={() => handleSubmit()}
                   >
-                    <ThemedText type="s1_subtitle" className="text-white">
-                      Continue
-                    </ThemedText>
+                    {loading ? <ActivityIndicator color="#fff" /> :
+                      <ThemedText type="s1_subtitle" className="text-white">
+                        Submit Review
+                      </ThemedText>
+                    }
                   </Button>
                 </ThemedView>
               )}
