@@ -74,6 +74,9 @@ const ACTIVE_TRACKING_STATUSES = [
   "PICKED_UP",
   "IN_PROGRESS",
   "IN_TRANSIT",
+  "DELIVERED",
+  "ARRIVED_DESTINATION",
+  "TOLL_BILL_PENDING",
 ];
 export default function HomeScreen() {
   const navigation = useNavigation();
@@ -176,6 +179,10 @@ export default function HomeScreen() {
         ],
       }
     : ongoingTripsData;
+  console.log(
+    "🚀 ~ HomeScreen ~ sortedOngoingTripsData:",
+    sortedOngoingTripsData
+  );
   const handleThrottle = useCallback(() => {
     if (throttleTimerRef.current) {
       clearTimeout(throttleTimerRef.current);
@@ -215,9 +222,9 @@ export default function HomeScreen() {
       return "Live updates paused while we cool down.";
     }
     if (pollingIntervalMs && pollingIntervalMs > 0) {
-      return `Auto-updates every ${Math.round(
-        pollingIntervalMs / 1000
-      )} seconds`;
+      // return `Auto-updates every ${Math.round(
+      //   pollingIntervalMs / 1000
+      return `Auto-updates`;
     }
     if (liveTripExists) {
       return "Auto-updates resume shortly.";
@@ -627,6 +634,11 @@ export default function HomeScreen() {
                         width: "100%",
                         borderRadius: 12,
                         marginTop: 8,
+                        opacity:
+                          item.status === "DELIVERED" ||
+                          item.status === "IN_PROGRESS"
+                            ? 0.5
+                            : 1,
                       }}
                       initialRegion={{
                         latitude: item.last_location

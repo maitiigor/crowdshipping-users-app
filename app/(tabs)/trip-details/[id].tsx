@@ -34,6 +34,7 @@ import {
   Dot,
   Handbag,
   HelpCircleIcon,
+  LocateFixed,
   LucideIcon,
   MapPin,
   MessageCircleMore,
@@ -52,6 +53,7 @@ import {
   AppState,
   Pressable,
   ScrollView,
+  StyleSheet,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -121,18 +123,21 @@ export default function TrackBidOrder() {
     undefined, // fetchOptions
     {
       // Core polling
-      refetchInterval: !isThrottled ? ACTIVE_POLL_INTERVAL_MS : false,
+      refetchInterval: pollingIntervalMs,
       refetchIntervalInBackground: false,
 
       // Prevent duplicate requests within the polling window
-      staleTime: ACTIVE_POLL_INTERVAL_MS - 1000, // Fresh for almost the full interval
+      staleTime:
+        typeof pollingIntervalMs === "number"
+          ? Math.max(pollingIntervalMs - 1000, 0)
+          : ACTIVE_POLL_INTERVAL_MS - 1000, // Fresh for almost the full interval
 
       // Disable when throttled
-      enabled: !isThrottled,
+      enabled: !isThrottled && pollingIntervalMs !== false,
 
       // Keep these off OR make them respect staleTime
-      refetchOnWindowFocus: !isThrottled, // Will only refetch if data is stale
-      refetchOnReconnect: !isThrottled, // Will only refetch if data is stale
+      refetchOnWindowFocus: !isThrottled && pollingIntervalMs !== false, // Will only refetch if data is stale
+      refetchOnReconnect: !isThrottled && pollingIntervalMs !== false, // Will only refetch if data is stale
 
       retry: (failureCount, err: any) => {
         if (err?.status === 429) {
@@ -175,7 +180,27 @@ export default function TrackBidOrder() {
     () => locations.map((location) => location._id),
     [locations]
   );
-  const latestLocation = locations[0]; // Most recent location
+  const latestLocation = useMemo(() => {
+    if (!locations.length) {
+      return undefined;
+    }
+
+    const getTimestamp = (value?: string) => {
+      if (!value) {
+        return Number.NEGATIVE_INFINITY;
+      }
+      const parsed = Date.parse(value);
+      return Number.isFinite(parsed) ? parsed : Number.NEGATIVE_INFINITY;
+    };
+
+    return locations.reduce((currentLatest, candidate) => {
+      const currentTime = getTimestamp(currentLatest?.createdAt);
+      const candidateTime = getTimestamp(candidate.createdAt);
+
+      return candidateTime > currentTime ? candidate : currentLatest;
+    }, locations[0]);
+  }, [locations]);
+  const latestLocationId = latestLocation?._id ?? null;
 
   // Format date
   const formatDate = (dateString: string) => {
@@ -254,9 +279,9 @@ export default function TrackBidOrder() {
   };
   useEffect(() => {
     if (locations.length && !selectedLocationId) {
-      setSelectedLocationId(locations[0]._id);
+      setSelectedLocationId(latestLocationId ?? locations[0]._id);
     }
-  }, [locations, selectedLocationId]);
+  }, [locations, latestLocationId, selectedLocationId]);
 
   useEffect(() => {
     if (!mapRef.current || !coordinates.length) {
@@ -542,6 +567,8 @@ export default function TrackBidOrder() {
       >
         {locations.map((location) => {
           const isSelected = location._id === selectedLocationId;
+          const isLatest = location._id === latestLocationId;
+          const markerPinColor = isSelected ? "#E75B3B" : "#0F62FE";
           return (
             <Marker
               key={location._id}
@@ -550,11 +577,18 @@ export default function TrackBidOrder() {
                 latitude: location.coords.coordinates[1],
                 longitude: location.coords.coordinates[0],
               }}
-              title="Driver Location"
+              title={isLatest ? "Current Driver Location" : "Driver Location"}
               description={location.coords.address || "Current driver location"}
-              pinColor={isSelected ? "#E75B3B" : "#0F62FE"}
+              pinColor={isLatest ? undefined : markerPinColor}
               zIndex={isSelected ? 10 : 1}
-            />
+            >
+              {isLatest && (
+                <View style={styles.latestMarker}>
+                  {/* Paper plane icon to highlight the active driver position */}
+                  <Icon as={LocateFixed} size="xl" className="text-white" />
+                </View>
+              )}
+            </Marker>
           );
         })}
         {locations.length > 1 && (
@@ -1066,3 +1100,20 @@ export default function TrackBidOrder() {
     </ThemedView>
   );
 }
+
+const styles = StyleSheet.create({
+  latestMarker: {
+    backgroundColor: "#E75B3B",
+    borderRadius: 9999,
+    borderWidth: 2,
+    borderColor: "#FFFFFF",
+    padding: 8,
+    alignItems: "center",
+    justifyContent: "center",
+    shadowColor: "#000000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 4,
+  },
+});

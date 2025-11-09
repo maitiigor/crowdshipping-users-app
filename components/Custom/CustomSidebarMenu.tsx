@@ -102,7 +102,7 @@ const menuList: MenuItem[] = [
   {
     icon: MessageCircleMore,
     name: "Complaints",
-    linkTo: "/(tabs)/complaints",
+    linkTo: "/(tabs)/complaints/list",
   },
   {
     icon: Headset,
