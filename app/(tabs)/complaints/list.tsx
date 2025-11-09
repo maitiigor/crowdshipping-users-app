@@ -363,7 +363,7 @@ export default function ClaimsScreen() {
                   </ThemedView>
                 </TouchableOpacity>
               )}
-              keyExtractor={(item) => item.toString()}
+              keyExtractor={(item) => item._id.toString()}
             />
           )}
         </ThemedView>

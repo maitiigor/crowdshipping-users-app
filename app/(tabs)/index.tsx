@@ -179,10 +179,6 @@ export default function HomeScreen() {
         ],
       }
     : ongoingTripsData;
-  console.log(
-    "🚀 ~ HomeScreen ~ sortedOngoingTripsData:",
-    sortedOngoingTripsData
-  );
   const handleThrottle = useCallback(() => {
     if (throttleTimerRef.current) {
       clearTimeout(throttleTimerRef.current);

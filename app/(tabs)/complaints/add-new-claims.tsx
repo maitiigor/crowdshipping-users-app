@@ -43,27 +43,6 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as Yup from "yup";
 
-const validationSchema = Yup.object().shape({
-  natureOfClaim: Yup.string().required("Nature of claim is required"),
-  otherOption: Yup.string(),
-  claimAmount: Yup.number()
-    .transform((value, originalValue) => {
-      if (typeof originalValue === "string") {
-        const parsed = parseFloat(originalValue.replace(/,/g, ""));
-        return Number.isNaN(parsed) ? undefined : parsed;
-      }
-      return value;
-    })
-    .typeError("Report amount must be a number")
-    .required("Report amount is required")
-    .positive("Report amount must be positive"),
-  trackingId: Yup.string().required("Tracking ID is required"),
-  description: Yup.string()
-    .required("Description is required")
-    .min(20, "Description must be at least 20 characters")
-    .max(500, "Description cannot exceed 500 characters"),
-  attachment: Yup.mixed(),
-});
 type ReportFormValues = {
   natureOfClaim: string;
   otherOption: string;
@@ -72,7 +51,24 @@ type ReportFormValues = {
   description: string;
   evidence: string;
 };
-
+const againstCustomerList = [
+  {
+    label: "Item not exactly what was described",
+    value: "Item not exactly what was described",
+  },
+  {
+    label: "Customer too rude",
+    value: "Customer too rude",
+  },
+  {
+    label: "Wrong address",
+    value: "Wrong address",
+  },
+  {
+    label: "Others",
+    value: "Others",
+  },
+];
 export default function AddNewReportScreen() {
   const navigation = useNavigation();
   const router = useRouter();
@@ -95,6 +91,35 @@ export default function AddNewReportScreen() {
       evidence: string; //url of the file uploaded
     }
   >("/issue/log/cliam");
+  const validationSchema = Yup.object().shape({
+    natureOfClaim: Yup.string().required("Nature of claim is required"),
+    otherOption: Yup.string().when("natureOfClaim", {
+      is: "Others", // when natureOfClaim is "Others"
+      then: (schema) =>
+        schema
+          .required("Other options are required")
+          .min(5, "Other options must be at least 5 characters")
+          .max(100, "Other options cannot exceed 100 characters"),
+      otherwise: (schema) => schema.notRequired(),
+    }),
+    claimAmount: Yup.number()
+      .transform((value, originalValue) => {
+        if (typeof originalValue === "string") {
+          const parsed = parseFloat(originalValue.replace(/,/g, ""));
+          return Number.isNaN(parsed) ? undefined : parsed;
+        }
+        return value;
+      })
+      .typeError("Report amount must be a number")
+      .required("Report amount is required")
+      .positive("Report amount must be positive"),
+    trackingId: Yup.string().required("Tracking ID is required"),
+    description: Yup.string()
+      .required("Description is required")
+      .min(20, "Description must be at least 20 characters")
+      .max(500, "Description cannot exceed 500 characters"),
+    attachment: Yup.mixed(),
+  });
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
@@ -285,61 +310,93 @@ export default function AddNewReportScreen() {
                 errors,
                 touched,
                 setFieldValue,
+                setFieldTouched,
+                validateForm,
               }) => (
                 <ThemedView className="flex gap-4">
                   <ThemedView>
-                    <InputLabelText type="b2_body" className="">
-                      Nature of Claim
+                    <InputLabelText type="b2_body">
+                      Nature of Claims
                     </InputLabelText>
-                    <Input
-                      size="xl"
-                      className="h-[3.4375rem] rounded-lg border-primary-100 bg-primary-inputShade px-2"
-                      variant="outline"
-                      isInvalid={!!(errors.natureOfClaim && touched.natureOfClaim)}
+                    <Select
+                      selectedValue={values.natureOfClaim}
+                      onValueChange={(value) => {
+                        handleChange("natureOfClaim")(value);
+
+                        // Reset otherOption when switching away from "Others"
+                        if (value !== "Others") {
+                          setFieldValue("otherOption", "");
+                          setFieldTouched("otherOption", false);
+                        }
+                      }}
                     >
-                      <InputField
-                        className=""
-                        placeholder="Enter nature of claim"
-                        value={values.natureOfClaim}
-                        onChangeText={handleChange("natureOfClaim")}
-                        onBlur={handleBlur("natureOfClaim")}
-                        keyboardType="default"
-                        autoCapitalize="none"
-                      />
-                    </Input>
+                      <SelectTrigger
+                        size="xl"
+                        className="h-[3.4375rem] rounded-lg border-primary-100 bg-primary-inputShade px-2"
+                      >
+                        <SelectInput
+                          placeholder=""
+                          value={values.natureOfClaim}
+                          className="flex-1"
+                        />
+                        <SelectIcon className="mr-3" as={ChevronDownIcon} />
+                      </SelectTrigger>
+                      <SelectPortal>
+                        <SelectBackdrop />
+                        <SelectContent>
+                          <SelectDragIndicatorWrapper>
+                            <SelectDragIndicator />
+                          </SelectDragIndicatorWrapper>
+                          {againstCustomerList.map((type) => (
+                            <SelectItem
+                              key={type.value}
+                              value={type.value}
+                              label={type.label}
+                            >
+                              {type.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </SelectPortal>
+                    </Select>
                     {errors.natureOfClaim && touched.natureOfClaim && (
                       <ThemedText type="b4_body" className="text-error-500">
                         {errors.natureOfClaim}
                       </ThemedText>
                     )}
                   </ThemedView>
-              
-                  <ThemedView>
-                    <InputLabelText type="b2_body" className="">
-                      Other Options
-                    </InputLabelText>
-                    <Input
-                      size="xl"
-                      className="h-[3.4375rem] rounded-lg border-primary-100 bg-primary-inputShade px-2"
-                      variant="outline"
-                      isInvalid={!!(errors.otherOption && touched.otherOption)}
-                    >
-                      <InputField
-                        className=""
-                        placeholder="Enter other options"
-                        value={values.otherOption}
-                        onChangeText={handleChange("otherOption")}
-                        onBlur={handleBlur("otherOption")}
-                        keyboardType="default"
-                        autoCapitalize="none"
-                      />
-                    </Input>
-                    {errors.otherOption && touched.otherOption && (
-                      <ThemedText type="b4_body" className="text-error-500">
-                        {errors.otherOption}
-                      </ThemedText>
-                    )}
-                  </ThemedView>
+
+                  {values.natureOfClaim === "Others" && (
+                    <ThemedView>
+                      <InputLabelText type="b2_body" className="">
+                        Other Options
+                      </InputLabelText>
+                      <Input
+                        size="xl"
+                        className="h-[3.4375rem] rounded-lg border-primary-100 bg-primary-inputShade px-2"
+                        variant="outline"
+                        isInvalid={
+                          !!(errors.otherOption && touched.otherOption)
+                        }
+                      >
+                        <InputField
+                          className=""
+                          placeholder="Enter other options"
+                          value={values.otherOption}
+                          onChangeText={handleChange("otherOption")}
+                          onBlur={handleBlur("otherOption")}
+                          keyboardType="default"
+                          autoCapitalize="none"
+                        />
+                      </Input>
+                      {errors.otherOption && touched.otherOption && (
+                        <ThemedText type="b4_body" className="text-error-500">
+                          {errors.otherOption}
+                        </ThemedText>
+                      )}
+                    </ThemedView>
+                  )}
+
                   <ThemedView>
                     <InputLabelText type="b2_body" className="">
                       Claim Amount
@@ -348,9 +405,7 @@ export default function AddNewReportScreen() {
                       size="xl"
                       className="h-[3.4375rem] rounded-lg border-primary-100 bg-primary-inputShade px-2"
                       variant="outline"
-                      isInvalid={
-                        !!(errors.claimAmount && touched.claimAmount)
-                      }
+                      isInvalid={!!(errors.claimAmount && touched.claimAmount)}
                     >
                       <InputField
                         className=""

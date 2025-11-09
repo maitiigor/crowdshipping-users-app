@@ -1,4 +1,8 @@
-import { ActivityIndicator, KeyboardAvoidingView, TouchableOpacity } from "react-native";
+import {
+  ActivityIndicator,
+  KeyboardAvoidingView,
+  TouchableOpacity,
+} from "react-native";
 
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedView } from "@/components/ThemedView";
@@ -52,7 +56,7 @@ const reportTypeList = [
   {
     label: "Others",
     value: "others",
-  }
+  },
 ];
 const againstCustomerList = [
   {
@@ -94,32 +98,7 @@ const againstBookingList = [
     value: "Others",
   },
 ];
-const validationSchema = Yup.object().shape({
-  reportType: Yup.string().required("Report type is required"),
-  natureOfReport: Yup.string().required("Nature of report is required"),
-  otherOption: Yup.string(),
-  reportAmount: Yup.number()
-    .transform((value, originalValue) => {
-      if (typeof originalValue === "string") {
-        const parsed = parseFloat(originalValue.replace(/,/g, ""));
-        return Number.isNaN(parsed) ? undefined : parsed;
-      }
-      return value;
-    })
-    .typeError("Report amount must be a number")
-    .required("Report amount is required")
-    .positive("Report amount must be positive"),
-  trackingId: Yup.string().when("reportType", (reportType: any, schema: any) =>
-    reportType === "Booking"
-      ? schema.required("Tracking ID is required for bookings")
-      : schema
-  ),
-  description: Yup.string()
-    .required("Description is required")
-    .min(20, "Description must be at least 20 characters")
-    .max(500, "Description cannot exceed 500 characters"),
-  attachment: Yup.mixed(),
-});
+
 type ReportFormValues = {
   reportType: string;
   natureOfReport: string;
@@ -153,6 +132,42 @@ export default function AddNewReportScreen() {
       evidence: string; //url of the file uploaded
     }
   >("/issue/log/report");
+  const validationSchema = Yup.object().shape({
+    reportType: Yup.string().required("Report type is required"),
+    natureOfReport: Yup.string().required("Nature of report is required"),
+    otherOption: Yup.string().when("natureOfReport", {
+      is: "Others", // when natureOfReport is "Others"
+      then: (schema) =>
+        schema
+          .required("Other options are required")
+          .min(5, "Other options must be at least 5 characters")
+          .max(100, "Other options cannot exceed 100 characters"),
+      otherwise: (schema) => schema.notRequired(),
+    }),
+    reportAmount: Yup.number()
+      .transform((value, originalValue) => {
+        if (typeof originalValue === "string") {
+          const parsed = parseFloat(originalValue.replace(/,/g, ""));
+          return Number.isNaN(parsed) ? undefined : parsed;
+        }
+        return value;
+      })
+      .typeError("Report amount must be a number")
+      .required("Report amount is required")
+      .positive("Report amount must be positive"),
+    trackingId: Yup.string().when(
+      "reportType",
+      (reportType: any, schema: any) =>
+        reportType === "Booking"
+          ? schema.required("Tracking ID is required for bookings")
+          : schema
+    ),
+    description: Yup.string()
+      .required("Description is required")
+      .min(20, "Description must be at least 20 characters")
+      .max(500, "Description cannot exceed 500 characters"),
+    attachment: Yup.mixed(),
+  });
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
@@ -347,6 +362,7 @@ export default function AddNewReportScreen() {
                 errors,
                 touched,
                 setFieldValue,
+                setFieldTouched,
               }) => (
                 <ThemedView className="flex gap-4">
                   <ThemedView>
@@ -396,7 +412,15 @@ export default function AddNewReportScreen() {
                     </InputLabelText>
                     <Select
                       selectedValue={values.natureOfReport}
-                      onValueChange={handleChange("natureOfReport")}
+                      onValueChange={(value) => {
+                        handleChange("natureOfReport")(value);
+
+                        // Reset otherOption when switching away from "Others"
+                        if (value !== "Others") {
+                          setFieldValue("otherOption", "");
+                          setFieldTouched("otherOption", false);
+                        }
+                      }}
                     >
                       <SelectTrigger
                         size="xl"
@@ -443,32 +467,36 @@ export default function AddNewReportScreen() {
                       </ThemedText>
                     )}
                   </ThemedView>
-                  <ThemedView>
-                    <InputLabelText type="b2_body" className="">
-                      Other Options
-                    </InputLabelText>
-                    <Input
-                      size="xl"
-                      className="h-[3.4375rem] rounded-lg border-primary-100 bg-primary-inputShade px-2"
-                      variant="outline"
-                      isInvalid={!!(errors.otherOption && touched.otherOption)}
-                    >
-                      <InputField
-                        className=""
-                        placeholder="Enter other options"
-                        value={values.otherOption}
-                        onChangeText={handleChange("otherOption")}
-                        onBlur={handleBlur("otherOption")}
-                        keyboardType="default"
-                        autoCapitalize="none"
-                      />
-                    </Input>
-                    {errors.otherOption && touched.otherOption && (
-                      <ThemedText type="b4_body" className="text-error-500">
-                        {errors.otherOption}
-                      </ThemedText>
-                    )}
-                  </ThemedView>
+                  {values.natureOfReport === "Others" && (
+                    <ThemedView>
+                      <InputLabelText type="b2_body" className="">
+                        Other Options
+                      </InputLabelText>
+                      <Input
+                        size="xl"
+                        className="h-[3.4375rem] rounded-lg border-primary-100 bg-primary-inputShade px-2"
+                        variant="outline"
+                        isInvalid={
+                          !!(errors.otherOption && touched.otherOption)
+                        }
+                      >
+                        <InputField
+                          className=""
+                          placeholder="Enter other options"
+                          value={values.otherOption}
+                          onChangeText={handleChange("otherOption")}
+                          onBlur={handleBlur("otherOption")}
+                          keyboardType="default"
+                          autoCapitalize="none"
+                        />
+                      </Input>
+                      {errors.otherOption && touched.otherOption && (
+                        <ThemedText type="b4_body" className="text-error-500">
+                          {errors.otherOption}
+                        </ThemedText>
+                      )}
+                    </ThemedView>
+                  )}
                   <ThemedView>
                     <InputLabelText type="b2_body" className="">
                       Report Amount
@@ -646,9 +674,11 @@ export default function AddNewReportScreen() {
                         type="s2_subtitle"
                         className={` text-center text-white`}
                       >
-                        {loading || isUploading
-                          ? <ActivityIndicator color="white" />
-                          : "Submit Report"}
+                        {loading || isUploading ? (
+                          <ActivityIndicator color="white" />
+                        ) : (
+                          "Submit Report"
+                        )}
                       </ThemedText>
                     </Button>
                   </ThemedView>
