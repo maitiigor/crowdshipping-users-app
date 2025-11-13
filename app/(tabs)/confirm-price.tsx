@@ -8,6 +8,7 @@ import { Icon } from "@/components/ui/icon";
 import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
 import { useToast } from "@/components/ui/toast";
 import { useCountry } from "@/hooks/useCountry";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import {
   useAuthenticatedPatch,
   useAuthenticatedPost,
@@ -43,7 +44,8 @@ export default function ConfirmPrice() {
   const toast = useToast();
   const { refetch: notifyRefetch } = useAuthenticatedQuery<
     INotificationsResponse | undefined
-  >(["notifications"], "/notification");
+    >(["notifications"], "/notification");
+  const backroundTopNav = useThemeColor({}, "background");
   const { data, isLoading } = useAuthenticatedQuery<
     IWalletRequestResponse | undefined
   >(["wallet"], "/wallet/fetch");
@@ -110,7 +112,7 @@ export default function ConfirmPrice() {
       headerTitleStyle: { fontSize: 20 },
       headerShadowVisible: false,
       headerStyle: {
-        backgroundColor: "#FFFFFF",
+        backgroundColor: backroundTopNav,
         elevation: 0,
         shadowOpacity: 0,
         shadowColor: "transparent",
@@ -151,7 +153,7 @@ export default function ConfirmPrice() {
       ),
       headerRight: () => <NotificationIcon />,
     });
-  }, [navigation]);
+  }, [navigation, backroundTopNav]);
 
   const showNewToast = ({
     title,

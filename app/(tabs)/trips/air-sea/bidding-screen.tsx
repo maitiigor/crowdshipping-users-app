@@ -14,6 +14,7 @@ import { Icon, InfoIcon } from "@/components/ui/icon";
 import { Input, InputField, InputSlot } from "@/components/ui/input";
 import { useToast } from "@/components/ui/toast";
 import { useCountry } from "@/hooks/useCountry";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { useAuthenticatedPatch } from "@/lib/api";
 import { useAppSelector } from "@/store";
 import { paramToString } from "@/utils/helper";
@@ -60,6 +61,7 @@ export default function BiddingScreen() {
   const navigation = useNavigation();
   const router = useRouter();
   const toast = useToast();
+  const backroundTopNav = useThemeColor({}, "background");
   const { tripId, entityType, pickupLat, pickupLng, pickupAddress } =
     useLocalSearchParams();
   const tripIdStr = paramToString(tripId);
@@ -133,7 +135,7 @@ export default function BiddingScreen() {
       headerTitleStyle: { fontSize: 20 }, // Increased font size
       headerShadowVisible: false,
       headerStyle: {
-        backgroundColor: "#FFFFFF",
+        backgroundColor: backroundTopNav,
         elevation: 0, // Android
         shadowOpacity: 0, // iOS
         shadowColor: "transparent", // iOS
@@ -174,7 +176,7 @@ export default function BiddingScreen() {
       ),
       headerRight: () => <NotificationIcon />,
     });
-  }, [navigation]);
+  }, [navigation, router, backroundTopNav]);
   const showNewToast = ({
     title,
     description,

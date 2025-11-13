@@ -59,7 +59,7 @@ function AppContent() {
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
             <Stack.Screen name="+not-found" />
           </Stack>
-          <StatusBar style="auto" />
+          <StatusBar style={colorScheme === "dark" ? "light" : "dark"} />
         </SafeAreaProvider>
       </GestureHandlerRootView>
     </ThemeProvider>
@@ -67,6 +67,7 @@ function AppContent() {
 }
 
 export default function RootLayout() {
+  const colorScheme = useColorScheme();
   const [loaded] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
     // Poppins font family (only variants we actually use)
@@ -97,7 +98,7 @@ export default function RootLayout() {
   }
 
   return (
-    <GluestackUIProvider mode="light">
+    <GluestackUIProvider mode={colorScheme === "dark" ? "dark" : "light"}>
       <Provider store={store}>
         <QueryClientProvider client={getQueryClient()}>
           <PaystackProvider

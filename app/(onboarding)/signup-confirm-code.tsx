@@ -8,6 +8,7 @@ import { HStack } from "@/components/ui/hstack";
 import { Icon } from "@/components/ui/icon";
 import { Input, InputField } from "@/components/ui/input";
 import { useToast } from "@/components/ui/toast";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { usePost } from "@/lib/api";
 import {
   Link,
@@ -47,6 +48,7 @@ export default function SignUpConfirmationCode() {
   const [secondsLeft, setSecondsLeft] = useState(60); // countdown state
   const [showModal, setShowModal] = useState(false);
   const { type, email } = useLocalSearchParams(); // password-reset | sign-up
+  const backroundTopNav = useThemeColor({}, "background");
   const toast = useToast();
 
   const { mutateAsync, error, loading } = usePost<
@@ -83,7 +85,7 @@ export default function SignUpConfirmationCode() {
       headerTitleStyle: { fontSize: 20 }, // Increased font size
       headerShadowVisible: false,
       headerStyle: {
-        backgroundColor: "#FFFFFF",
+        backgroundColor: backroundTopNav,
         elevation: 0, // Android
         shadowOpacity: 0, // iOS
         shadowColor: "transparent", // iOS
@@ -122,7 +124,7 @@ export default function SignUpConfirmationCode() {
         </ThemedView>
       ),
     });
-  }, [navigation]);
+  }, [navigation, backroundTopNav]);
 
   useEffect(() => {
     const showEvent =
@@ -403,6 +405,7 @@ export default function SignUpConfirmationCode() {
         className="absolute left-0 right-0 px-5"
         style={{
           bottom: isKeyboardVisible === true ? 0 : 30,
+          backgroundColor: backroundTopNav,
         }}
       >
         <ThemedText

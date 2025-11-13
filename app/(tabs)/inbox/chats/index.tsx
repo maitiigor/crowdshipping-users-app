@@ -2,6 +2,7 @@ import { useNavigation, useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { FlatList, TouchableOpacity, View } from "react-native";
 
+import { EmptyState } from "@/components/Custom/EmptyState";
 import NotificationIcon from "@/components/Custom/NotificationIcon";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
@@ -18,19 +19,19 @@ import { useAuthenticatedQuery } from "@/lib/api";
 import { IConversationsResponse } from "@/types/IConversation";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { BellIcon, ChevronLeft, MessageCircle } from "lucide-react-native";
-import { EmptyState } from "@/components/Custom/EmptyState";
+import { ChevronLeft, MessageCircle } from "lucide-react-native";
+import { useThemeColor } from "@/hooks/useThemeColor";
 
 // dayjs fromNow plugin
 dayjs.extend(relativeTime);
 export default function ChatScreen() {
   const navigation = useNavigation();
   const router = useRouter();
+  const backroundTopNav = useThemeColor({}, "background");
   const [selectedFilter, setSelectedFilter] = useState("all");
   const { data, isLoading, refetch, isFetching } = useAuthenticatedQuery<
     IConversationsResponse | undefined
   >(["conversations"], "/conversations");
-  console.log("🚀 ~ ChatScreen ~ data:", data);
   const filterList = [
     {
       label: "Chats",
@@ -63,7 +64,7 @@ export default function ChatScreen() {
       headerTitleStyle: { fontSize: 20 }, // Increased font size
       headerShadowVisible: false,
       headerStyle: {
-        backgroundColor: "#FFFFFF",
+        backgroundColor: backroundTopNav,
         elevation: 0, // Android
         shadowOpacity: 0, // iOS
         shadowColor: "transparent", // iOS
@@ -104,7 +105,7 @@ export default function ChatScreen() {
       ),
       headerRight: () => <NotificationIcon />,
     });
-  }, [navigation, router]);
+  }, [navigation, router, backroundTopNav]);
   useEffect(() => {
     // Ensure "chats" is active when the screen mounts and every time it gains focus
     setSelectedFilter("chats");
@@ -242,9 +243,9 @@ export default function ChatScreen() {
                           type="default"
                           className="text-typography-700 flex-1 capitalize"
                         >
-                          {item.lastMessage.length > 30
-                            ? item.lastMessage.substring(0, 30) + "..."
-                            : item.lastMessage || "No messages yet"}
+                          {item?.lastMessage?.length > 30
+                            ? item?.lastMessage.substring(0, 30) + "..."
+                            : item?.lastMessage || "No messages yet"}
                         </ThemedText>
 
                         {item.unreadCount > 0 && (

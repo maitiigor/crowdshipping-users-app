@@ -8,6 +8,7 @@ import { Icon } from "@/components/ui/icon";
 import { Skeleton, SkeletonText } from "@/components/ui/skeleton";
 import { VStack } from "@/components/ui/vstack";
 import { useCountry } from "@/hooks/useCountry";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { useAuthenticatedQuery } from "@/lib/api";
 import { useAppSelector } from "@/store";
 import { ISingleClaimResponse } from "@/types/IReport";
@@ -36,6 +37,7 @@ const ClaimDetails = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
   const idStr = paramToString(id);
   const router = useRouter();
+  const backroundTopNav = useThemeColor({}, "background");
   const { data, isLoading, refetch, isRefetching } = useAuthenticatedQuery<
     ISingleClaimResponse | undefined
   >(["claim", idStr], `/issue/cliam/${idStr}`);
@@ -60,7 +62,7 @@ const ClaimDetails = () => {
       headerTitleStyle: { fontSize: 20 },
       headerShadowVisible: false,
       headerStyle: {
-        backgroundColor: "#FFFFFF",
+        backgroundColor: backroundTopNav,
         elevation: 0,
         shadowOpacity: 0,
         shadowColor: "transparent",
@@ -91,7 +93,7 @@ const ClaimDetails = () => {
         </TouchableOpacity>
       ),
     });
-  }, [isRefetching, navigation, refetch]);
+  }, [isRefetching, navigation, refetch, backroundTopNav]);
 
   const handleOpenEvidence = useCallback(async () => {
     if (!report?.evidence) return;

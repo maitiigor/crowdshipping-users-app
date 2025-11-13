@@ -1,3 +1,4 @@
+import { useThemeColor } from "@/hooks/useThemeColor";
 import React, { useEffect, useMemo } from "react";
 import { Dimensions, Platform, StyleSheet, View } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
@@ -41,7 +42,8 @@ export function BottomDrawer({
 }: BottomDrawerProps) {
   const insets = useSafeAreaInsets();
   const screenH = SCREEN_H;
-
+  const color = useThemeColor({}, "text");
+  const backgroundColor = useThemeColor({}, "background");
   // Ensure snapPoints are valid and sorted
   const snaps = useMemo(() => {
     const unique = Array.from(
@@ -197,11 +199,15 @@ export function BottomDrawer({
 
       <Animated.View
         pointerEvents="auto"
+        className={`
+          ${color === 'light' ? '' : 'border-t-2 border-gray-100'}
+          `}
         style={[
           styles.panel,
           {
             paddingTop: insets.top ? insets.top : 12,
           },
+          { backgroundColor },
           { paddingBottom: insets.bottom ? insets.bottom : 12 },
           panelStyle,
         ]}

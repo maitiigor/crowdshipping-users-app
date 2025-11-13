@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { Input, InputField } from "@/components/ui/input";
 import { useToast } from "@/components/ui/toast";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import {
   useAuthenticatedPatch,
   useAuthenticatedPost,
@@ -40,6 +41,7 @@ export default function UpdateWalletAccountScreen() {
   const [bankValues, setBankValues] = useState({ bankCode: "", bankName: "" });
   console.log("🚀 ~ WithdrawalScreen ~ bankValues:", bankValues);
   const [showModal, setShowModal] = useState(false);
+  const backroundTopNav = useThemeColor({}, "background");
   const { data, isLoading, refetch } = useAuthenticatedQuery<
     IWalletRequestResponse | undefined
   >(["wallet"], "/wallet/fetch");
@@ -86,7 +88,7 @@ export default function UpdateWalletAccountScreen() {
       headerTitleStyle: { fontSize: 20 }, // Increased font size
       headerShadowVisible: false,
       headerStyle: {
-        backgroundColor: "#FFFFFF",
+        backgroundColor: backroundTopNav,
         elevation: 0, // Android
         shadowOpacity: 0, // iOS
         shadowColor: "transparent", // iOS
@@ -127,7 +129,7 @@ export default function UpdateWalletAccountScreen() {
       ),
       headerRight: () => <NotificationIcon />,
     });
-  }, [navigation]);
+  }, [navigation, backroundTopNav]);
   const showNewToast = ({
     title,
     description,

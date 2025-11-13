@@ -70,6 +70,7 @@ import {
   StopCircle,
   X,
 } from "lucide-react-native";
+import { useThemeColor } from "@/hooks/useThemeColor";
 
 const formatSeconds = (value?: number) => {
   if (!value || Number.isNaN(value)) {
@@ -160,6 +161,7 @@ export default function ChatDetailsScreen() {
   const { id, participantName } = useLocalSearchParams();
   const router = useRouter();
   const toast = useToast();
+  const backroundTopNav = useThemeColor({}, "background");
   const conversationId = (Array.isArray(id) ? id[0] : id) ?? "";
   const routeParticipantName = Array.isArray(participantName)
     ? participantName[0]
@@ -466,7 +468,7 @@ export default function ChatDetailsScreen() {
       }
     ) => {
       const { uri, name, mimeType, kind } = payload;
-      console.log("🚀 ~ ChatDetailsScreen ~ payload:", payload)
+      console.log("🚀 ~ ChatDetailsScreen ~ payload:", payload);
       try {
         let workingUri = uri;
         let workingMime = mimeType;
@@ -836,7 +838,7 @@ export default function ChatDetailsScreen() {
       headerTitleStyle: { fontSize: 20 }, // Increased font size
       headerShadowVisible: false,
       headerStyle: {
-        backgroundColor: "#FFFFFF",
+        backgroundColor: backroundTopNav,
         elevation: 0, // Android
         shadowOpacity: 0, // iOS
         shadowColor: "transparent", // iOS
@@ -889,7 +891,7 @@ export default function ChatDetailsScreen() {
         </TouchableOpacity>
       ),
     });
-  }, [displayName, navigation, router]);
+  }, [displayName, navigation, router, backroundTopNav]);
 
   return (
     <>

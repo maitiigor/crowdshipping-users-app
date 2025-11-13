@@ -5,14 +5,20 @@ import { TouchableOpacity } from "react-native";
 import NotificationIcon from "@/components/Custom/NotificationIcon";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
+import {
+  Avatar,
+  AvatarFallbackText,
+  AvatarImage,
+} from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { ChevronLeft, PhoneMissed, Volume1 } from "lucide-react-native";
-import { Avatar, AvatarFallbackText, AvatarImage } from "@/components/ui/avatar";
+import { useThemeColor } from "@/hooks/useThemeColor";
 
 export default function CallDetailScreen() {
   const navigation = useNavigation();
   const router = useRouter();
+  const backroundTopNav = useThemeColor({}, "background");
 
   useEffect(() => {
     navigation.setOptions({
@@ -26,7 +32,7 @@ export default function CallDetailScreen() {
       headerTitleStyle: { fontSize: 20 }, // Increased font size
       headerShadowVisible: false,
       headerStyle: {
-        backgroundColor: "#FFFFFF",
+        backgroundColor: backroundTopNav,
         elevation: 0, // Android
         shadowOpacity: 0, // iOS
         shadowColor: "transparent", // iOS
@@ -67,7 +73,7 @@ export default function CallDetailScreen() {
       ),
       headerRight: () => <NotificationIcon />,
     });
-  }, [navigation, router]);
+  }, [navigation, router, backroundTopNav]);
 
   return (
     <ThemedView className="flex-1 bg-white pt-3">

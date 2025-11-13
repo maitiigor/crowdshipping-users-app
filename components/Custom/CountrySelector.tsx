@@ -4,6 +4,7 @@ import { Icon } from "@/components/ui/icon";
 import { Image } from "@/components/ui/image";
 import { Input, InputField } from "@/components/ui/input";
 import { COUNTRIES } from "@/constants/countries";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { Country, setSelectedCountry } from "@/store/slices/countrySlice";
 import { Search, X } from "lucide-react-native";
@@ -31,6 +32,8 @@ export const CountrySelector: React.FC<CountrySelectorProps> = ({
   flagClassName,
 }) => {
   const dispatch = useAppDispatch();
+  const backroundTopNav = useThemeColor({}, "background");
+  const colorText = useThemeColor({}, "text");
   const selectedCountry = useAppSelector(
     (state) => state.country.selectedCountry
   );
@@ -114,13 +117,23 @@ export const CountrySelector: React.FC<CountrySelectorProps> = ({
         }}
       >
         <ModalBackdrop />
-        <ModalContent className="rounded-2xl items-center w-full">
+        <ModalContent
+          style={{ backgroundColor: backroundTopNav }}
+          className="rounded-2xl items-center w-full"
+        >
           <ModalHeader>
             {/* Header */}
             <ThemedView className="flex-row w-full items-center justify-between p-4 border-b border-gray-200">
               <ThemedText type="h5_header">Select Country</ThemedText>
               <TouchableOpacity onPress={() => setModalVisible(false)}>
-                <Icon as={X} size="xl" className="text-typography-900" />
+                <Icon
+                  as={X}
+                  size="xl"
+                  style={{
+                    color: colorText,
+                  }}
+                  className="text-typography-900"
+                />
               </TouchableOpacity>
             </ThemedView>
           </ModalHeader>

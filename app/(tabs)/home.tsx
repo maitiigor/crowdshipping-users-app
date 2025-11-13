@@ -8,9 +8,11 @@ import { Icon } from "@/components/ui/icon";
 import { useNavigation, useRouter } from "expo-router";
 import { ChevronLeft } from "lucide-react-native";
 import React, { useEffect } from "react";
+import { useThemeColor } from "@/hooks/useThemeColor";
 
 export default function SecondHomeScreen() {
   const navigation = useNavigation();
+  const backroundTopNav = useThemeColor({}, "background");
   const router = useRouter();
   useEffect(() => {
     navigation.setOptions({
@@ -26,7 +28,7 @@ export default function SecondHomeScreen() {
       headerTitleStyle: { fontSize: 20 }, // Increased font size
       headerShadowVisible: false,
       headerStyle: {
-        backgroundColor: "#FFFFFF",
+        backgroundColor: backroundTopNav,
         elevation: 0, // Android
         shadowOpacity: 0, // iOS
         shadowColor: "transparent", // iOS
@@ -65,7 +67,7 @@ export default function SecondHomeScreen() {
         </ThemedView>
       ),
     });
-  }, [navigation]);
+  }, [navigation, router, backroundTopNav]);
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: "#FFFFFF", dark: "#353636" }}

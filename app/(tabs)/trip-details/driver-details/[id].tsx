@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { useLocalSearchParams, useNavigation, useRouter } from "expo-router";
 import {
   ChevronLeft,
@@ -23,6 +24,7 @@ import { Pressable, TouchableOpacity } from "react-native";
 export default function DriverDetailScreen() {
   const navigation = useNavigation();
   const router = useRouter();
+  const backroundTopNav = useThemeColor({}, "background");
   const { id } = useLocalSearchParams();
   useEffect(() => {
     navigation.setOptions({
@@ -38,7 +40,7 @@ export default function DriverDetailScreen() {
       headerTitleStyle: { fontSize: 20 }, // Increased font size
       headerShadowVisible: false,
       headerStyle: {
-        backgroundColor: "#FFFFFF",
+        backgroundColor: backroundTopNav,
         elevation: 0, // Android
         shadowOpacity: 0, // iOS
         shadowColor: "transparent", // iOS
@@ -79,7 +81,7 @@ export default function DriverDetailScreen() {
       ),
       headerRight: () => <NotificationIcon />,
     });
-  }, [navigation, router]);
+  }, [navigation, router, backroundTopNav]);
   return (
     <>
       <ParallaxScrollView

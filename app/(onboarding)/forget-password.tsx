@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { Input, InputField } from "@/components/ui/input";
 import { useToast } from "@/components/ui/toast";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { usePost } from "@/lib/api";
 import { Link, useNavigation, useRouter } from "expo-router";
 import { Formik } from "formik";
@@ -23,7 +24,6 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   Platform,
-  Pressable,
   TouchableOpacity,
 } from "react-native";
 
@@ -39,6 +39,7 @@ export default function ForgetPassword() {
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
   const router = useRouter();
   const toast = useToast();
+  const backroundTopNav = useThemeColor({}, "background");
   const { mutateAsync, error, loading } = usePost<
     any,
     {
@@ -58,7 +59,7 @@ export default function ForgetPassword() {
       headerTitleAlign: "center",
       headerShadowVisible: false,
       headerStyle: {
-        backgroundColor: "#FFFFFF",
+        backgroundColor: backroundTopNav,
         elevation: 0, // Android
         shadowOpacity: 0, // iOS
         shadowColor: "transparent", // iOS
@@ -98,7 +99,7 @@ export default function ForgetPassword() {
         </ThemedView>
       ),
     });
-  }, [navigation]);
+  }, [navigation, backroundTopNav]);
 
   useEffect(() => {
     const showEvent =
@@ -190,7 +191,8 @@ export default function ForgetPassword() {
   };
   return (
     <KeyboardAvoidingView
-      className="flex-1 bg-white"
+      className="flex-1"
+      style={{ backgroundColor: backroundTopNav }}
       behavior={"padding"}
       keyboardVerticalOffset={insets.top}
     >
@@ -278,6 +280,7 @@ export default function ForgetPassword() {
         className="absolute left-0 bg-white right-0 px-5 mb-5"
         style={{
           bottom: isKeyboardVisible === true ? 0 : 0,
+          backgroundColor: backroundTopNav,
         }}
         asChild
       >

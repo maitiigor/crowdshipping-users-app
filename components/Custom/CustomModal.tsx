@@ -14,6 +14,7 @@ import {
   ModalHeader,
 } from "../ui/modal";
 import { VStack } from "../ui/vstack";
+import { useThemeColor } from "@/hooks/useThemeColor";
 
 interface IProps {
   showModal: boolean;
@@ -49,6 +50,7 @@ export const CustomModal = ({
 }: IProps) => {
   const router = useRouter();
   const defaultImg = require("@/assets/images/onboarding/modal-success.png");
+  const backroundTopNav = useThemeColor({}, "background");
   return (
     <Modal
       isOpen={showModal}
@@ -58,7 +60,7 @@ export const CustomModal = ({
       }}
     >
       <ModalBackdrop />
-      <ModalContent className="rounded-2xl items-center">
+      <ModalContent style={{ backgroundColor: backroundTopNav }} className="rounded-2xl items-center">
         {img && (
           <ModalHeader>
             <Box className="w-[156px] h-[156px]  items-center justify-center">

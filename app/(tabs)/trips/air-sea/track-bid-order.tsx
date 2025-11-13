@@ -17,6 +17,7 @@ import { Input, InputField, InputSlot } from "@/components/ui/input";
 import { Textarea, TextareaInput } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/toast";
 import { useCountry } from "@/hooks/useCountry";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { useAuthenticatedPatch, useAuthenticatedQuery } from "@/lib/api";
 import { useAppSelector } from "@/store";
 import { ISingleBidDetailsResponse } from "@/types/IBids";
@@ -46,6 +47,7 @@ import * as Yup from "yup";
 export default function TripBidsNegotiationScreen() {
   const navigation = useNavigation();
   const router = useRouter();
+  const backroundTopNav = useThemeColor({}, "background");
   const toast = useToast();
   const [snap, setSnap] = useState(0.5);
   console.log("🚀 ~ TripBidsNegotiationScreen ~ snap:", snap);
@@ -123,7 +125,7 @@ export default function TripBidsNegotiationScreen() {
       headerTitleStyle: { fontSize: 20 }, // Increased font size
       headerShadowVisible: false,
       headerStyle: {
-        backgroundColor: "#FFFFFF",
+        backgroundColor: backroundTopNav,
         elevation: 0, // Android
         shadowOpacity: 0, // iOS
         shadowColor: "transparent", // iOS
@@ -164,7 +166,7 @@ export default function TripBidsNegotiationScreen() {
       ),
       headerRight: () => <NotificationIcon />,
     });
-  }, [navigation, router]);
+  }, [navigation, router, backroundTopNav]);
   const showNewToast = ({
     title,
     description,

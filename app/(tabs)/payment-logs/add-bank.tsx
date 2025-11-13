@@ -19,6 +19,7 @@ import {
   SelectPortal,
   SelectTrigger,
 } from "@/components/ui/select";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { useLocalSearchParams, useNavigation, useRouter } from "expo-router";
 import { Formik } from "formik";
 import { ChevronLeft } from "lucide-react-native";
@@ -32,6 +33,7 @@ export default function AddBank() {
   const insets = useSafeAreaInsets();
   const [selectedPickupAddress, setSelectedPickupAddress] =
     useState<AddressSelection | null>(null);
+  const backroundTopNav = useThemeColor({}, "background");
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
@@ -48,7 +50,7 @@ export default function AddBank() {
       headerTitleStyle: { fontSize: 20 }, // Increased font size
       headerShadowVisible: false,
       headerStyle: {
-        backgroundColor: "#FFFFFF",
+        backgroundColor: backroundTopNav,
         elevation: 0, // Android
         shadowOpacity: 0, // iOS
         shadowColor: "transparent", // iOS
@@ -89,7 +91,7 @@ export default function AddBank() {
       ),
       headerRight: () => <NotificationIcon />,
     });
-  }, [navigation]);
+  }, [navigation, backroundTopNav]);
 
   return (
     <KeyboardAvoidingView

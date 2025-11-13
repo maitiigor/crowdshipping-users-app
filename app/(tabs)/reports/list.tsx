@@ -6,16 +6,17 @@ import { EmptyState } from "@/components/Custom/EmptyState";
 import NotificationIcon from "@/components/Custom/NotificationIcon";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
+import { Box } from "@/components/ui/box";
 import { Button } from "@/components/ui/button";
+import { HStack } from "@/components/ui/hstack";
 import { Icon, SearchIcon } from "@/components/ui/icon";
 import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
+import { Skeleton, SkeletonText } from "@/components/ui/skeleton";
 import { useAuthenticatedQuery } from "@/lib/api";
 import { IReportDatum, IReportResponse } from "@/types/IReport";
 import dayjs from "dayjs";
 import { ChevronLeft, CircleQuestionMark } from "lucide-react-native";
-import { Box } from "@/components/ui/box";
-import { Skeleton, SkeletonText } from "@/components/ui/skeleton";
-import { HStack } from "@/components/ui/hstack";
+import { useThemeColor } from "@/hooks/useThemeColor";
 
 const filterList = [
   {
@@ -30,6 +31,7 @@ const filterList = [
 export default function ReportScreen() {
   const navigation = useNavigation();
   const router = useRouter();
+  const backroundTopNav = useThemeColor({}, "background");
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedFilter, setSelectedFilter] = useState("pending");
   const [toggleHideShowByID, setToggleHideShowByID] = useState(
@@ -67,7 +69,7 @@ export default function ReportScreen() {
       headerTitleStyle: { fontSize: 20 }, // Increased font size
       headerShadowVisible: false,
       headerStyle: {
-        backgroundColor: "#FFFFFF",
+        backgroundColor: backroundTopNav,
         elevation: 0, // Android
         shadowOpacity: 0, // iOS
         shadowColor: "transparent", // iOS
@@ -108,7 +110,7 @@ export default function ReportScreen() {
       ),
       headerRight: () => <NotificationIcon />,
     });
-  }, [navigation, router]);
+  }, [navigation, router, backroundTopNav]);
   const currentData =
     selectedFilter === "pending"
       ? pendingReports?.data || []

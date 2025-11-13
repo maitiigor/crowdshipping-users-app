@@ -6,8 +6,15 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { Icon } from "@/components/ui/icon";
 import { Image } from "@/components/ui/image";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { useNavigation, useRouter } from "expo-router";
-import { ChevronLeft, CircleQuestionMark, CircleX, Copy, Gem } from "lucide-react-native";
+import {
+  ChevronLeft,
+  CircleQuestionMark,
+  CircleX,
+  Copy,
+  Gem,
+} from "lucide-react-native";
 import React, { useEffect, useRef, useState } from "react";
 import {
   FlatList,
@@ -48,6 +55,7 @@ export default function PromoScreen() {
   // hide the header for this screen
   const navigation = useNavigation();
   const router = useRouter();
+  const backroundTopNav = useThemeColor({}, "background");
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
 
   const [secondsLeft, setSecondsLeft] = useState(20); // countdown state
@@ -66,7 +74,7 @@ export default function PromoScreen() {
       headerTitleStyle: { fontSize: 20 }, // Increased font size
       headerShadowVisible: false,
       headerStyle: {
-        backgroundColor: "#FFFFFF",
+        backgroundColor: backroundTopNav,
         elevation: 0, // Android
         shadowOpacity: 0, // iOS
         shadowColor: "transparent", // iOS
@@ -107,7 +115,7 @@ export default function PromoScreen() {
       ),
       headerRight: () => <NotificationIcon />,
     });
-  }, [navigation, router]);
+  }, [navigation, router, backroundTopNav]);
 
   useEffect(() => {
     const showEvent =

@@ -11,6 +11,7 @@ import { HStack } from "@/components/ui/hstack";
 import { Icon, SearchIcon } from "@/components/ui/icon";
 import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
 import { Skeleton, SkeletonText } from "@/components/ui/skeleton";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { useAuthenticatedQuery } from "@/lib/api";
 import { ISeaMaritimeResponse } from "@/types/air-sea/ISeaMaritime";
 import { IBidTripsDatum, IBidTripsResponse } from "@/types/IBids";
@@ -27,6 +28,7 @@ export default function TripDelivery() {
   const router = useRouter();
   console.log("🚀 ~ TripDelivery ~ router:", router);
   const { tripTypeId } = useLocalSearchParams();
+  const backroundTopNav = useThemeColor({}, "background");
   console.log("🚀 ~ TripDelivery ~ tripTypeId:", tripTypeId);
   const [activeTripType, setActiveTripType] = useState<number>(
     tripTypeId ? parseInt(tripTypeId as string, 10) : 2
@@ -65,7 +67,7 @@ export default function TripDelivery() {
       headerTitleStyle: { fontSize: 20 }, // Increased font size
       headerShadowVisible: false,
       headerStyle: {
-        backgroundColor: "#FFFFFF",
+        backgroundColor: backroundTopNav,
         elevation: 0, // Android
         shadowOpacity: 0, // iOS
         shadowColor: "transparent", // iOS
@@ -106,7 +108,7 @@ export default function TripDelivery() {
       ),
       headerRight: () => <NotificationIcon />,
     });
-  }, [navigation, activeTripType]);
+  }, [navigation, activeTripType, backroundTopNav]);
 
   const tripTypes = [
     { id: 2, name: "Air", Icon: ErrandsSvg },

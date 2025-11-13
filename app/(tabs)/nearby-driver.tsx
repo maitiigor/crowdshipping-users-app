@@ -14,6 +14,7 @@ import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
 import { Pressable } from "@/components/ui/pressable";
 import { useToast } from "@/components/ui/toast";
 import { useCountry } from "@/hooks/useCountry";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { useAuthenticatedPatch } from "@/lib/api";
 import { useAppSelector } from "@/store";
 import { IPickupByDriverResponse } from "@/types/IPickupByDriver";
@@ -41,6 +42,7 @@ export default function NearbyDriverScreen() {
   const { id, response } = useLocalSearchParams();
   console.log("🚀 ~ NearbyDriverScreen ~ id:", id);
   const [search, setSearch] = useState("");
+  const backroundTopNav = useThemeColor({}, "background");
   const toast = useToast();
   const fallbackTripId = "";
   const tripId = useMemo(() => {
@@ -54,14 +56,14 @@ export default function NearbyDriverScreen() {
       driverId: string;
       amount: number;
     }
-    >(`/trip/select/driver/${tripId}`);
-    const { country, countryCode } = useCountry();
-    // Get the selected country from Redux
-    const selectedCountry = useAppSelector(
-      (state) => state.country.selectedCountry
-    );
-    const currency = selectedCountry?.currencies?.[0];
-    const selectedCurrency = currency?.code || "NGN";
+  >(`/trip/select/driver/${tripId}`);
+  const { country, countryCode } = useCountry();
+  // Get the selected country from Redux
+  const selectedCountry = useAppSelector(
+    (state) => state.country.selectedCountry
+  );
+  const currency = selectedCountry?.currencies?.[0];
+  const selectedCurrency = currency?.code || "NGN";
   const responseObj: IPickupByDriverResponse | null = (() => {
     if (response == null) return null;
     const respStr = String(response).trim();
@@ -109,7 +111,7 @@ export default function NearbyDriverScreen() {
       headerTitleStyle: { fontSize: 20 }, // Increased font size
       headerShadowVisible: false,
       headerStyle: {
-        backgroundColor: "#FFFFFF",
+        backgroundColor: backroundTopNav,
         elevation: 0, // Android
         shadowOpacity: 0, // iOS
         shadowColor: "transparent", // iOS
@@ -150,7 +152,7 @@ export default function NearbyDriverScreen() {
       ),
       headerRight: () => <NotificationIcon />,
     });
-  }, [navigation, router]);
+  }, [navigation, router, backroundTopNav]);
   const showNewToast = ({
     title,
     description,
@@ -213,7 +215,11 @@ export default function NearbyDriverScreen() {
             Amount
           </ThemedText>
           <ThemedText type="btn_large" className="text-typography-950">
-            {formatCurrency(responseObj?.data?.amount, selectedCurrency, `en-${countryCode}`)}
+            {formatCurrency(
+              responseObj?.data?.amount,
+              selectedCurrency,
+              `en-${countryCode}`
+            )}
           </ThemedText>
         </ThemedView>
       </View>

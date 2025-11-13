@@ -7,8 +7,12 @@ import { Button, ButtonIcon, ButtonText } from "@/components/ui/button";
 import { HStack } from "@/components/ui/hstack";
 import { Icon } from "@/components/ui/icon";
 import { Skeleton, SkeletonText } from "@/components/ui/skeleton";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { useAuthenticatedPatch, useAuthenticatedQuery } from "@/lib/api";
-import { INotificationsResponse, ISingleNotificationResponse } from "@/types/INotification";
+import {
+  INotificationsResponse,
+  ISingleNotificationResponse,
+} from "@/types/INotification";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useLocalSearchParams, useNavigation, useRouter } from "expo-router";
@@ -28,9 +32,10 @@ const NotificationDetail = () => {
   const navigation = useNavigation();
   const router = useRouter();
   const { id } = useLocalSearchParams<{ id: string }>();
+  const backroundTopNav = useThemeColor({}, "background");
   const { refetch: refetchNotifications } = useAuthenticatedQuery<
-      INotificationsResponse | undefined
-    >(["notifications"], "/notification");
+    INotificationsResponse | undefined
+  >(["notifications"], "/notification");
   const { data, isLoading, refetch } = useAuthenticatedQuery<
     ISingleNotificationResponse | undefined
   >(["notification", id], `/notification/${id}`);
@@ -52,7 +57,7 @@ const NotificationDetail = () => {
       headerTitleStyle: { fontSize: 20 }, // Increased font size
       headerShadowVisible: false,
       headerStyle: {
-        backgroundColor: "#FFFFFF",
+        backgroundColor: backroundTopNav,
         elevation: 0, // Android
         shadowOpacity: 0, // iOS
         shadowColor: "transparent", // iOS
@@ -93,7 +98,7 @@ const NotificationDetail = () => {
       ),
       headerRight: () => <NotificationIcon />,
     });
-  }, [navigation, router]);
+  }, [navigation, router, backroundTopNav]);
   useEffect(() => {
     const markAsRead = async () => {
       if (data?.data && !data.data.isRead) {
@@ -119,7 +124,11 @@ const NotificationDetail = () => {
                   variant="circular"
                   className="h-12 w-12 rounded-full"
                 />
-                <SkeletonText _lines={2} gap={4} className="h-3 w-[85.5%] flex-1" />
+                <SkeletonText
+                  _lines={2}
+                  gap={4}
+                  className="h-3 w-[85.5%] flex-1"
+                />
               </HStack>
               <SkeletonText _lines={3} gap={4} className="h-3" />
             </Box>

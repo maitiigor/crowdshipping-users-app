@@ -6,6 +6,7 @@ import CancelBookingModal from "@/components/Trips/CancelBookingModal";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { Image } from "@/components/ui/image";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { useAuthenticatedQuery } from "@/lib/api";
 import { IBookingDetailsResponse } from "@/types/IBookingHistory";
 import { useLocalSearchParams, useNavigation, useRouter } from "expo-router";
@@ -17,8 +18,9 @@ export default function BookingDetailScreen() {
   const navigation = useNavigation();
   const router = useRouter();
   const { id, selectedFilter } = useLocalSearchParams();
-    const [showModal, setShowModal] = useState(false);
-  
+  const [showModal, setShowModal] = useState(false);
+  const backroundTopNav = useThemeColor({}, "background");
+
   console.log("🚀 ~ BookingDetailScreen ~ selectedFilter:", selectedFilter);
   const {
     data: bookingDetailsData,
@@ -43,7 +45,7 @@ export default function BookingDetailScreen() {
       // Remove header shadow and bottom border (iOS & Android)
       headerShadowVisible: false,
       headerStyle: {
-        backgroundColor: "#FFFFFF",
+        backgroundColor: backroundTopNav,
         elevation: 0, // Android
         shadowOpacity: 0, // iOS
         shadowColor: "transparent", // iOS
@@ -84,7 +86,7 @@ export default function BookingDetailScreen() {
       ),
       headerRight: () => <NotificationIcon />,
     });
-  }, [navigation]);
+  }, [navigation, backroundTopNav]);
 
   if (isLoadingBookingDetails) {
     return (

@@ -9,14 +9,19 @@ import { Button } from "@/components/ui/button";
 import { HelpCircleIcon, Icon } from "@/components/ui/icon";
 import { Textarea, TextareaInput } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/toast";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { useAuthenticatedPost } from "@/lib/api";
 import { paramToString } from "@/utils/helper";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useLocalSearchParams, useNavigation, useRouter } from "expo-router";
 import { Formik } from "formik";
-import { Activity, ChevronLeft, CircleCheckIcon, LucideIcon } from "lucide-react-native";
+import { ChevronLeft, CircleCheckIcon, LucideIcon } from "lucide-react-native";
 import React, { useCallback, useEffect, useState } from "react";
-import { ActivityIndicator, KeyboardAvoidingView, TouchableOpacity } from "react-native";
+import {
+  ActivityIndicator,
+  KeyboardAvoidingView,
+  TouchableOpacity,
+} from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as Yup from "yup";
 const validationSchema = Yup.object().shape({
@@ -33,6 +38,7 @@ export default function DriverCustomerFeedback() {
   const navigation = useNavigation();
   const router = useRouter();
   const toast = useToast();
+  const backroundTopNav = useThemeColor({}, "background");
   const { id, rating: selectedRating, travellerName } = useLocalSearchParams();
   const idStr = paramToString(id);
   const travellerNameStr = paramToString(travellerName);
@@ -66,7 +72,7 @@ export default function DriverCustomerFeedback() {
       headerTitleStyle: { fontSize: 20 }, // Increased font size
       headerShadowVisible: false,
       headerStyle: {
-        backgroundColor: "#FFFFFF",
+        backgroundColor: backroundTopNav,
         elevation: 0, // Android
         shadowOpacity: 0, // iOS
         shadowColor: "transparent", // iOS
@@ -106,7 +112,7 @@ export default function DriverCustomerFeedback() {
       ),
       headerRight: () => <NotificationIcon />,
     });
-  }, [navigation, router]);
+  }, [navigation, router, backroundTopNav]);
   const showNewToast = useCallback(
     ({
       title,
@@ -269,11 +275,13 @@ export default function DriverCustomerFeedback() {
                     className="mt-5 rounded-[12px]"
                     onPress={() => handleSubmit()}
                   >
-                    {loading ? <ActivityIndicator color="#fff" /> :
+                    {loading ? (
+                      <ActivityIndicator color="#fff" />
+                    ) : (
                       <ThemedText type="s1_subtitle" className="text-white">
                         Submit Review
                       </ThemedText>
-                    }
+                    )}
                   </Button>
                 </ThemedView>
               )}

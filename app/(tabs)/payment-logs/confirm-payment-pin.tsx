@@ -8,6 +8,7 @@ import { HStack } from "@/components/ui/hstack";
 import { Icon } from "@/components/ui/icon";
 import { Input, InputField } from "@/components/ui/input";
 import { useToast } from "@/components/ui/toast";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { useAuthenticatedPatch } from "@/lib/api";
 import { useLocalSearchParams, useNavigation, useRouter } from "expo-router";
 import { Formik } from "formik";
@@ -36,6 +37,7 @@ const validationSchema = Yup.object().shape({
 export default function ConfirmPaymentPin() {
   // hide the header for this screen
   const navigation = useNavigation();
+  const backroundTopNav = useThemeColor({}, "background");
   const router = useRouter();
   const toast = useToast();
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
@@ -67,7 +69,7 @@ export default function ConfirmPaymentPin() {
       headerTitleStyle: { fontSize: 20 }, // Increased font size
       headerShadowVisible: false,
       headerStyle: {
-        backgroundColor: "#FFFFFF",
+        backgroundColor: backroundTopNav,
         elevation: 0, // Android
         shadowOpacity: 0, // iOS
         shadowColor: "transparent", // iOS
@@ -107,7 +109,7 @@ export default function ConfirmPaymentPin() {
         </ThemedView>
       ),
     });
-  }, [navigation]);
+  }, [navigation, backroundTopNav]);
 
   useEffect(() => {
     const showEvent =

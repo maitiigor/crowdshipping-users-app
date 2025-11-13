@@ -6,6 +6,7 @@ import { ThemedView } from "@/components/ThemedView";
 import CancelBookingModal from "@/components/Trips/CancelBookingModal";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { useAuthenticatedQuery } from "@/lib/api";
 import { IPickupTripDetailsResponse } from "@/types/IPickupByDriver";
 import { paramToString } from "@/utils/helper";
@@ -28,6 +29,7 @@ import { TouchableOpacity } from "react-native";
 export default function PackageSummaryScreen() {
   const navigation = useNavigation();
   const router = useRouter();
+  const backroundTopNav = useThemeColor({}, "background");
   const { tripId, amount } = useLocalSearchParams();
   const tripIdStr = paramToString(tripId);
   const { data, refetch, isLoading } = useAuthenticatedQuery<
@@ -50,7 +52,7 @@ export default function PackageSummaryScreen() {
       // Remove header shadow and bottom border (iOS & Android)
       headerShadowVisible: false,
       headerStyle: {
-        backgroundColor: "#FFFFFF",
+        backgroundColor: backroundTopNav,
         elevation: 0, // Android
         shadowOpacity: 0, // iOS
         shadowColor: "transparent", // iOS
@@ -91,7 +93,7 @@ export default function PackageSummaryScreen() {
       ),
       headerRight: () => <NotificationIcon />,
     });
-  }, [navigation]);
+  }, [navigation, backroundTopNav]);
   // i want to refetch the notifications when the user comes back to this screen
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {

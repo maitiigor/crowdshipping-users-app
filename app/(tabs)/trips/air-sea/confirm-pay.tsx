@@ -2,10 +2,11 @@ import NotificationIcon from "@/components/Custom/NotificationIcon";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
-import { Alert, AlertIcon, AlertText } from "@/components/ui/alert";
+import { Alert, AlertIcon } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Icon, InfoIcon } from "@/components/ui/icon";
 import { Image } from "@/components/ui/image";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { useLocalSearchParams, useNavigation, useRouter } from "expo-router";
 import { ChevronLeft, Clock3 } from "lucide-react-native";
 import React, { useEffect } from "react";
@@ -14,6 +15,7 @@ import { TouchableOpacity } from "react-native";
 export default function ConfirmPayScreen() {
   const navigation = useNavigation();
   const router = useRouter();
+  const backroundTopNav = useThemeColor({}, "background");
   const { id } = useLocalSearchParams();
   useEffect(() => {
     navigation.setOptions({
@@ -30,7 +32,7 @@ export default function ConfirmPayScreen() {
       // Remove header shadow and bottom border (iOS & Android)
       headerShadowVisible: false,
       headerStyle: {
-        backgroundColor: "#FFFFFF",
+        backgroundColor: backroundTopNav,
         elevation: 0, // Android
         shadowOpacity: 0, // iOS
         shadowColor: "transparent", // iOS
@@ -71,7 +73,7 @@ export default function ConfirmPayScreen() {
       ),
       headerRight: () => <NotificationIcon />,
     });
-  }, [navigation]);
+  }, [navigation, backroundTopNav]);
   return (
     <>
       <ParallaxScrollView
@@ -205,19 +207,25 @@ export default function ConfirmPayScreen() {
                   </ThemedView>
 
                   <ThemedView>
-                    <Alert action="error" variant="solid" className="mt-5 p-4 flex-2">
+                    <Alert
+                      action="error"
+                      variant="solid"
+                      className="mt-5 p-4 flex-2"
+                    >
                       <AlertIcon
                         size="xl"
                         as={InfoIcon}
                         className="text-error-600"
                       />
-                      
-                        <ThemedText type="b3_body" className="text-error-600 w-[90%]">
-                          Once payment is completed, this booking cannot be
-                          modified. Your booking will only be confirmed upon
-                          successful payment.
-                        </ThemedText>
-                      
+
+                      <ThemedText
+                        type="b3_body"
+                        className="text-error-600 w-[90%]"
+                      >
+                        Once payment is completed, this booking cannot be
+                        modified. Your booking will only be confirmed upon
+                        successful payment.
+                      </ThemedText>
                     </Alert>
                   </ThemedView>
                 </ThemedView>
@@ -232,7 +240,7 @@ export default function ConfirmPayScreen() {
           variant="solid"
           size="2xl"
           onPress={() => {
-              router.push("/(tabs)/confirm-price");
+            router.push("/(tabs)/confirm-price");
           }}
           className="flex-1 rounded-[12px] mx-1"
         >

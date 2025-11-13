@@ -8,6 +8,7 @@ import {
   CheckboxLabel,
 } from "@/components/ui/checkbox";
 import { CheckIcon } from "@/components/ui/icon";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { Link, useNavigation } from "expo-router";
 import React, { useEffect, useRef, useState } from "react";
 import { Dimensions, FlatList, Image, View } from "react-native";
@@ -41,6 +42,7 @@ export default function Welcome() {
   const [currentStep, setCurrentStep] = useState(0);
   const flatListRef = useRef<FlatList>(null);
   const { width } = Dimensions.get("window");
+  const backroundTopNav = useThemeColor({}, "background");
   const [value, setValue] = useState("true");
 
   useEffect(() => {
@@ -91,7 +93,9 @@ export default function Welcome() {
   }).current;
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <SafeAreaView
+      style={{ backgroundColor: backroundTopNav }}
+      className="flex-1">
       <ThemedView className="flex-1 justify-center items-center">
         <FlatList
           ref={flatListRef}

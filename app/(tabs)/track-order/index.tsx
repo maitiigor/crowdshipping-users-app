@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { Input, InputField } from "@/components/ui/input";
 import { useToast } from "@/components/ui/toast";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { useAuthenticatedPost } from "@/lib/api";
 import { useNavigation, useRouter } from "expo-router";
 import { Formik } from "formik";
@@ -45,6 +46,7 @@ interface TrackOrderData {
 
 export default function TrackOrderScreen() {
   const navigation = useNavigation();
+  const backroundTopNav = useThemeColor({}, "background");
   const router = useRouter();
   const toast = useToast();
   const [trackOrderData, setTrackOrderData] = useState<TrackOrderData | null>(
@@ -75,7 +77,7 @@ export default function TrackOrderScreen() {
       headerTitleStyle: { fontSize: 20 }, // Increased font size
       headerShadowVisible: false,
       headerStyle: {
-        backgroundColor: "#FFFFFF",
+        backgroundColor: backroundTopNav,
         elevation: 0, // Android
         shadowOpacity: 0, // iOS
         shadowColor: "transparent", // iOS
@@ -116,7 +118,7 @@ export default function TrackOrderScreen() {
       ),
       headerRight: () => <NotificationIcon />,
     });
-  }, [navigation, router]);
+  }, [navigation, router, backroundTopNav]);
   const showNewToast = ({
     title,
     description,

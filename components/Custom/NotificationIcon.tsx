@@ -1,3 +1,4 @@
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { useAuthenticatedQuery } from "@/lib/api";
 import { INotificationsResponse } from "@/types/INotification";
 import { useRouter } from "expo-router";
@@ -7,13 +8,13 @@ import { Platform, TouchableOpacity } from "react-native";
 import { ThemedText } from "../ThemedText";
 import { ThemedView } from "../ThemedView";
 import { Icon } from "../ui/icon";
-import { P } from "@expo/html-elements";
 
 interface IProps {}
 export default function NotificationIcon({}: IProps) {
   const { data, isLoading } = useAuthenticatedQuery<
     INotificationsResponse | undefined
   >(["notifications"], "/notification");
+  const colorNav = useThemeColor({}, "text");
   const router = useRouter();
   const list = Array.isArray(data?.data) ? data!.data : [];
   const unreadCount = list.filter((notif) => !notif.isRead).length || 0;
@@ -42,7 +43,14 @@ export default function NotificationIcon({}: IProps) {
           </ThemedView>
         )}
       </ThemedView>
-      <Icon as={Bell} size="2xl" className="text-typography-900" />
+      <Icon
+        as={Bell}
+        style={{
+          color: colorNav,
+        }}
+        size="2xl"
+        className="text-typography-900"
+      />
     </TouchableOpacity>
   );
 }

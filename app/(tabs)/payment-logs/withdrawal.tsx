@@ -1,4 +1,3 @@
-import { AddressSelection } from "@/components/Custom/AddressPicker";
 import BankDropdown from "@/components/Custom/BankDropdown";
 import { CustomModal } from "@/components/Custom/CustomModal";
 import CustomToast from "@/components/Custom/CustomToast";
@@ -12,6 +11,7 @@ import { Icon } from "@/components/ui/icon";
 import { Input, InputField } from "@/components/ui/input";
 import { useToast } from "@/components/ui/toast";
 import { useCountry } from "@/hooks/useCountry";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { useAuthenticatedPost, useAuthenticatedQuery } from "@/lib/api";
 import { useAppSelector } from "@/store";
 import { IWalletRequestResponse } from "@/types/IWalletRequest";
@@ -37,19 +37,20 @@ export default function WithdrawalScreen() {
   const router = useRouter();
   const toast = useToast();
   const insets = useSafeAreaInsets();
+  const backroundTopNav = useThemeColor({}, "background");
   const [bankValues, setBankValues] = useState({ bankCode: "", bankName: "" });
   console.log("🚀 ~ WithdrawalScreen ~ bankValues:", bankValues);
   const { data, isLoading } = useAuthenticatedQuery<
     IWalletRequestResponse | undefined
   >(["wallet"], "/wallet/fetch");
   const [showModal, setShowModal] = useState(false);
-    const { countryCode } = useCountry();
-    // Get the selected country from Redux
-    const selectedCountry = useAppSelector(
-      (state) => state.country.selectedCountry
-    );
-    const currency = selectedCountry?.currencies?.[0];
-    const selectedCurrency = currency?.code || "NGN";
+  const { countryCode } = useCountry();
+  // Get the selected country from Redux
+  const selectedCountry = useAppSelector(
+    (state) => state.country.selectedCountry
+  );
+  const currency = selectedCountry?.currencies?.[0];
+  const selectedCurrency = currency?.code || "NGN";
   const validationSchema = Yup.object().shape({
     amount: Yup.number()
       .typeError("Amount must be a number")
@@ -101,7 +102,7 @@ export default function WithdrawalScreen() {
       headerTitleStyle: { fontSize: 20 }, // Increased font size
       headerShadowVisible: false,
       headerStyle: {
-        backgroundColor: "#FFFFFF",
+        backgroundColor: backroundTopNav,
         elevation: 0, // Android
         shadowOpacity: 0, // iOS
         shadowColor: "transparent", // iOS
@@ -142,7 +143,7 @@ export default function WithdrawalScreen() {
       ),
       headerRight: () => <NotificationIcon />,
     });
-  }, [navigation]);
+  }, [navigation, backroundTopNav]);
   const showNewToast = ({
     title,
     description,

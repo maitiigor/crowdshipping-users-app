@@ -32,6 +32,7 @@ import { Image } from "@/components/ui/image";
 import { Pressable } from "@/components/ui/pressable";
 import { Skeleton, SkeletonText } from "@/components/ui/skeleton";
 import { useToast } from "@/components/ui/toast";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { useAuthenticatedQuery } from "@/lib/api";
 import { IActiveBookingsResponse } from "@/types/IBookingHistory";
 import { IUserProfileResponse } from "@/types/IUserProfile";
@@ -127,7 +128,15 @@ export default function HomeScreen() {
     ["me"],
     "/user/profile"
   );
-
+  const backroundTopNav = useThemeColor({}, "background");
+  const colorNav = useThemeColor({}, "text");
+  const backgroundColor = useThemeColor(
+    {
+      light: "#FFFFFF",
+      dark: "#353636",
+    },
+    "background"
+  );
   // Real-time status updates: refetch every 5 seconds and when app comes to foreground
   const {
     data: ongoingTripsData,
@@ -289,7 +298,7 @@ export default function HomeScreen() {
       headerShown: true,
       headerShadowVisible: false,
       headerStyle: {
-        backgroundColor: "#FFFFFF",
+        backgroundColor: backroundTopNav,
         elevation: 0, // Android
         shadowOpacity: 0, // iOS
         shadowColor: "transparent", // iOS
@@ -322,7 +331,11 @@ export default function HomeScreen() {
           className="shadow"
           style={{ paddingHorizontal: 0 }}
         >
-          <Feather name="menu" size={24} color="black" />
+          <Feather
+            name="menu"
+            size={24}
+            color={'' + colorNav}
+          />
         </TouchableOpacity>
       ),
       headerRight: () => (
@@ -334,7 +347,7 @@ export default function HomeScreen() {
         />
       ),
     });
-  }, [navigation, t, data, isLoading]);
+  }, [navigation, t, data, isLoading, backroundTopNav, colorNav]);
   return (
     <>
       <ParallaxScrollView
@@ -370,7 +383,7 @@ export default function HomeScreen() {
               className="flex items-center gap-2 h-[165px] w-full"
               style={
                 {
-                  backgroundColor: "#FFFFFF",
+                  backgroundColor: backgroundColor,
                   padding: 12,
                   borderRadius: 8,
                   // web shadow (as provided)
@@ -615,8 +628,9 @@ export default function HomeScreen() {
                             style={isDisabled ? { opacity: 0.7 } : undefined}
                           >
                             <ThemedText
+                              style={{ color: "white" }}
                               type="btn_medium"
-                              className="text-white font-semibold"
+                              className="font-semibold"
                             >
                               View
                             </ThemedText>
@@ -683,7 +697,9 @@ export default function HomeScreen() {
                 size="2xl"
                 className="mt-5 rounded-[12px]"
               >
-                <ThemedText type="s1_subtitle" className="text-white">
+                  <ThemedText
+                    style={{ color: "white" }}
+                    type="s1_subtitle" className="text-white">
                   Close
                 </ThemedText>
               </Button>

@@ -5,6 +5,7 @@ import { ThemedView } from "@/components/ThemedView";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { Image } from "@/components/ui/image";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { useLocalSearchParams, useNavigation, useRouter } from "expo-router";
 
 import { ChevronLeft } from "lucide-react-native";
@@ -14,6 +15,7 @@ import { TouchableOpacity } from "react-native";
 export default function PackageDetailScreen() {
   const navigation = useNavigation();
   const router = useRouter();
+  const backroundTopNav = useThemeColor({}, "background");
   const { id, response, tripTypeId } = useLocalSearchParams();
   const responseObj = response
     ? JSON.parse(decodeURIComponent(String(response)))
@@ -35,7 +37,7 @@ export default function PackageDetailScreen() {
       headerTitleStyle: { fontSize: 20 }, // Increased font size
       headerShadowVisible: false,
       headerStyle: {
-        backgroundColor: "#FFFFFF",
+        backgroundColor: backroundTopNav,
         elevation: 0, // Android
         shadowOpacity: 0, // iOS
         shadowColor: "transparent", // iOS
@@ -76,7 +78,7 @@ export default function PackageDetailScreen() {
       ),
       headerRight: () => <NotificationIcon />,
     });
-  }, [navigation]);
+  }, [navigation, backroundTopNav]);
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: "#FFFFFF", dark: "#353636" }}

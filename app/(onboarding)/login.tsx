@@ -8,8 +8,8 @@ import { EyeIcon, EyeOffIcon, Icon } from "@/components/ui/icon";
 import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
 import { Pressable } from "@/components/ui/pressable";
 import { useToast } from "@/components/ui/toast";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { useAuth } from "@/lib/api/index";
-import { isTokenStored } from "@/lib/auth/tokenStorage";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import Fontisto from "@expo/vector-icons/Fontisto";
@@ -68,6 +68,7 @@ export default function Login() {
   // Optionally prefill the email field when navigating like: /login?email=user@site.com
   const { email } = useLocalSearchParams<{ email?: string | string[] }>();
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
+  const backroundTopNav = useThemeColor({}, "background");
   const handleState = () => {
     setShowPassword((showState) => {
       return !showState;
@@ -163,7 +164,7 @@ export default function Login() {
       headerTitleStyle: { fontSize: 20 }, // Increased font size
       headerShadowVisible: false,
       headerStyle: {
-        backgroundColor: "#FFFFFF",
+        backgroundColor: backroundTopNav,
         elevation: 0, // Android
         shadowOpacity: 0, // iOS
         shadowColor: "transparent", // iOS
@@ -202,7 +203,7 @@ export default function Login() {
         </ThemedView>
       ),
     });
-  }, [navigation]);
+  }, [navigation, backroundTopNav]);
 
   useEffect(() => {
     const showEvent =
@@ -372,6 +373,7 @@ export default function Login() {
           className="absolute left-0 mb-2 bg-white right-0 px-5"
           style={{
             bottom: isKeyboardVisible === true ? 0 : 0,
+            backgroundColor: backroundTopNav,
           }}
         >
           <ThemedText

@@ -8,6 +8,7 @@ import { Icon } from "@/components/ui/icon";
 import { Skeleton, SkeletonText } from "@/components/ui/skeleton";
 import { VStack } from "@/components/ui/vstack";
 import { useCountry } from "@/hooks/useCountry";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { useAuthenticatedQuery } from "@/lib/api";
 import { useAppSelector } from "@/store";
 import { ISingleReportResponse } from "@/types/IReport";
@@ -38,6 +39,7 @@ const ReportDetails = () => {
   const { data, isLoading, refetch, isRefetching } = useAuthenticatedQuery<
     ISingleReportResponse | undefined
   >(["report", id], `/issue/report/${id}`);
+  const backroundTopNav = useThemeColor({}, "background");
 
   const report = data?.data;
   const { countryCode } = useCountry();
@@ -60,7 +62,7 @@ const ReportDetails = () => {
       headerTitleStyle: { fontSize: 20 },
       headerShadowVisible: false,
       headerStyle: {
-        backgroundColor: "#FFFFFF",
+        backgroundColor: backroundTopNav,
         elevation: 0,
         shadowOpacity: 0,
         shadowColor: "transparent",
@@ -91,7 +93,7 @@ const ReportDetails = () => {
         </TouchableOpacity>
       ),
     });
-  }, [isRefetching, navigation, refetch]);
+  }, [isRefetching, navigation, refetch, backroundTopNav]);
 
   const handleOpenEvidence = useCallback(async () => {
     if (!report?.evidence) return;

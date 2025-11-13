@@ -11,6 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { useAuthenticatedQuery } from "@/lib/api";
 import { ISingleBidDetailsResponse } from "@/types/IBids";
 import { paramToString } from "@/utils/helper";
@@ -46,6 +47,7 @@ export default function BidDetails() {
   const tripTypeIdNum = Number(paramToString(tripTypeId));
   const activeTripType = isNaN(tripTypeIdNum) ? 2 : tripTypeIdNum; // Default to 2 (Air) if not provided
   const [showModal, setShowModal] = useState(false);
+  const backroundTopNav = useThemeColor({}, "background");
   const {
     data: airDetailsData,
     isLoading: airDetailsLoading,
@@ -73,7 +75,7 @@ export default function BidDetails() {
       headerTitleStyle: { fontSize: 20 },
       headerShadowVisible: false,
       headerStyle: {
-        backgroundColor: "#FFFFFF",
+        backgroundColor: backroundTopNav,
         elevation: 0,
         shadowOpacity: 0,
         shadowColor: "transparent",
@@ -114,7 +116,7 @@ export default function BidDetails() {
       ),
       headerRight: () => <NotificationIcon />,
     });
-  }, [navigation, activeTripType]);
+  }, [navigation, activeTripType, backroundTopNav]);
 
   const isBusy = airDetailsLoading || airDetailsFetching;
   const bidData = airDetailsData?.data;

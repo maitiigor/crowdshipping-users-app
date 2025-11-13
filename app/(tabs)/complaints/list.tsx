@@ -16,6 +16,7 @@ import { useAuthenticatedQuery } from "@/lib/api";
 import { IClaimDatum, IClaimResponse } from "@/types/IReport";
 import dayjs from "dayjs";
 import { ChevronLeft, CircleQuestionMark } from "lucide-react-native";
+import { useThemeColor } from "@/hooks/useThemeColor";
 
 const filterList = [
   {
@@ -32,6 +33,7 @@ export default function ClaimsScreen() {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedFilter, setSelectedFilter] = useState("pending");
+  const backroundTopNav = useThemeColor({}, "background");
   const [toggleHideShowByID, setToggleHideShowByID] = useState(
     {} as Record<number, boolean>
   );
@@ -68,7 +70,7 @@ export default function ClaimsScreen() {
       headerTitleStyle: { fontSize: 20 }, // Increased font size
       headerShadowVisible: false,
       headerStyle: {
-        backgroundColor: "#FFFFFF",
+        backgroundColor: backroundTopNav,
         elevation: 0, // Android
         shadowOpacity: 0, // iOS
         shadowColor: "transparent", // iOS
@@ -109,7 +111,7 @@ export default function ClaimsScreen() {
       ),
       headerRight: () => <NotificationIcon />,
     });
-  }, [navigation, router]);
+  }, [navigation, router, backroundTopNav]);
   const currentData =
     selectedFilter === "pending"
       ? pendingClaims?.data || []

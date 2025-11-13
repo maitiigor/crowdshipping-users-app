@@ -15,6 +15,7 @@ import { INotificationsResponse } from "@/types/INotification";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { BellIcon, ChevronLeft } from "lucide-react-native";
+import { useThemeColor } from "@/hooks/useThemeColor";
 
 // dayjs fromNow plugin
 
@@ -23,6 +24,7 @@ dayjs.extend(relativeTime);
 export default function NotificationScreen() {
   const navigation = useNavigation();
   const router = useRouter();
+  const backroundTopNav = useThemeColor({}, "background");
   const { data, isLoading, refetch, isFetching } = useAuthenticatedQuery<
     INotificationsResponse | undefined
   >(["notifications"], "/notification");
@@ -42,7 +44,7 @@ export default function NotificationScreen() {
       headerTitleStyle: { fontSize: 20 }, // Increased font size
       headerShadowVisible: false,
       headerStyle: {
-        backgroundColor: "#FFFFFF",
+        backgroundColor: backroundTopNav,
         elevation: 0, // Android
         shadowOpacity: 0, // iOS
         shadowColor: "transparent", // iOS
@@ -83,7 +85,7 @@ export default function NotificationScreen() {
       ),
       headerRight: () => <NotificationIcon />,
     });
-  }, [navigation, router]);
+  }, [navigation, router, backroundTopNav]);
 
   // i want to refetch the notifications when the user comes back to this screen
   useEffect(() => {

@@ -43,6 +43,7 @@ export function ThemedText({
     <Text
       className={twMerge(className)}
       style={[
+        { color },
         type === "default" ? styles.default : undefined,
         type === "link" ? styles.link : undefined,
         type === "h1_header" ? styles.h1_header : undefined,

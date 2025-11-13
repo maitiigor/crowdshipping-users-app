@@ -1,5 +1,6 @@
 import React, { ReactNode } from "react";
 import { Modal, ModalBackdrop, ModalBody, ModalContent } from "../ui/modal";
+import { useThemeColor } from "@/hooks/useThemeColor";
 
 interface IProps {
   showModal: boolean;
@@ -13,6 +14,7 @@ export const EmptyModal = ({
   size,
   children,
 }: IProps) => {
+  const backroundTopNav = useThemeColor({}, "background");
   return (
     <Modal
       isOpen={showModal}
@@ -22,7 +24,7 @@ export const EmptyModal = ({
       }}
     >
       <ModalBackdrop />
-      <ModalContent className="rounded-2xl">
+      <ModalContent className="rounded-2xl" style={{ backgroundColor: backroundTopNav }}>
         <ModalBody className="">{children}</ModalBody>
       </ModalContent>
     </Modal>

@@ -4,6 +4,7 @@ import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { Icon } from "@/components/ui/icon";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import {
   Link,
   useLocalSearchParams,
@@ -15,6 +16,7 @@ import React, { useEffect } from "react";
 import { Pressable, TouchableOpacity } from "react-native";
 export default function TravelerDetail() {
   const navigation = useNavigation();
+  const backroundTopNav = useThemeColor({}, "background");
   const router = useRouter();
   const { id } = useLocalSearchParams();
   useEffect(() => {
@@ -31,7 +33,7 @@ export default function TravelerDetail() {
       headerTitleStyle: { fontSize: 20 }, // Increased font size
       headerShadowVisible: false,
       headerStyle: {
-        backgroundColor: "#FFFFFF",
+        backgroundColor: backroundTopNav,
         elevation: 0, // Android
         shadowOpacity: 0, // iOS
         shadowColor: "transparent", // iOS
@@ -72,7 +74,7 @@ export default function TravelerDetail() {
       ),
       headerRight: () => <NotificationIcon />,
     });
-  }, [navigation]);
+  }, [navigation, router, backroundTopNav]);
 
   return (
     <>
@@ -99,10 +101,7 @@ export default function TravelerDetail() {
               </ThemedText>
             </ThemedView>
             <ThemedView className="mt-10 px-5 gap-4">
-              <Link
-                href="/(tabs)/support/faq"
-                asChild
-              >
+              <Link href="/(tabs)/support/faq" asChild>
                 <Pressable className="flex-row justify-between items-center">
                   <ThemedText
                     type="s1_subtitle"

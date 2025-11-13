@@ -18,6 +18,7 @@ import {
 import { useToast } from "@/components/ui/toast";
 import { VStack } from "@/components/ui/vstack";
 import { useCountry } from "@/hooks/useCountry";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { useAuthenticatedPatch, useAuthenticatedQuery } from "@/lib/api";
 import { useAppSelector } from "@/store";
 import { INotificationsResponse } from "@/types/INotification";
@@ -102,6 +103,7 @@ export default function ChoosePaymentType() {
   const selectedCountry = useAppSelector(
     (state) => state.country.selectedCountry
   );
+  const backroundTopNav = useThemeColor({}, "background");
   const currency = selectedCountry?.currencies?.[0];
   const selectedCurrency = currency?.code || "NGN";
   const { mutateAsync, error } = useAuthenticatedPatch<
@@ -215,7 +217,7 @@ export default function ChoosePaymentType() {
       headerTitleStyle: { fontSize: 20 },
       headerShadowVisible: false,
       headerStyle: {
-        backgroundColor: "#FFFFFF",
+        backgroundColor: backroundTopNav,
         elevation: 0,
         shadowOpacity: 0,
         shadowColor: "transparent",
@@ -256,7 +258,7 @@ export default function ChoosePaymentType() {
       ),
       headerRight: () => <NotificationIcon />,
     });
-  }, [navigation]);
+  }, [navigation, backroundTopNav]);
 
   const showNewToast = ({
     title,

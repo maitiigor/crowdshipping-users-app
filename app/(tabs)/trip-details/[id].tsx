@@ -15,6 +15,7 @@ import { Icon } from "@/components/ui/icon";
 import { Skeleton, SkeletonText } from "@/components/ui/skeleton";
 import { useToast } from "@/components/ui/toast";
 import { VStack } from "@/components/ui/vstack";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { useAuthenticatedPost, useAuthenticatedQuery } from "@/lib/api";
 import { ILiveTrackingResponse } from "@/types/IBookingHistory";
 import { paramToString } from "@/utils/helper";
@@ -67,7 +68,7 @@ export default function TrackBidOrder() {
   const navigation = useNavigation();
   const router = useRouter();
   const toast = useToast();
-
+  const backroundTopNav = useThemeColor({}, "background");
   const [showModal, setShowModal] = useState(true);
   const [rating, setRating] = useState<number>(0);
   const [selectedLocationId, setSelectedLocationId] = useState<string | null>(
@@ -380,7 +381,7 @@ export default function TrackBidOrder() {
       headerTitleStyle: { fontSize: 20 }, // Increased font size
       headerShadowVisible: false,
       headerStyle: {
-        backgroundColor: "#FFFFFF",
+        backgroundColor: backroundTopNav,
         elevation: 0, // Android
         shadowOpacity: 0, // iOS
         shadowColor: "transparent", // iOS
@@ -421,7 +422,7 @@ export default function TrackBidOrder() {
       ),
       headerRight: () => <NotificationIcon />,
     });
-  }, [navigation, router]);
+  }, [navigation, router, backroundTopNav]);
   // Additional refetch when app comes to foreground, but avoid spamming during throttling
   useEffect(() => {
     const subscription = AppState.addEventListener("change", (nextAppState) => {

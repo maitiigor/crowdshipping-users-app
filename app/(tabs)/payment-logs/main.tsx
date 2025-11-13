@@ -24,12 +24,14 @@ import {
 import { useCountry } from "@/hooks/useCountry";
 import { useAppSelector } from "@/store";
 import relativeTime from "dayjs/plugin/relativeTime";
+import { useThemeColor } from "@/hooks/useThemeColor";
 
 // dayjs fromNow plugin
 dayjs.extend(relativeTime);
 export default function PaymentLogScreen() {
   const navigation = useNavigation();
   const router = useRouter();
+  const backroundTopNav = useThemeColor({}, "background");
   const [selectedFilter, setSelectedFilter] = useState("");
   const { mutateAsync, error, loading } = useAuthenticatedPost<any, {}>(
     `/wallet/generate`
@@ -79,7 +81,7 @@ export default function PaymentLogScreen() {
       headerTitleStyle: { fontSize: 20 }, // Increased font size
       headerShadowVisible: false,
       headerStyle: {
-        backgroundColor: "#FFFFFF",
+        backgroundColor: backroundTopNav,
         elevation: 0, // Android
         shadowOpacity: 0, // iOS
         shadowColor: "transparent", // iOS
@@ -120,7 +122,7 @@ export default function PaymentLogScreen() {
       ),
       headerRight: () => <NotificationIcon />,
     });
-  }, [navigation, router]);
+  }, [navigation, router, backroundTopNav]);
   // useEffect(() => {
   //   // Ensure "withdrawal" is active when the screen mounts and every time it gains focus
   //   setSelectedFilter("withdrawal");

@@ -8,6 +8,7 @@ import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
 import { useToast } from "@/components/ui/toast";
 import { COUNTRIES } from "@/constants/countries";
 import { useCountry } from "@/hooks/useCountry";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { changeAppLanguage, LANGUAGE_STORAGE_KEY } from "@/lib/i18n";
 import { Country } from "@/store/slices/countrySlice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -44,7 +45,7 @@ type SupportedLanguageCode = (typeof languages)[number]["code"];
 export default function Index() {
   // hide the header for this screen
   const navigation = useNavigation();
-
+  const backroundTopNav = useThemeColor({}, "background");
   const { t, i18n } = useTranslation();
   const toast = useToast();
   const { country, selectCountry } = useCountry();
@@ -299,7 +300,9 @@ export default function Index() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <SafeAreaView
+      style={{ backgroundColor: backroundTopNav }}
+      className="flex-1 bg-white">
       <ParallaxScrollView
         headerBackgroundColor={{ light: "#FFFFFF", dark: "#353636" }}
       >

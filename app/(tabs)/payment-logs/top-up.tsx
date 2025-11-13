@@ -44,6 +44,7 @@ import { INotificationsResponse } from "@/types/INotification";
 import { IUserProfileResponse } from "@/types/IUserProfile";
 import { useStripe } from "@stripe/stripe-react-native";
 import { usePaystack } from "react-native-paystack-webview";
+import { useThemeColor } from "@/hooks/useThemeColor";
 
 const validationSchema = Yup.object().shape({
   amount: Yup.number()
@@ -63,6 +64,7 @@ export default function TopUpScreen() {
   const stripe = useStripe();
   const { popup } = usePaystack();
   const { countryCode } = useCountry();
+  const backroundTopNav = useThemeColor({}, "background");
   // Get the selected country from Redux
   const selectedCountry = useAppSelector(
     (state) => state.country.selectedCountry
@@ -120,7 +122,7 @@ export default function TopUpScreen() {
       headerTitleStyle: { fontSize: 20 }, // Increased font size
       headerShadowVisible: false,
       headerStyle: {
-        backgroundColor: "#FFFFFF",
+        backgroundColor: backroundTopNav,
         elevation: 0, // Android
         shadowOpacity: 0, // iOS
         shadowColor: "transparent", // iOS
@@ -161,7 +163,7 @@ export default function TopUpScreen() {
       ),
       headerRight: () => <NotificationIcon />,
     });
-  }, [navigation, router]);
+  }, [navigation, router, backroundTopNav]);
 
   const paymentTypes = [
     { id: 1, name: "Paystack", value: "paystack", Icon: PaystackSvg },

@@ -28,6 +28,7 @@ import {
   SelectTrigger,
 } from "@/components/ui/select";
 import { useToast } from "@/components/ui/toast";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import {
   useAuthenticatedPatch,
   useAuthenticatedPost,
@@ -81,6 +82,7 @@ export default function UserProfileSetup() {
   // const router = useRouter();
   const phoneInputRef = useRef<any>(null);
   const [pickedImage, setPickedImage] = useState<string | null>(null);
+  const backroundTopNav = useThemeColor({}, "background");
   console.log("🚀 ~ UserProfileSetup ~ pickedImage:", pickedImage);
   const [showModal, setShowModal] = useState(false);
   const [phone, setPhone] = useState("");
@@ -176,7 +178,7 @@ export default function UserProfileSetup() {
       headerTitleStyle: { fontSize: 20 }, // Increased font size
       headerShadowVisible: false,
       headerStyle: {
-        backgroundColor: "#FFFFFF",
+        backgroundColor: backroundTopNav,
         elevation: 0, // Android
         shadowOpacity: 0, // iOS
         shadowColor: "transparent", // iOS
@@ -216,7 +218,7 @@ export default function UserProfileSetup() {
       ),
       headerRight: () => <NotificationIcon />,
     });
-  }, [navigation]);
+  }, [navigation, backroundTopNav]);
   // Keyboard visibility tracking was unused; removed to avoid warnings
   const showNewToast = ({
     title,
@@ -344,7 +346,8 @@ export default function UserProfileSetup() {
   const insets = useSafeAreaInsets();
   return (
     <KeyboardAvoidingView
-      className="flex-1 bg-white"
+      style={{ backgroundColor: backroundTopNav }}
+      className="flex-1"
       behavior={"padding"}
       keyboardVerticalOffset={insets.top}
     >

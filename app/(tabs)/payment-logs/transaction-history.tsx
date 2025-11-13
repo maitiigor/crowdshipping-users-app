@@ -8,6 +8,7 @@ import { HStack } from "@/components/ui/hstack";
 import { Icon } from "@/components/ui/icon";
 import { Menu, MenuItem, MenuItemLabel } from "@/components/ui/menu";
 import { Skeleton, SkeletonText } from "@/components/ui/skeleton";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { useAuthenticatedQuery } from "@/lib/api";
 import { IWalletRequestResponse } from "@/types/IWalletRequest";
 import dayjs from "dayjs";
@@ -27,6 +28,7 @@ dayjs.extend(relativeTime);
 export default function TransactionHistoryScreen() {
   const navigation = useNavigation();
   const router = useRouter();
+  const backroundTopNav = useThemeColor({}, "background");
   const [selectedFilter, setSelectedFilter] = useState<string>("");
 
   // Build fetchOptions conditionally
@@ -57,7 +59,7 @@ export default function TransactionHistoryScreen() {
       headerTitleStyle: { fontSize: 20 }, // Increased font size
       headerShadowVisible: false,
       headerStyle: {
-        backgroundColor: "#FFFFFF",
+        backgroundColor: backroundTopNav,
         elevation: 0, // Android
         shadowOpacity: 0, // iOS
         shadowColor: "transparent", // iOS
@@ -98,7 +100,7 @@ export default function TransactionHistoryScreen() {
       ),
       headerRight: () => <NotificationIcon />,
     });
-  }, [navigation, router]);
+  }, [navigation, router, backroundTopNav]);
 
   return (
     <ThemedView className="flex-1 bg-white p-5">

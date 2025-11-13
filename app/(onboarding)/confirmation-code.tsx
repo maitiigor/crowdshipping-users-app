@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { HStack } from "@/components/ui/hstack";
 import { Icon } from "@/components/ui/icon";
 import { Input, InputField } from "@/components/ui/input";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { Link, useNavigation, useRouter } from "expo-router";
 import { Formik } from "formik";
 import { ChevronLeft } from "lucide-react-native";
@@ -32,6 +33,7 @@ export default function ConfirmationCode() {
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
   const [secondsLeft, setSecondsLeft] = useState(20); // countdown state
   const [showModal, setShowModal] = useState(false);
+  const backroundTopNav = useThemeColor({}, "background");
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
@@ -46,7 +48,7 @@ export default function ConfirmationCode() {
       headerTitleStyle: { fontSize: 20 }, // Increased font size
       headerShadowVisible: false,
       headerStyle: {
-        backgroundColor: "#FFFFFF",
+        backgroundColor: backroundTopNav,
         elevation: 0, // Android
         shadowOpacity: 0, // iOS
         shadowColor: "transparent", // iOS
@@ -125,7 +127,8 @@ export default function ConfirmationCode() {
 
   return (
     <KeyboardAvoidingView
-      className="flex-1 bg-white"
+      className="flex-1"
+      style={{ backgroundColor: backroundTopNav }}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       keyboardVerticalOffset={insets.top}
     >
@@ -256,6 +259,7 @@ export default function ConfirmationCode() {
         className="absolute left-0 right-0 px-5"
         style={{
           bottom: isKeyboardVisible === true ? 0 : 30,
+          backgroundColor: backroundTopNav,
         }}
       >
         <ThemedText

@@ -47,6 +47,7 @@ import {
 } from "lucide-react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as Yup from "yup";
+import { useThemeColor } from "@/hooks/useThemeColor";
 
 // MenuItem type removed (unused)
 const productCategoryList = [
@@ -167,6 +168,7 @@ export default function AddPackageScreen() {
     useState<AddressSelection | null>(null);
   const [selectedDropOffAddress, setSelectedDropOffAddress] =
     useState<AddressSelection | null>(null);
+  const backroundTopNav = useThemeColor({}, "background");
   const [packageImages, setPackageImages] = useState<string[]>([""]);
   const [receiverPhoneValue, setReceiverPhoneValue] = useState("");
   const [alternativePhoneValue, setAlternativePhoneValue] = useState("");
@@ -224,7 +226,7 @@ export default function AddPackageScreen() {
       headerTitleStyle: { fontSize: 20 },
       headerShadowVisible: false,
       headerStyle: {
-        backgroundColor: "#FFFFFF",
+        backgroundColor: backroundTopNav,
         elevation: 0,
         shadowOpacity: 0,
         shadowColor: "transparent",
@@ -265,7 +267,7 @@ export default function AddPackageScreen() {
       ),
       headerRight: () => <NotificationIcon />,
     });
-  }, [navigation]);
+  }, [navigation, backroundTopNav]);
 
   const showNewToast = ({
     title,
@@ -422,7 +424,7 @@ export default function AddPackageScreen() {
       headerTitleStyle: { fontSize: 20 }, // Increased font size
       headerShadowVisible: false,
       headerStyle: {
-        backgroundColor: "#FFFFFF",
+        backgroundColor: backroundTopNav,
         elevation: 0, // Android
         shadowOpacity: 0, // iOS
         shadowColor: "transparent", // iOS

@@ -57,6 +57,7 @@ import {
 } from "lucide-react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as Yup from "yup";
+import { useThemeColor } from "@/hooks/useThemeColor";
 
 // MenuItem type removed (unused)
 const productCategoryList = [
@@ -233,7 +234,7 @@ export default function EditPackageScreen() {
   const [alternativePhoneValue, setAlternativePhoneValue] = useState("");
   const insets = useSafeAreaInsets();
   const { tripId, tripTypeId } = useLocalSearchParams();
-
+  const backroundTopNav = useThemeColor({}, "background");
   console.log("🚀 ~ EditPackageScreen ~ tripId:", tripId);
   const { data, isLoading, refetch } = useAuthenticatedQuery<
     IPickupTripDetailsResponse | undefined
@@ -374,7 +375,7 @@ export default function EditPackageScreen() {
       headerTitleStyle: { fontSize: 20 },
       headerShadowVisible: false,
       headerStyle: {
-        backgroundColor: "#FFFFFF",
+        backgroundColor: backroundTopNav,
         elevation: 0,
         shadowOpacity: 0,
         shadowColor: "transparent",
@@ -415,7 +416,7 @@ export default function EditPackageScreen() {
       ),
       headerRight: () => <NotificationIcon />,
     });
-  }, [navigation]);
+  }, [navigation,  backroundTopNav]);
 
   const showNewToast = ({
     title,
@@ -538,7 +539,7 @@ export default function EditPackageScreen() {
           productDescription: pkg.productDescription,
         })),
       };
-      console.log("🚀 ~ handleFormSubmit ~ payload:", payload)
+      console.log("🚀 ~ handleFormSubmit ~ payload:", payload);
       const response = await mutateAsync(payload);
       console.log("🚀 ~ handleFormSubmit ~ response:", response?.data.amount);
       showNewToast({
@@ -555,7 +556,7 @@ export default function EditPackageScreen() {
       } catch (refreshError) {
         console.log("🚀 ~ handleFormSubmit ~ refetch error:", refreshError);
       }
-      
+
       router.replace({
         pathname: "/(tabs)/package-summary",
         params: {

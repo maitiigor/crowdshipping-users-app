@@ -47,6 +47,7 @@ import {
 } from "lucide-react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as Yup from "yup";
+import { useThemeColor } from "@/hooks/useThemeColor";
 
 type ProductUnit = "kg" | "lb" | "mcg" | "mg" | "g" | "oz" | "t" | "mt";
 
@@ -134,11 +135,13 @@ export default function AddSeaMaritimePackageScreen() {
   const toast = useToast();
   const receiverPhoneInputRef = useRef<any>(null);
   const alternativePhoneInputRef = useRef<any>(null);
+  const backroundTopNav = useThemeColor({}, "background");
   const [packageImages, setPackageImages] = useState<string[]>([""]);
   const [receiverPhoneValue, setReceiverPhoneValue] = useState("");
   const [alternativePhoneValue, setAlternativePhoneValue] = useState("");
   const insets = useSafeAreaInsets();
-  const { tripId, entityType, pickupLat, pickupLng, pickupAddress } = useLocalSearchParams();
+  const { tripId, entityType, pickupLat, pickupLng, pickupAddress } =
+    useLocalSearchParams();
   const entitityTypeStr = paramToString(entityType ?? "air");
 
   const fallbackTripId = "";
@@ -196,7 +199,7 @@ export default function AddSeaMaritimePackageScreen() {
       headerTitleStyle: { fontSize: 20 },
       headerShadowVisible: false,
       headerStyle: {
-        backgroundColor: "#FFFFFF",
+        backgroundColor: backroundTopNav,
         elevation: 0,
         shadowOpacity: 0,
         shadowColor: "transparent",
@@ -237,7 +240,7 @@ export default function AddSeaMaritimePackageScreen() {
       ),
       headerRight: () => <NotificationIcon />,
     });
-  }, [navigation, entitityTypeStr]);
+  }, [navigation, entitityTypeStr, backroundTopNav]);
 
   const showNewToast = ({
     title,

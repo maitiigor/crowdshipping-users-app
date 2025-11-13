@@ -28,6 +28,7 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as Yup from "yup";
 import { loginWithSocials } from "./login";
+import { useThemeColor } from "@/hooks/useThemeColor";
 const validationSchema = Yup.object().shape({
   password: Yup.string()
     .min(6, "Password must be at least 6 characters")
@@ -43,6 +44,7 @@ export default function Signup() {
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
   const { token, email } = useLocalSearchParams();
   const toast = useToast();
+  const backroundTopNav = useThemeColor({}, "background");
   const { mutateAsync, error, loading } = usePatch<
     any,
     {
@@ -73,7 +75,7 @@ export default function Signup() {
       headerTitleStyle: { fontSize: 20 }, // Increased font size
       headerShadowVisible: false,
       headerStyle: {
-        backgroundColor: "#FFFFFF",
+        backgroundColor: backroundTopNav,
         elevation: 0, // Android
         shadowOpacity: 0, // iOS
         shadowColor: "transparent", // iOS
@@ -112,7 +114,7 @@ export default function Signup() {
         </ThemedView>
       ),
     });
-  }, [navigation]);
+  }, [navigation, backroundTopNav]);
   useEffect(() => {
     const showEvent =
       Platform.OS === "ios" ? "keyboardWillShow" : "keyboardDidShow";
@@ -335,6 +337,7 @@ export default function Signup() {
         className="absolute left-0 bg-white right-0 px-5"
         style={{
           bottom: isKeyboardVisible === true ? 0 : 0,
+          backgroundColor: backroundTopNav,
         }}
       >
         <ThemedText

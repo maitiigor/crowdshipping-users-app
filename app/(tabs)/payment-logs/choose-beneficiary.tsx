@@ -7,7 +7,8 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { Icon } from "@/components/ui/icon";
 import { Image } from "@/components/ui/image";
-import { ChevronLeft, ChevronRight, Dot, PlusCircle } from "lucide-react-native";
+import { ChevronLeft, ChevronRight, PlusCircle } from "lucide-react-native";
+import { useThemeColor } from "@/hooks/useThemeColor";
 
 const filterList = [
   {
@@ -30,6 +31,7 @@ const filterList = [
 export default function ChooseBeneficiary() {
   const navigation = useNavigation();
   const router = useRouter();
+  const backroundTopNav = useThemeColor({}, "background");
   const [selectedFilter, setSelectedFilter] = useState("all");
   useEffect(() => {
     navigation.setOptions({
@@ -45,7 +47,7 @@ export default function ChooseBeneficiary() {
       headerTitleStyle: { fontSize: 20 }, // Increased font size
       headerShadowVisible: false,
       headerStyle: {
-        backgroundColor: "#FFFFFF",
+        backgroundColor: backroundTopNav,
         elevation: 0, // Android
         shadowOpacity: 0, // iOS
         shadowColor: "transparent", // iOS
@@ -86,7 +88,7 @@ export default function ChooseBeneficiary() {
       ),
       headerRight: () => <NotificationIcon />,
     });
-  }, [navigation, router]);
+  }, [navigation, router, backroundTopNav]);
   return (
     <ThemedView className="flex-1 bg-white pt-3">
       <ThemedView className="flex-1 pb-20 px-2 overflow-hidden">

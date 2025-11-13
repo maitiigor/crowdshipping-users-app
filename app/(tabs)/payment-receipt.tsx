@@ -5,6 +5,7 @@ import { Button, ButtonText } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { Image } from "@/components/ui/image";
 import { Menu, MenuItem, MenuItemLabel } from "@/components/ui/menu";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { useNavigation, useRouter } from "expo-router";
 import { CircleEllipsis, Download, Send, X } from "lucide-react-native";
 import React, { useEffect } from "react";
@@ -13,6 +14,7 @@ import { TouchableOpacity } from "react-native";
 export default function PaymentReceipts() {
   const navigation = useNavigation();
   const router = useRouter();
+  const backroundTopNav = useThemeColor({}, "background");
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
@@ -27,7 +29,7 @@ export default function PaymentReceipts() {
       headerTitleStyle: { fontSize: 20 }, // Increased font size
       headerShadowVisible: false,
       headerStyle: {
-        backgroundColor: "#FFFFFF",
+        backgroundColor: backroundTopNav,
         elevation: 0, // Android
         shadowOpacity: 0, // iOS
         shadowColor: "transparent", // iOS
@@ -99,7 +101,7 @@ export default function PaymentReceipts() {
         </Menu>
       ),
     });
-  }, [navigation]);
+  }, [navigation, router, backroundTopNav]);
   return (
     <>
       <ParallaxScrollView

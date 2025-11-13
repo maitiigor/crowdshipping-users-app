@@ -11,6 +11,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { AddIcon, Icon, RemoveIcon } from "@/components/ui/icon";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { useLocalSearchParams, useNavigation, useRouter } from "expo-router";
 import { ChevronLeft } from "lucide-react-native";
 import React, { useEffect, useState } from "react";
@@ -33,6 +34,7 @@ const filterList = [
 export default function TravelerDetail() {
   const navigation = useNavigation();
   const router = useRouter();
+  const backroundTopNav = useThemeColor({}, "background");
   const { id } = useLocalSearchParams();
   const [selectedFilter, setSelectedFilter] = useState("general");
 
@@ -50,7 +52,7 @@ export default function TravelerDetail() {
       headerTitleStyle: { fontSize: 20 }, // Increased font size
       headerShadowVisible: false,
       headerStyle: {
-        backgroundColor: "#FFFFFF",
+        backgroundColor: backroundTopNav,
         elevation: 0, // Android
         shadowOpacity: 0, // iOS
         shadowColor: "transparent", // iOS
@@ -91,7 +93,7 @@ export default function TravelerDetail() {
       ),
       headerRight: () => <NotificationIcon />,
     });
-  }, [navigation]);
+  }, [navigation, backroundTopNav]);
 
   return (
     <>

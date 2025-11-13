@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/drawer";
 
 import { VStack } from "@/components/ui/vstack";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { clearAuthData } from "@/lib/auth/tokenStorage";
 import { logout } from "@/store/slices/authSlice";
 import { IUserProfileResponse } from "@/types/IUserProfile";
@@ -33,6 +34,7 @@ import {
   NotepadText,
   RotateCw,
   ScrollText,
+  SettingsIcon,
   TrainTrack,
   TruckElectric,
   Wallet,
@@ -54,7 +56,6 @@ interface IProps {
 type MenuItem = {
   icon: React.ElementType;
   name: string;
-  // Use string to allow linking to routes that may be added later without TS errors
   linkTo: string;
 };
 
@@ -115,6 +116,11 @@ const menuList: MenuItem[] = [
     linkTo: "/(tabs)/notifications",
   },
   {
+    icon: SettingsIcon,
+    name: "Settings",
+    linkTo: "/(tabs)/settings",
+  },
+  {
     icon: Gift,
     name: "My Promo",
     linkTo: "/(tabs)/promo",
@@ -130,18 +136,7 @@ const menuList: MenuItem[] = [
     linkTo: "/(onboarding)/privacy-policy",
   },
 ];
-// export const logoutAsync = createAsyncThunk(
-//   "auth/logoutAsync",
-//   async (_, { dispatch }) => {
-//     try {
-//       await api.post("/auth/logout"); // optional server logout
-//     } finally {
-//       // always clear client auth state
-//       dispatch(logout());
-//       localStorage.removeItem("token");
-//     }
-//   }
-// );
+
 export default function CustomSidebarMenu({
   showDrawer,
   setShowDrawer,
@@ -150,16 +145,16 @@ export default function CustomSidebarMenu({
 }: IProps) {
   const router = useRouter();
   const [showLogoutDrawer, setShowLogoutDrawer] = useState(false);
-  // import { usePathname, useSegments } from "expo-router";
   const pathname = usePathname();
   const dispatch = useDispatch();
+  const backgroundColor = useThemeColor({}, "background");
+  const color = useThemeColor({}, "text");
   const handleLogout = async () => {
     try {
       dispatch(logout());
       await clearAuthData();
       router.push("/(onboarding)/login");
     } catch {
-      // show error UI
       console.error("Failed to logout");
     }
   };
@@ -175,7 +170,10 @@ export default function CustomSidebarMenu({
           size="lg"
         >
           <DrawerBackdrop />
-          <DrawerContent className="w-[300px] md:w-[350px]">
+          <DrawerContent
+            style={{ backgroundColor }}
+            className="w-[300px] md:w-[350px] "
+          >
             <DrawerHeader className="justify-start flex-row gap-2 pt-16">
               <Avatar size="lg">
                 <AvatarFallbackText>
@@ -183,8 +181,7 @@ export default function CustomSidebarMenu({
                 </AvatarFallbackText>
                 <AvatarImage
                   source={{
-                    uri:
-                      userProfileData?.data?.profile.profilePicUrl,
+                    uri: userProfileData?.data?.profile.profilePicUrl,
                   }}
                 />
               </Avatar>
@@ -212,7 +209,11 @@ export default function CustomSidebarMenu({
               </ThemedText>
             </Pressable>
 
-            <DrawerBody contentContainerClassName="gap-3">
+            <DrawerBody
+              contentContainerClassName="gap-3"
+              showsVerticalScrollIndicator={false}
+              className="mb-40"
+            >
               {menuList.map((item) => (
                 <Link
                   key={item.name}
@@ -227,6 +228,7 @@ export default function CustomSidebarMenu({
                   >
                     <Icon
                       as={item.icon}
+                      color={color}
                       size="xl"
                       className="text-typography-900"
                     />
@@ -239,10 +241,15 @@ export default function CustomSidebarMenu({
                   </Pressable>
                 </Link>
               ))}
+              {/* Spacer to prevent footer overlap */}
+              <ThemedView className="h-36" />
             </DrawerBody>
-            <DrawerFooter>
+            <DrawerFooter
+              style={{ backgroundColor }}
+              className="absolute bottom-0 left-0 right-0 bg-white py-6"
+            >
               <Button
-                className="w-full gap-2 flex-row items-center justify-start px-5"
+                className="w-full gap-2 flex-row items-center justify-start px-10"
                 variant="link"
                 action="secondary"
                 onPress={() => {
@@ -272,7 +279,9 @@ export default function CustomSidebarMenu({
           }}
         >
           <DrawerBackdrop />
-          <DrawerContent className="rounded-2xl">
+          <DrawerContent
+            style={{ backgroundColor }}
+            className="rounded-2xl">
             <DrawerHeader className="flex justify-center">
               <ThemedText
                 type="h3_header"
@@ -287,7 +296,7 @@ export default function CustomSidebarMenu({
               </ThemedText>
             </DrawerBody>
             <DrawerFooter>
-              <ThemedView className=" pt-5 pb-10 bg-white left-0 right-0 px-5 flex-row justify-center items-center gap-3">
+              <ThemedView className="pt-5 pb-10 bg-white left-0 right-0 px-5 flex-row justify-center items-center gap-3">
                 <Button
                   variant="outline"
                   size="2xl"
@@ -298,7 +307,7 @@ export default function CustomSidebarMenu({
                 >
                   <ThemedText
                     type="s2_subtitle"
-                    className="text-primary-500 text-center "
+                    className="text-primary-500 text-center"
                   >
                     Cancel
                   </ThemedText>

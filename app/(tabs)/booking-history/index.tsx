@@ -2,6 +2,7 @@ import { useNavigation, useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { FlatList, TouchableOpacity, View } from "react-native";
 
+import { EmptyState } from "@/components/Custom/EmptyState";
 import NotificationIcon from "@/components/Custom/NotificationIcon";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
@@ -15,7 +16,7 @@ import { IBookingHistoryResponse } from "@/types/IBookingHistory";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { Book, ChevronLeft, ChevronRight, Dot } from "lucide-react-native";
-import { EmptyState } from "@/components/Custom/EmptyState";
+import { useThemeColor } from "@/hooks/useThemeColor";
 
 // dayjs fromNow plugin
 dayjs.extend(relativeTime);
@@ -46,7 +47,7 @@ export default function BookingHistoryScreen() {
   const navigation = useNavigation();
   const router = useRouter();
   const [selectedFilter, setSelectedFilter] = useState("all");
-
+  const backroundTopNav = useThemeColor({}, "background");
   // Build fetchOptions conditionally
   const fetchOptions = selectedFilter
     ? { query: { booking_status: selectedFilter.toLowerCase() } }
@@ -76,7 +77,7 @@ export default function BookingHistoryScreen() {
       headerTitleStyle: { fontSize: 20 }, // Increased font size
       headerShadowVisible: false,
       headerStyle: {
-        backgroundColor: "#FFFFFF",
+        backgroundColor: backroundTopNav,
         elevation: 0, // Android
         shadowOpacity: 0, // iOS
         shadowColor: "transparent", // iOS
@@ -117,7 +118,7 @@ export default function BookingHistoryScreen() {
       ),
       headerRight: () => <NotificationIcon />,
     });
-  }, [navigation, router]);
+  }, [navigation, router, backroundTopNav]);
   return (
     <ThemedView className="flex-1 bg-white pt-3">
       <ThemedView className="flex-1 pb-20 px-[18px] overflow-hidden">

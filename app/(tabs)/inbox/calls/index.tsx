@@ -12,9 +12,11 @@ import {
 } from "@/components/ui/avatar";
 import { Icon } from "@/components/ui/icon";
 import { ChevronLeft, Phone, PhoneIncoming } from "lucide-react-native";
+import { useThemeColor } from "@/hooks/useThemeColor";
 
 export default function CallScreen() {
   const navigation = useNavigation();
+  const backroundTopNav = useThemeColor({}, "background");
   const router = useRouter();
   const [selectedFilter, setSelectedFilter] = useState("all");
   const filterList = [
@@ -31,7 +33,7 @@ export default function CallScreen() {
       label: "Calls",
       value: "calls",
       onPress: () => {
-       return
+        return;
       },
     },
   ];
@@ -49,7 +51,7 @@ export default function CallScreen() {
       headerTitleStyle: { fontSize: 20 }, // Increased font size
       headerShadowVisible: false,
       headerStyle: {
-        backgroundColor: "#FFFFFF",
+        backgroundColor: backroundTopNav,
         elevation: 0, // Android
         shadowOpacity: 0, // iOS
         shadowColor: "transparent", // iOS
@@ -98,7 +100,7 @@ export default function CallScreen() {
       setSelectedFilter("calls");
     });
     return unsubscribe;
-  }, [navigation]);
+  }, [navigation, router, backroundTopNav]);
   return (
     <ThemedView className="flex-1 bg-white pt-3">
       <ThemedView className="flex-1 pb-20 px-[18px] overflow-hidden">

@@ -44,6 +44,7 @@ import {
 } from "lucide-react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as Yup from "yup";
+import { useThemeColor } from "@/hooks/useThemeColor";
 // MenuItem type removed (unused)
 const waterTransportTypes = [
   { label: "Container ships", value: "container ships" },
@@ -64,6 +65,7 @@ const airTransportTypes = [
 export default function AirSeaDeliveryScreen() {
   const navigation = useNavigation();
   const router = useRouter();
+  const backroundTopNav = useThemeColor({}, "background");
   const { activeTripType, tripId } = useLocalSearchParams();
   console.log("🚀 ~ AirSeaDeliveryScreen ~ tripTypeId:", tripId);
   const [showDrawer, setShowDrawer] = useState(false);
@@ -154,7 +156,7 @@ export default function AirSeaDeliveryScreen() {
       headerTitleStyle: { fontSize: 20 }, // Increased font size
       headerShadowVisible: false,
       headerStyle: {
-        backgroundColor: "#FFFFFF",
+        backgroundColor: backroundTopNav,
         elevation: 0, // Android
         shadowOpacity: 0, // iOS
         shadowColor: "transparent", // iOS
@@ -195,7 +197,7 @@ export default function AirSeaDeliveryScreen() {
       ),
       headerRight: () => <NotificationIcon />,
     });
-  }, [navigation]);
+  }, [navigation, router, backroundTopNav]);
 
   // get distance function
   const getDistance = async (
@@ -619,7 +621,7 @@ export default function AirSeaDeliveryScreen() {
                       {loading ? (
                         <ActivityIndicator color="white" />
                       ) : (
-                        "Continue"  
+                        "Continue"
                       )}
                     </ThemedText>
                   </Button>

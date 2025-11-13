@@ -5,6 +5,7 @@ import { ThemedView } from "@/components/ThemedView";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { useAuthenticatedQuery } from "@/lib/api";
 import { ISingleAirTripResponse } from "@/types/air-sea/IAirTrip";
 import { ISingleSeaMaritimeResponse } from "@/types/air-sea/ISeaMaritime";
@@ -17,6 +18,7 @@ import { TouchableOpacity } from "react-native";
 export default function TravelerDetail() {
   const navigation = useNavigation();
   const router = useRouter();
+  const backroundTopNav = useThemeColor({}, "background");
   const { activeTripType, tripId } = useLocalSearchParams();
   const tripIdStr = paramToString(tripId);
   const activeTripTypeStr = paramToString(activeTripType);
@@ -62,7 +64,7 @@ export default function TravelerDetail() {
       headerTitleStyle: { fontSize: 20 }, // Increased font size
       headerShadowVisible: false,
       headerStyle: {
-        backgroundColor: "#FFFFFF",
+        backgroundColor: backroundTopNav,
         elevation: 0, // Android
         shadowOpacity: 0, // iOS
         shadowColor: "transparent", // iOS
@@ -103,7 +105,7 @@ export default function TravelerDetail() {
       ),
       headerRight: () => <NotificationIcon />,
     });
-  }, [navigation]);
+  }, [navigation, backroundTopNav]);
 
   const airTrip = airTripData?.data;
   const maritimeTrip = maritimeData?.data;

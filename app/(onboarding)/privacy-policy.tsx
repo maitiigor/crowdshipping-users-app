@@ -3,7 +3,7 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
-import Entypo from "@expo/vector-icons/Entypo";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { useNavigation } from "expo-router";
 import { ChevronLeft } from "lucide-react-native";
 import React, { useEffect } from "react";
@@ -11,6 +11,7 @@ import { TouchableOpacity } from "react-native";
 
 export default function PrivacyPolicy() {
   const navigation = useNavigation();
+  const backroundTopNav = useThemeColor({}, "background");
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
@@ -25,7 +26,7 @@ export default function PrivacyPolicy() {
       headerTitleStyle: { fontSize: 20 }, // Increased font size
       headerShadowVisible: false,
       headerStyle: {
-        backgroundColor: "#FFFFFF",
+        backgroundColor: backroundTopNav,
         elevation: 0, // Android
         shadowOpacity: 0, // iOS
         shadowColor: "transparent", // iOS
@@ -64,7 +65,7 @@ export default function PrivacyPolicy() {
         </ThemedView>
       ),
     });
-  }, [navigation]);
+  }, [navigation, backroundTopNav]);
   return (
     <>
       <ParallaxScrollView
