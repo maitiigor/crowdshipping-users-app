@@ -331,11 +331,7 @@ export default function HomeScreen() {
           className="shadow"
           style={{ paddingHorizontal: 0 }}
         >
-          <Feather
-            name="menu"
-            size={24}
-            color={'' + colorNav}
-          />
+          <Feather name="menu" size={24} color={"" + colorNav} />
         </TouchableOpacity>
       ),
       headerRight: () => (
@@ -427,7 +423,7 @@ export default function HomeScreen() {
           <View className="py-3 flex-1">
             <ThemedView className={`gap-3 flex-1 ${snap === 1 ? "mt-10" : ""}`}>
               {/* Header Skeleton */}
-              <ThemedView className="flex-row justify-between items-center px-4 pb-2">
+              <ThemedView className="flex-row justify-between items-center px-2 pb-2">
                 <ThemedView className="flex-1">
                   <SkeletonText _lines={1} className="h-4 w-32 mb-1" />
                   <SkeletonText _lines={1} className="h-2 w-40" />
@@ -507,7 +503,7 @@ export default function HomeScreen() {
           snap={snap}
         >
           <View className="py-3 flex-1">
-            <ThemedView className={`gap-3 flex-1 ${snap === 1 ? "mt-10" : ""}`}>
+            <ThemedView className={`gap-3 flex-1 ${snap === 1 ? "my-10" : ""}`}>
               {/* Header with refresh button */}
               <ThemedView className="flex-row justify-between items-center px-4 pb-2">
                 <ThemedView>
@@ -606,8 +602,10 @@ export default function HomeScreen() {
                       </ThemedView>
                       {(() => {
                         const isDisabled =
-                          item.status === "DELIVERED" ||
-                          item.status === "IN_PROGRESS";
+                          (item.status === "DELIVERED" ||
+                            item.status === "IN_PROGRESS") &&
+                          item.fleetType?.toLowerCase() === "road";
+
                         return (
                           <Pressable
                             disabled={isDisabled}
@@ -645,8 +643,8 @@ export default function HomeScreen() {
                         borderRadius: 12,
                         marginTop: 8,
                         opacity:
-                          item.status === "DELIVERED" ||
-                          item.status === "IN_PROGRESS"
+                           (item.status === "DELIVERED" ||
+                          item.status === "IN_PROGRESS") && item.fleetType?.toLowerCase() === "road"
                             ? 0.5
                             : 1,
                       }}
@@ -697,9 +695,11 @@ export default function HomeScreen() {
                 size="2xl"
                 className="mt-5 rounded-[12px]"
               >
-                  <ThemedText
-                    style={{ color: "white" }}
-                    type="s1_subtitle" className="text-white">
+                <ThemedText
+                  style={{ color: "white" }}
+                  type="s1_subtitle"
+                  className="text-white"
+                >
                   Close
                 </ThemedText>
               </Button>

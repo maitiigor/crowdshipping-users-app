@@ -179,7 +179,11 @@ export default function CancelBookingModal({
                     {/* clear button */}
                   </Textarea>
                   {errors.reason && touched.reason && (
-                    <ThemedText type="b4_body" className="text-error-500">
+                    <ThemedText
+                      lightColor="#FF3B30"
+                      type="b4_body"
+                      className="text-error-500"
+                    >
                       {String(errors.reason)}
                     </ThemedText>
                   )}
@@ -191,7 +195,12 @@ export default function CancelBookingModal({
                   onPress={() => handleSubmit()}
                   className="mt-5 rounded-[12px]"
                 >
-                  <ThemedText type="s1_subtitle" className="text-white">
+                  <ThemedText
+                    lightColor="#FFFFFF"
+                    darkColor="#FFFFFF"
+                    type="s1_subtitle"
+                    className="text-white"
+                  >
                     {loading ? (
                       <ActivityIndicator color="white" />
                     ) : (

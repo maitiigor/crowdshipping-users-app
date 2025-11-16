@@ -264,8 +264,8 @@ export default function ClaimsScreen() {
                           type="c1_caption"
                           className={`  p-2 rounded-lg text-right ${
                             item.status === "pending"
-                              ? "text-primary-500 bg-primary-50"
-                              : "text-green-500 bg-green-50"
+                              ? "text-primary-500 border border-primary-50"
+                              : "text-green-500 border border-green-50"
                           }`}
                         >
                           {item.status === "pending"
@@ -353,6 +353,8 @@ export default function ClaimsScreen() {
                             >
                               <ThemedText
                                 type="s2_subtitle"
+                                lightColor="#FFFFFF"
+                                darkColor="#FFFFFF"
                                 className={` text-center text-white`}
                               >
                                 Details
@@ -379,7 +381,12 @@ export default function ClaimsScreen() {
           }}
           className="flex-1 rounded-[12px] mx-1"
         >
-          <ThemedText type="s2_subtitle" className="text-white text-center">
+          <ThemedText
+            lightColor="#FFFFFF"
+            darkColor="#FFFFFF"
+            type="s2_subtitle"
+            className="text-white text-center"
+          >
             Add New
           </ThemedText>
         </Button>

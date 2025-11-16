@@ -35,6 +35,7 @@ dayjs.extend(relativeTime);
 export default function TripDelivery() {
   const navigation = useNavigation();
   const backroundTopNav = useThemeColor({}, "background");
+  const color = useThemeColor({}, "text");
   const router = useRouter();
   const { tripTypeId } = useLocalSearchParams();
   console.log("🚀 ~ TripDelivery ~ tripTypeId:", tripTypeId);
@@ -59,7 +60,6 @@ export default function TripDelivery() {
     ["trips-maritime", activeTripType === 3],
     "/trip/available/maritimes"
   );
-  console.log("🚀 ~ TripDelivery ~ tripTypeId:", tripTypeId);
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
@@ -173,10 +173,13 @@ export default function TripDelivery() {
                     <SvgIcon
                       width={36}
                       height={36}
-                      color={active ? "#fff" : "#131927"}
+                      color={active ? "#fff" : color}
                     />
                     <ThemedText
                       type="b2_body"
+                      style={{
+                        color: active ? "#fff" : color,
+                      }}
                       className={`mt-2 ${
                         active ? "text-white" : "text-typography-900"
                       }`}
@@ -336,6 +339,8 @@ export default function TripDelivery() {
                       >
                         <ThemedText
                           type="s2_subtitle"
+                          lightColor="#FFFFFF"
+                          darkColor="#FFFFFF"
                           className="text-white text-center"
                         >
                           Bid in Space

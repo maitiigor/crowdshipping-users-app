@@ -395,7 +395,7 @@ export default function UserProfileSetup() {
                       />
                     </Input>
                     {errors.firstName && touched.firstName && (
-                      <ThemedText type="b4_body" className="text-error-500">
+                      <ThemedText lightColor="#FF3B30" type="b4_body" className="text-error-500">
                         {errors.firstName}
                       </ThemedText>
                     )}
@@ -419,7 +419,7 @@ export default function UserProfileSetup() {
                       />
                     </Input>
                     {errors.lastName && touched.lastName && (
-                      <ThemedText type="b4_body" className="text-error-500">
+                      <ThemedText lightColor="#FF3B30" type="b4_body" className="text-error-500">
                         {errors.lastName}
                       </ThemedText>
                     )}
@@ -452,7 +452,7 @@ export default function UserProfileSetup() {
                     }}
                   />
                   {errors.phoneNumber && touched.phoneNumber && (
-                    <ThemedText type="b4_body" className="text-error-500">
+                    <ThemedText lightColor="#FF3B30" type="b4_body" className="text-error-500">
                       {errors.phoneNumber}
                     </ThemedText>
                   )}
@@ -485,7 +485,7 @@ export default function UserProfileSetup() {
                     />
                   </Input>
                   {errors.state && touched.state && (
-                    <ThemedText type="b4_body" className="text-error-500 mb-4">
+                    <ThemedText lightColor="#FF3B30" type="b4_body" className="text-error-500 mb-4">
                       {errors.state}
                     </ThemedText>
                   )}
@@ -509,7 +509,7 @@ export default function UserProfileSetup() {
                     />
                   </Input>
                   {errors.city && touched.city && (
-                    <ThemedText type="b4_body" className="text-error-500">
+                    <ThemedText lightColor="#FF3B30" type="b4_body" className="text-error-500">
                       {errors.city}
                     </ThemedText>
                   )}
@@ -544,7 +544,7 @@ export default function UserProfileSetup() {
                     </SelectPortal>
                   </Select>
                   {errors.gender && touched.gender && (
-                    <ThemedText type="b4_body" className="text-error-500 mb-4">
+                    <ThemedText lightColor="#FF3B30" type="b4_body" className="text-error-500 mb-4">
                       {errors.gender}
                     </ThemedText>
                   )}
@@ -557,7 +557,7 @@ export default function UserProfileSetup() {
                     onChange={(d) => setFieldValue("dob", d)}
                   />
                   {errors.dob && touched.dob && (
-                    <ThemedText type="b4_body" className="text-error-500">
+                    <ThemedText lightColor="#FF3B30" type="b4_body" className="text-error-500">
                       {String(errors.dob)}
                     </ThemedText>
                   )}

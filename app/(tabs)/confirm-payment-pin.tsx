@@ -442,6 +442,7 @@ export default function ConfirmPaymentPin() {
                       {touched.code && errors.code && (
                         <ThemedText
                           type="b4_body"
+                          lightColor="#FF3B30"
                           className="text-error-500 mb-4"
                         >
                           {Array.isArray(errors.code)

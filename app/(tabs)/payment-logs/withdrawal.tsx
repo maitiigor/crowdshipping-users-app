@@ -291,6 +291,7 @@ export default function WithdrawalScreen() {
                     {errors.amount && touched.amount && (
                       <ThemedText
                         type="b4_body"
+                        lightColor="#FF3B30"
                         className="text-error-500 mb-4"
                       >
                         {errors.amount}
@@ -422,6 +423,7 @@ export default function WithdrawalScreen() {
                       {errors.accountNumber && touched.accountNumber && (
                         <ThemedText
                           type="b4_body"
+                          lightColor="#FF3B30"
                           className="text-error-500 mb-4"
                         >
                           {errors.accountNumber}
@@ -454,6 +456,7 @@ export default function WithdrawalScreen() {
                       {errors.accountName && touched.accountName && (
                         <ThemedText
                           type="b4_body"
+                          lightColor="#FF3B30"
                           className="text-error-500 mb-4"
                         >
                           {errors.accountName}
@@ -481,7 +484,10 @@ export default function WithdrawalScreen() {
                     className="mt-5 rounded-[12px]"
                     onPress={() => handleSubmit()}
                   >
-                    <ThemedText type="s1_subtitle" className="text-white">
+                    <ThemedText
+                      lightColor="#FFFFFF"
+                      darkColor="#FFFFFF"
+                      type="s1_subtitle" className="text-white">
                       {loading ? (
                         <ActivityIndicator color="white" />
                       ) : (

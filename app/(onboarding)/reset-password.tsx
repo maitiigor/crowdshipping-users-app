@@ -263,7 +263,7 @@ export default function Signup() {
                     </InputSlot>
                   </Input>
                   {errors.password && touched.password && (
-                    <ThemedText type="b4_body" className="text-error-500 mb-4">
+                    <ThemedText lightColor="#FF3B30" type="b4_body" className="text-error-500 mb-4">
                       {errors.password}
                     </ThemedText>
                   )}
@@ -291,7 +291,7 @@ export default function Signup() {
                     </InputSlot>
                   </Input>
                   {errors.confirmPassword && touched.confirmPassword && (
-                    <ThemedText type="b4_body" className="text-error-500 mb-4">
+                    <ThemedText lightColor="#FF3B30" type="b4_body" className="text-error-500 mb-4">
                       {errors.confirmPassword}
                     </ThemedText>
                   )}

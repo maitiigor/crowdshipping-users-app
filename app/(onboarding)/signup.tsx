@@ -312,7 +312,7 @@ export default function Signup() {
                     </Input>
                     {errors.firstName && touched.firstName && (
                       <ThemedText
-                        type="b4_body"
+                        lightColor="#FF3B30" type="b4_body"
                         className="text-error-500 mb-4"
                       >
                         {errors.firstName}
@@ -341,7 +341,7 @@ export default function Signup() {
                     </Input>
                     {errors.lastName && touched.lastName && (
                       <ThemedText
-                        type="b4_body"
+                        lightColor="#FF3B30" type="b4_body"
                         className="text-error-500 mb-4"
                       >
                         {errors.lastName}
@@ -368,7 +368,7 @@ export default function Signup() {
                     />
                   </Input>
                   {errors.email && touched.email && (
-                    <ThemedText type="b4_body" className="text-error-500 mb-4">
+                    <ThemedText lightColor="#FF3B30" type="b4_body" className="text-error-500 mb-4">
                       {errors.email}
                     </ThemedText>
                   )}
@@ -381,7 +381,7 @@ export default function Signup() {
                     onChangeFormattedText={(text: string) => setPhone(text)}
                   />
                   {errors.phoneNumber && touched.phoneNumber && (
-                    <ThemedText type="b4_body" className="text-error-500 mb-4">
+                    <ThemedText lightColor="#FF3B30" type="b4_body" className="text-error-500 mb-4">
                       {errors.phoneNumber}
                     </ThemedText>
                   )}
@@ -408,7 +408,7 @@ export default function Signup() {
                     </InputSlot>
                   </Input>
                   {errors.password && touched.password && (
-                    <ThemedText type="b4_body" className="text-error-500 mb-4">
+                    <ThemedText lightColor="#FF3B30" type="b4_body" className="text-error-500 mb-4">
                       {errors.password}
                     </ThemedText>
                   )}
@@ -436,7 +436,7 @@ export default function Signup() {
                     </InputSlot>
                   </Input>
                   {errors.confirmPassword && touched.confirmPassword && (
-                    <ThemedText type="b4_body" className="text-error-500 mb-4">
+                    <ThemedText lightColor="#FF3B30" type="b4_body" className="text-error-500 mb-4">
                       {errors.confirmPassword}
                     </ThemedText>
                   )}

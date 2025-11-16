@@ -488,7 +488,12 @@ export default function BookingDetailScreen() {
             }}
             className="flex-1 rounded-[12px] mx-1"
           >
-            <ThemedText type="s2_subtitle" className="text-white text-center">
+            <ThemedText
+              lightColor="#FFFFFF"
+              darkColor="#FFFFFF"
+              type="s2_subtitle"
+              className="text-white text-center"
+            >
               Cancel Booking
             </ThemedText>
           </Button>

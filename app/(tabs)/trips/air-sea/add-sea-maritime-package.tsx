@@ -451,7 +451,7 @@ export default function AddSeaMaritimePackageScreen() {
                     </Select>
                     {errors.bookingType &&
                       (touched.bookingType || submitCount > 0) && (
-                        <ThemedText type="b4_body" className="text-error-500">
+                        <ThemedText lightColor="#FF3B30" type="b4_body" className="text-error-500">
                           {errors.bookingType}
                         </ThemedText>
                       )}
@@ -468,7 +468,7 @@ export default function AddSeaMaritimePackageScreen() {
                       />
                       {errors.scheduleDate &&
                         (touched.scheduleDate || submitCount > 0) && (
-                          <ThemedText type="b4_body" className="text-error-500">
+                          <ThemedText lightColor="#FF3B30" type="b4_body" className="text-error-500">
                             {String(errors.scheduleDate)}
                           </ThemedText>
                         )}
@@ -499,7 +499,7 @@ export default function AddSeaMaritimePackageScreen() {
                     </Input>
                     {errors.receiverName &&
                       (touched.receiverName || submitCount > 0) && (
-                        <ThemedText type="b4_body" className="text-error-500">
+                        <ThemedText lightColor="#FF3B30" type="b4_body" className="text-error-500">
                           {errors.receiverName}
                         </ThemedText>
                       )}
@@ -519,7 +519,7 @@ export default function AddSeaMaritimePackageScreen() {
                     />
                     {errors.receiverPhone &&
                       (touched.receiverPhone || submitCount > 0) && (
-                        <ThemedText type="b4_body" className="text-error-500">
+                        <ThemedText lightColor="#FF3B30" type="b4_body" className="text-error-500">
                           {errors.receiverPhone}
                         </ThemedText>
                       )}
@@ -539,7 +539,7 @@ export default function AddSeaMaritimePackageScreen() {
                     />
                     {errors.alternativePhone &&
                       (touched.alternativePhone || submitCount > 0) && (
-                        <ThemedText type="b4_body" className="text-error-500">
+                        <ThemedText lightColor="#FF3B30" type="b4_body" className="text-error-500">
                           {errors.alternativePhone}
                         </ThemedText>
                       )}

@@ -59,6 +59,8 @@ import {
   View,
 } from "react-native";
 import MapView, { Marker, Polyline } from "react-native-maps";
+const dayjs = require("dayjs");
+const durationPlugin = require("dayjs/plugin/duration").default;
 
 const ACTIVE_POLL_INTERVAL_MS = 15000;
 const THROTTLE_INTERVAL_MS = 30000;
@@ -150,6 +152,7 @@ export default function TrackBidOrder() {
       retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
     }
   );
+  console.log("🚀 ~ TrackBidOrder ~ ongoingTripsData:", ongoingTripsData);
   const { mutateAsync, error, loading } = useAuthenticatedPost<
     any,
     {
@@ -261,11 +264,15 @@ export default function TrackBidOrder() {
       case "DELIVERED":
         return "Package Delivered";
       case "PENDING":
-        return "Waiting for Driver";
+        return `Waiting for ${
+          orderData?.fleetType === "road" ? "Driver" : "Pathfinder"
+        }`;
       case "CANCELLED":
         return "Order Cancelled";
       case "GOING_TO_PICKUP":
-        return "Driver is on the way to pick up your package";
+        return `${
+          orderData?.fleetType === "road" ? "Driver" : "Pathfinder"
+        } is on the way to pick up your package`;
       case "PICKED_UP":
         return "Package Picked Up";
       case "ARRIVED_DESTINATION":
@@ -515,7 +522,42 @@ export default function TrackBidOrder() {
       });
     }
   };
+  const estimatedDeliveryTime = (() => {
+    const est = Number((orderData as any)?.estimatedDays ?? NaN);
+    if (!Number.isFinite(est)) return "-";
 
+    try {
+      // dynamic require so we don't need to add top-level imports here
+
+      dayjs.extend(durationPlugin);
+
+      const ms = est * 24 * 60 * 60 * 1000;
+      const dur = dayjs.duration(ms);
+      const days = Math.floor(dur.asDays());
+      const hours = dur.hours();
+      const minutes = dur.minutes();
+
+      const parts: string[] = [];
+      if (days) parts.push(`${days}d`);
+      if (hours) parts.push(`${hours}h`);
+      if (!days && !hours) parts.push(`${minutes}m`);
+
+      return parts.join(" ");
+    } catch {
+      // fallback if dayjs or plugin isn't available
+      const totalMinutes = Math.round(est * 24 * 60);
+      const days = Math.floor(totalMinutes / (60 * 24));
+      const hours = Math.floor((totalMinutes - days * 24 * 60) / 60);
+      const minutes = totalMinutes % 60;
+
+      const parts: string[] = [];
+      if (days) parts.push(`${days}d`);
+      if (hours) parts.push(`${hours}h`);
+      if (!days && !hours) parts.push(`${minutes}m`);
+
+      return parts.join(" ");
+    }
+  })();
   if (isLoadingOngoingTrips) {
     return (
       <ThemedView className="flex-1 bg-white items-center justify-center">
@@ -578,8 +620,21 @@ export default function TrackBidOrder() {
                 latitude: location.coords.coordinates[1],
                 longitude: location.coords.coordinates[0],
               }}
-              title={isLatest ? "Current Driver Location" : "Driver Location"}
-              description={location.coords.address || "Current driver location"}
+              title={
+                isLatest
+                  ? `Current ${
+                      orderData?.fleetType === "road" ? "Driver" : "Pathfinder"
+                    } Location`
+                  : `${
+                      orderData?.fleetType === "road" ? "Driver" : "Pathfinder"
+                    } Location`
+              }
+              description={
+                location.coords.address ||
+                location.coords.coordinates[1].toFixed(4) +
+                  ", " +
+                  location.coords.coordinates[0].toFixed(4)
+              }
               pinColor={isLatest ? undefined : markerPinColor}
               zIndex={isSelected ? 10 : 1}
             >
@@ -695,7 +750,8 @@ export default function TrackBidOrder() {
                 className="mt-5 rounded-[12px]"
               >
                 <ThemedText type="btn_large" className="text-white">
-                  Waiting for Driver...
+                  Waiting for{" "}
+                  {orderData?.fleetType === "road" ? "Driver" : "Pathfinder"}...
                 </ThemedText>
               </Button>
             )}
@@ -752,7 +808,12 @@ export default function TrackBidOrder() {
                       <Link href={"/(tabs)/inbox/chats"}>
                         <Avatar size="lg">
                           <AvatarFallbackText>
-                            {traveller?.fullName || "Driver"}
+                            {traveller?.fullName ||
+                              `${
+                                orderData?.fleetType === "road"
+                                  ? "Driver"
+                                  : "Pathfinder"
+                              }`}
                           </AvatarFallbackText>
                           <AvatarImage
                             source={{
@@ -770,7 +831,10 @@ export default function TrackBidOrder() {
                         >
                           {traveller?.fullName || "Loading..."}
                         </ThemedText>
-                        <ThemedText type="default">⭐ 4.8 (243)</ThemedText>
+                        <ThemedText type="c1_caption">
+                          {orderData?.fleetType}
+                        </ThemedText>
+                        {/* <ThemedText type="default">⭐ 4.8 (243)</ThemedText> */}
                       </ThemedView>
                     </ThemedView>
 
@@ -823,13 +887,13 @@ export default function TrackBidOrder() {
                         </ThemedView>
                         <ThemedView className="flex justify-center items-center">
                           <ThemedText type="b4_body" className="">
-                            2-3 days
+                            {estimatedDeliveryTime}
                           </ThemedText>
                           <ThemedText
                             type="c1_caption"
                             className="text-typography-600 text-center"
                           >
-                            Estimate Time
+                            Estimated Time
                           </ThemedText>
                         </ThemedView>
                       </View>
@@ -845,7 +909,7 @@ export default function TrackBidOrder() {
                         </ThemedView>
                         <ThemedView className="flex justify-center items-center">
                           <ThemedText type="b4_body" className="">
-                            2.4Kg
+                            {(orderData as any)?.weight || "-"} Kg
                           </ThemedText>
                           <ThemedText
                             type="c1_caption"
@@ -951,7 +1015,9 @@ export default function TrackBidOrder() {
                                 }
                               >
                                 {location.coords.address ||
-                                  "Location unavailable"}
+                                  coordinates[i].latitude.toFixed(4) +
+                                    ", " +
+                                    coordinates[i].longitude.toFixed(4)}
                               </ThemedText>
                               <ThemedText
                                 type="c1_caption"
@@ -999,7 +1065,9 @@ export default function TrackBidOrder() {
           <CustomModal
             description={
               rating > 0
-                ? `Thank you, You rated our Driver ${
+                ? `Thank you, You rated our ${
+                    orderData?.fleetType === "road" ? "Driver" : "Pathfinder"
+                  } ${
                     rating === 1
                       ? "one"
                       : rating === 2

@@ -32,6 +32,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea, TextareaInput } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/toast";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { useAuthenticatedPost } from "@/lib/api";
 import { Formik } from "formik";
 import {
@@ -42,7 +43,6 @@ import {
 } from "lucide-react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as Yup from "yup";
-import { useThemeColor } from "@/hooks/useThemeColor";
 
 type ReportFormValues = {
   natureOfClaim: string;
@@ -52,18 +52,35 @@ type ReportFormValues = {
   description: string;
   evidence: string;
 };
+
 const againstCustomerList = [
   {
-    label: "Item not exactly what was described",
-    value: "Item not exactly what was described",
+    label: "Delivery Issues",
+    value: "Delivery Issues",
   },
   {
-    label: "Customer too rude",
-    value: "Customer too rude",
+    label: "Rider/Driver Issues",
+    value: "Rider/Driver Issues",
   },
   {
-    label: "Wrong address",
-    value: "Wrong address",
+    label: "Payment & Charges Issues",
+    value: "Payment & Charges Issues",
+  },
+  {
+    label: "App/Technical Issues",
+    value: "App/Technical Issues",
+  },
+  {
+    label: "Order/Store Issues",
+    value: "Order/Store Issues",
+  },
+  {
+    label: "Account Issues",
+    value: "Account Issues",
+  },
+  {
+    label: "Complaints & Customer Service",
+    value: "Complaints & Customer Service",
   },
   {
     label: "Others",
@@ -362,7 +379,11 @@ export default function AddNewReportScreen() {
                       </SelectPortal>
                     </Select>
                     {errors.natureOfClaim && touched.natureOfClaim && (
-                      <ThemedText type="b4_body" className="text-error-500">
+                      <ThemedText
+                        lightColor="#FF3B30"
+                        type="b4_body"
+                        className="text-error-500"
+                      >
                         {errors.natureOfClaim}
                       </ThemedText>
                     )}
@@ -392,7 +413,11 @@ export default function AddNewReportScreen() {
                         />
                       </Input>
                       {errors.otherOption && touched.otherOption && (
-                        <ThemedText type="b4_body" className="text-error-500">
+                        <ThemedText
+                          lightColor="#FF3B30"
+                          type="b4_body"
+                          className="text-error-500"
+                        >
                           {errors.otherOption}
                         </ThemedText>
                       )}
@@ -420,7 +445,11 @@ export default function AddNewReportScreen() {
                       />
                     </Input>
                     {errors.claimAmount && touched.claimAmount && (
-                      <ThemedText type="b4_body" className="text-error-500">
+                      <ThemedText
+                        lightColor="#FF3B30"
+                        type="b4_body"
+                        className="text-error-500"
+                      >
                         {errors.claimAmount}
                       </ThemedText>
                     )}
@@ -446,7 +475,11 @@ export default function AddNewReportScreen() {
                       />
                     </Input>
                     {errors.trackingId && touched.trackingId && (
-                      <ThemedText type="b4_body" className="text-error-500">
+                      <ThemedText
+                        lightColor="#FF3B30"
+                        type="b4_body"
+                        className="text-error-500"
+                      >
                         {errors.trackingId}
                       </ThemedText>
                     )}
@@ -479,7 +512,11 @@ export default function AddNewReportScreen() {
                       {String(values.description?.length ?? 0)}/500
                     </ThemedText>
                     {errors.description && touched.description && (
-                      <ThemedText type="b4_body" className="text-error-500">
+                      <ThemedText
+                        lightColor="#FF3B30"
+                        type="b4_body"
+                        className="text-error-500"
+                      >
                         {String(errors.description)}
                       </ThemedText>
                     )}
@@ -572,6 +609,8 @@ export default function AddNewReportScreen() {
                     >
                       <ThemedText
                         type="s2_subtitle"
+                        lightColor="#FFFFFF"
+                        darkColor="#FFFFFF"
                         className={` text-center text-white`}
                       >
                         {loading || isUploading ? (

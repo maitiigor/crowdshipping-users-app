@@ -247,7 +247,12 @@ export default function TrackOrderScreen() {
                     className="mt-5 rounded-[12px] flex-1"
                     onPress={() => handleSubmit()}
                   >
-                    <ThemedText type="s1_subtitle" className="text-white">
+                    <ThemedText
+                      type="s1_subtitle"
+                      lightColor="#FFFFFF"
+                      darkColor="#FFFFFF"
+                      className="text-white"
+                    >
                       {loading ? (
                         <ActivityIndicator color="#FFFFFF" />
                       ) : (

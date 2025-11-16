@@ -517,7 +517,7 @@ export default function AddPackageScreen() {
                     </Input>
                     {errors.receiverName &&
                       (touched.receiverName || submitCount > 0) && (
-                        <ThemedText type="b4_body" className="text-error-500">
+                        <ThemedText lightColor="#FF3B30" type="b4_body" className="text-error-500">
                           {errors.receiverName}
                         </ThemedText>
                       )}
@@ -537,7 +537,7 @@ export default function AddPackageScreen() {
                     />
                     {errors.receiverPhone &&
                       (touched.receiverPhone || submitCount > 0) && (
-                        <ThemedText type="b4_body" className="text-error-500">
+                        <ThemedText lightColor="#FF3B30" type="b4_body" className="text-error-500">
                           {errors.receiverPhone}
                         </ThemedText>
                       )}
@@ -557,7 +557,7 @@ export default function AddPackageScreen() {
                     />
                     {errors.alternativePhone &&
                       (touched.alternativePhone || submitCount > 0) && (
-                        <ThemedText type="b4_body" className="text-error-500">
+                        <ThemedText lightColor="#FF3B30" type="b4_body" className="text-error-500">
                           {errors.alternativePhone}
                         </ThemedText>
                       )}
@@ -598,7 +598,7 @@ export default function AddPackageScreen() {
                     </Select>
                     {errors.bookingType &&
                       (touched.bookingType || submitCount > 0) && (
-                        <ThemedText type="b4_body" className="text-error-500">
+                        <ThemedText lightColor="#FF3B30" type="b4_body" className="text-error-500">
                           {errors.bookingType}
                         </ThemedText>
                       )}
@@ -615,7 +615,7 @@ export default function AddPackageScreen() {
                       />
                       {errors.scheduleDate &&
                         (touched.scheduleDate || submitCount > 0) && (
-                          <ThemedText type="b4_body" className="text-error-500">
+                          <ThemedText lightColor="#FF3B30" type="b4_body" className="text-error-500">
                             {String(errors.scheduleDate)}
                           </ThemedText>
                         )}

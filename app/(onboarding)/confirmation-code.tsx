@@ -201,7 +201,11 @@ export default function ConfirmationCode() {
                 </HStack>
 
                 {touched.code && errors.code && (
-                  <ThemedText type="b4_body" className="text-error-500 mb-4">
+                  <ThemedText
+                    lightColor="#FF3B30"
+                    type="b4_body"
+                    className="text-error-500 mb-4"
+                  >
                     {Array.isArray(errors.code)
                       ? "Enter 5 digits"
                       : (errors.code as string)}

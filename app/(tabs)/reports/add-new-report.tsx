@@ -403,7 +403,7 @@ export default function AddNewReportScreen() {
                       </SelectPortal>
                     </Select>
                     {errors.reportType && touched.reportType && (
-                      <ThemedText type="b4_body" className="text-error-500">
+                      <ThemedText lightColor="#FF3B30" type="b4_body" className="text-error-500">
                         {errors.reportType}
                       </ThemedText>
                     )}
@@ -464,7 +464,7 @@ export default function AddNewReportScreen() {
                       </SelectPortal>
                     </Select>
                     {errors.natureOfReport && touched.natureOfReport && (
-                      <ThemedText type="b4_body" className="text-error-500">
+                      <ThemedText lightColor="#FF3B30" type="b4_body" className="text-error-500">
                         {errors.natureOfReport}
                       </ThemedText>
                     )}
@@ -493,7 +493,7 @@ export default function AddNewReportScreen() {
                         />
                       </Input>
                       {errors.otherOption && touched.otherOption && (
-                        <ThemedText type="b4_body" className="text-error-500">
+                        <ThemedText lightColor="#FF3B30" type="b4_body" className="text-error-500">
                           {errors.otherOption}
                         </ThemedText>
                       )}
@@ -522,7 +522,7 @@ export default function AddNewReportScreen() {
                       />
                     </Input>
                     {errors.reportAmount && touched.reportAmount && (
-                      <ThemedText type="b4_body" className="text-error-500">
+                      <ThemedText lightColor="#FF3B30" type="b4_body" className="text-error-500">
                         {errors.reportAmount}
                       </ThemedText>
                     )}
@@ -548,7 +548,7 @@ export default function AddNewReportScreen() {
                       />
                     </Input>
                     {errors.trackingId && touched.trackingId && (
-                      <ThemedText type="b4_body" className="text-error-500">
+                      <ThemedText lightColor="#FF3B30" type="b4_body" className="text-error-500">
                         {errors.trackingId}
                       </ThemedText>
                     )}
@@ -581,7 +581,7 @@ export default function AddNewReportScreen() {
                       {String(values.description?.length ?? 0)}/500
                     </ThemedText>
                     {errors.description && touched.description && (
-                      <ThemedText type="b4_body" className="text-error-500">
+                      <ThemedText lightColor="#FF3B30" type="b4_body" className="text-error-500">
                         {String(errors.description)}
                       </ThemedText>
                     )}
@@ -674,6 +674,8 @@ export default function AddNewReportScreen() {
                     >
                       <ThemedText
                         type="s2_subtitle"
+                        lightColor="#FFFFFF"
+                        darkColor="#FFFFFF"
                         className={` text-center text-white`}
                       >
                         {loading || isUploading ? (

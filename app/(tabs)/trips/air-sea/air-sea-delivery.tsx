@@ -34,6 +34,7 @@ import {
   SelectTrigger,
 } from "@/components/ui/select";
 import { useToast } from "@/components/ui/toast";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { useAuthenticatedPost } from "@/lib/api";
 import { Formik } from "formik";
 import {
@@ -44,7 +45,6 @@ import {
 } from "lucide-react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as Yup from "yup";
-import { useThemeColor } from "@/hooks/useThemeColor";
 // MenuItem type removed (unused)
 const waterTransportTypes = [
   { label: "Container ships", value: "container ships" },
@@ -468,6 +468,7 @@ export default function AirSeaDeliveryScreen() {
                     />
                     {errors.pickupAddress && touched.pickupAddress && (
                       <ThemedText
+                        lightColor="#FF3B30"
                         type="b4_body"
                         className="text-error-500 mb-4"
                       >
@@ -495,6 +496,7 @@ export default function AirSeaDeliveryScreen() {
                     />
                     {errors.dropOffLocation && touched.dropOffLocation && (
                       <ThemedText
+                        lightColor="#FF3B30"
                         type="b4_body"
                         className="text-error-500 mb-4"
                       >
@@ -524,6 +526,7 @@ export default function AirSeaDeliveryScreen() {
                     </Input>
                     {errors.weight && touched.weight && (
                       <ThemedText
+                        lightColor="#FF3B30"
                         type="b4_body"
                         className="text-error-500 mb-4"
                       >
@@ -581,6 +584,7 @@ export default function AirSeaDeliveryScreen() {
                     </Select>
                     {errors.tripOption && touched.tripOption && (
                       <ThemedText
+                        lightColor="#FF3B30"
                         type="b4_body"
                         className="text-error-500 mb-4"
                       >
@@ -617,7 +621,12 @@ export default function AirSeaDeliveryScreen() {
                     className="mt-5 rounded-[12px]"
                     onPress={() => handleSubmit()}
                   >
-                    <ThemedText type="s1_subtitle" className="text-white">
+                    <ThemedText
+                      lightColor="#FFFFFF"
+                      darkColor="#FFFFFF"
+                      type="s1_subtitle"
+                      className="text-white"
+                    >
                       {loading ? (
                         <ActivityIndicator color="white" />
                       ) : (

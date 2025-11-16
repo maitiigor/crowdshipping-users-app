@@ -10,6 +10,7 @@ import {
   ModalFooter,
   ModalHeader,
 } from "@/components/ui/modal";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { CircleX, Map } from "lucide-react-native";
 import React, {
   useCallback,
@@ -52,7 +53,7 @@ export function AddressPicker({
   const [mapOpen, setMapOpen] = useState(false);
   const [searchError, setSearchError] = useState<string | null>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
+  const color = useThemeColor({}, "text");
   // Fetch suggestions from Nominatim with debouncing
   useEffect(() => {
     if (!query || query.length < 3) {
@@ -249,7 +250,14 @@ export function AddressPicker({
             onPress={() => setMapOpen(true)}
             isDisabled={loading}
           >
-            <Icon as={Map} size="xl" className="text-typography-900" />
+            <Icon
+              as={Map}
+              size="xl"
+              style={{
+                color: "" + color,
+              }}
+              className="text-typography-900"
+            />
           </Button>
         </ThemedView>
         {suggestions.length > 0 && (

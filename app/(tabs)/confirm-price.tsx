@@ -453,7 +453,11 @@ export default function ConfirmPrice() {
                         </Button>
                       </Input>
                       {errors.discount && touched.discount && (
-                        <ThemedText type="b4_body" className="text-error-500">
+                        <ThemedText
+                          lightColor="#FF3B30"
+                          type="b4_body"
+                          className="text-error-500"
+                        >
                           {errors.discount}
                         </ThemedText>
                       )}

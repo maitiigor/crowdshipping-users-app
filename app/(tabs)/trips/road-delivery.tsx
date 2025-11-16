@@ -35,6 +35,7 @@ import {
   SelectTrigger,
 } from "@/components/ui/select";
 import { useToast } from "@/components/ui/toast";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { useAuthenticatedPost, useAuthenticatedQuery } from "@/lib/api";
 import { IVehicleCategoriesResponse } from "@/types/ITripsCategories";
 import { Formik } from "formik";
@@ -46,7 +47,6 @@ import {
 } from "lucide-react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as Yup from "yup";
-import { useThemeColor } from "@/hooks/useThemeColor";
 
 const validationSchema = Yup.object().shape({
   vehicleCategoryId: Yup.string().required("Vehicle category is required"),
@@ -428,6 +428,7 @@ export default function RoadDeliveryScreen() {
                     />
                     {errors.pickupAddress && touched.pickupAddress && (
                       <ThemedText
+                        lightColor="#FF3B30"
                         type="b4_body"
                         className="text-error-500 mb-4"
                       >
@@ -455,6 +456,7 @@ export default function RoadDeliveryScreen() {
                     />
                     {errors.dropOffLocation && touched.dropOffLocation && (
                       <ThemedText
+                        lightColor="#FF3B30"
                         type="b4_body"
                         className="text-error-500 mb-4"
                       >
@@ -484,6 +486,7 @@ export default function RoadDeliveryScreen() {
                     </Input>
                     {errors.weight && touched.weight && (
                       <ThemedText
+                        lightColor="#FF3B30"
                         type="b4_body"
                         className="text-error-500 mb-4"
                       >
@@ -542,6 +545,7 @@ export default function RoadDeliveryScreen() {
                     </Select>
                     {errors.vehicleCategoryId && touched.vehicleCategoryId && (
                       <ThemedText
+                        lightColor="#FF3B30"
                         type="b4_body"
                         className="text-error-500 mb-4"
                       >
@@ -573,7 +577,12 @@ export default function RoadDeliveryScreen() {
                     className="mt-5 rounded-[12px]"
                     onPress={() => handleSubmit()}
                   >
-                    <ThemedText type="s1_subtitle" className="text-white">
+                    <ThemedText
+                      lightColor="#FFFFFF"
+                      darkColor="#FFFFFF"
+                      type="s1_subtitle"
+                      className="text-white"
+                    >
                       {loading ? (
                         <ActivityIndicator color="white" />
                       ) : (

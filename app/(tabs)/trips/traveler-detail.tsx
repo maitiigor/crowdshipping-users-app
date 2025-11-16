@@ -380,7 +380,10 @@ export default function TravelerDetail() {
                 });
               }}
             >
-              <ThemedText type="s2_subtitle" className="text-white text-center">
+              <ThemedText
+                lightColor="#FFFFFF"
+                darkColor="#FFFFFF"
+                type="s2_subtitle" className="text-white text-center">
                 Enter Delivery Details
               </ThemedText>
             </Button>

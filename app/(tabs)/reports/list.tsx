@@ -253,8 +253,8 @@ export default function ReportScreen() {
                           type="c1_caption"
                           className={`  p-2 rounded-lg text-right ${
                             item.status === "pending"
-                              ? "text-primary-500 bg-primary-50"
-                              : "text-green-500 bg-green-50"
+                              ? "text-primary-500 border-2 border-primary-50"
+                              : "text-green-500 border-2 border-green-50"
                           }`}
                         >
                           {item.status === "pending"
@@ -342,6 +342,8 @@ export default function ReportScreen() {
                                  `}
                             >
                               <ThemedText
+                                lightColor="#FFFFFF"
+                                darkColor="#FFFFFF"
                                 type="s2_subtitle"
                                 className={` text-center text-white`}
                               >
@@ -369,7 +371,12 @@ export default function ReportScreen() {
           }}
           className="flex-1 rounded-[12px] mx-1"
         >
-          <ThemedText type="s2_subtitle" className="text-white text-center">
+          <ThemedText
+            lightColor="#FFFFFF"
+            darkColor="#FFFFFF"
+            type="s2_subtitle"
+            className="text-white text-center"
+          >
             Add New
           </ThemedText>
         </Button>

@@ -120,7 +120,11 @@ export default function BankDropdown({
         </SelectPortal>
       </Select>
       {errors.bankCode && touched.bankCode && (
-        <ThemedText type="b4_body" className="text-error-500 mb-4">
+        <ThemedText
+          lightColor="#FF3B30"
+          type="b4_body"
+          className="text-error-500 mb-4"
+        >
           {errors.bankCode}
         </ThemedText>
       )}

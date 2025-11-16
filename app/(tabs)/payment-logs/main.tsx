@@ -22,9 +22,9 @@ import {
 } from "react-native";
 
 import { useCountry } from "@/hooks/useCountry";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { useAppSelector } from "@/store";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { useThemeColor } from "@/hooks/useThemeColor";
 
 // dayjs fromNow plugin
 dayjs.extend(relativeTime);
@@ -32,6 +32,7 @@ export default function PaymentLogScreen() {
   const navigation = useNavigation();
   const router = useRouter();
   const backroundTopNav = useThemeColor({}, "background");
+  const [showAmount, setShowAmount] = useState(true);
   const [selectedFilter, setSelectedFilter] = useState("");
   const { mutateAsync, error, loading } = useAuthenticatedPost<any, {}>(
     `/wallet/generate`
@@ -166,17 +167,38 @@ export default function PaymentLogScreen() {
               style={{ borderRadius: 16, overflow: "hidden" }}
               imageStyle={{ borderRadius: 16 }}
             >
-              <ThemedView className=" flex h-full w-full justify-center items-center">
-                <ThemedText type="h5_header" className="text-white">
+              <ThemedView
+                lightColor="#FFFFFFffff"
+                darkColor="#FFFFFFffff"
+                className=" flex h-full w-full justify-center items-center"
+              >
+                <ThemedText
+                  lightColor="#FFFFFF"
+                  darkColor="#FFFFFF"
+                  type="h5_header"
+                  className="text-white"
+                >
                   Total Balance
                 </ThemedText>
-                <ThemedText type="h3_header" className="text-white mt-4">
-                  {formatCurrency(
-                    data?.data.wallet.availableBalance,
-                    selectedCurrency,
-                    `en-${countryCode}`
-                  )}
-                </ThemedText>
+                <TouchableOpacity
+                  onPress={() => setShowAmount(!showAmount)}
+                  className="mt-2"
+                >
+                  <ThemedText
+                    lightColor="#FFFFFF"
+                    darkColor="#FFFFFF"
+                    type="h2_header"
+                    className="text-white"
+                  >
+                    {showAmount
+                      ? formatCurrency(
+                          data?.data.wallet.availableBalance,
+                          selectedCurrency,
+                          `en-${countryCode}`
+                        )
+                      : "****"}
+                  </ThemedText>
+                </TouchableOpacity>
               </ThemedView>
             </ImageBackground>
             <ThemedView className="mt-5 flex-row gap-3">
