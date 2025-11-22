@@ -30,11 +30,6 @@
       "googleServicesFile": "./google-services.json",
       "edgeToEdgeEnabled": true,
       "package": "com.zeus001.crowdshippingusernewapp",
-      "config": {
-        "googleMaps": {
-          "apiKey": "AIzaSyApi7aYZFv4Ol4wNUeXITfZI1sKfWHEClY"
-        }
-      },
       "permissions": [
         "android.permission.INTERNET",
         "android.permission.ACCESS_NETWORK_STATE",
@@ -88,10 +83,7 @@
       "typedRoutes": true
     },
     "extra": {
-      "router": {},
-      "eas": {
-        "projectId": "0aac59d2-a472-417d-ae8a-fe65ed204375"
-      }
+      "router": {}
     },
     "owner": "zeus001"
   }

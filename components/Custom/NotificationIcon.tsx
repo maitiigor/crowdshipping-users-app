@@ -43,11 +43,16 @@ export default function NotificationIcon({}: IProps) {
       >
         {unreadCount > 0 && (
           <ThemedView
+            lightColor="#dc2626"
+            darkColor="#b91c1c"
             className={` bg-red-600 rounded-full flex justify-center items-center ${
               Platform.OS === "ios" ? "w-6 h-6" : "w-5 h-5"
             }`}
           >
-            <ThemedText type="btn_tiny" className="text-white text-center">
+            <ThemedText
+              lightColor="#ffff"
+              darkColor="#ffff"
+              type="btn_tiny" className="text-white text-center">
               {isLoading ? ".." : unreadCount}
             </ThemedText>
           </ThemedView>
