@@ -1,5 +1,6 @@
 import { BottomDrawer } from "@/components/Custom/BottomDrawer";
 import CustomToast from "@/components/Custom/CustomToast";
+import LeafletMap from "@/components/Custom/LeafletMap";
 import NotificationIcon from "@/components/Custom/NotificationIcon";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
@@ -34,7 +35,6 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import MapView, { Marker } from "react-native-maps";
 
 export default function NearbyDriverScreen() {
   const navigation = useNavigation();
@@ -223,33 +223,31 @@ export default function NearbyDriverScreen() {
           </ThemedText>
         </ThemedView>
       </View>
-      <MapView
-        style={{ height: "100%", width: "100%" }}
-        initialRegion={{
-          latitude: initialLatitude,
-          longitude: initialLongitude,
-          latitudeDelta: 0.05,
-          longitudeDelta: 0.05,
+      <LeafletMap
+        mapCenterPosition={{
+          lat: initialLatitude,
+          lng: initialLongitude,
         }}
-        showsUserLocation
-      >
-        {driverList.map((driver: any) => {
+        mapMarkers={driverList.map((driver: any) => {
           const longitude = driver?.geoLocation?.coordinates?.[0] ?? 0;
           const latitude = driver?.geoLocation?.coordinates?.[1] ?? 0;
           const isSelected = selectedDriver?._id === driver._id;
 
-          return (
-            <Marker
-              key={driver._id ?? `${latitude}-${longitude}`}
-              coordinate={{ latitude, longitude }}
-              title={driver.user?.fullName}
-              description={`${driver.minutesAway ?? "-"} min away`}
-              pinColor={isSelected ? "green" : "red"}
-              onPress={() => setselectedDriver(driver)}
-            />
-          );
+          return {
+            id: driver._id ?? `${latitude}-${longitude}`,
+            position: { lat: latitude, lng: longitude },
+            title: driver.user?.fullName,
+            description: `${driver.minutesAway ?? "-"} min away`,
+            color: isSelected ? "green" : "red",
+          };
         })}
-      </MapView>
+        onMarkerPress={(id) => {
+          const driver = driverList.find((d: any) => d._id === id);
+          if (driver) {
+            setselectedDriver(driver);
+          }
+        }}
+      />
 
       <ThemedView className="absolute bottom-10 left-0 right-0 px-5">
         <Button variant="solid" size="2xl" className="mt-5 rounded-[12px]">

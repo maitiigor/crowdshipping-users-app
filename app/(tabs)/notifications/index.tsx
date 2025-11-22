@@ -10,12 +10,12 @@ import { Box } from "@/components/ui/box";
 import { HStack } from "@/components/ui/hstack";
 import { Icon } from "@/components/ui/icon";
 import { Skeleton, SkeletonText } from "@/components/ui/skeleton";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { useAuthenticatedQuery } from "@/lib/api/index";
 import { INotificationsResponse } from "@/types/INotification";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { BellIcon, ChevronLeft } from "lucide-react-native";
-import { useThemeColor } from "@/hooks/useThemeColor";
 
 // dayjs fromNow plugin
 
@@ -28,6 +28,7 @@ export default function NotificationScreen() {
   const { data, isLoading, refetch, isFetching } = useAuthenticatedQuery<
     INotificationsResponse | undefined
   >(["notifications"], "/notification");
+
   const notifList = Array.isArray(data?.data) ? data!.data : [];
   const unreadNotifications = notifList.filter((notif) => !notif.isRead);
   useEffect(() => {

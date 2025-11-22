@@ -1,9 +1,10 @@
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { useAuthenticatedQuery } from "@/lib/api";
 import { INotificationsResponse } from "@/types/INotification";
+import messaging from "@react-native-firebase/messaging";
 import { useRouter } from "expo-router";
 import { Bell } from "lucide-react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { Platform, TouchableOpacity } from "react-native";
 import { ThemedText } from "../ThemedText";
 import { ThemedView } from "../ThemedView";
@@ -11,13 +12,22 @@ import { Icon } from "../ui/icon";
 
 interface IProps {}
 export default function NotificationIcon({}: IProps) {
-  const { data, isLoading } = useAuthenticatedQuery<
+  const { data, isLoading, refetch } = useAuthenticatedQuery<
     INotificationsResponse | undefined
   >(["notifications"], "/notification");
   const colorNav = useThemeColor({}, "text");
   const router = useRouter();
   const list = Array.isArray(data?.data) ? data!.data : [];
   const unreadCount = list.filter((notif) => !notif.isRead).length || 0;
+
+  // Listen for foreground messages and refresh the list
+  useEffect(() => {
+    const unsubscribe = messaging().onMessage(async (remoteMessage) => {
+      console.log("Notification received in foreground, refreshing list...");
+      refetch();
+    });
+    return unsubscribe;
+  }, [refetch]);
   return (
     <TouchableOpacity
       onPress={() => {

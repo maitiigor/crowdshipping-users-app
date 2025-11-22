@@ -11,6 +11,7 @@ import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import "react-native-reanimated";
 // global styles already imported above via alias
+import { useFCM } from "@/hooks/useFCM";
 import { ensureI18n } from "@/lib/i18n";
 import { getQueryClient } from "@/lib/queryClient";
 import { useInitializeAuth } from "@/lib/useInitializeAuth";
@@ -67,6 +68,14 @@ function AppContent() {
 }
 
 export default function RootLayout() {
+  const { fcmToken } = useFCM();
+
+  React.useEffect(() => {
+    if (fcmToken) {
+      console.log("FCM Token:", fcmToken);
+    }
+  }, [fcmToken]);
+
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),

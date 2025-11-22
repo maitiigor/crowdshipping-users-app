@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "691097945035",
+    "firebase_url": "https://zeus-project-94b1f.firebaseio.com",
+    "project_id": "zeus-project-94b1f",
+    "storage_bucket": "zeus-project-94b1f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:691097945035:android:1cb6fcaec9f504474c6c4e",
+        "android_client_info": {
+          "package_name": "com.zeus001.crowdshippingusernewapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBaEOjMlWkWECRDZPvlMGoFBggcqv3z8sg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

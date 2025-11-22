@@ -10,26 +10,39 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
+      "googleServicesFile": "./GoogleService-Info.plist",
       "infoPlist": {
         "NSCameraUsageDescription": "This app uses the camera to scan payment cards.",
         "NSPhotoLibraryUsageDescription": "This app accesses your photo library for payment purposes.",
         "NSMicrophoneUsageDescription": "Microphone access lets you record and send voice messages.",
         "NSLocationWhenInUseUsageDescription": "We use your location to suggest the most relevant country for your experience."
-      }
+      },
+      "config": {
+        "googleMapsApiKey": "AIzaSyApi7aYZFv4Ol4wNUeXITfZI1sKfWHEClY"
+      },
+      "bundleIdentifier": "com.zeus001.crowdshippingusernewapp"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#fff"
       },
+      "googleServicesFile": "./google-services.json",
       "edgeToEdgeEnabled": true,
       "package": "com.zeus001.crowdshippingusernewapp",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyApi7aYZFv4Ol4wNUeXITfZI1sKfWHEClY"
+        }
+      },
       "permissions": [
         "android.permission.INTERNET",
         "android.permission.ACCESS_NETWORK_STATE",
         "android.permission.RECORD_AUDIO",
         "android.permission.ACCESS_COARSE_LOCATION",
-        "android.permission.ACCESS_FINE_LOCATION"
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.POST_NOTIFICATIONS",
+        "android.permission.MODIFY_AUDIO_SETTINGS"
       ]
     },
     "web": {
@@ -54,15 +67,22 @@
           "android": {
             "compileSdkVersion": 35,
             "targetSdkVersion": 35,
+            "minSdkVersion": 24,
             "ndkVersion": "26.3.11579264"
           },
           "ios": {
-            "deploymentTarget": "15.1"
+            "deploymentTarget": "15.1",
+            "useFrameworks": "static"
           }
         }
       ],
       "expo-localization",
-      "expo-audio"
+      "expo-audio",
+      "expo-font",
+      "expo-web-browser",
+      "@react-native-firebase/app",
+      "@react-native-firebase/messaging",
+      "./plugins/withNotifee"
     ],
     "experiments": {
       "typedRoutes": true

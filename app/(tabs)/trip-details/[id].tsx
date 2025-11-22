@@ -28,6 +28,7 @@ import {
   useRouter,
 } from "expo-router";
 
+import LeafletMap from "@/components/Custom/LeafletMap";
 import {
   ChevronLeft,
   CircleCheckIcon,
@@ -35,7 +36,6 @@ import {
   Dot,
   Handbag,
   HelpCircleIcon,
-  LocateFixed,
   LucideIcon,
   MapPin,
   MessageCircleMore,
@@ -58,7 +58,6 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import MapView, { Marker, Polyline } from "react-native-maps";
 const dayjs = require("dayjs");
 const durationPlugin = require("dayjs/plugin/duration").default;
 
@@ -86,7 +85,7 @@ export default function TrackBidOrder() {
   const { id, tripType } = useLocalSearchParams();
   const tripTypeStr = paramToString(tripType);
   const idStr = paramToString(id);
-  const mapRef = useRef<MapView | null>(null);
+  // const mapRef = useRef<MapView | null>(null);
 
   const handleThrottle = useCallback(() => {
     if (throttleTimerRef.current) {
@@ -152,7 +151,7 @@ export default function TrackBidOrder() {
       retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
     }
   );
-  console.log("🚀 ~ TrackBidOrder ~ ongoingTripsData:", ongoingTripsData);
+
   const { mutateAsync, error, loading } = useAuthenticatedPost<
     any,
     {
@@ -291,27 +290,27 @@ export default function TrackBidOrder() {
     }
   }, [locations, latestLocationId, selectedLocationId]);
 
-  useEffect(() => {
-    if (!mapRef.current || !coordinates.length) {
-      return;
-    }
+  // useEffect(() => {
+  //   if (!mapRef.current || !coordinates.length) {
+  //     return;
+  //   }
 
-    if (coordinates.length === 1) {
-      mapRef.current.animateToRegion(
-        {
-          ...coordinates[0],
-          latitudeDelta: 0.02,
-          longitudeDelta: 0.02,
-        },
-        400
-      );
-    } else {
-      mapRef.current.fitToCoordinates(coordinates, {
-        edgePadding: { top: 60, right: 40, bottom: 360, left: 40 },
-        animated: true,
-      });
-    }
-  }, [coordinates]);
+  //   if (coordinates.length === 1) {
+  //     mapRef.current.animateToRegion(
+  //       {
+  //         ...coordinates[0],
+  //         latitudeDelta: 0.02,
+  //         longitudeDelta: 0.02,
+  //       },
+  //       400
+  //     );
+  //   } else {
+  //     mapRef.current.fitToCoordinates(coordinates, {
+  //       edgePadding: { top: 60, right: 40, bottom: 360, left: 40 },
+  //       animated: true,
+  //     });
+  //   }
+  // }, [coordinates]);
 
   const handleLocationSelect = (locationId: string) => {
     const selectedLocation = locations.find((loc) => loc._id === locationId);
@@ -319,26 +318,26 @@ export default function TrackBidOrder() {
       return;
     }
     setSelectedLocationId(locationId);
-    if (!mapRef.current || !coordinates.length) {
-      return;
-    }
+    // if (!mapRef.current || !coordinates.length) {
+    //   return;
+    // }
 
-    if (coordinates.length === 1) {
-      mapRef.current.animateToRegion(
-        {
-          latitude: selectedLocation.coords.coordinates[1],
-          longitude: selectedLocation.coords.coordinates[0],
-          latitudeDelta: 0.02,
-          longitudeDelta: 0.02,
-        },
-        400
-      );
-    } else {
-      mapRef.current.fitToSuppliedMarkers(markerIdentifiers, {
-        edgePadding: { top: 60, right: 40, bottom: 360, left: 40 },
-        animated: true,
-      });
-    }
+    // if (coordinates.length === 1) {
+    //   mapRef.current.animateToRegion(
+    //     {
+    //       latitude: selectedLocation.coords.coordinates[1],
+    //       longitude: selectedLocation.coords.coordinates[0],
+    //       latitudeDelta: 0.02,
+    //       longitudeDelta: 0.02,
+    //     },
+    //     400
+    //   );
+    // } else {
+    //   mapRef.current.fitToSuppliedMarkers(markerIdentifiers, {
+    //     edgePadding: { top: 60, right: 40, bottom: 360, left: 40 },
+    //     animated: true,
+    //   });
+    // }
   };
 
   useEffect(() => {
@@ -597,67 +596,58 @@ export default function TrackBidOrder() {
           <Entypo name="chevron-left" size={24} color="#131927" />
         </TouchableOpacity>
       </View>
-      <MapView
-        ref={mapRef}
-        style={{ height: "100%", width: "100%" }}
-        initialRegion={{
-          latitude: latestLocation?.coords?.coordinates[1] || 6.5244,
-          longitude: latestLocation?.coords?.coordinates[0] || 3.3792,
-          latitudeDelta: 0.05,
-          longitudeDelta: 0.05,
+      <LeafletMap
+        mapCenterPosition={{
+          lat: latestLocation?.coords?.coordinates[1] || 6.5244,
+          lng: latestLocation?.coords?.coordinates[0] || 3.3792,
         }}
-        showsUserLocation
-      >
-        {locations.map((location) => {
+        mapMarkers={locations.map((location) => {
           const isSelected = location._id === selectedLocationId;
           const isLatest = location._id === latestLocationId;
-          const markerPinColor = isSelected ? "#E75B3B" : "#0F62FE";
-          return (
-            <Marker
-              key={location._id}
-              identifier={location._id}
-              coordinate={{
-                latitude: location.coords.coordinates[1],
-                longitude: location.coords.coordinates[0],
-              }}
-              title={
-                isLatest
-                  ? `Current ${
-                      orderData?.fleetType === "road" ? "Driver" : "Pathfinder"
-                    } Location`
-                  : `${
-                      orderData?.fleetType === "road" ? "Driver" : "Pathfinder"
-                    } Location`
-              }
-              description={
-                location.coords.address ||
-                location.coords.coordinates[1].toFixed(4) +
-                  ", " +
-                  location.coords.coordinates[0].toFixed(4)
-              }
-              pinColor={isLatest ? undefined : markerPinColor}
-              zIndex={isSelected ? 10 : 1}
-            >
-              {isLatest && (
-                <View style={styles.latestMarker}>
-                  {/* Paper plane icon to highlight the active driver position */}
-                  <Icon as={LocateFixed} size="xl" className="text-white" />
-                </View>
-              )}
-            </Marker>
-          );
+          // Mapping colors: #E75B3B -> orange, #0F62FE -> blue
+          const color = isSelected ? "orange" : "blue";
+
+          return {
+            id: location._id,
+            position: {
+              lat: location.coords.coordinates[1],
+              lng: location.coords.coordinates[0],
+            },
+            title: isLatest
+              ? `Current ${
+                  orderData?.fleetType === "road" ? "Driver" : "Pathfinder"
+                } Location`
+              : `${
+                  orderData?.fleetType === "road" ? "Driver" : "Pathfinder"
+                } Location`,
+            description:
+              location.coords.address ||
+              location.coords.coordinates[1].toFixed(4) +
+                ", " +
+                location.coords.coordinates[0].toFixed(4),
+            color: isLatest ? "red" : color,
+          };
         })}
-        {locations.length > 1 && (
-          <Polyline
-            coordinates={locations.map((location) => ({
-              latitude: location.coords.coordinates[1],
-              longitude: location.coords.coordinates[0],
-            }))}
-            strokeColor="#E75B3B"
-            strokeWidth={4}
-          />
-        )}
-      </MapView>
+        zoom={30}
+        mapPolylines={
+          locations.length > 1
+            ? [
+                {
+                  positions: locations.map((location) => ({
+                    lat: location.coords.coordinates[1],
+                    lng: location.coords.coordinates[0],
+                  })),
+                  color: "#E75B3B",
+                  weight: 4,
+                },
+              ]
+            : []
+        }
+        fitToCoordinates={coordinates.map((c) => ({
+          lat: c.latitude,
+          lng: c.longitude,
+        }))}
+      />
       {isLoadingOngoingTrips ? (
         <>
           {/* Button Skeleton */}

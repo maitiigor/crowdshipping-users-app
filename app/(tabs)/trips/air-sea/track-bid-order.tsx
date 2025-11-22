@@ -25,6 +25,7 @@ import { formatCurrency, paramToString } from "@/utils/helper";
 import { useLocalSearchParams, useNavigation, useRouter } from "expo-router";
 import { Formik } from "formik";
 
+import LeafletMap from "@/components/Custom/LeafletMap";
 import {
   Activity,
   ChevronLeft,
@@ -41,7 +42,6 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import MapView from "react-native-maps";
 import * as Yup from "yup";
 
 export default function TripBidsNegotiationScreen() {
@@ -392,15 +392,11 @@ export default function TripBidsNegotiationScreen() {
           </ThemedView>
         )}
       </View>
-      <MapView
-        style={{ height: "100%", width: "100%" }}
-        initialRegion={{
-          latitude: 6.5244,
-          longitude: 3.3792,
-          latitudeDelta: 0.05,
-          longitudeDelta: 0.05,
+      <LeafletMap
+        mapCenterPosition={{
+          lat: 6.5244,
+          lng: 3.3792,
         }}
-        showsUserLocation
       />
 
       {/* <ThemedView className="absolute bottom-10 left-0 right-0 px-5">

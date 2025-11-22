@@ -24,6 +24,7 @@ import { BottomDrawer } from "@/components/Custom/BottomDrawer";
 import { CountrySelector } from "@/components/Custom/CountrySelector";
 import CustomSidebarMenu from "@/components/Custom/CustomSidebarMenu";
 import CustomToast from "@/components/Custom/CustomToast";
+import LeafletMap from "@/components/Custom/LeafletMap";
 import { StatusBadge } from "@/components/Custom/StatusBadge";
 import { Button } from "@/components/ui/button";
 import { HStack } from "@/components/ui/hstack";
@@ -44,7 +45,6 @@ import {
   MapPin,
   RefreshCw,
 } from "lucide-react-native";
-import MapView, { Marker } from "react-native-maps";
 
 const deliveryType = [
   {
@@ -636,47 +636,52 @@ export default function HomeScreen() {
                         );
                       })()}
                     </ThemedView>
-                    <MapView
+                    <View
                       style={{
                         height: 180,
                         width: "100%",
                         borderRadius: 12,
                         marginTop: 8,
+                        overflow: "hidden",
                         opacity:
-                           (item.status === "DELIVERED" ||
-                          item.status === "IN_PROGRESS") && item.fleetType?.toLowerCase() === "road"
+                          (item.status === "DELIVERED" ||
+                            item.status === "IN_PROGRESS") &&
+                          item.fleetType?.toLowerCase() === "road"
                             ? 0.5
                             : 1,
                       }}
-                      initialRegion={{
-                        latitude: item.last_location
-                          ? item.last_location.coords.coordinates[1]
-                          : 37.78825,
-                        longitude: item.last_location
-                          ? item.last_location.coords.coordinates[0]
-                          : -122.4324,
-                        latitudeDelta: 0.05,
-                        longitudeDelta: 0.05,
-                      }}
-                      showsUserLocation
                     >
-                      {item.last_location && (
-                        <Marker
-                          coordinate={{
-                            latitude: item.last_location.coords.coordinates[1],
-                            longitude: item.last_location.coords.coordinates[0],
-                          }}
-                          title={item.last_location.coords.address}
-                          pinColor="green"
-                          onPress={() => {}}
-                          description={
-                            item.last_location.speed
-                              ? `Speed: ${item.last_location.speed} m/s`
-                              : undefined
-                          }
-                        />
-                      )}
-                    </MapView>
+                      <LeafletMap
+                        mapMarkers={
+                          item.last_location
+                            ? [
+                                {
+                                  id: item._id,
+                                  position: {
+                                    lat: item.last_location.coords
+                                      .coordinates[1],
+                                    lng: item.last_location.coords
+                                      .coordinates[0],
+                                  },
+                                  title: item.last_location.coords.address,
+                                },
+                              ]
+                            : []
+                        }
+                        mapCenterPosition={
+                          item.last_location
+                            ? {
+                                lat: item.last_location.coords.coordinates[1],
+                                lng: item.last_location.coords.coordinates[0],
+                              }
+                            : {
+                                lat: 37.78825,
+                                lng: -122.4324,
+                              }
+                        }
+                        zoom={13}
+                      />
+                    </View>
                   </ThemedView>
                 )}
                 keyExtractor={(item, index) => `${item._id}-${index}`}
