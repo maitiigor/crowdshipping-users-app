@@ -27,15 +27,22 @@ import {
   TouchableOpacity,
 } from "react-native";
 
+import { useTranslation } from "react-i18next";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as Yup from "yup";
-const validationSchema = Yup.object().shape({
-  email: Yup.string().email("Invalid email").required("Email is required"),
-});
+
+const getValidationSchema = (t: any) =>
+  Yup.object().shape({
+    email: Yup.string()
+      .email(t("validation.invalid_email"))
+      .required(t("validation.email_required")),
+  });
 
 export default function ForgetPassword() {
   // hide the header for this screen
   const navigation = useNavigation();
+  const { t } = useTranslation("forgetPassword");
+  const validationSchema = getValidationSchema(t);
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
   const router = useRouter();
   const toast = useToast();
@@ -52,7 +59,7 @@ export default function ForgetPassword() {
       headerTitle: () => {
         return (
           <ThemedText type="s1_subtitle" className="text-center">
-            Forget Password
+            {t("header_title")}
           </ThemedText>
         );
       },
@@ -99,7 +106,7 @@ export default function ForgetPassword() {
         </ThemedView>
       ),
     });
-  }, [navigation, backroundTopNav]);
+  }, [navigation, backroundTopNav, t]);
 
   useEffect(() => {
     const showEvent =
@@ -161,8 +168,8 @@ export default function ForgetPassword() {
         email: values.email as string,
       });
       showNewToast({
-        title: "Success",
-        description: "Email sent successfully!",
+        title: t("toast.success_title"),
+        description: t("toast.success_description"),
         icon: CircleCheckIcon,
         action: "success",
         variant: "solid",
@@ -178,10 +185,10 @@ export default function ForgetPassword() {
         e?.data?.message ||
         e?.message ||
         (typeof error === "string" ? error : undefined) ||
-        "Sign up failed";
+        t("toast.default_error");
 
       showNewToast({
-        title: "Forgot Password Failed",
+        title: t("toast.failed_title"),
         description: message,
         icon: HelpCircleIcon,
         action: "error",
@@ -207,14 +214,13 @@ export default function ForgetPassword() {
             resizeMode="contain"
           />
           <ThemedText type="h4_header" className="mt-5 text-center">
-            Forgot your password?
+            {t("title")}
           </ThemedText>
           <ThemedText
             type="default"
             className="pt-2 text-typography-800 text-center"
           >
-            Enter your registered email below to receive password reset
-            instruction
+            {t("subtitle")}
           </ThemedText>
         </ThemedView>
         <ThemedView className="flex-1 pb-20">
@@ -236,7 +242,9 @@ export default function ForgetPassword() {
               touched,
             }) => (
               <ThemedView className="mt-5">
-                <InputLabelText className="mb-2">Email address</InputLabelText>
+                <InputLabelText className="mb-2">
+                  {t("email_label")}
+                </InputLabelText>
                 <Input
                   size="xl"
                   className="h-[55px] rounded-lg mb-2 border-primary-100 bg-primary-inputShade px-2"
@@ -245,7 +253,7 @@ export default function ForgetPassword() {
                 >
                   <InputField
                     className=""
-                    placeholder="user@gmail.com"
+                    placeholder={t("email_placeholder")}
                     value={values.email}
                     onChangeText={handleChange("email")}
                     onBlur={handleBlur("email")}
@@ -271,7 +279,11 @@ export default function ForgetPassword() {
                   onPress={() => handleSubmit()}
                 >
                   <ThemedText type="s1_subtitle" className="text-white">
-                    {loading ? <ActivityIndicator color="white" /> : "Send"}
+                    {loading ? (
+                      <ActivityIndicator color="white" />
+                    ) : (
+                      t("send_button")
+                    )}
                   </ThemedText>
                 </Button>
               </ThemedView>
@@ -292,9 +304,9 @@ export default function ForgetPassword() {
           type="s1_subtitle"
           className="text-typography-950 py-6 text-center"
         >
-          You don’t have an account?{" "}
+          {t("no_account")}{" "}
           <ThemedText type="s1_subtitle" className="text-primary-500 pt-6">
-            Sign up{" "}
+            {t("sign_up_link")}{" "}
           </ThemedText>
         </ThemedText>
       </Link>

@@ -1,0 +1,20 @@
+{
+  "onboarding_step_1": {
+    "title": "La Tua Consegna, A Modo Tuo",
+    "description": "Pubblica una richiesta, scegli un corriere nelle vicinanze e traccia il tuo articolo dal ritiro alla consegna, tutto in un'app"
+  },
+  "onboarding_step_2": {
+    "title": "Invia e Ricevi Pacchi",
+    "description": "Pubblica una richiesta, scegli un corriere nelle vicinanze e traccia il tuo articolo dal ritiro alla consegna, tutto in un'app"
+  },
+  "onboarding_step_3": {
+    "title": "Consegna via Aria, Terra o Acqua",
+    "description": "Scegli il modo migliore per spostare il tuo pacco — su strada, in aereo o via mare. Veloce, flessibile e affidabile."
+  },
+  "login_button": "Accedi",
+  "get_started_button": "Inizia",
+  "terms_consent": "Registrandoti, accetti i nostri",
+  "terms_of_service": "Termini di servizio",
+  "and": "e come utilizziamo i tuoi dati nella nostra",
+  "privacy_policy": "Informativa sulla privacy"
+}

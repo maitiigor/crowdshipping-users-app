@@ -1,0 +1,20 @@
+{
+  "onboarding_step_1": {
+    "title": "Sua Entrega, Do Seu Jeito",
+    "description": "Publique uma solicitação, escolha um transportador próximo e rastreie seu item da coleta à entrega, tudo em um aplicativo"
+  },
+  "onboarding_step_2": {
+    "title": "Enviar e Receber Pacotes",
+    "description": "Publique uma solicitação, escolha um transportador próximo e rastreie seu item da coleta à entrega, tudo em um aplicativo"
+  },
+  "onboarding_step_3": {
+    "title": "Entrega por Ar, Terra ou Água",
+    "description": "Escolha a melhor maneira de mover seu pacote — por estrada, avião ou mar. Rápido, flexível e confiável."
+  },
+  "login_button": "Entrar",
+  "get_started_button": "Começar",
+  "terms_consent": "Ao se registrar, você concorda com nossos",
+  "terms_of_service": "Termos de Serviço",
+  "and": "e como usamos seus dados em nossa",
+  "privacy_policy": "Política de Privacidade"
+}

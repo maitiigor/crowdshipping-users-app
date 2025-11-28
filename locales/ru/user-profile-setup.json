@@ -1,0 +1,58 @@
+{
+  "header_title": "Редактировать профиль",
+  "first_name_label": "Имя",
+  "first_name_placeholder": "имя",
+  "last_name_label": "Фамилия",
+  "last_name_placeholder": "фамилия",
+  "pickup_address_label": "Адрес самовывоза",
+  "phone_number_label": "Номер телефона",
+  "state_label": "Область/Край",
+  "state_placeholder": "Введите область/край",
+  "city_label": "Город",
+  "city_placeholder": "Введите город",
+  "gender_label": "Пол",
+  "gender_placeholder": "Выберите пол",
+  "gender_options": {
+    "male": "Мужской",
+    "female": "Женский",
+    "other": "Другой"
+  },
+  "dob_label": "Дата рождения",
+  "upload_helper_text": "Загрузить фото профиля",
+  "update_button": "Обновить",
+  "validation": {
+    "first_name_min": "Имя должно содержать не менее 2 символов",
+    "first_name_max": "Имя не может превышать 50 символов",
+    "first_name_required": "Имя обязательно",
+    "last_name_min": "Фамилия должна содержать не менее 2 символов",
+    "last_name_max": "Фамилия не может превышать 50 символов",
+    "last_name_required": "Фамилия обязательна",
+    "phone_required": "Номер телефона обязателен",
+    "country_required": "Страна обязательна",
+    "state_required": "Область/край обязательна",
+    "city_required": "Город обязателен",
+    "location_required": "Местоположение обязательно",
+    "lat_required": "Широта обязательна",
+    "lng_required": "Долгота обязательна",
+    "address_required": "Адрес обязателен",
+    "gender_required": "Пол обязателен",
+    "dob_future": "Дата не может быть в будущем"
+  },
+  "toast": {
+    "missing_location_title": "Отсутствует местоположение",
+    "missing_location_description": "Пожалуйста, выберите адрес самовывоза",
+    "invalid_phone_title": "Неверный телефон",
+    "invalid_phone_description": "Пожалуйста, введите действительный номер телефона",
+    "update_failed_title": "Ошибка обновления профиля",
+    "image_uploaded_title": "Изображение загружено",
+    "image_uploaded_description": "Ваше фото профиля было обновлено.",
+    "upload_failed_title": "Ошибка загрузки",
+    "upload_failed_default": "Не удалось загрузить изображение",
+    "default_error": "Регистрация не удалась"
+  },
+  "modal": {
+    "title": "Профиль обновлен",
+    "description": "Ваша информация была успешно сохранена.",
+    "button": "Вернуться на главную"
+  }
+}

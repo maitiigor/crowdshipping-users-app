@@ -1,0 +1,26 @@
+{
+  "header_title": "تسجيل الدخول",
+  "welcome_back": "مرحبًا بعودتك",
+  "subtitle": "يرجى تسجيل الدخول للوصول إلى حساب Crowdshipping الخاص بك وإدارة عمليات التسليم.",
+  "email_label": "عنوان البريد الإلكتروني",
+  "email_placeholder": "مستخدم@gmail.com",
+  "password_label": "كلمة المرور",
+  "password_placeholder": "أدخل كلمة المرور الخاصة بك",
+  "login_button": "تسجيل الدخول",
+  "forgot_password": "هل نسيت كلمة المرور؟",
+  "or_divider": "أو",
+  "no_account": "ليس لديك حساب؟",
+  "sign_up_link": "سجل",
+  "validation": {
+    "invalid_email": "بريد إلكتروني غير صالح",
+    "email_required": "البريد الإلكتروني مطلوب",
+    "password_min": "يجب أن تتكون كلمة المرور من 6 أحرف على الأقل",
+    "password_required": "كلمة المرور مطلوبة"
+  },
+  "toast": {
+    "success_title": "نجاح",
+    "success_description": "تم تسجيل الدخول بنجاح!",
+    "failed_title": "فشل تسجيل الدخول",
+    "default_error": "فشل تسجيل الدخول"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "header_title": "Login",
+  "welcome_back": "Welcome Back",
+  "subtitle": "Please sign in to access your Crowdshipping account and manage your deliveries.",
+  "email_label": "Email address",
+  "email_placeholder": "user@gmail.com",
+  "password_label": "Password",
+  "password_placeholder": "Enter your password",
+  "login_button": "Login",
+  "forgot_password": "Forgot Password?",
+  "or_divider": "Or",
+  "no_account": "You don't have an account?",
+  "sign_up_link": "Sign up",
+  "validation": {
+    "invalid_email": "Invalid email",
+    "email_required": "Email is required",
+    "password_min": "Password must be at least 6 characters",
+    "password_required": "Password is required"
+  },
+  "toast": {
+    "success_title": "Success",
+    "success_description": "Logged in successfully!",
+    "failed_title": "Login Failed",
+    "default_error": "Login failed"
+  }
+}

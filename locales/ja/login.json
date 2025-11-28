@@ -1,0 +1,26 @@
+{
+  "header_title": "ログイン",
+  "welcome_back": "おかえりなさい",
+  "subtitle": "Crowdshippingアカウントにアクセスして配送を管理するには、サインインしてください。",
+  "email_label": "メールアドレス",
+  "email_placeholder": "ユーザー@gmail.com",
+  "password_label": "パスワード",
+  "password_placeholder": "パスワードを入力",
+  "login_button": "ログイン",
+  "forgot_password": "パスワードをお忘れですか？",
+  "or_divider": "または",
+  "no_account": "アカウントをお持ちでないですか？",
+  "sign_up_link": "サインアップ",
+  "validation": {
+    "invalid_email": "無効なメール",
+    "email_required": "メールは必須です",
+    "password_min": "パスワードは少なくとも6文字である必要があります",
+    "password_required": "パスワードは必須です"
+  },
+  "toast": {
+    "success_title": "成功",
+    "success_description": "ログインに成功しました！",
+    "failed_title": "ログイン失敗",
+    "default_error": "ログインに失敗しました"
+  }
+}

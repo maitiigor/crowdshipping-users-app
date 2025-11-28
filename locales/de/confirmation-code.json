@@ -1,0 +1,19 @@
+{
+  "header_title": "Bestätigungscode",
+  "title": "Bestätigungscode eingeben",
+  "subtitle": "Geben Sie den 4-stelligen Code ein, der an Ihre E-Mail gesendet wurde",
+  "verify_button": "Bestätigen",
+  "resend_code": "Code erneut senden in",
+  "resend_link": "Code erneut senden",
+  "no_account": "Sie haben noch kein Konto?",
+  "sign_up_link": "Registrieren",
+  "toast": {
+    "success_title": "Erfolg",
+    "success_description": "Code erfolgreich verifiziert!",
+    "failed_title": "Verifizierung fehlgeschlagen",
+    "default_error": "Ungültiger Code"
+  },
+  "modal_title": "Verifizierung erfolgreich!",
+  "modal_description": "Ihr Konto wurde erfolgreich verifiziert.",
+  "modal_button": "Loslegen"
+}

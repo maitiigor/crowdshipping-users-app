@@ -1,0 +1,28 @@
+{
+  "header_title": "Sign Up",
+  "subtitle": "Enter the 5-digit code sent to you at",
+  "verify_button": "Verify",
+  "resend_code": "Send code again",
+  "resend_link": "Resend",
+  "resending": "Resending...",
+  "no_code": "I didn’t receive a code",
+  "no_account": "You don’t have an account?",
+  "sign_up_link": "Sign up",
+  "validation": {
+    "digit_only": "Digit only",
+    "required": "Required",
+    "enter_5_digits": "Enter 5 digits"
+  },
+  "toast": {
+    "success_title": "Success",
+    "success_description": "OTP verified successfully!",
+    "failed_title": "OTP Failed",
+    "resend_success_title": "Success",
+    "resend_success_description": "OTP resent successfully!",
+    "resend_failed_title": "OTP Resend Failed",
+    "default_error": "Sign up failed"
+  },
+  "modal_title": "Registration Successful!",
+  "modal_description": "Welcome to Crowdshipping! You're ready to start sending or receiving packages.",
+  "modal_button": "Sign In"
+}

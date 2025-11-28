@@ -1,0 +1,28 @@
+{
+  "header_title": "注册",
+  "subtitle": "输入发送至以下地址的5位验证码",
+  "verify_button": "验证",
+  "resend_code": "再次发送代码",
+  "resend_link": "重新发送",
+  "resending": "正在重新发送...",
+  "no_code": "我没有收到代码",
+  "no_account": "还没有账户？",
+  "sign_up_link": "注册",
+  "validation": {
+    "digit_only": "仅限数字",
+    "required": "必填",
+    "enter_5_digits": "输入5位数字"
+  },
+  "toast": {
+    "success_title": "成功",
+    "success_description": "OTP验证成功！",
+    "failed_title": "OTP失败",
+    "resend_success_title": "成功",
+    "resend_success_description": "OTP重新发送成功！",
+    "resend_failed_title": "OTP重新发送失败",
+    "default_error": "注册失败"
+  },
+  "modal_title": "注册成功！",
+  "modal_description": "欢迎来到Crowdshipping！您已准备好开始发送或接收包裹。",
+  "modal_button": "登录"
+}

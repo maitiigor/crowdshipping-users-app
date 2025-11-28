@@ -1,0 +1,41 @@
+{
+  "header_title": "Registrati",
+  "create_account": "Crea un account",
+  "first_name_label": "Nome",
+  "first_name_placeholder": "nome",
+  "last_name_label": "Cognome",
+  "last_name_placeholder": "cognome",
+  "email_label": "Indirizzo email",
+  "email_placeholder": "utente@gmail.com",
+  "phone_label": "Numero di telefono",
+  "password_label": "Password",
+  "password_placeholder": "Inserisci la tua password",
+  "confirm_password_label": "Conferma password",
+  "confirm_password_placeholder": "Conferma password",
+  "signup_button": "Registrati",
+  "or_divider": "Oppure",
+  "have_account": "Non hai un account?",
+  "sign_in_link": "Accedi",
+  "validation": {
+    "first_name_min": "Il nome deve contenere almeno 2 caratteri",
+    "first_name_max": "Il nome non può superare i 50 caratteri",
+    "first_name_required": "Il nome è obbligatorio",
+    "last_name_min": "Il cognome deve contenere almeno 2 caratteri",
+    "last_name_max": "Il cognome non può superare i 50 caratteri",
+    "last_name_required": "Il cognome è obbligatorio",
+    "invalid_email": "Email non valida",
+    "email_required": "L'email è obbligatoria",
+    "password_min": "La password deve contenere almeno 6 caratteri",
+    "password_required": "La password è obbligatoria",
+    "confirm_password_match": "Le password devono corrispondere",
+    "confirm_password_required": "La conferma della password è obbligatoria"
+  },
+  "toast": {
+    "invalid_phone_title": "Telefono non valido",
+    "invalid_phone_description": "Inserisci un numero di telefono valido",
+    "success_title": "Successo",
+    "success_description": "Registrazione avvenuta con successo!",
+    "failed_title": "Registrazione fallita",
+    "default_error": "Registrazione fallita"
+  }
+}

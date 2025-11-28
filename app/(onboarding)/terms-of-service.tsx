@@ -9,8 +9,11 @@ import { ChevronLeft } from "lucide-react-native";
 import React, { useEffect } from "react";
 import { TouchableOpacity } from "react-native";
 
+import { useTranslation } from "react-i18next";
+
 export default function TermsOfService() {
   const navigation = useNavigation();
+  const { t } = useTranslation("termsOfService");
   const backroundTopNav = useThemeColor({}, "background");
   useEffect(() => {
     navigation.setOptions({
@@ -18,7 +21,7 @@ export default function TermsOfService() {
       headerTitle: () => {
         return (
           <ThemedText type="s1_subtitle" className="text-center">
-            Terms of Service
+            {t("header_title")}
           </ThemedText>
         );
       },
@@ -73,24 +76,23 @@ export default function TermsOfService() {
       >
         <ThemedView className="flex-1 ">
           <ThemedText type="h4_header" className="mt-5">
-            Welcome Back
+            {t("title")}
           </ThemedText>
           <ThemedText type="default" className="pt-2 text-typography-800">
-            Please sign in to access your Crowdshipping account and manage your
-            deliveries.
+            {t("content")}
           </ThemedText>
         </ThemedView>
       </ParallaxScrollView>
       <ThemedView className="absolute bottom-10 left-0 right-0 px-5">
         <Button variant="solid" size="2xl" className="mt-5 rounded-[12px]">
           <ThemedText type="s1_subtitle" className="text-white">
-            Accept
+            {t("accept_button")}
           </ThemedText>
         </Button>
 
         <Button variant="outline" size="2xl" className="mt-5 rounded-[12px]">
           <ThemedText type="s1_subtitle" className="text-primary-500">
-            Decline
+            {t("decline_button")}
           </ThemedText>
         </Button>
       </ThemedView>

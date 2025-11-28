@@ -1,0 +1,20 @@
+{
+  "onboarding_step_1": {
+    "title": "Tu Entrega, A Tu Manera",
+    "description": "Publica una solicitud, elige un transportista cercano y rastrea tu artículo desde la recogida hasta la entrega, todo en una aplicación"
+  },
+  "onboarding_step_2": {
+    "title": "Envía y Recibe Paquetes",
+    "description": "Publica una solicitud, elige un transportista cercano y rastrea tu artículo desde la recogida hasta la entrega, todo en una aplicación"
+  },
+  "onboarding_step_3": {
+    "title": "Entrega por Aire, Tierra o Agua",
+    "description": "Elige la mejor forma de mover tu paquete — por carretera, avión o mar. Rápido, flexible y fiable."
+  },
+  "login_button": "Iniciar sesión",
+  "get_started_button": "Comenzar",
+  "terms_consent": "Al registrarte, aceptas nuestros",
+  "terms_of_service": "Términos de Servicio",
+  "and": "y cómo usamos tus datos en nuestra",
+  "privacy_policy": "Política de Privacidad"
+}

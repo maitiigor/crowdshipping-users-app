@@ -1,0 +1,41 @@
+{
+  "header_title": "Registrieren",
+  "create_account": "Konto erstellen",
+  "first_name_label": "Vorname",
+  "first_name_placeholder": "vorname",
+  "last_name_label": "Nachname",
+  "last_name_placeholder": "nachname",
+  "email_label": "E-Mail-Adresse",
+  "email_placeholder": "benutzer@gmail.com",
+  "phone_label": "Telefonnummer",
+  "password_label": "Passwort",
+  "password_placeholder": "Geben Sie Ihr Passwort ein",
+  "confirm_password_label": "Passwort bestätigen",
+  "confirm_password_placeholder": "Passwort bestätigen",
+  "signup_button": "Registrieren",
+  "or_divider": "Oder",
+  "have_account": "Sie haben noch kein Konto?",
+  "sign_in_link": "Anmelden",
+  "validation": {
+    "first_name_min": "Der Vorname muss mindestens 2 Zeichen lang sein",
+    "first_name_max": "Der Vorname darf nicht länger als 50 Zeichen sein",
+    "first_name_required": "Vorname ist erforderlich",
+    "last_name_min": "Der Nachname muss mindestens 2 Zeichen lang sein",
+    "last_name_max": "Der Nachname darf nicht länger als 50 Zeichen sein",
+    "last_name_required": "Nachname ist erforderlich",
+    "invalid_email": "Ungültige E-Mail",
+    "email_required": "E-Mail ist erforderlich",
+    "password_min": "Das Passwort muss mindestens 6 Zeichen lang sein",
+    "password_required": "Passwort ist erforderlich",
+    "confirm_password_match": "Passwörter müssen übereinstimmen",
+    "confirm_password_required": "Passwortbestätigung ist erforderlich"
+  },
+  "toast": {
+    "invalid_phone_title": "Ungültige Telefonnummer",
+    "invalid_phone_description": "Bitte geben Sie eine gültige Telefonnummer ein",
+    "success_title": "Erfolg",
+    "success_description": "Erfolgreich registriert!",
+    "failed_title": "Registrierung fehlgeschlagen",
+    "default_error": "Registrierung fehlgeschlagen"
+  }
+}

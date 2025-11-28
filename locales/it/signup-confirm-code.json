@@ -1,0 +1,28 @@
+{
+  "header_title": "Registrati",
+  "subtitle": "Inserisci il codice a 5 cifre inviato a",
+  "verify_button": "Verifica",
+  "resend_code": "Invia di nuovo il codice",
+  "resend_link": "Invia di nuovo",
+  "resending": "Invio in corso...",
+  "no_code": "Non ho ricevuto un codice",
+  "no_account": "Non hai un account?",
+  "sign_up_link": "Registrati",
+  "validation": {
+    "digit_only": "Solo cifre",
+    "required": "Obbligatorio",
+    "enter_5_digits": "Inserisci 5 cifre"
+  },
+  "toast": {
+    "success_title": "Successo",
+    "success_description": "OTP verificato con successo!",
+    "failed_title": "OTP fallito",
+    "resend_success_title": "Successo",
+    "resend_success_description": "OTP inviato di nuovo con successo!",
+    "resend_failed_title": "Invio OTP fallito",
+    "default_error": "Registrazione fallita"
+  },
+  "modal_title": "Registrazione riuscita!",
+  "modal_description": "Benvenuto in Crowdshipping! Sei pronto per iniziare a inviare o ricevere pacchi.",
+  "modal_button": "Accedi"
+}

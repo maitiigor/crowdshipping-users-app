@@ -35,6 +35,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea, TextareaInput } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/toast";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { useAuthenticatedPatch, useAuthenticatedPost } from "@/lib/api";
 import { formatPhoneForApi, isValidPhone } from "@/lib/phone";
 import { FieldArray, Formik } from "formik";
@@ -45,43 +46,11 @@ import {
   SquarePlus,
   Trash2,
 } from "lucide-react-native";
+import { useTranslation } from "react-i18next";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as Yup from "yup";
-import { useThemeColor } from "@/hooks/useThemeColor";
 
 // MenuItem type removed (unused)
-const productCategoryList = [
-  {
-    label: "Perishable",
-    value: "Perishable",
-  },
-  {
-    label: "Electronics",
-    value: "Electronics",
-  },
-  {
-    label: "Clothing",
-    value: "Clothing",
-  },
-  {
-    label: "Home & Kitchen",
-    value: "Home & Kitchen",
-  },
-];
-const productTypeList = [
-  {
-    label: "Pizza",
-    value: "Pizza",
-  },
-  {
-    label: "Groceries",
-    value: "Groceries",
-  },
-  {
-    label: "Other",
-    value: "Other",
-  },
-];
 
 type ProductUnit = "kg" | "lb";
 
@@ -103,45 +72,55 @@ type FormValues = {
   packages: PackageFormValues[];
 };
 
-const packageSchema = Yup.object({
-  productCategory: Yup.string().required("Product category is required"),
-  productType: Yup.string().required("Product name is required"),
-  productWeight: Yup.string()
-    .required("Weight is required")
-    .test("is-valid-weight", "Weight must be a valid number", (value) => {
-      if (!value) return false;
-      const numeric = Number(value);
-      return Number.isFinite(numeric) && numeric > 0;
-    }),
-  productUnit: Yup.mixed<ProductUnit>()
-    .oneOf(["kg", "lb"], "Select a weight unit")
-    .required("Weight unit is required"),
-  productImage: Yup.string().required("Package image is required"),
-  productDescription: Yup.string()
-    .max(500, "Description cannot exceed 500 characters")
-    .required("Description is required"),
-});
+const getPackageSchema = (t: any) =>
+  Yup.object({
+    productCategory: Yup.string().required(
+      t("validation.product_category_required")
+    ),
+    productType: Yup.string().required(t("validation.product_name_required")),
+    productWeight: Yup.string()
+      .required(t("validation.weight_required"))
+      .test("is-valid-weight", t("validation.weight_invalid"), (value) => {
+        if (!value) return false;
+        const numeric = Number(value);
+        return Number.isFinite(numeric) && numeric > 0;
+      }),
+    productUnit: Yup.mixed<ProductUnit>()
+      .oneOf(["kg", "lb"], t("validation.select_weight_unit"))
+      .required(t("validation.weight_unit_required")),
+    productImage: Yup.string().required(t("validation.package_image_required")),
+    productDescription: Yup.string()
+      .max(500, t("validation.description_max_length"))
+      .required(t("validation.description_required")),
+  });
 
-const validationSchema = Yup.object({
-  bookingType: Yup.string()
-    .oneOf(["instant", "schedule"], "Select a booking type")
-    .required("Booking type is required"),
-  scheduleDate: Yup.date()
-    .nullable()
-    .when("bookingType", {
-      is: "schedule",
-      then: (schema) => schema.required("Schedule date is required"),
-      otherwise: (schema) => schema.nullable(),
-    }),
-  receiverName: Yup.string()
-    .min(2, "Receiver name must be at least 2 characters")
-    .required("Receiver name is required"),
-  receiverPhone: Yup.string().required("Receiver phone number is required"),
-  alternativePhone: Yup.string().required(
-    "Alternative phone number is required"
-  ),
-  packages: Yup.array().of(packageSchema).min(1, "Add at least one package"),
-});
+const getValidationSchema = (t: any) =>
+  Yup.object({
+    bookingType: Yup.string()
+      .oneOf(["instant", "schedule"], t("validation.select_booking_type"))
+      .required(t("validation.booking_type_required")),
+    scheduleDate: Yup.date()
+      .nullable()
+      .when("bookingType", {
+        is: "schedule",
+        then: (schema) =>
+          schema.required(t("validation.schedule_date_required")),
+        otherwise: (schema) => schema.nullable(),
+      }),
+    receiverName: Yup.string()
+      .min(2, t("validation.receiver_name_min_length"))
+      .required(t("validation.receiver_name_required")),
+    receiverPhone: Yup.string().required(
+      t("validation.receiver_phone_required")
+    ),
+    alternativePhone: Yup.string().required(
+      t("validation.alternative_phone_required")
+    ),
+    packages: Yup.array()
+      .of(getPackageSchema(t))
+      .min(1, t("validation.add_at_least_one_package")),
+  });
+
 type UpdatePackagePayload = {
   bookingType: "instant" | "schedule";
   scheduleDate?: string;
@@ -159,9 +138,23 @@ type UpdatePackagePayload = {
 };
 
 export default function AddPackageScreen() {
+  const { t } = useTranslation("addPackage");
   const navigation = useNavigation();
   const router = useRouter();
   const toast = useToast();
+
+  const validationSchema = useMemo(() => getValidationSchema(t), [t]);
+
+  const productCategoryList = useMemo(
+    () => [
+      { label: t("categories.perishable"), value: "Perishable" },
+      { label: t("categories.electronics"), value: "Electronics" },
+      { label: t("categories.clothing"), value: "Clothing" },
+      { label: t("categories.home_kitchen"), value: "Home & Kitchen" },
+    ],
+    [t]
+  );
+
   const receiverPhoneInputRef = useRef<any>(null);
   const alternativePhoneInputRef = useRef<any>(null);
   const [selectedPickupAddress, setSelectedPickupAddress] =
@@ -218,7 +211,7 @@ export default function AddPackageScreen() {
       headerTitle: () => {
         return (
           <ThemedText type="s1_subtitle" className="text-center">
-            Add Package
+            {t("header_title")}
           </ThemedText>
         );
       },
@@ -309,8 +302,8 @@ export default function AddPackageScreen() {
       const receiverValid = isValidPhone(receiverRaw);
       if (!receiverValid) {
         showNewToast({
-          title: "Invalid receiver phone",
-          description: "Enter a valid receiver phone number",
+          title: t("toasts.invalid_receiver_phone_title"),
+          description: t("toasts.invalid_receiver_phone_desc"),
           icon: HelpCircleIcon,
           action: "error",
           variant: "solid",
@@ -331,8 +324,8 @@ export default function AddPackageScreen() {
         const altValid = isValidPhone(alternativeRaw);
         if (!altValid) {
           showNewToast({
-            title: "Invalid alternative phone",
-            description: "Enter a valid alternative phone number",
+            title: t("toasts.invalid_alternative_phone_title"),
+            description: t("toasts.invalid_alternative_phone_desc"),
             icon: HelpCircleIcon,
             action: "error",
             variant: "solid",
@@ -347,8 +340,8 @@ export default function AddPackageScreen() {
       );
       if (packagesMissingImage) {
         showNewToast({
-          title: "Package image required",
-          description: "Upload an image for each package",
+          title: t("toasts.package_image_required_title"),
+          description: t("toasts.package_image_required_desc"),
           icon: HelpCircleIcon,
           action: "error",
           variant: "solid",
@@ -377,8 +370,8 @@ export default function AddPackageScreen() {
       };
       const response = await mutateAsync(payload);
       showNewToast({
-        title: "Package saved",
-        description: "Your packages were added successfully",
+        title: t("toasts.package_saved_title"),
+        description: t("toasts.package_saved_desc"),
         icon: CircleCheckIcon,
         action: "success",
         variant: "solid",
@@ -402,7 +395,7 @@ export default function AddPackageScreen() {
       console.log("🚀 ~ handleFormSubmit ~ message:", message);
 
       showNewToast({
-        title: "Add package failed",
+        title: t("toasts.add_package_failed_title"),
         description: message,
         icon: HelpCircleIcon,
         action: "error",
@@ -416,7 +409,7 @@ export default function AddPackageScreen() {
       headerTitle: () => {
         return (
           <ThemedText type="s1_subtitle" className="text-center">
-            Add Package
+            {t("header_title")}
           </ThemedText>
         );
       },
@@ -494,7 +487,9 @@ export default function AddPackageScreen() {
               return (
                 <ThemedView className="flex-1 gap-5 pb-20 mt-3">
                   <ThemedView>
-                    <InputLabelText className="">Receiver Name</InputLabelText>
+                    <InputLabelText className="">
+                      {t("labels.receiver_name")}
+                    </InputLabelText>
                     <Input
                       size="xl"
                       className="h-[55px] rounded-lg border-primary-100 bg-primary-inputShade px-2"
@@ -507,7 +502,7 @@ export default function AddPackageScreen() {
                       }
                     >
                       <InputField
-                        placeholder="Enter receiver's name"
+                        placeholder={t("placeholders.receiver_name")}
                         value={values.receiverName}
                         onChangeText={handleChange("receiverName")}
                         onBlur={handleBlur("receiverName")}
@@ -517,7 +512,11 @@ export default function AddPackageScreen() {
                     </Input>
                     {errors.receiverName &&
                       (touched.receiverName || submitCount > 0) && (
-                        <ThemedText lightColor="#FF3B30" type="b4_body" className="text-error-500">
+                        <ThemedText
+                          lightColor="#FF3B30"
+                          type="b4_body"
+                          className="text-error-500"
+                        >
                           {errors.receiverName}
                         </ThemedText>
                       )}
@@ -525,7 +524,7 @@ export default function AddPackageScreen() {
 
                   <ThemedView>
                     <InputLabelText className="">
-                      Receiver Phone Number
+                      {t("labels.receiver_phone")}
                     </InputLabelText>
                     <PhoneNumberInput
                       ref={receiverPhoneInputRef}
@@ -537,7 +536,11 @@ export default function AddPackageScreen() {
                     />
                     {errors.receiverPhone &&
                       (touched.receiverPhone || submitCount > 0) && (
-                        <ThemedText lightColor="#FF3B30" type="b4_body" className="text-error-500">
+                        <ThemedText
+                          lightColor="#FF3B30"
+                          type="b4_body"
+                          className="text-error-500"
+                        >
                           {errors.receiverPhone}
                         </ThemedText>
                       )}
@@ -545,7 +548,7 @@ export default function AddPackageScreen() {
 
                   <ThemedView>
                     <InputLabelText className="">
-                      Alternative Phone Number
+                      {t("labels.alternative_phone")}
                     </InputLabelText>
                     <PhoneNumberInput
                       ref={alternativePhoneInputRef}
@@ -557,14 +560,20 @@ export default function AddPackageScreen() {
                     />
                     {errors.alternativePhone &&
                       (touched.alternativePhone || submitCount > 0) && (
-                        <ThemedText lightColor="#FF3B30" type="b4_body" className="text-error-500">
+                        <ThemedText
+                          lightColor="#FF3B30"
+                          type="b4_body"
+                          className="text-error-500"
+                        >
                           {errors.alternativePhone}
                         </ThemedText>
                       )}
                   </ThemedView>
 
                   <ThemedView>
-                    <InputLabelText type="b2_body">Booking Type</InputLabelText>
+                    <InputLabelText type="b2_body">
+                      {t("labels.booking_type")}
+                    </InputLabelText>
                     <Select
                       selectedValue={values.bookingType}
                       onValueChange={(val) => {
@@ -579,7 +588,7 @@ export default function AddPackageScreen() {
                         className="h-[55px] rounded-lg border-primary-100 bg-primary-inputShade px-2"
                       >
                         <SelectInput
-                          placeholder="Select a booking type"
+                          placeholder={t("placeholders.select_booking_type")}
                           value={values.bookingType}
                           className="flex-1"
                         />
@@ -591,14 +600,24 @@ export default function AddPackageScreen() {
                           <SelectDragIndicatorWrapper>
                             <SelectDragIndicator />
                           </SelectDragIndicatorWrapper>
-                          <SelectItem label="Instant" value="instant" />
-                          <SelectItem label="Schedule" value="schedule" />
+                          <SelectItem
+                            label={t("booking_types.instant")}
+                            value="instant"
+                          />
+                          <SelectItem
+                            label={t("booking_types.schedule")}
+                            value="schedule"
+                          />
                         </SelectContent>
                       </SelectPortal>
                     </Select>
                     {errors.bookingType &&
                       (touched.bookingType || submitCount > 0) && (
-                        <ThemedText lightColor="#FF3B30" type="b4_body" className="text-error-500">
+                        <ThemedText
+                          lightColor="#FF3B30"
+                          type="b4_body"
+                          className="text-error-500"
+                        >
                           {errors.bookingType}
                         </ThemedText>
                       )}
@@ -607,7 +626,7 @@ export default function AddPackageScreen() {
                   {values.bookingType === "schedule" && (
                     <ThemedView>
                       <DateField
-                        label="Schedule Date"
+                        label={t("labels.schedule_date")}
                         labelClassName="b2_body"
                         value={values.scheduleDate as unknown as Date | null}
                         onChange={(date) => setFieldValue("scheduleDate", date)}
@@ -615,7 +634,11 @@ export default function AddPackageScreen() {
                       />
                       {errors.scheduleDate &&
                         (touched.scheduleDate || submitCount > 0) && (
-                          <ThemedText lightColor="#FF3B30" type="b4_body" className="text-error-500">
+                          <ThemedText
+                            lightColor="#FF3B30"
+                            type="b4_body"
+                            className="text-error-500"
+                          >
                             {String(errors.scheduleDate)}
                           </ThemedText>
                         )}
@@ -640,7 +663,9 @@ export default function AddPackageScreen() {
                             >
                               <ThemedView className="flex-row items-center justify-between mb-4">
                                 <ThemedText type="s1_subtitle" className="">
-                                  Package {index + 1}
+                                  {t("labels.package_index", {
+                                    index: index + 1,
+                                  })}
                                 </ThemedText>
                                 {index > 0 && (
                                   <TouchableOpacity
@@ -664,7 +689,7 @@ export default function AddPackageScreen() {
 
                               <ThemedView className="mb-4">
                                 <InputLabelText type="b2_body">
-                                  Product Category
+                                  {t("labels.product_category")}
                                 </InputLabelText>
                                 <Select
                                   selectedValue={pkg.productCategory}
@@ -680,7 +705,9 @@ export default function AddPackageScreen() {
                                     className="h-[55px] rounded-lg border-primary-100 bg-primary-inputShade px-2"
                                   >
                                     <SelectInput
-                                      placeholder="Select a category"
+                                      placeholder={t(
+                                        "placeholders.select_category"
+                                      )}
                                       value={pkg.productCategory}
                                       className="flex-1"
                                     />
@@ -718,7 +745,7 @@ export default function AddPackageScreen() {
                               </ThemedView>
                               <ThemedView className="mb-4">
                                 <InputLabelText type="b2_body">
-                                  Product Name
+                                  {t("labels.product_name")}
                                 </InputLabelText>
                                 <ThemedView className="flex-row gap-3">
                                   <ThemedView className="flex-1">
@@ -735,7 +762,9 @@ export default function AddPackageScreen() {
                                       }
                                     >
                                       <InputField
-                                        placeholder="Product name"
+                                        placeholder={t(
+                                          "placeholders.product_name"
+                                        )}
                                         value={pkg.productType}
                                         onChangeText={(text) =>
                                           setFieldValue(
@@ -776,7 +805,7 @@ export default function AddPackageScreen() {
 
                               <ThemedView className="mb-4">
                                 <InputLabelText type="b2_body">
-                                  Product Weight
+                                  {t("labels.product_weight")}
                                 </InputLabelText>
                                 <ThemedView className="flex-row gap-3">
                                   <ThemedView className="flex-1">
@@ -793,7 +822,9 @@ export default function AddPackageScreen() {
                                       }
                                     >
                                       <InputField
-                                        placeholder="e.g. 12"
+                                        placeholder={t(
+                                          "placeholders.product_weight"
+                                        )}
                                         value={pkg.productWeight}
                                         onChangeText={(text) =>
                                           setFieldValue(
@@ -824,7 +855,7 @@ export default function AddPackageScreen() {
                                         className="h-[55px] rounded-lg border-primary-100 bg-primary-inputShade px-2"
                                       >
                                         <SelectInput
-                                          placeholder="Unit"
+                                          placeholder={t("placeholders.unit")}
                                           value={pkg.productUnit}
                                           className="flex-1"
                                         />
@@ -874,7 +905,7 @@ export default function AddPackageScreen() {
                                   editIconClassName="bottom-0 right-0"
                                   allowsEditing
                                   size={100}
-                                  label="Package Image"
+                                  label={t("labels.package_image")}
                                   aspect={[4, 3]}
                                   className="border-2 border-typography-300 bg-primary-inputShade flex justify-center items-center py-4 w-full rounded-lg"
                                   shape="circle"
@@ -925,9 +956,10 @@ export default function AddPackageScreen() {
                                         uploadedUrl
                                       );
                                       showNewToast({
-                                        title: "Image uploaded",
-                                        description:
-                                          "Package image saved successfully",
+                                        title: t("toasts.image_uploaded_title"),
+                                        description: t(
+                                          "toasts.image_uploaded_desc"
+                                        ),
                                         icon: CircleCheckIcon,
                                         action: "success",
                                         variant: "solid",
@@ -938,17 +970,17 @@ export default function AddPackageScreen() {
                                         ""
                                       );
                                       showNewToast({
-                                        title: "Upload failed",
+                                        title: t("toasts.upload_failed_title"),
                                         description:
                                           uploadError?.message ||
-                                          "Could not upload image",
+                                          t("toasts.upload_failed_desc"),
                                         icon: HelpCircleIcon,
                                         action: "error",
                                         variant: "solid",
                                       });
                                     }
                                   }}
-                                  helperText="Upload a photo of the package"
+                                  helperText={t("labels.upload_helper_text")}
                                 />
                                 {pkgErrors.productImage &&
                                   (pkgTouched.productImage ||
@@ -964,7 +996,7 @@ export default function AddPackageScreen() {
 
                               <ThemedView>
                                 <InputLabelText type="b2_body" className="pb-1">
-                                  Product Description
+                                  {t("labels.product_description")}
                                 </InputLabelText>
                                 <Textarea
                                   size="lg"
@@ -989,7 +1021,9 @@ export default function AddPackageScreen() {
                                     onBlur={handleBlur(
                                       `packages[${index}].productDescription`
                                     )}
-                                    placeholder="Enter product description"
+                                    placeholder={t(
+                                      "placeholders.product_description"
+                                    )}
                                     multiline
                                     maxLength={500}
                                     numberOfLines={10}
@@ -1044,7 +1078,7 @@ export default function AddPackageScreen() {
                               type="s2_subtitle"
                               className="text-primary-500"
                             >
-                              Add Another Package
+                              {t("buttons.add_another_package")}
                             </ThemedText>
                           </ThemedView>
                         </Button>
@@ -1063,7 +1097,7 @@ export default function AddPackageScreen() {
                       <ActivityIndicator color="#FFFFFF" />
                     ) : (
                       <ThemedText type="s1_subtitle" className="text-white">
-                        Continue
+                        {t("buttons.continue")}
                       </ThemedText>
                     )}
                   </Button>

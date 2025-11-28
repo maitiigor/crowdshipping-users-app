@@ -1,0 +1,20 @@
+{
+  "onboarding_step_1": {
+    "title": "あなたの配送、あなたの方法で",
+    "description": "リクエストを投稿し、近くの配送業者を選択し、1つのアプリで集荷から配達までアイテムを追跡"
+  },
+  "onboarding_step_2": {
+    "title": "荷物の送受信",
+    "description": "リクエストを投稿し、近くの配送業者を選択し、1つのアプリで集荷から配達までアイテムを追跡"
+  },
+  "onboarding_step_3": {
+    "title": "空路、陸路、または海路で配送",
+    "description": "荷物を移動する最適な方法を選択 — 道路、飛行機、または海。迅速、柔軟、信頼性。"
+  },
+  "login_button": "ログイン",
+  "get_started_button": "始める",
+  "terms_consent": "登録することにより、当社の",
+  "terms_of_service": "利用規約",
+  "and": "および当社の",
+  "privacy_policy": "プライバシーポリシーでのデータの使用方法に同意したことになります"
+}

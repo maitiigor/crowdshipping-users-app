@@ -1,0 +1,28 @@
+{
+  "header_title": "가입하기",
+  "subtitle": "다음으로 전송된 5자리 코드를 입력하세요",
+  "verify_button": "확인",
+  "resend_code": "코드 다시 보내기",
+  "resend_link": "재전송",
+  "resending": "재전송 중...",
+  "no_code": "코드를 받지 못했습니다",
+  "no_account": "계정이 없으신가요?",
+  "sign_up_link": "가입하기",
+  "validation": {
+    "digit_only": "숫자만 입력",
+    "required": "필수",
+    "enter_5_digits": "5자리를 입력하세요"
+  },
+  "toast": {
+    "success_title": "성공",
+    "success_description": "OTP가 성공적으로 확인되었습니다!",
+    "failed_title": "OTP 실패",
+    "resend_success_title": "성공",
+    "resend_success_description": "OTP가 성공적으로 재전송되었습니다!",
+    "resend_failed_title": "OTP 재전송 실패",
+    "default_error": "가입 실패"
+  },
+  "modal_title": "등록 성공!",
+  "modal_description": "Crowdshipping에 오신 것을 환영합니다! 패키지를 보내거나 받을 준비가 되었습니다.",
+  "modal_button": "로그인"
+}

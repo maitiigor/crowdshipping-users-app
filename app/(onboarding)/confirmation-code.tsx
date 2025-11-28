@@ -18,18 +18,27 @@ import {
   TouchableOpacity,
 } from "react-native";
 
+import { useTranslation } from "react-i18next";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as Yup from "yup";
-const validationSchema = Yup.object().shape({
-  code: Yup.array()
-    .of(Yup.string().matches(/^\d$/, "Digit only").required("Required"))
-    .length(5, "Enter 5 digits"),
-});
+
+const getValidationSchema = (t: any) =>
+  Yup.object().shape({
+    code: Yup.array()
+      .of(
+        Yup.string()
+          .matches(/^\d$/, t("validation.digit_only"))
+          .required(t("validation.required"))
+      )
+      .length(5, t("validation.enter_5_digits")),
+  });
 
 export default function ConfirmationCode() {
   // hide the header for this screen
   const navigation = useNavigation();
   const router = useRouter();
+  const { t } = useTranslation("confirmationCode");
+  const validationSchema = getValidationSchema(t);
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
   const [secondsLeft, setSecondsLeft] = useState(20); // countdown state
   const [showModal, setShowModal] = useState(false);
@@ -40,7 +49,7 @@ export default function ConfirmationCode() {
       headerTitle: () => {
         return (
           <ThemedText type="s1_subtitle" className="text-center">
-            Sign Up
+            {t("header_title")}
           </ThemedText>
         );
       },
@@ -138,7 +147,7 @@ export default function ConfirmationCode() {
         <ThemedView className="flex-1">
           <ThemedView className=" justify-center items-center">
             <ThemedText type="s1_subtitle" className="mt-5">
-              Enter the 5-digit code sent to your email at +user@gmail.com
+              {t("subtitle")}
             </ThemedText>
           </ThemedView>
 
@@ -207,7 +216,7 @@ export default function ConfirmationCode() {
                     className="text-error-500 mb-4"
                   >
                     {Array.isArray(errors.code)
-                      ? "Enter 5 digits"
+                      ? t("validation.enter_5_digits")
                       : (errors.code as string)}
                   </ThemedText>
                 )}
@@ -219,7 +228,7 @@ export default function ConfirmationCode() {
                   onPress={() => handleSubmit()}
                 >
                   <ThemedText type="s1_subtitle" className="text-white">
-                    Verify
+                    {t("verify_button")}
                   </ThemedText>
                 </Button>
               </ThemedView>
@@ -233,7 +242,7 @@ export default function ConfirmationCode() {
                 type="s1_subtitle"
                 className="text-typography-950  text-center"
               >
-                Send code again{" "}
+                {t("resend_code")}{" "}
                 <ThemedText type="default" className="text-typography-600">
                   00:{String(secondsLeft).padStart(2, "0")}
                 </ThemedText>
@@ -251,7 +260,7 @@ export default function ConfirmationCode() {
                     type="s1_subtitle"
                     className="text-typography-950"
                   >
-                    Resend
+                    {t("resend_link")}
                   </ThemedText>
                 </Button>
               </ThemedView>
@@ -270,10 +279,10 @@ export default function ConfirmationCode() {
           type="s1_subtitle"
           className="text-typography-950 text-center"
         >
-          You don’t have an account?{" "}
+          {t("no_account")}{" "}
           <Link href="../signup" asChild>
             <ThemedText type="s1_subtitle" className="text-primary-500">
-              Sign up{" "}
+              {t("sign_up_link")}{" "}
             </ThemedText>
           </Link>
         </ThemedText>
@@ -281,11 +290,11 @@ export default function ConfirmationCode() {
       {showModal && (
         <>
           <CustomModal
-            description="Welcome back!"
-            title="Login Successful!"
+            description={t("modal_description")}
+            title={t("modal_title")}
             img={require("@/assets/images/onboarding/modal-success.png")}
             firstBtnLink={"/(tabs)"}
-            firstBtnText="Get Started"
+            firstBtnText={t("modal_button")}
             setShowModal={setShowModal}
             showModal={showModal}
             size="lg"

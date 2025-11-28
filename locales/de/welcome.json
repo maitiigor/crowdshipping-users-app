@@ -1,0 +1,20 @@
+{
+  "onboarding_step_1": {
+    "title": "Ihre Lieferung, Auf Ihre Weise",
+    "description": "Veröffentlichen Sie eine Anfrage, wählen Sie einen Spediteur in der Nähe und verfolgen Sie Ihren Artikel von der Abholung bis zur Zustellung, alles in einer App"
+  },
+  "onboarding_step_2": {
+    "title": "Pakete Senden und Empfangen",
+    "description": "Veröffentlichen Sie eine Anfrage, wählen Sie einen Spediteur in der Nähe und verfolgen Sie Ihren Artikel von der Abholung bis zur Zustellung, alles in einer App"
+  },
+  "onboarding_step_3": {
+    "title": "Lieferung per Luft, Land oder Wasser",
+    "description": "Wählen Sie den besten Weg, um Ihr Paket zu transportieren — auf der Straße, per Flugzeug oder auf dem Seeweg. Schnell, flexibel und zuverlässig."
+  },
+  "login_button": "Anmelden",
+  "get_started_button": "Loslegen",
+  "terms_consent": "Mit der Registrierung stimmen Sie unseren",
+  "terms_of_service": "Nutzungsbedingungen",
+  "and": "und der Verwendung Ihrer Daten in unserer",
+  "privacy_policy": "Datenschutzerklärung zu"
+}

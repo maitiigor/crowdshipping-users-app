@@ -1,0 +1,19 @@
+{
+  "header_title": "رمز التأكيد",
+  "title": "أدخل رمز التأكيد",
+  "subtitle": "أدخل الرمز المكون من 4 أرقام المرسل إلى بريدك الإلكتروني",
+  "verify_button": "تحقق",
+  "resend_code": "إعادة إرسال الرمز في",
+  "resend_link": "إعادة إرسال الرمز",
+  "no_account": "ليس لديك حساب؟",
+  "sign_up_link": "سجل",
+  "toast": {
+    "success_title": "نجاح",
+    "success_description": "تم التحقق من الرمز بنجاح!",
+    "failed_title": "فشل التحقق",
+    "default_error": "رمز غير صالح"
+  },
+  "modal_title": "تم التحقق بنجاح!",
+  "modal_description": "تم التحقق من حسابك بنجاح.",
+  "modal_button": "ابدأ"
+}

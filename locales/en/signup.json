@@ -1,0 +1,41 @@
+{
+  "header_title": "Signup",
+  "create_account": "Create An Account",
+  "first_name_label": "First Name",
+  "first_name_placeholder": "first name",
+  "last_name_label": "Last Name",
+  "last_name_placeholder": "last name",
+  "email_label": "Email address",
+  "email_placeholder": "user@gmail.com",
+  "phone_label": "Phone Number",
+  "password_label": "Password",
+  "password_placeholder": "Input your password",
+  "confirm_password_label": "Confirm Password",
+  "confirm_password_placeholder": "Confirm password",
+  "signup_button": "Sign up",
+  "or_divider": "Or",
+  "have_account": "You don't have an account?",
+  "sign_in_link": "Sign in",
+  "validation": {
+    "first_name_min": "First name must be at least 2 characters",
+    "first_name_max": "First name can't be longer than 50 characters",
+    "first_name_required": "First name is required",
+    "last_name_min": "Last name must be at least 2 characters",
+    "last_name_max": "Last name can't be longer than 50 characters",
+    "last_name_required": "Last name is required",
+    "invalid_email": "Invalid email",
+    "email_required": "Email is required",
+    "password_min": "Password must be at least 6 characters",
+    "password_required": "Password is required",
+    "confirm_password_match": "Passwords must match",
+    "confirm_password_required": "Confirm password is required"
+  },
+  "toast": {
+    "invalid_phone_title": "Invalid phone",
+    "invalid_phone_description": "Please enter a valid phone number",
+    "success_title": "Success",
+    "success_description": "Registered successfully!",
+    "failed_title": "Sign Up Failed",
+    "default_error": "Sign up failed"
+  }
+}

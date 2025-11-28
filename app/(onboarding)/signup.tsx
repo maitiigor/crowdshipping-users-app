@@ -13,12 +13,14 @@ import {
 } from "@/components/ui/icon";
 import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
 import { useToast } from "@/components/ui/toast";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { usePost } from "@/lib/api/index";
 import { formatPhoneForApi, isValidPhone } from "@/lib/phone";
 import { Link, useNavigation, useRouter } from "expo-router";
 import { Formik } from "formik";
 import { ChevronLeft, CircleCheckIcon, LucideIcon } from "lucide-react-native";
 import React, { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   ActivityIndicator,
   Keyboard,
@@ -29,27 +31,30 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as Yup from "yup";
 import { loginWithSocials } from "./login";
-import { useThemeColor } from "@/hooks/useThemeColor";
-const validationSchema = Yup.object().shape({
-  firstName: Yup.string()
-    .min(2, "First name must be at least 2 characters")
-    .max(50, "First name can't be longer than 50 characters")
-    .required("First name is required"),
-  lastName: Yup.string()
-    .min(2, "Last name must be at least 2 characters")
-    .max(50, "Last name can't be longer than 50 characters")
-    .required("Last name is required"),
-  email: Yup.string().email("Invalid email").required("Email is required"),
-  password: Yup.string()
-    .min(6, "Password must be at least 6 characters")
-    .required("Password is required"),
-  confirmPassword: Yup.string()
-    .oneOf([Yup.ref("password")], "Passwords must match")
-    .required("Confirm password is required"),
-});
+const getValidationSchema = (t: any) =>
+  Yup.object().shape({
+    firstName: Yup.string()
+      .min(2, t("validation.first_name_min"))
+      .max(50, t("validation.first_name_max"))
+      .required(t("validation.first_name_required")),
+    lastName: Yup.string()
+      .min(2, t("validation.last_name_min"))
+      .max(50, t("validation.last_name_max"))
+      .required(t("validation.last_name_required")),
+    email: Yup.string()
+      .email(t("validation.invalid_email"))
+      .required(t("validation.email_required")),
+    password: Yup.string()
+      .min(6, t("validation.password_min"))
+      .required(t("validation.password_required")),
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref("password")], t("validation.confirm_password_match"))
+      .required(t("validation.confirm_password_required")),
+  });
 export default function Signup() {
   const navigation = useNavigation();
   const router = useRouter();
+  const { t } = useTranslation("signup");
   const [showPassword, setShowPassword] = useState(false);
   const backroundTopNav = useThemeColor({}, "background");
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
@@ -57,6 +62,7 @@ export default function Signup() {
   const [phone, setPhone] = useState("");
   console.log("🚀 ~ Signup ~ phone:", phone);
   const toast = useToast();
+  const validationSchema = getValidationSchema(t);
   const { mutateAsync, error, loading } = usePost<
     any,
     {
@@ -83,7 +89,7 @@ export default function Signup() {
       headerTitle: () => {
         return (
           <ThemedText type="s1_subtitle" className="text-center">
-            Signup
+            {t("header_title")}
           </ThemedText>
         );
       },
@@ -259,7 +265,7 @@ export default function Signup() {
       >
         <ThemedView className="flex-1 ">
           <ThemedText type="h4_header" className="my-2">
-            Create An Account
+            {t("create_account")}
           </ThemedText>
         </ThemedView>
         <ThemedView className="flex-1 pb-20">
@@ -291,7 +297,9 @@ export default function Signup() {
               <ThemedView className="flex gap-4">
                 <ThemedView className="flex-row gap-4">
                   <ThemedView className="w-1/2">
-                    <InputLabelText className="">First Name</InputLabelText>
+                    <InputLabelText className="">
+                      {t("first_name_label")}
+                    </InputLabelText>
                     <Input
                       size="xl"
                       className="h-[55px] rounded-lg mb-2 border-primary-100 bg-primary-inputShade px-2"
@@ -300,7 +308,7 @@ export default function Signup() {
                     >
                       <InputField
                         className=""
-                        placeholder="first name"
+                        placeholder={t("first_name_placeholder")}
                         value={values.firstName}
                         onChangeText={(text) =>
                           setFieldValue("firstName", text.replace(/\s/g, ""))
@@ -312,7 +320,8 @@ export default function Signup() {
                     </Input>
                     {errors.firstName && touched.firstName && (
                       <ThemedText
-                        lightColor="#FF3B30" type="b4_body"
+                        lightColor="#FF3B30"
+                        type="b4_body"
                         className="text-error-500 mb-4"
                       >
                         {errors.firstName}
@@ -320,7 +329,9 @@ export default function Signup() {
                     )}
                   </ThemedView>
                   <ThemedView className="flex-1 w-1/2">
-                    <InputLabelText className="">Last Name</InputLabelText>
+                    <InputLabelText className="">
+                      {t("last_name_label")}
+                    </InputLabelText>
                     <Input
                       size="xl"
                       className="h-[55px] rounded-lg mb-2 border-primary-100 bg-primary-inputShade px-2"
@@ -329,7 +340,7 @@ export default function Signup() {
                     >
                       <InputField
                         className=""
-                        placeholder="last name"
+                        placeholder={t("last_name_placeholder")}
                         value={values.lastName}
                         onChangeText={(text) =>
                           setFieldValue("lastName", text.replace(/\s/g, ""))
@@ -341,7 +352,8 @@ export default function Signup() {
                     </Input>
                     {errors.lastName && touched.lastName && (
                       <ThemedText
-                        lightColor="#FF3B30" type="b4_body"
+                        lightColor="#FF3B30"
+                        type="b4_body"
                         className="text-error-500 mb-4"
                       >
                         {errors.lastName}
@@ -350,7 +362,9 @@ export default function Signup() {
                   </ThemedView>
                 </ThemedView>
                 <ThemedView>
-                  <InputLabelText className="">Email address</InputLabelText>
+                  <InputLabelText className="">
+                    {t("email_label")}
+                  </InputLabelText>
                   <Input
                     size="xl"
                     className="h-[55px] rounded-lg mb-2 border-primary-100 bg-primary-inputShade px-2"
@@ -359,7 +373,7 @@ export default function Signup() {
                   >
                     <InputField
                       className=""
-                      placeholder="user@gmail.com"
+                      placeholder={t("email_placeholder")}
                       value={values.email}
                       onChangeText={handleChange("email")}
                       onBlur={handleBlur("email")}
@@ -368,27 +382,39 @@ export default function Signup() {
                     />
                   </Input>
                   {errors.email && touched.email && (
-                    <ThemedText lightColor="#FF3B30" type="b4_body" className="text-error-500 mb-4">
+                    <ThemedText
+                      lightColor="#FF3B30"
+                      type="b4_body"
+                      className="text-error-500 mb-4"
+                    >
                       {errors.email}
                     </ThemedText>
                   )}
                 </ThemedView>
                 <ThemedView>
-                  <InputLabelText className="">Phone Number</InputLabelText>
+                  <InputLabelText className="">
+                    {t("phone_label")}
+                  </InputLabelText>
                   <PhoneNumberInput
                     ref={phoneInputRef}
                     value={phone}
                     onChangeFormattedText={(text: string) => setPhone(text)}
                   />
                   {errors.phoneNumber && touched.phoneNumber && (
-                    <ThemedText lightColor="#FF3B30" type="b4_body" className="text-error-500 mb-4">
+                    <ThemedText
+                      lightColor="#FF3B30"
+                      type="b4_body"
+                      className="text-error-500 mb-4"
+                    >
                       {errors.phoneNumber}
                     </ThemedText>
                   )}
                 </ThemedView>
 
                 <ThemedView>
-                  <InputLabelText className="mt-2">Password</InputLabelText>
+                  <InputLabelText className="mt-2">
+                    {t("password_label")}
+                  </InputLabelText>
                   <Input
                     className="h-[55px] rounded-lg mb-2 border-primary-100 bg-primary-inputShade px-2"
                     size="xl"
@@ -397,7 +423,7 @@ export default function Signup() {
                     <InputField
                       className=""
                       type={showPassword ? "text" : "password"}
-                      placeholder="Input your password"
+                      placeholder={t("password_placeholder")}
                       value={values.password}
                       onChangeText={handleChange("password")}
                       onBlur={handleBlur("password")}
@@ -408,13 +434,19 @@ export default function Signup() {
                     </InputSlot>
                   </Input>
                   {errors.password && touched.password && (
-                    <ThemedText lightColor="#FF3B30" type="b4_body" className="text-error-500 mb-4">
+                    <ThemedText
+                      lightColor="#FF3B30"
+                      type="b4_body"
+                      className="text-error-500 mb-4"
+                    >
                       {errors.password}
                     </ThemedText>
                   )}
                 </ThemedView>
                 <ThemedView>
-                  <InputLabelText className="">Confirm Password</InputLabelText>
+                  <InputLabelText className="">
+                    {t("confirm_password_label")}
+                  </InputLabelText>
                   <Input
                     className="h-[55px] rounded-lg mb-2 border-primary-100 bg-primary-inputShade px-2"
                     size="xl"
@@ -425,7 +457,7 @@ export default function Signup() {
                     <InputField
                       className=""
                       type={showPassword ? "text" : "password"}
-                      placeholder="Confirm password"
+                      placeholder={t("confirm_password_placeholder")}
                       value={values.confirmPassword}
                       onChangeText={handleChange("confirmPassword")}
                       onBlur={handleBlur("confirmPassword")}
@@ -436,7 +468,11 @@ export default function Signup() {
                     </InputSlot>
                   </Input>
                   {errors.confirmPassword && touched.confirmPassword && (
-                    <ThemedText lightColor="#FF3B30" type="b4_body" className="text-error-500 mb-4">
+                    <ThemedText
+                      lightColor="#FF3B30"
+                      type="b4_body"
+                      className="text-error-500 mb-4"
+                    >
                       {errors.confirmPassword}
                     </ThemedText>
                   )}
@@ -448,7 +484,11 @@ export default function Signup() {
                   onPress={() => handleSubmit()}
                 >
                   <ThemedText type="s1_subtitle" className="text-white">
-                    {loading ? <ActivityIndicator color="white" /> : "Sign up"}
+                    {loading ? (
+                      <ActivityIndicator color="white" />
+                    ) : (
+                      t("signup_button")
+                    )}
                   </ThemedText>
                 </Button>
               </ThemedView>
@@ -459,7 +499,7 @@ export default function Signup() {
             {/* Divider */}
             <ThemedView className="flex-row items-center gap-5">
               <ThemedView className="flex-1 border  border-typography-100" />
-              <ThemedText>Or</ThemedText>
+              <ThemedText>{t("or_divider")}</ThemedText>
               <ThemedView className="flex-1 border  border-typography-100" />
             </ThemedView>
             <ThemedView className="mt-4 flex-row gap-4 px-4 justify-center items-center">
@@ -491,9 +531,9 @@ export default function Signup() {
           type="s1_subtitle"
           className="text-typography-950 py-6 text-center"
         >
-          You don’t have an account?{" "}
+          {t("have_account")}{" "}
           <ThemedText type="s1_subtitle" className="text-primary-500 pt-6">
-            Sign in{" "}
+            {t("sign_in_link")}{" "}
           </ThemedText>
         </ThemedText>
       </Link>

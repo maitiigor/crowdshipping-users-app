@@ -1,0 +1,58 @@
+{
+  "header_title": "Profil bearbeiten",
+  "first_name_label": "Vorname",
+  "first_name_placeholder": "Vorname",
+  "last_name_label": "Nachname",
+  "last_name_placeholder": "Nachname",
+  "pickup_address_label": "Abholadresse",
+  "phone_number_label": "Telefonnummer",
+  "state_label": "Bundesland",
+  "state_placeholder": "Bundesland eingeben",
+  "city_label": "Stadt",
+  "city_placeholder": "Stadt eingeben",
+  "gender_label": "Geschlecht",
+  "gender_placeholder": "Geschlecht auswählen",
+  "gender_options": {
+    "male": "Männlich",
+    "female": "Weiblich",
+    "other": "Andere"
+  },
+  "dob_label": "Geburtsdatum",
+  "upload_helper_text": "Profilfoto hochladen",
+  "update_button": "Aktualisieren",
+  "validation": {
+    "first_name_min": "Vorname muss mindestens 2 Zeichen lang sein",
+    "first_name_max": "Vorname darf 50 Zeichen nicht überschreiten",
+    "first_name_required": "Vorname ist erforderlich",
+    "last_name_min": "Nachname muss mindestens 2 Zeichen lang sein",
+    "last_name_max": "Nachname darf 50 Zeichen nicht überschreiten",
+    "last_name_required": "Nachname ist erforderlich",
+    "phone_required": "Telefonnummer ist erforderlich",
+    "country_required": "Land ist erforderlich",
+    "state_required": "Bundesland ist erforderlich",
+    "city_required": "Stadt ist erforderlich",
+    "location_required": "Standort ist erforderlich",
+    "lat_required": "Breitengrad ist erforderlich",
+    "lng_required": "Längengrad ist erforderlich",
+    "address_required": "Adresse ist erforderlich",
+    "gender_required": "Geschlecht ist erforderlich",
+    "dob_future": "Datum darf nicht in der Zukunft liegen"
+  },
+  "toast": {
+    "missing_location_title": "Standort fehlt",
+    "missing_location_description": "Bitte wählen Sie eine Abholadresse aus",
+    "invalid_phone_title": "Ungültige Telefonnummer",
+    "invalid_phone_description": "Bitte geben Sie eine gültige Telefonnummer ein",
+    "update_failed_title": "Profilaktualisierung fehlgeschlagen",
+    "image_uploaded_title": "Bild hochgeladen",
+    "image_uploaded_description": "Ihr Profilfoto wurde aktualisiert.",
+    "upload_failed_title": "Hochladen fehlgeschlagen",
+    "upload_failed_default": "Bild konnte nicht hochgeladen werden",
+    "default_error": "Registrierung fehlgeschlagen"
+  },
+  "modal": {
+    "title": "Profil aktualisiert",
+    "description": "Ihre Informationen wurden erfolgreich gespeichert.",
+    "button": "Zurück zur Startseite"
+  }
+}

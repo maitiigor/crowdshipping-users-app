@@ -1,0 +1,41 @@
+{
+  "header_title": "注册",
+  "create_account": "创建账户",
+  "first_name_label": "名字",
+  "first_name_placeholder": "名字",
+  "last_name_label": "姓氏",
+  "last_name_placeholder": "姓氏",
+  "email_label": "电子邮件地址",
+  "email_placeholder": "用户@gmail.com",
+  "phone_label": "电话号码",
+  "password_label": "密码",
+  "password_placeholder": "输入您的密码",
+  "confirm_password_label": "确认密码",
+  "confirm_password_placeholder": "确认密码",
+  "signup_button": "注册",
+  "or_divider": "或",
+  "have_account": "还没有账户？",
+  "sign_in_link": "登录",
+  "validation": {
+    "first_name_min": "名字必须至少2个字符",
+    "first_name_max": "名字不能超过50个字符",
+    "first_name_required": "名字是必需的",
+    "last_name_min": "姓氏必须至少2个字符",
+    "last_name_max": "姓氏不能超过50个字符",
+    "last_name_required": "姓氏是必需的",
+    "invalid_email": "无效的电子邮件",
+    "email_required": "电子邮件是必需的",
+    "password_min": "密码必须至少6个字符",
+    "password_required": "密码是必需的",
+    "confirm_password_match": "密码必须匹配",
+    "confirm_password_required": "确认密码是必需的"
+  },
+  "toast": {
+    "invalid_phone_title": "无效的电话",
+    "invalid_phone_description": "请输入有效的电话号码",
+    "success_title": "成功",
+    "success_description": "注册成功！",
+    "failed_title": "注册失败",
+    "default_error": "注册失败"
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "header_title": "Регистрация",
+  "create_account": "Создать аккаунт",
+  "first_name_label": "Имя",
+  "first_name_placeholder": "имя",
+  "last_name_label": "Фамилия",
+  "last_name_placeholder": "фамилия",
+  "email_label": "Адрес электронной почты",
+  "email_placeholder": "пользователь@gmail.com",
+  "phone_label": "Номер телефона",
+  "password_label": "Пароль",
+  "password_placeholder": "Введите ваш пароль",
+  "confirm_password_label": "Подтвердите пароль",
+  "confirm_password_placeholder": "Подтвердите пароль",
+  "signup_button": "Зарегистрироваться",
+  "or_divider": "Или",
+  "have_account": "У вас нет учетной записи?",
+  "sign_in_link": "Войти",
+  "validation": {
+    "first_name_min": "Имя должно содержать не менее 2 символов",
+    "first_name_max": "Имя не может быть длиннее 50 символов",
+    "first_name_required": "Имя обязательно",
+    "last_name_min": "Фамилия должна содержать не менее 2 символов",
+    "last_name_max": "Фамилия не может быть длиннее 50 символов",
+    "last_name_required": "Фамилия обязательна",
+    "invalid_email": "Неверный адрес электронной почты",
+    "email_required": "Электронная почта обязательна",
+    "password_min": "Пароль должен содержать не менее 6 символов",
+    "password_required": "Пароль обязателен",
+    "confirm_password_match": "Пароли должны совпадать",
+    "confirm_password_required": "Подтверждение пароля обязательно"
+  },
+  "toast": {
+    "invalid_phone_title": "Неверный телефон",
+    "invalid_phone_description": "Пожалуйста, введите действительный номер телефона",
+    "success_title": "Успех",
+    "success_description": "Регистрация прошла успешно!",
+    "failed_title": "Ошибка регистрации",
+    "default_error": "Ошибка регистрации"
+  }
+}

@@ -32,18 +32,27 @@ import {
   TouchableOpacity,
 } from "react-native";
 
+import { useTranslation } from "react-i18next";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as Yup from "yup";
-const validationSchema = Yup.object().shape({
-  code: Yup.array()
-    .of(Yup.string().matches(/^\d$/, "Digit only").required("Required"))
-    .length(5, "Enter 5 digits"),
-});
+
+const getValidationSchema = (t: any) =>
+  Yup.object().shape({
+    code: Yup.array()
+      .of(
+        Yup.string()
+          .matches(/^\d$/, t("validation.digit_only"))
+          .required(t("validation.required"))
+      )
+      .length(5, t("validation.enter_5_digits")),
+  });
 
 export default function SignUpConfirmationCode() {
   // hide the header for this screen
   const navigation = useNavigation();
   const router = useRouter();
+  const { t } = useTranslation("signupConfirmCode");
+  const validationSchema = getValidationSchema(t);
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
   const [secondsLeft, setSecondsLeft] = useState(60); // countdown state
   const [showModal, setShowModal] = useState(false);
@@ -77,7 +86,7 @@ export default function SignUpConfirmationCode() {
       headerTitle: () => {
         return (
           <ThemedText type="s1_subtitle" className="text-center">
-            Sign Up
+            {t("header_title")}
           </ThemedText>
         );
       },
@@ -195,8 +204,8 @@ export default function SignUpConfirmationCode() {
       });
       console.log("🚀 ~ handleSubmit ~ response:", response);
       showNewToast({
-        title: "Success",
-        description: "OTP verified successfully!",
+        title: t("toast.success_title"),
+        description: t("toast.success_description"),
         icon: CircleCheckIcon,
         action: "success",
         variant: "solid",
@@ -221,7 +230,7 @@ export default function SignUpConfirmationCode() {
         "Sign up failed";
 
       showNewToast({
-        title: "OTP Failed",
+        title: t("toast.failed_title"),
         description: message,
         icon: HelpCircleIcon,
         action: "error",
@@ -236,8 +245,8 @@ export default function SignUpConfirmationCode() {
         email: email as string,
       });
       showNewToast({
-        title: "Success",
-        description: "OTP resent successfully!",
+        title: t("toast.resend_success_title"),
+        description: t("toast.resend_success_description"),
         icon: CircleCheckIcon,
         action: "success",
         variant: "solid",
@@ -253,7 +262,7 @@ export default function SignUpConfirmationCode() {
         "Sign up failed";
 
       showNewToast({
-        title: "OTP Resend Failed",
+        title: t("toast.resend_failed_title"),
         description: message,
         icon: HelpCircleIcon,
         action: "error",
@@ -279,7 +288,7 @@ export default function SignUpConfirmationCode() {
         <ThemedView className="flex-1">
           <ThemedView className=" justify-center items-center">
             <ThemedText type="s1_subtitle" className="mt-5">
-              Enter the 5-digit code sent to you at {email}
+              {t("subtitle")} {email}
             </ThemedText>
           </ThemedView>
 
@@ -348,7 +357,7 @@ export default function SignUpConfirmationCode() {
                     className="text-error-500 mb-4"
                   >
                     {Array.isArray(errors.code)
-                      ? "Enter 5 digits"
+                      ? t("validation.enter_5_digits")
                       : (errors.code as string)}
                   </ThemedText>
                 )}
@@ -361,7 +370,11 @@ export default function SignUpConfirmationCode() {
                   onPress={() => handleSubmit()}
                 >
                   <ThemedText type="s1_subtitle" className="text-white">
-                    {loading ? <ActivityIndicator color="white" /> : "Verify"}
+                    {loading ? (
+                      <ActivityIndicator color="white" />
+                    ) : (
+                      t("verify_button")
+                    )}
                   </ThemedText>
                 </Button>
               </ThemedView>
@@ -375,7 +388,7 @@ export default function SignUpConfirmationCode() {
                 type="s1_subtitle"
                 className="text-typography-950  text-center"
               >
-                Send code again{" "}
+                {t("resend_code")}{" "}
                 <ThemedText type="default" className="text-typography-600">
                   00:{String(secondsLeft).padStart(2, "0")}
                 </ThemedText>
@@ -386,7 +399,7 @@ export default function SignUpConfirmationCode() {
                   type="default"
                   className="text-typography-950  text-center"
                 >
-                  I didn’t receive a code{" "}
+                  {t("no_code")}{" "}
                 </ThemedText>
                 <Button
                   disabled={resendLoading}
@@ -397,7 +410,7 @@ export default function SignUpConfirmationCode() {
                     type="s1_subtitle"
                     className="text-typography-950"
                   >
-                    {resendLoading ? "Resending..." : "Resend"}
+                    {resendLoading ? t("resending") : t("resend_link")}
                   </ThemedText>
                 </Button>
               </ThemedView>
@@ -416,10 +429,10 @@ export default function SignUpConfirmationCode() {
           type="s1_subtitle"
           className="text-typography-950 text-center"
         >
-          You don’t have an account?{" "}
+          {t("no_account")}{" "}
           <Link href="../signup" asChild>
             <ThemedText type="s1_subtitle" className="text-primary-500">
-              Sign up{" "}
+              {t("sign_up_link")}{" "}
             </ThemedText>
           </Link>
         </ThemedText>
@@ -427,11 +440,11 @@ export default function SignUpConfirmationCode() {
       {showModal && (
         <>
           <CustomModal
-            description="Welcome to Crowdshipping! You're ready to start sending or receiving packages."
-            title="Registration Successful!"
+            description={t("modal_description")}
+            title={t("modal_title")}
             img={require("@/assets/images/onboarding/modal-success.png")}
             firstBtnLink={"/(onboarding)/login"}
-            firstBtnText="Sign In"
+            firstBtnText={t("modal_button")}
             setShowModal={setShowModal}
             showModal={showModal}
             size="lg"

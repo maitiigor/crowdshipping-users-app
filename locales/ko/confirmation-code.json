@@ -1,0 +1,19 @@
+{
+  "header_title": "확인 코드",
+  "title": "확인 코드 입력",
+  "subtitle": "이메일로 전송된 4자리 코드를 입력하세요",
+  "verify_button": "확인",
+  "resend_code": "코드 재전송까지",
+  "resend_link": "코드 재전송",
+  "no_account": "계정이 없으신가요?",
+  "sign_up_link": "가입하기",
+  "toast": {
+    "success_title": "성공",
+    "success_description": "코드가 성공적으로 확인되었습니다!",
+    "failed_title": "확인 실패",
+    "default_error": "유효하지 않은 코드"
+  },
+  "modal_title": "확인 성공!",
+  "modal_description": "계정이 성공적으로 확인되었습니다.",
+  "modal_button": "시작하기"
+}

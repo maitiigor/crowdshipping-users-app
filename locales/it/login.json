@@ -1,0 +1,26 @@
+{
+  "header_title": "Accedi",
+  "welcome_back": "Bentornato",
+  "subtitle": "Accedi per accedere al tuo account Crowdshipping e gestire le tue consegne.",
+  "email_label": "Indirizzo email",
+  "email_placeholder": "utente@gmail.com",
+  "password_label": "Password",
+  "password_placeholder": "Inserisci la tua password",
+  "login_button": "Accedi",
+  "forgot_password": "Password dimenticata?",
+  "or_divider": "Oppure",
+  "no_account": "Non hai un account?",
+  "sign_up_link": "Registrati",
+  "validation": {
+    "invalid_email": "Email non valida",
+    "email_required": "L'email è obbligatoria",
+    "password_min": "La password deve contenere almeno 6 caratteri",
+    "password_required": "La password è obbligatoria"
+  },
+  "toast": {
+    "success_title": "Successo",
+    "success_description": "Accesso effettuato con successo!",
+    "failed_title": "Accesso fallito",
+    "default_error": "Accesso fallito"
+  }
+}

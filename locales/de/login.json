@@ -1,0 +1,26 @@
+{
+  "header_title": "Anmelden",
+  "welcome_back": "Willkommen zurück",
+  "subtitle": "Bitte melden Sie sich an, um auf Ihr Crowdshipping-Konto zuzugreifen und Ihre Lieferungen zu verwalten.",
+  "email_label": "E-Mail-Adresse",
+  "email_placeholder": "benutzer@gmail.com",
+  "password_label": "Passwort",
+  "password_placeholder": "Geben Sie Ihr Passwort ein",
+  "login_button": "Anmelden",
+  "forgot_password": "Passwort vergessen?",
+  "or_divider": "Oder",
+  "no_account": "Sie haben noch kein Konto?",
+  "sign_up_link": "Registrieren",
+  "validation": {
+    "invalid_email": "Ungültige E-Mail",
+    "email_required": "E-Mail ist erforderlich",
+    "password_min": "Das Passwort muss mindestens 6 Zeichen lang sein",
+    "password_required": "Passwort ist erforderlich"
+  },
+  "toast": {
+    "success_title": "Erfolg",
+    "success_description": "Erfolgreich angemeldet!",
+    "failed_title": "Anmeldung fehlgeschlagen",
+    "default_error": "Anmeldung fehlgeschlagen"
+  }
+}

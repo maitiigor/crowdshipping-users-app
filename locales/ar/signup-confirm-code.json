@@ -1,0 +1,28 @@
+{
+  "header_title": "سجل",
+  "subtitle": "أدخل الرمز المكون من 5 أرقام المرسل إلى",
+  "verify_button": "تحقق",
+  "resend_code": "إرسال الرمز مرة أخرى",
+  "resend_link": "إعادة إرسال",
+  "resending": "جاري إعادة الإرسال...",
+  "no_code": "لم أستلم رمزًا",
+  "no_account": "ليس لديك حساب؟",
+  "sign_up_link": "سجل",
+  "validation": {
+    "digit_only": "أرقام فقط",
+    "required": "مطلوب",
+    "enter_5_digits": "أدخل 5 أرقام"
+  },
+  "toast": {
+    "success_title": "نجاح",
+    "success_description": "تم التحقق من OTP بنجاح!",
+    "failed_title": "فشل OTP",
+    "resend_success_title": "نجاح",
+    "resend_success_description": "تم إعادة إرسال OTP بنجاح!",
+    "resend_failed_title": "فشل إعادة إرسال OTP",
+    "default_error": "فشل التسجيل"
+  },
+  "modal_title": "تم التسجيل بنجاح!",
+  "modal_description": "مرحبًا بك في Crowdshipping! أنت جاهز للبدء في إرسال أو استلام الطرود.",
+  "modal_button": "تسجيل الدخول"
+}

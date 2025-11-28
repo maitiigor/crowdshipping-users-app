@@ -1,0 +1,20 @@
+{
+  "onboarding_step_1": {
+    "title": "Your Delivery, Your Way",
+    "description": "Post a request, choose a nearby carrier, and track your item from pickup to drop-off  all in one app"
+  },
+  "onboarding_step_2": {
+    "title": "Send & Receive Packages",
+    "description": "Post a request, choose a nearby carrier, and track your item from pickup to drop-off  all in one app"
+  },
+  "onboarding_step_3": {
+    "title": "Deliver by Air, Land, or Water",
+    "description": "Choose the best way to move your package — by road, flight, or sea. Fast, flexible, and reliable."
+  },
+  "login_button": "Login",
+  "get_started_button": "Get Started",
+  "terms_consent": "By signing up, you consent to our",
+  "terms_of_service": "Terms of Service",
+  "and": "and how we use your data in our",
+  "privacy_policy": "Privacy Policy"
+}

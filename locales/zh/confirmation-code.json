@@ -1,0 +1,19 @@
+{
+  "header_title": "验证码",
+  "title": "输入验证码",
+  "subtitle": "输入发送到您电子邮件的4位验证码",
+  "verify_button": "验证",
+  "resend_code": "重新发送代码于",
+  "resend_link": "重新发送代码",
+  "no_account": "还没有账户？",
+  "sign_up_link": "注册",
+  "toast": {
+    "success_title": "成功",
+    "success_description": "验证码验证成功！",
+    "failed_title": "验证失败",
+    "default_error": "无效的验证码"
+  },
+  "modal_title": "验证成功！",
+  "modal_description": "您的账户已成功验证。",
+  "modal_button": "开始"
+}

@@ -1,0 +1,19 @@
+{
+  "header_title": "Code de confirmation",
+  "title": "Entrez le code de confirmation",
+  "subtitle": "Entrez le code à 4 chiffres envoyé à votre e-mail",
+  "verify_button": "Vérifier",
+  "resend_code": "Renvoyer le code dans",
+  "resend_link": "Renvoyer le code",
+  "no_account": "Vous n'avez pas de compte ?",
+  "sign_up_link": "S'inscrire",
+  "toast": {
+    "success_title": "Succès",
+    "success_description": "Code vérifié avec succès !",
+    "failed_title": "Échec de la vérification",
+    "default_error": "Code invalide"
+  },
+  "modal_title": "Vérification réussie !",
+  "modal_description": "Votre compte a été vérifié avec succès.",
+  "modal_button": "Commencer"
+}

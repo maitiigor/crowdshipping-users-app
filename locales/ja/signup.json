@@ -1,0 +1,41 @@
+{
+  "header_title": "サインアップ",
+  "create_account": "アカウントを作成",
+  "first_name_label": "名",
+  "first_name_placeholder": "名",
+  "last_name_label": "姓",
+  "last_name_placeholder": "姓",
+  "email_label": "メールアドレス",
+  "email_placeholder": "ユーザー@gmail.com",
+  "phone_label": "電話番号",
+  "password_label": "パスワード",
+  "password_placeholder": "パスワードを入力",
+  "confirm_password_label": "パスワードを確認",
+  "confirm_password_placeholder": "パスワードを確認",
+  "signup_button": "サインアップ",
+  "or_divider": "または",
+  "have_account": "アカウントをお持ちでないですか？",
+  "sign_in_link": "サインイン",
+  "validation": {
+    "first_name_min": "名は少なくとも2文字である必要があります",
+    "first_name_max": "名は50文字を超えることはできません",
+    "first_name_required": "名は必須です",
+    "last_name_min": "姓は少なくとも2文字である必要があります",
+    "last_name_max": "姓は50文字を超えることはできません",
+    "last_name_required": "姓は必須です",
+    "invalid_email": "無効なメール",
+    "email_required": "メールは必須です",
+    "password_min": "パスワードは少なくとも6文字である必要があります",
+    "password_required": "パスワードは必須です",
+    "confirm_password_match": "パスワードが一致する必要があります",
+    "confirm_password_required": "パスワードの確認は必須です"
+  },
+  "toast": {
+    "invalid_phone_title": "無効な電話番号",
+    "invalid_phone_description": "有効な電話番号を入力してください",
+    "success_title": "成功",
+    "success_description": "登録に成功しました！",
+    "failed_title": "サインアップ失敗",
+    "default_error": "サインアップに失敗しました"
+  }
+}

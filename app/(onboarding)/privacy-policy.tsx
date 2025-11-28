@@ -7,10 +7,12 @@ import { useThemeColor } from "@/hooks/useThemeColor";
 import { useNavigation } from "expo-router";
 import { ChevronLeft } from "lucide-react-native";
 import React, { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { TouchableOpacity } from "react-native";
 
 export default function PrivacyPolicy() {
   const navigation = useNavigation();
+  const { t } = useTranslation("privacyPolicy");
   const backroundTopNav = useThemeColor({}, "background");
   useEffect(() => {
     navigation.setOptions({
@@ -18,7 +20,7 @@ export default function PrivacyPolicy() {
       headerTitle: () => {
         return (
           <ThemedText type="s1_subtitle" className="text-center">
-            Privacy Policy
+            {t("header_title")}
           </ThemedText>
         );
       },
@@ -65,7 +67,7 @@ export default function PrivacyPolicy() {
         </ThemedView>
       ),
     });
-  }, [navigation, backroundTopNav]);
+  }, [navigation, backroundTopNav, t]);
   return (
     <>
       <ParallaxScrollView
@@ -73,24 +75,23 @@ export default function PrivacyPolicy() {
       >
         <ThemedView className="flex-1  ">
           <ThemedText type="h4_header" className="mt-5">
-            Welcome Back
+            {t("title")}
           </ThemedText>
           <ThemedText type="default" className="pt-2 text-typography-800">
-            Please sign in to access your Crowdshipping account and manage your
-            deliveries.
+            {t("subtitle")}
           </ThemedText>
         </ThemedView>
       </ParallaxScrollView>
       <ThemedView className="absolute bottom-10 left-0 right-0 px-5">
         <Button variant="solid" size="2xl" className="mt-5 rounded-[12px]">
           <ThemedText type="s1_subtitle" className="text-white">
-            Accept
+            {t("accept_button")}
           </ThemedText>
         </Button>
 
         <Button variant="outline" size="2xl" className="mt-5 rounded-[12px]">
           <ThemedText type="s1_subtitle" className="text-primary-500">
-            Decline
+            {t("decline_button")}
           </ThemedText>
         </Button>
       </ThemedView>

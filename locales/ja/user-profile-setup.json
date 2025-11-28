@@ -1,0 +1,58 @@
+{
+  "header_title": "プロフィールを編集",
+  "first_name_label": "名",
+  "first_name_placeholder": "名",
+  "last_name_label": "姓",
+  "last_name_placeholder": "姓",
+  "pickup_address_label": "集荷先住所",
+  "phone_number_label": "電話番号",
+  "state_label": "都道府県",
+  "state_placeholder": "都道府県を入力",
+  "city_label": "市区町村",
+  "city_placeholder": "市区町村を入力",
+  "gender_label": "性別",
+  "gender_placeholder": "性別を選択",
+  "gender_options": {
+    "male": "男性",
+    "female": "女性",
+    "other": "その他"
+  },
+  "dob_label": "生年月日",
+  "upload_helper_text": "プロフィール写真をアップロード",
+  "update_button": "更新",
+  "validation": {
+    "first_name_min": "名は2文字以上である必要があります",
+    "first_name_max": "名は50文字を超えることはできません",
+    "first_name_required": "名は必須です",
+    "last_name_min": "姓は2文字以上である必要があります",
+    "last_name_max": "姓は50文字を超えることはできません",
+    "last_name_required": "姓は必須です",
+    "phone_required": "電話番号は必須です",
+    "country_required": "国は必須です",
+    "state_required": "都道府県は必須です",
+    "city_required": "市区町村は必須です",
+    "location_required": "場所は必須です",
+    "lat_required": "緯度は必須です",
+    "lng_required": "経度は必須です",
+    "address_required": "住所は必須です",
+    "gender_required": "性別は必須です",
+    "dob_future": "未来の日付は指定できません"
+  },
+  "toast": {
+    "missing_location_title": "場所がありません",
+    "missing_location_description": "集荷先住所を選択してください",
+    "invalid_phone_title": "無効な電話番号",
+    "invalid_phone_description": "有効な電話番号を入力してください",
+    "update_failed_title": "プロフィールの更新に失敗しました",
+    "image_uploaded_title": "画像がアップロードされました",
+    "image_uploaded_description": "プロフィール写真が更新されました。",
+    "upload_failed_title": "アップロード失敗",
+    "upload_failed_default": "画像をアップロードできませんでした",
+    "default_error": "サインアップに失敗しました"
+  },
+  "modal": {
+    "title": "プロフィールが更新されました",
+    "description": "情報が正常に保存されました。",
+    "button": "ホームに戻る"
+  }
+}

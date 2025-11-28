@@ -1,0 +1,58 @@
+{
+  "header_title": "Modifica profilo",
+  "first_name_label": "Nome",
+  "first_name_placeholder": "nome",
+  "last_name_label": "Cognome",
+  "last_name_placeholder": "cognome",
+  "pickup_address_label": "Indirizzo di ritiro",
+  "phone_number_label": "Numero di telefono",
+  "state_label": "Stato/Provincia",
+  "state_placeholder": "Inserisci stato/provincia",
+  "city_label": "Città",
+  "city_placeholder": "Inserisci città",
+  "gender_label": "Genere",
+  "gender_placeholder": "Seleziona genere",
+  "gender_options": {
+    "male": "Maschio",
+    "female": "Femmina",
+    "other": "Altro"
+  },
+  "dob_label": "Data di nascita",
+  "upload_helper_text": "Carica foto profilo",
+  "update_button": "Aggiorna",
+  "validation": {
+    "first_name_min": "Il nome deve contenere almeno 2 caratteri",
+    "first_name_max": "Il nome non può superare i 50 caratteri",
+    "first_name_required": "Il nome è obbligatorio",
+    "last_name_min": "Il cognome deve contenere almeno 2 caratteri",
+    "last_name_max": "Il cognome non può superare i 50 caratteri",
+    "last_name_required": "Il cognome è obbligatorio",
+    "phone_required": "Il numero di telefono è obbligatorio",
+    "country_required": "Il paese è obbligatorio",
+    "state_required": "Lo stato/provincia è obbligatorio",
+    "city_required": "La città è obbligatoria",
+    "location_required": "La posizione è obbligatoria",
+    "lat_required": "La latitudine è obbligatoria",
+    "lng_required": "La longitudine è obbligatoria",
+    "address_required": "L'indirizzo è obbligatorio",
+    "gender_required": "Il genere è obbligatorio",
+    "dob_future": "La data non può essere futura"
+  },
+  "toast": {
+    "missing_location_title": "Posizione mancante",
+    "missing_location_description": "Seleziona un indirizzo di ritiro",
+    "invalid_phone_title": "Telefono non valido",
+    "invalid_phone_description": "Inserisci un numero di telefono valido",
+    "update_failed_title": "Aggiornamento profilo fallito",
+    "image_uploaded_title": "Immagine caricata",
+    "image_uploaded_description": "La tua foto profilo è stata aggiornata.",
+    "upload_failed_title": "Caricamento fallito",
+    "upload_failed_default": "Impossibile caricare l'immagine",
+    "default_error": "Registrazione fallita"
+  },
+  "modal": {
+    "title": "Profilo aggiornato",
+    "description": "Le tue informazioni sono state salvate con successo.",
+    "button": "Torna alla Home"
+  }
+}

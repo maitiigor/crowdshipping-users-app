@@ -1,0 +1,26 @@
+{
+  "header_title": "登录",
+  "welcome_back": "欢迎回来",
+  "subtitle": "请登录以访问您的Crowdshipping账户并管理您的配送。",
+  "email_label": "电子邮件地址",
+  "email_placeholder": "用户@gmail.com",
+  "password_label": "密码",
+  "password_placeholder": "输入您的密码",
+  "login_button": "登录",
+  "forgot_password": "忘记密码？",
+  "or_divider": "或",
+  "no_account": "还没有账户？",
+  "sign_up_link": "注册",
+  "validation": {
+    "invalid_email": "无效的电子邮件",
+    "email_required": "电子邮件是必需的",
+    "password_min": "密码必须至少6个字符",
+    "password_required": "密码是必需的"
+  },
+  "toast": {
+    "success_title": "成功",
+    "success_description": "登录成功！",
+    "failed_title": "登录失败",
+    "default_error": "登录失败"
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "header_title": "Edit Profile",
+  "first_name_label": "First Name",
+  "first_name_placeholder": "first name",
+  "last_name_label": "Last Name",
+  "last_name_placeholder": "last name",
+  "pickup_address_label": "Pickup Address",
+  "phone_number_label": "Phone Number",
+  "state_label": "State",
+  "state_placeholder": "Enter state",
+  "city_label": "City",
+  "city_placeholder": "Enter city",
+  "gender_label": "Gender",
+  "gender_placeholder": "Select gender",
+  "gender_options": {
+    "male": "Male",
+    "female": "Female",
+    "other": "Other"
+  },
+  "dob_label": "Date of Birth",
+  "upload_helper_text": "Upload a profile photo",
+  "update_button": "Update",
+  "validation": {
+    "first_name_min": "First name must be at least 2 characters",
+    "first_name_max": "First name cannot exceed 50 characters",
+    "first_name_required": "First name is required",
+    "last_name_min": "Last name must be at least 2 characters",
+    "last_name_max": "Last name cannot exceed 50 characters",
+    "last_name_required": "Last name is required",
+    "phone_required": "Phone number is required",
+    "country_required": "Country is required",
+    "state_required": "State is required",
+    "city_required": "City is required",
+    "location_required": "Location is required",
+    "lat_required": "Latitude is required",
+    "lng_required": "Longitude is required",
+    "address_required": "Address is required",
+    "gender_required": "Gender is required",
+    "dob_future": "Date cannot be in future"
+  },
+  "toast": {
+    "missing_location_title": "Missing location",
+    "missing_location_description": "Please select a pickup address",
+    "invalid_phone_title": "Invalid phone",
+    "invalid_phone_description": "Please enter a valid phone number",
+    "update_failed_title": "Profile Update Failed",
+    "image_uploaded_title": "Image uploaded",
+    "image_uploaded_description": "Your profile photo was updated.",
+    "upload_failed_title": "Upload failed",
+    "upload_failed_default": "Could not upload image",
+    "default_error": "Sign up failed"
+  },
+  "modal": {
+    "title": "Profile Updated",
+    "description": "Your information has been saved successfully.",
+    "button": "Return to Home"
+  }
+}

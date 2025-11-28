@@ -1,0 +1,26 @@
+{
+  "header_title": "Connexion",
+  "welcome_back": "Bon retour",
+  "subtitle": "Veuillez vous connecter pour accéder à votre compte Crowdshipping et gérer vos livraisons.",
+  "email_label": "Adresse e-mail",
+  "email_placeholder": "utilisateur@gmail.com",
+  "password_label": "Mot de passe",
+  "password_placeholder": "Entrez votre mot de passe",
+  "login_button": "Connexion",
+  "forgot_password": "Mot de passe oublié ?",
+  "or_divider": "Ou",
+  "no_account": "Vous n'avez pas de compte ?",
+  "sign_up_link": "S'inscrire",
+  "validation": {
+    "invalid_email": "E-mail invalide",
+    "email_required": "L'e-mail est requis",
+    "password_min": "Le mot de passe doit contenir au moins 6 caractères",
+    "password_required": "Le mot de passe est requis"
+  },
+  "toast": {
+    "success_title": "Succès",
+    "success_description": "Connexion réussie !",
+    "failed_title": "Échec de la connexion",
+    "default_error": "Échec de la connexion"
+  }
+}

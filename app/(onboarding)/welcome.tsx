@@ -11,39 +11,39 @@ import { CheckIcon } from "@/components/ui/icon";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { Link, useNavigation } from "expo-router";
 import React, { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Dimensions, FlatList, Image, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const onboardingSteps = [
+const getOnboardingSteps = (t: any) => [
   {
     id: 1,
     img: require("@/assets/images/onboarding/onboarding-1.png"),
-    title: "Your Delivery, Your Way",
-    description:
-      "Post a request, choose a nearby carrier, and track your item from pickup to drop-off  all in one app",
+    titleKey: "onboarding_step_1.title",
+    descriptionKey: "onboarding_step_1.description",
   },
   {
     id: 2,
     img: require("@/assets/images/onboarding/onboarding-2.png"),
-    title: "Send & Receive Packages ",
-    description:
-      "Post a request, choose a nearby carrier, and track your item from pickup to drop-off  all in one app",
+    titleKey: "onboarding_step_2.title",
+    descriptionKey: "onboarding_step_2.description",
   },
   {
     id: 3,
     img: require("@/assets/images/onboarding/onboarding-3.png"),
-    title: "Deliver by Air, Land, or Water",
-    description:
-      "Choose the best way to move your package — by road, flight, or sea. Fast, flexible, and reliable.",
+    titleKey: "onboarding_step_3.title",
+    descriptionKey: "onboarding_step_3.description",
   },
 ];
 export default function Welcome() {
   const navigation = useNavigation();
+  const { t } = useTranslation("welcome");
   const [currentStep, setCurrentStep] = useState(0);
   const flatListRef = useRef<FlatList>(null);
   const { width } = Dimensions.get("window");
   const backroundTopNav = useThemeColor({}, "background");
   const [value, setValue] = useState("true");
+  const onboardingSteps = getOnboardingSteps(t);
 
   useEffect(() => {
     navigation.setOptions({ headerShown: false });
@@ -54,20 +54,23 @@ export default function Welcome() {
   }: {
     item: (typeof onboardingSteps)[0];
   }) => (
-    <View style={{ width }} className="items-center justify-center bottom-8 px-8 pb-28">
+    <View
+      style={{ width }}
+      className="items-center justify-center bottom-8 px-8 pb-28"
+    >
       <Image
         source={item.img}
         className="w-80 h-80 mb-8"
         resizeMode="contain"
       />
       <ThemedText type="h4_header" className="text-center mb-4 font-bold">
-        {item.title}
+        {t(item.titleKey)}
       </ThemedText>
       <ThemedText
         type="default"
         className="text-center text-typography-600 leading-6"
       >
-        {item.description}
+        {t(item.descriptionKey)}
       </ThemedText>
       {renderDots()}
     </View>
@@ -95,7 +98,8 @@ export default function Welcome() {
   return (
     <SafeAreaView
       style={{ backgroundColor: backroundTopNav }}
-      className="flex-1">
+      className="flex-1"
+    >
       <ThemedView className="flex-1 justify-center items-center">
         <FlatList
           ref={flatListRef}
@@ -114,14 +118,14 @@ export default function Welcome() {
         <Link href="/login" asChild>
           <Button variant="solid" size="2xl" className="mt-5 rounded-[12px]">
             <ThemedText type="s1_subtitle" className="text-white">
-              Login
+              {t("login_button")}
             </ThemedText>
           </Button>
         </Link>
         <Link href="../signup" asChild>
           <Button variant="outline" size="2xl" className="mt-5 rounded-[12px]">
             <ThemedText type="s1_subtitle" className="text-primary-500">
-              Get Started
+              {t("get_started_button")}
             </ThemedText>
           </Button>
         </Link>
@@ -141,16 +145,16 @@ export default function Welcome() {
                 type="c1_caption"
                 className="text-typography-600 leading-8"
               >
-                By signing up, you consent to our{" "}
+                {t("terms_consent")}{" "}
                 <Link href="/terms-of-service" asChild>
                   <ThemedText type="btn_medium" className="text-primary-500 ">
-                    Terms of Service
+                    {t("terms_of_service")}
                   </ThemedText>
                 </Link>{" "}
-                and how we use your data in our{" "}
+                {t("and")}{" "}
                 <Link href="/(onboarding)/privacy-policy" asChild>
                   <ThemedText type="btn_medium" className="text-primary-500 ">
-                    Privacy Policy
+                    {t("privacy_policy")}
                   </ThemedText>
                 </Link>{" "}
               </ThemedText>

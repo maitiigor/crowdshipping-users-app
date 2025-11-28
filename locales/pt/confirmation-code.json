@@ -1,0 +1,19 @@
+{
+  "header_title": "Código de confirmação",
+  "title": "Digite o código de confirmação",
+  "subtitle": "Digite o código de 4 dígitos enviado para seu e-mail",
+  "verify_button": "Verificar",
+  "resend_code": "Reenviar código em",
+  "resend_link": "Reenviar código",
+  "no_account": "Você não tem uma conta?",
+  "sign_up_link": "Cadastre-se",
+  "toast": {
+    "success_title": "Sucesso",
+    "success_description": "Código verificado com sucesso!",
+    "failed_title": "Falha na verificação",
+    "default_error": "Código inválido"
+  },
+  "modal_title": "Verificação bem-sucedida!",
+  "modal_description": "Sua conta foi verificada com sucesso.",
+  "modal_button": "Começar"
+}

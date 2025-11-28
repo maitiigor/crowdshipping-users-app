@@ -1,0 +1,58 @@
+{
+  "header_title": "프로필 편집",
+  "first_name_label": "이름",
+  "first_name_placeholder": "이름",
+  "last_name_label": "성",
+  "last_name_placeholder": "성",
+  "pickup_address_label": "픽업 주소",
+  "phone_number_label": "전화번호",
+  "state_label": "주/도",
+  "state_placeholder": "주/도 입력",
+  "city_label": "시/군/구",
+  "city_placeholder": "시/군/구 입력",
+  "gender_label": "성별",
+  "gender_placeholder": "성별 선택",
+  "gender_options": {
+    "male": "남성",
+    "female": "여성",
+    "other": "기타"
+  },
+  "dob_label": "생년월일",
+  "upload_helper_text": "프로필 사진 업로드",
+  "update_button": "업데이트",
+  "validation": {
+    "first_name_min": "이름은 최소 2자 이상이어야 합니다",
+    "first_name_max": "이름은 50자를 초과할 수 없습니다",
+    "first_name_required": "이름은 필수입니다",
+    "last_name_min": "성은 최소 2자 이상이어야 합니다",
+    "last_name_max": "성은 50자를 초과할 수 없습니다",
+    "last_name_required": "성은 필수입니다",
+    "phone_required": "전화번호는 필수입니다",
+    "country_required": "국가는 필수입니다",
+    "state_required": "주/도는 필수입니다",
+    "city_required": "시/군/구는 필수입니다",
+    "location_required": "위치는 필수입니다",
+    "lat_required": "위도는 필수입니다",
+    "lng_required": "경도는 필수입니다",
+    "address_required": "주소는 필수입니다",
+    "gender_required": "성별은 필수입니다",
+    "dob_future": "날짜는 미래일 수 없습니다"
+  },
+  "toast": {
+    "missing_location_title": "위치 누락",
+    "missing_location_description": "픽업 주소를 선택해주세요",
+    "invalid_phone_title": "유효하지 않은 전화번호",
+    "invalid_phone_description": "유효한 전화번호를 입력해주세요",
+    "update_failed_title": "프로필 업데이트 실패",
+    "image_uploaded_title": "이미지 업로드됨",
+    "image_uploaded_description": "프로필 사진이 업데이트되었습니다.",
+    "upload_failed_title": "업로드 실패",
+    "upload_failed_default": "이미지를 업로드할 수 없습니다",
+    "default_error": "가입 실패"
+  },
+  "modal": {
+    "title": "프로필 업데이트됨",
+    "description": "정보가 성공적으로 저장되었습니다.",
+    "button": "홈으로 돌아가기"
+  }
+}

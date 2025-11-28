@@ -1,0 +1,58 @@
+{
+  "header_title": "Modifier le profil",
+  "first_name_label": "Prénom",
+  "first_name_placeholder": "prénom",
+  "last_name_label": "Nom",
+  "last_name_placeholder": "nom",
+  "pickup_address_label": "Adresse de ramassage",
+  "phone_number_label": "Numéro de téléphone",
+  "state_label": "État/Région",
+  "state_placeholder": "Entrez l'état/région",
+  "city_label": "Ville",
+  "city_placeholder": "Entrez la ville",
+  "gender_label": "Genre",
+  "gender_placeholder": "Sélectionnez le genre",
+  "gender_options": {
+    "male": "Homme",
+    "female": "Femme",
+    "other": "Autre"
+  },
+  "dob_label": "Date de naissance",
+  "upload_helper_text": "Télécharger une photo de profil",
+  "update_button": "Mettre à jour",
+  "validation": {
+    "first_name_min": "Le prénom doit contenir au moins 2 caractères",
+    "first_name_max": "Le prénom ne peut pas dépasser 50 caractères",
+    "first_name_required": "Le prénom est requis",
+    "last_name_min": "Le nom doit contenir au moins 2 caractères",
+    "last_name_max": "Le nom ne peut pas dépasser 50 caractères",
+    "last_name_required": "Le nom est requis",
+    "phone_required": "Le numéro de téléphone est requis",
+    "country_required": "Le pays est requis",
+    "state_required": "L'état/région est requis",
+    "city_required": "La ville est requise",
+    "location_required": "L'emplacement est requis",
+    "lat_required": "La latitude est requise",
+    "lng_required": "La longitude est requise",
+    "address_required": "L'adresse est requise",
+    "gender_required": "Le genre est requis",
+    "dob_future": "La date ne peut pas être future"
+  },
+  "toast": {
+    "missing_location_title": "Emplacement manquant",
+    "missing_location_description": "Veuillez sélectionner une adresse de ramassage",
+    "invalid_phone_title": "Téléphone invalide",
+    "invalid_phone_description": "Veuillez entrer un numéro de téléphone valide",
+    "update_failed_title": "Échec de la mise à jour du profil",
+    "image_uploaded_title": "Image téléchargée",
+    "image_uploaded_description": "Votre photo de profil a été mise à jour.",
+    "upload_failed_title": "Échec du téléchargement",
+    "upload_failed_default": "Impossible de télécharger l'image",
+    "default_error": "L'inscription a échoué"
+  },
+  "modal": {
+    "title": "Profil mis à jour",
+    "description": "Vos informations ont été enregistrées avec succès.",
+    "button": "Retour à l'accueil"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "header_title": "Confirmation Code",
+  "title": "Enter Confirmation Code",
+  "subtitle": "Enter the 4-digit code sent to your email",
+  "verify_button": "Verify",
+  "resend_code": "Resend code in",
+  "resend_link": "Resend code",
+  "no_account": "You don't have an account?",
+  "sign_up_link": "Sign up",
+  "toast": {
+    "success_title": "Success",
+    "success_description": "Code verified successfully!",
+    "failed_title": "Verification Failed",
+    "default_error": "Invalid code"
+  },
+  "modal_title": "Verification Successful!",
+  "modal_description": "Your account has been verified successfully.",
+  "modal_button": "Get Started"
+}

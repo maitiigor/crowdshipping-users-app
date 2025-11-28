@@ -1,0 +1,28 @@
+{
+  "header_title": "サインアップ",
+  "subtitle": "以下に送信された5桁のコードを入力してください",
+  "verify_button": "確認",
+  "resend_code": "コードを再送信",
+  "resend_link": "再送信",
+  "resending": "再送信中...",
+  "no_code": "コードを受け取っていません",
+  "no_account": "アカウントをお持ちでないですか？",
+  "sign_up_link": "サインアップ",
+  "validation": {
+    "digit_only": "数字のみ",
+    "required": "必須",
+    "enter_5_digits": "5桁入力してください"
+  },
+  "toast": {
+    "success_title": "成功",
+    "success_description": "OTPが正常に確認されました！",
+    "failed_title": "OTP失敗",
+    "resend_success_title": "成功",
+    "resend_success_description": "OTPが正常に再送信されました！",
+    "resend_failed_title": "OTP再送信失敗",
+    "default_error": "サインアップに失敗しました"
+  },
+  "modal_title": "登録成功！",
+  "modal_description": "Crowdshippingへようこそ！パッケージの送受信を開始する準備ができました。",
+  "modal_button": "サインイン"
+}

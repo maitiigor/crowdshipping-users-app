@@ -27,6 +27,7 @@ import {
   LucideIcon,
 } from "lucide-react-native";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   ActivityIndicator,
   Keyboard,
@@ -36,12 +37,15 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as Yup from "yup";
-const validationSchema = Yup.object().shape({
-  email: Yup.string().email("Invalid email").required("Email is required"),
-  password: Yup.string()
-    .min(6, "Password must be at least 6 characters")
-    .required("Password is required"),
-});
+const getValidationSchema = (t: any) =>
+  Yup.object().shape({
+    email: Yup.string()
+      .email(t("validation.invalid_email"))
+      .required(t("validation.email_required")),
+    password: Yup.string()
+      .min(6, t("validation.password_min"))
+      .required(t("validation.password_required")),
+  });
 
 export const loginWithSocials = [
   {
@@ -62,6 +66,7 @@ export default function Login() {
   // hide the header for this screen
   const navigation = useNavigation();
   const router = useRouter();
+  const { t } = useTranslation("login");
   const [showPassword, setShowPassword] = useState(false);
   const toast = useToast();
   // Note: Each toast uses its own generated id; no need to persist in state.
@@ -69,6 +74,7 @@ export default function Login() {
   const { email } = useLocalSearchParams<{ email?: string | string[] }>();
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
   const backroundTopNav = useThemeColor({}, "background");
+  const validationSchema = getValidationSchema(t);
   const handleState = () => {
     setShowPassword((showState) => {
       return !showState;
@@ -122,8 +128,8 @@ export default function Login() {
         password,
       });
       showNewToast({
-        title: "Success",
-        description: "Logged in successfully!",
+        title: t("toast.success_title"),
+        description: t("toast.success_description"),
         icon: CircleCheckIcon,
         action: "success",
         variant: "solid",
@@ -135,10 +141,10 @@ export default function Login() {
         e?.data?.message ||
         e?.message ||
         (typeof error === "string" ? error : undefined) ||
-        "Login failed";
+        t("toast.default_error");
 
       showNewToast({
-        title: "Login Failed",
+        title: t("toast.failed_title"),
         description: message,
         icon: HelpCircleIcon,
         action: "error",
@@ -156,7 +162,7 @@ export default function Login() {
       headerTitle: () => {
         return (
           <ThemedText type="s1_subtitle" className="text-center">
-            Login
+            {t("header_title")}
           </ThemedText>
         );
       },
@@ -237,11 +243,10 @@ export default function Login() {
       >
         <ThemedView className="flex-1  ">
           <ThemedText type="h4_header" className="mt-5">
-            Welcome Back
+            {t("welcome_back")}
           </ThemedText>
           <ThemedText type="default" className="pt-2 text-typography-800 ">
-            Please sign in to access your Crowdshipping account and manage your
-            deliveries.
+            {t("subtitle")}
           </ThemedText>
         </ThemedView>
         <ThemedView className="flex-1 pb-20">
@@ -270,7 +275,7 @@ export default function Login() {
               <ThemedView className="flex gap-4">
                 <ThemedView>
                   <InputLabelText className="mb-1">
-                    Email address
+                    {t("email_label")}
                   </InputLabelText>
                   <Input
                     size="xl"
@@ -280,7 +285,7 @@ export default function Login() {
                   >
                     <InputField
                       className=""
-                      placeholder="user@gmail.com"
+                      placeholder={t("email_placeholder")}
                       value={values.email}
                       onChangeText={handleChange("email")}
                       onBlur={handleBlur("email")}
@@ -289,13 +294,19 @@ export default function Login() {
                     />
                   </Input>
                   {errors.email && touched.email && (
-                    <ThemedText lightColor="#FF3B30" type="b4_body" className="text-error-500 mb-4">
+                    <ThemedText
+                      lightColor="#FF3B30"
+                      type="b4_body"
+                      className="text-error-500 mb-4"
+                    >
                       {errors.email}
                     </ThemedText>
                   )}
                 </ThemedView>
                 <ThemedView>
-                  <InputLabelText className="mb-1">Password</InputLabelText>
+                  <InputLabelText className="mb-1">
+                    {t("password_label")}
+                  </InputLabelText>
                   <Input
                     className="h-[55px] rounded-lg mb-2 border-primary-100 bg-primary-inputShade px-2"
                     size="xl"
@@ -304,7 +315,7 @@ export default function Login() {
                     <InputField
                       className=""
                       type={showPassword ? "text" : "password"}
-                      placeholder="Enter your password"
+                      placeholder={t("password_placeholder")}
                       value={values.password}
                       onChangeText={handleChange("password")}
                       onBlur={handleBlur("password")}
@@ -315,7 +326,11 @@ export default function Login() {
                     </InputSlot>
                   </Input>
                   {errors.password && touched.password && (
-                    <ThemedText lightColor="#FF3B30" type="b4_body" className="text-error-500 mb-4">
+                    <ThemedText
+                      lightColor="#FF3B30"
+                      type="b4_body"
+                      className="text-error-500 mb-4"
+                    >
                       {errors.password}
                     </ThemedText>
                   )}
@@ -329,7 +344,11 @@ export default function Login() {
                   onPress={() => handleSubmit()}
                 >
                   <ThemedText type="s1_subtitle" className="text-white">
-                    {isLoading ? <ActivityIndicator color="white" /> : "Login"}
+                    {isLoading ? (
+                      <ActivityIndicator color="white" />
+                    ) : (
+                      t("login_button")
+                    )}
                   </ThemedText>
                 </Button>
               </ThemedView>
@@ -341,7 +360,7 @@ export default function Login() {
               type="s2_subtitle"
               className="text-primary-500 text-center mt-5"
             >
-              Forgot Password?
+              {t("forgot_password")}
             </ThemedText>
           </Link>
 
@@ -349,7 +368,7 @@ export default function Login() {
             {/* Divider */}
             <ThemedView className="flex-row items-center gap-5">
               <ThemedView className="flex-1 border  border-typography-100" />
-              <ThemedText>Or</ThemedText>
+              <ThemedText>{t("or_divider")}</ThemedText>
               <ThemedView className="flex-1 border  border-typography-100" />
             </ThemedView>
             <ThemedView className="mt-4 flex-row gap-4 px-4 justify-center items-center">
@@ -380,9 +399,9 @@ export default function Login() {
             type="s1_subtitle"
             className="text-typography-950 py-6 text-center"
           >
-            You don’t have an account?{" "}
+            {t("no_account")}{" "}
             <ThemedText type="s1_subtitle" className="text-primary-500">
-              Sign up{" "}
+              {t("sign_up_link")}{" "}
             </ThemedText>
           </ThemedText>
         </Pressable>

@@ -1,0 +1,26 @@
+{
+  "header_title": "Вход",
+  "welcome_back": "С возвращением",
+  "subtitle": "Пожалуйста, войдите, чтобы получить доступ к вашей учетной записи Crowdshipping и управлять доставками.",
+  "email_label": "Адрес электронной почты",
+  "email_placeholder": "пользователь@gmail.com",
+  "password_label": "Пароль",
+  "password_placeholder": "Введите ваш пароль",
+  "login_button": "Войти",
+  "forgot_password": "Забыли пароль?",
+  "or_divider": "Или",
+  "no_account": "У вас нет учетной записи?",
+  "sign_up_link": "Зарегистрироваться",
+  "validation": {
+    "invalid_email": "Неверный адрес электронной почты",
+    "email_required": "Электронная почта обязательна",
+    "password_min": "Пароль должен содержать не менее 6 символов",
+    "password_required": "Пароль обязателен"
+  },
+  "toast": {
+    "success_title": "Успех",
+    "success_description": "Вход выполнен успешно!",
+    "failed_title": "Ошибка входа",
+    "default_error": "Ошибка входа"
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "header_title": "编辑个人资料",
+  "first_name_label": "名字",
+  "first_name_placeholder": "名字",
+  "last_name_label": "姓氏",
+  "last_name_placeholder": "姓氏",
+  "pickup_address_label": "取货地址",
+  "phone_number_label": "电话号码",
+  "state_label": "州/省",
+  "state_placeholder": "输入州/省",
+  "city_label": "城市",
+  "city_placeholder": "输入城市",
+  "gender_label": "性别",
+  "gender_placeholder": "选择性别",
+  "gender_options": {
+    "male": "男",
+    "female": "女",
+    "other": "其他"
+  },
+  "dob_label": "出生日期",
+  "upload_helper_text": "上传个人资料照片",
+  "update_button": "更新",
+  "validation": {
+    "first_name_min": "名字至少需要2个字符",
+    "first_name_max": "名字不能超过50个字符",
+    "first_name_required": "名字为必填项",
+    "last_name_min": "姓氏至少需要2个字符",
+    "last_name_max": "姓氏不能超过50个字符",
+    "last_name_required": "姓氏为必填项",
+    "phone_required": "电话号码为必填项",
+    "country_required": "国家为必填项",
+    "state_required": "州/省为必填项",
+    "city_required": "城市为必填项",
+    "location_required": "位置为必填项",
+    "lat_required": "纬度为必填项",
+    "lng_required": "经度为必填项",
+    "address_required": "地址为必填项",
+    "gender_required": "性别为必填项",
+    "dob_future": "日期不能在未来"
+  },
+  "toast": {
+    "missing_location_title": "缺少位置",
+    "missing_location_description": "请选择取货地址",
+    "invalid_phone_title": "无效电话",
+    "invalid_phone_description": "请输入有效的电话号码",
+    "update_failed_title": "个人资料更新失败",
+    "image_uploaded_title": "图片已上传",
+    "image_uploaded_description": "您的个人资料照片已更新。",
+    "upload_failed_title": "上传失败",
+    "upload_failed_default": "无法上传图片",
+    "default_error": "注册失败"
+  },
+  "modal": {
+    "title": "个人资料已更新",
+    "description": "您的信息已成功保存。",
+    "button": "返回首页"
+  }
+}

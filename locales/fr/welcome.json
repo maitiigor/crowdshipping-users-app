@@ -1,0 +1,20 @@
+{
+  "onboarding_step_1": {
+    "title": "Votre Livraison, À Votre Façon",
+    "description": "Publiez une demande, choisissez un transporteur à proximité et suivez votre article de l'enlèvement à la livraison, le tout dans une seule application"
+  },
+  "onboarding_step_2": {
+    "title": "Envoyer et Recevoir des Colis",
+    "description": "Publiez une demande, choisissez un transporteur à proximité et suivez votre article de l'enlèvement à la livraison, le tout dans une seule application"
+  },
+  "onboarding_step_3": {
+    "title": "Livraison par Air, Terre ou Eau",
+    "description": "Choisissez la meilleure façon d'acheminer votre colis — par route, avion ou mer. Rapide, flexible et fiable."
+  },
+  "login_button": "Connexion",
+  "get_started_button": "Commencer",
+  "terms_consent": "En vous inscrivant, vous acceptez nos",
+  "terms_of_service": "Conditions d'utilisation",
+  "and": "et comment nous utilisons vos données dans notre",
+  "privacy_policy": "Politique de confidentialité"
+}

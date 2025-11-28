@@ -1,0 +1,19 @@
+{
+  "header_title": "確認コード",
+  "title": "確認コードを入力",
+  "subtitle": "メールに送信された4桁のコードを入力してください",
+  "verify_button": "確認",
+  "resend_code": "コードを再送信まで",
+  "resend_link": "コードを再送信",
+  "no_account": "アカウントをお持ちでないですか？",
+  "sign_up_link": "サインアップ",
+  "toast": {
+    "success_title": "成功",
+    "success_description": "コードが正常に確認されました！",
+    "failed_title": "確認失敗",
+    "default_error": "無効なコード"
+  },
+  "modal_title": "確認成功！",
+  "modal_description": "アカウントが正常に確認されました。",
+  "modal_button": "始める"
+}

@@ -1,0 +1,28 @@
+{
+  "header_title": "Регистрация",
+  "subtitle": "Введите 5-значный код, отправленный на",
+  "verify_button": "Подтвердить",
+  "resend_code": "Отправить код снова",
+  "resend_link": "Отправить повторно",
+  "resending": "Повторная отправка...",
+  "no_code": "Я не получил код",
+  "no_account": "У вас нет учетной записи?",
+  "sign_up_link": "Зарегистрироваться",
+  "validation": {
+    "digit_only": "Только цифры",
+    "required": "Обязательно",
+    "enter_5_digits": "Введите 5 цифр"
+  },
+  "toast": {
+    "success_title": "Успех",
+    "success_description": "OTP успешно подтвержден!",
+    "failed_title": "Ошибка OTP",
+    "resend_success_title": "Успех",
+    "resend_success_description": "OTP успешно отправлен повторно!",
+    "resend_failed_title": "Ошибка повторной отправки OTP",
+    "default_error": "Регистрация не удалась"
+  },
+  "modal_title": "Регистрация успешна!",
+  "modal_description": "Добро пожаловать в Crowdshipping! Вы готовы начать отправлять или получать посылки.",
+  "modal_button": "Войти"
+}

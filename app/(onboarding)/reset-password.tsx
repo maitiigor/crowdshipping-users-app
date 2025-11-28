@@ -12,11 +12,13 @@ import {
 } from "@/components/ui/icon";
 import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
 import { useToast } from "@/components/ui/toast";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { usePatch } from "@/lib/api/index";
 import { useLocalSearchParams, useNavigation, useRouter } from "expo-router";
 import { Formik } from "formik";
 import { ChevronLeft, CircleCheckIcon, LucideIcon } from "lucide-react-native";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   ActivityIndicator,
   Keyboard,
@@ -28,18 +30,22 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as Yup from "yup";
 import { loginWithSocials } from "./login";
-import { useThemeColor } from "@/hooks/useThemeColor";
-const validationSchema = Yup.object().shape({
-  password: Yup.string()
-    .min(6, "Password must be at least 6 characters")
-    .required("Password is required"),
-  confirmPassword: Yup.string()
-    .oneOf([Yup.ref("password")], "Passwords must match")
-    .required("Confirm password is required"),
-});
+
+const getValidationSchema = (t: any) =>
+  Yup.object().shape({
+    password: Yup.string()
+      .min(6, t("validation.password_min"))
+      .required(t("validation.password_required")),
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref("password")], t("validation.confirm_password_match"))
+      .required(t("validation.confirm_password_required")),
+  });
+
 export default function Signup() {
   const navigation = useNavigation();
   const router = useRouter();
+  const { t } = useTranslation("resetPassword");
+  const validationSchema = getValidationSchema(t);
   const [showPassword, setShowPassword] = useState(false);
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
   const { token, email } = useLocalSearchParams();
@@ -67,7 +73,7 @@ export default function Signup() {
       headerTitle: () => {
         return (
           <ThemedText type="s1_subtitle" className="text-center">
-            Reset Password
+            {t("header_title")}
           </ThemedText>
         );
       },
@@ -179,8 +185,8 @@ export default function Signup() {
         confirmPassword: values.confirmPassword,
       });
       showNewToast({
-        title: "Success",
-        description: "Password reset successfully!",
+        title: t("toast.success_title"),
+        description: t("toast.success_description"),
         icon: CircleCheckIcon,
         action: "success",
         variant: "solid",
@@ -198,7 +204,7 @@ export default function Signup() {
         "Sign up failed";
 
       showNewToast({
-        title: "Reset Password Failed",
+        title: t("toast.failed_title"),
         description: message,
         icon: HelpCircleIcon,
         action: "error",
@@ -217,7 +223,7 @@ export default function Signup() {
       >
         <ThemedView className="flex-1 ">
           <ThemedText type="h4_header" className="my-2">
-            Reset Account
+            {t("title")}
           </ThemedText>
         </ThemedView>
         <ThemedView className="flex-1 pb-20">
@@ -243,7 +249,9 @@ export default function Signup() {
             }) => (
               <ThemedView className="flex gap-4">
                 <ThemedView>
-                  <InputLabelText className="mt-2">Password</InputLabelText>
+                  <InputLabelText className="mt-2">
+                    {t("password_label")}
+                  </InputLabelText>
                   <Input
                     className="h-[55px] rounded-lg mb-2 border-primary-100 bg-primary-inputShade px-2"
                     size="xl"
@@ -252,7 +260,7 @@ export default function Signup() {
                     <InputField
                       className=""
                       type={showPassword ? "text" : "password"}
-                      placeholder="Input your password"
+                      placeholder={t("password_placeholder")}
                       value={values.password}
                       onChangeText={handleChange("password")}
                       onBlur={handleBlur("password")}
@@ -263,13 +271,19 @@ export default function Signup() {
                     </InputSlot>
                   </Input>
                   {errors.password && touched.password && (
-                    <ThemedText lightColor="#FF3B30" type="b4_body" className="text-error-500 mb-4">
+                    <ThemedText
+                      lightColor="#FF3B30"
+                      type="b4_body"
+                      className="text-error-500 mb-4"
+                    >
                       {errors.password}
                     </ThemedText>
                   )}
                 </ThemedView>
                 <ThemedView>
-                  <InputLabelText className="">Confirm Password</InputLabelText>
+                  <InputLabelText className="">
+                    {t("confirm_password_label")}
+                  </InputLabelText>
                   <Input
                     className="h-[55px] rounded-lg mb-2 border-primary-100 bg-primary-inputShade px-2"
                     size="xl"
@@ -280,7 +294,7 @@ export default function Signup() {
                     <InputField
                       className=""
                       type={showPassword ? "text" : "password"}
-                      placeholder="Confirm password"
+                      placeholder={t("confirm_password_placeholder")}
                       value={values.confirmPassword}
                       onChangeText={handleChange("confirmPassword")}
                       onBlur={handleBlur("confirmPassword")}
@@ -291,7 +305,11 @@ export default function Signup() {
                     </InputSlot>
                   </Input>
                   {errors.confirmPassword && touched.confirmPassword && (
-                    <ThemedText lightColor="#FF3B30" type="b4_body" className="text-error-500 mb-4">
+                    <ThemedText
+                      lightColor="#FF3B30"
+                      type="b4_body"
+                      className="text-error-500 mb-4"
+                    >
                       {errors.confirmPassword}
                     </ThemedText>
                   )}
@@ -303,7 +321,11 @@ export default function Signup() {
                   onPress={() => handleSubmit()}
                 >
                   <ThemedText type="s1_subtitle" className="text-white">
-                    {loading ? <ActivityIndicator color="white" /> : "Sign up"}
+                    {loading ? (
+                      <ActivityIndicator color="white" />
+                    ) : (
+                      t("reset_button")
+                    )}
                   </ThemedText>
                 </Button>
               </ThemedView>
@@ -314,7 +336,7 @@ export default function Signup() {
             {/* Divider */}
             <ThemedView className="flex-row items-center gap-5">
               <ThemedView className="flex-1 border  border-typography-100" />
-              <ThemedText>Or</ThemedText>
+              <ThemedText>{t("or_divider")}</ThemedText>
               <ThemedView className="flex-1 border  border-typography-100" />
             </ThemedView>
             <ThemedView className="mt-4 flex-row gap-4 px-4 justify-center items-center">
@@ -344,7 +366,7 @@ export default function Signup() {
           type="s1_subtitle"
           className="text-typography-950 py-6 text-center"
         >
-          Already have an account?{" "}
+          {t("have_account")}{" "}
           <Pressable
             onPress={() => {
               router.push({
@@ -354,7 +376,7 @@ export default function Signup() {
             }}
           >
             <ThemedText type="s1_subtitle" className="text-primary-500">
-              Sign in{" "}
+              {t("sign_in_link")}{" "}
             </ThemedText>
           </Pressable>
         </ThemedText>

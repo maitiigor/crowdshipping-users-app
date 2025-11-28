@@ -1,0 +1,41 @@
+{
+  "header_title": "Registrarse",
+  "create_account": "Crear una cuenta",
+  "first_name_label": "Nombre",
+  "first_name_placeholder": "nombre",
+  "last_name_label": "Apellido",
+  "last_name_placeholder": "apellido",
+  "email_label": "Correo electrónico",
+  "email_placeholder": "usuario@gmail.com",
+  "phone_label": "Número de teléfono",
+  "password_label": "Contraseña",
+  "password_placeholder": "Ingresa tu contraseña",
+  "confirm_password_label": "Confirmar contraseña",
+  "confirm_password_placeholder": "Confirmar contraseña",
+  "signup_button": "Registrarse",
+  "or_divider": "O",
+  "have_account": "¿No tienes una cuenta?",
+  "sign_in_link": "Iniciar sesión",
+  "validation": {
+    "first_name_min": "El nombre debe tener al menos 2 caracteres",
+    "first_name_max": "El nombre no puede tener más de 50 caracteres",
+    "first_name_required": "El nombre es obligatorio",
+    "last_name_min": "El apellido debe tener al menos 2 caracteres",
+    "last_name_max": "El apellido no puede tener más de 50 caracteres",
+    "last_name_required": "El apellido es obligatorio",
+    "invalid_email": "Correo electrónico inválido",
+    "email_required": "El correo electrónico es obligatorio",
+    "password_min": "La contraseña debe tener al menos 6 caracteres",
+    "password_required": "La contraseña es obligatoria",
+    "confirm_password_match": "Las contraseñas deben coincidir",
+    "confirm_password_required": "Confirmar contraseña es obligatorio"
+  },
+  "toast": {
+    "invalid_phone_title": "Teléfono inválido",
+    "invalid_phone_description": "Por favor ingresa un número de teléfono válido",
+    "success_title": "Éxito",
+    "success_description": "¡Registrado correctamente!",
+    "failed_title": "Error al registrarse",
+    "default_error": "Error al registrarse"
+  }
+}

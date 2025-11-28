@@ -1,0 +1,20 @@
+{
+  "onboarding_step_1": {
+    "title": "您的配送，由您决定",
+    "description": "发布请求，选择附近的承运人，并在一个应用程序中跟踪您的物品从取件到送达的全过程"
+  },
+  "onboarding_step_2": {
+    "title": "发送和接收包裹",
+    "description": "发布请求，选择附近的承运人，并在一个应用程序中跟踪您的物品从取件到送达的全过程"
+  },
+  "onboarding_step_3": {
+    "title": "通过空运、陆运或海运配送",
+    "description": "选择运输包裹的最佳方式——公路、航空或海运。快速、灵活且可靠。"
+  },
+  "login_button": "登录",
+  "get_started_button": "开始使用",
+  "terms_consent": "注册即表示您同意我们的",
+  "terms_of_service": "服务条款",
+  "and": "以及我们如何在我们的",
+  "privacy_policy": "隐私政策中使用您的数据"
+}

@@ -45,6 +45,7 @@ import {
   LucideIcon,
 } from "lucide-react-native";
 import React, { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   ActivityIndicator,
   KeyboardAvoidingView,
@@ -52,33 +53,38 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as Yup from "yup";
-const validationSchema = Yup.object().shape({
-  firstName: Yup.string()
-    .min(2, "First name must be at least 2 characters")
-    .max(50, "First name cannot exceed 50 characters")
-    .required("First name is required"),
-  lastName: Yup.string()
-    .min(2, "Last name must be at least 2 characters")
-    .max(50, "Last name cannot exceed 50 characters")
-    .required("Last name is required"),
-  phoneNumber: Yup.string().required("Phone number is required"),
-  country: Yup.string().required("Country is required"),
-  state: Yup.string().required("State is required"),
-  city: Yup.string().required("City is required"),
-  location: Yup.object()
-    .shape({
-      lat: Yup.number().required("Latitude is required"),
-      lng: Yup.number().required("Longitude is required"),
-      address: Yup.string().required("Address is required"),
-    })
-    .required("Location is required"),
-  gender: Yup.string()
-    .oneOf(["male", "female", "other"])
-    .required("Gender is required"),
-  dob: Yup.date().nullable().max(new Date(), "Date cannot be in future"),
-});
+
+const getValidationSchema = (t: any) =>
+  Yup.object().shape({
+    firstName: Yup.string()
+      .min(2, t("validation.first_name_min"))
+      .max(50, t("validation.first_name_max"))
+      .required(t("validation.first_name_required")),
+    lastName: Yup.string()
+      .min(2, t("validation.last_name_min"))
+      .max(50, t("validation.last_name_max"))
+      .required(t("validation.last_name_required")),
+    phoneNumber: Yup.string().required(t("validation.phone_required")),
+    country: Yup.string().required(t("validation.country_required")),
+    state: Yup.string().required(t("validation.state_required")),
+    city: Yup.string().required(t("validation.city_required")),
+    location: Yup.object()
+      .shape({
+        lat: Yup.number().required(t("validation.lat_required")),
+        lng: Yup.number().required(t("validation.lng_required")),
+        address: Yup.string().required(t("validation.address_required")),
+      })
+      .required(t("validation.location_required")),
+    gender: Yup.string()
+      .oneOf(["male", "female", "other"])
+      .required(t("validation.gender_required")),
+    dob: Yup.date().nullable().max(new Date(), t("validation.dob_future")),
+  });
+
 export default function UserProfileSetup() {
   const navigation = useNavigation();
+  const { t } = useTranslation("userProfileSetup");
+  const validationSchema = getValidationSchema(t);
   // const router = useRouter();
   const phoneInputRef = useRef<any>(null);
   const [pickedImage, setPickedImage] = useState<string | null>(null);
@@ -170,7 +176,7 @@ export default function UserProfileSetup() {
       headerTitle: () => {
         return (
           <ThemedText type="s1_subtitle" className="text-center">
-            Edit Profile
+            {t("header_title")}
           </ThemedText>
         );
       },
@@ -276,8 +282,8 @@ export default function UserProfileSetup() {
       const lng = values.location.lng;
       if (lat == null || lng == null) {
         showNewToast({
-          title: "Missing location",
-          description: "Please select a pickup address",
+          title: t("toast.missing_location_title"),
+          description: t("toast.missing_location_description"),
           icon: HelpCircleIcon,
           action: "error",
           variant: "solid",
@@ -293,8 +299,8 @@ export default function UserProfileSetup() {
       const valid = isValidPhone(phone || "");
       if (!valid) {
         showNewToast({
-          title: "Invalid phone",
-          description: "Please enter a valid phone number",
+          title: t("toast.invalid_phone_title"),
+          description: t("toast.invalid_phone_description"),
           icon: HelpCircleIcon,
           action: "error",
           variant: "solid",
@@ -332,10 +338,11 @@ export default function UserProfileSetup() {
         e?.data?.message ||
         e?.message ||
         (typeof error === "string" ? error : undefined) ||
-        "Sign up failed";
+        (typeof error === "string" ? error : undefined) ||
+        t("toast.default_error");
 
       showNewToast({
-        title: "Profile Update Failed",
+        title: t("toast.update_failed_title"),
         description: message,
         icon: HelpCircleIcon,
         action: "error",
@@ -377,7 +384,9 @@ export default function UserProfileSetup() {
               <ThemedView className="flex gap-5">
                 <ThemedView className="flex-row gap-4">
                   <ThemedView className="w-1/2">
-                    <InputLabelText className="">First Name</InputLabelText>
+                    <InputLabelText className="">
+                      {t("first_name_label")}
+                    </InputLabelText>
                     <Input
                       size="xl"
                       className="h-[55px] rounded-lg border-primary-100 bg-primary-inputShade px-2"
@@ -386,7 +395,7 @@ export default function UserProfileSetup() {
                     >
                       <InputField
                         className=""
-                        placeholder="first name"
+                        placeholder={t("first_name_placeholder")}
                         value={values.firstName}
                         onChangeText={handleChange("firstName")}
                         onBlur={handleBlur("firstName")}
@@ -395,13 +404,19 @@ export default function UserProfileSetup() {
                       />
                     </Input>
                     {errors.firstName && touched.firstName && (
-                      <ThemedText lightColor="#FF3B30" type="b4_body" className="text-error-500">
+                      <ThemedText
+                        lightColor="#FF3B30"
+                        type="b4_body"
+                        className="text-error-500"
+                      >
                         {errors.firstName}
                       </ThemedText>
                     )}
                   </ThemedView>
                   <ThemedView className="flex-1 w-1/2">
-                    <InputLabelText className="">Last Name</InputLabelText>
+                    <InputLabelText className="">
+                      {t("last_name_label")}
+                    </InputLabelText>
                     <Input
                       size="xl"
                       className="h-[55px] rounded-lg border-primary-100 bg-primary-inputShade px-2"
@@ -410,7 +425,7 @@ export default function UserProfileSetup() {
                     >
                       <InputField
                         className=""
-                        placeholder="last name"
+                        placeholder={t("last_name_placeholder")}
                         value={values.lastName}
                         onChangeText={handleChange("lastName")}
                         onBlur={handleBlur("lastName")}
@@ -419,7 +434,11 @@ export default function UserProfileSetup() {
                       />
                     </Input>
                     {errors.lastName && touched.lastName && (
-                      <ThemedText lightColor="#FF3B30" type="b4_body" className="text-error-500">
+                      <ThemedText
+                        lightColor="#FF3B30"
+                        type="b4_body"
+                        className="text-error-500"
+                      >
                         {errors.lastName}
                       </ThemedText>
                     )}
@@ -427,7 +446,9 @@ export default function UserProfileSetup() {
                 </ThemedView>
 
                 <ThemedView>
-                  <InputLabelText className="">Pickup Address</InputLabelText>
+                  <InputLabelText className="">
+                    {t("pickup_address_label")}
+                  </InputLabelText>
                   <AddressPickerComponent
                     value={selectedPickupAddress}
                     onSelect={(sel) => {
@@ -442,7 +463,9 @@ export default function UserProfileSetup() {
                   />
                 </ThemedView>
                 <ThemedView>
-                  <InputLabelText className="">Phone Number</InputLabelText>
+                  <InputLabelText className="">
+                    {t("phone_number_label")}
+                  </InputLabelText>
                   <PhoneNumberInput
                     ref={phoneInputRef}
                     value={values.phoneNumber}
@@ -452,7 +475,11 @@ export default function UserProfileSetup() {
                     }}
                   />
                   {errors.phoneNumber && touched.phoneNumber && (
-                    <ThemedText lightColor="#FF3B30" type="b4_body" className="text-error-500">
+                    <ThemedText
+                      lightColor="#FF3B30"
+                      type="b4_body"
+                      className="text-error-500"
+                    >
                       {errors.phoneNumber}
                     </ThemedText>
                   )}
@@ -467,7 +494,9 @@ export default function UserProfileSetup() {
                   />
                 </ThemedView>
                 <ThemedView className="w-full">
-                  <InputLabelText className="">State</InputLabelText>
+                  <InputLabelText className="">
+                    {t("state_label")}
+                  </InputLabelText>
                   <Input
                     size="xl"
                     className="h-[55px] rounded-lg border-primary-100 bg-primary-inputShade px-2"
@@ -476,7 +505,7 @@ export default function UserProfileSetup() {
                   >
                     <InputField
                       className=""
-                      placeholder="Enter state"
+                      placeholder={t("state_placeholder")}
                       value={values.state}
                       onChangeText={handleChange("state")}
                       onBlur={handleBlur("state")}
@@ -485,13 +514,19 @@ export default function UserProfileSetup() {
                     />
                   </Input>
                   {errors.state && touched.state && (
-                    <ThemedText lightColor="#FF3B30" type="b4_body" className="text-error-500 mb-4">
+                    <ThemedText
+                      lightColor="#FF3B30"
+                      type="b4_body"
+                      className="text-error-500 mb-4"
+                    >
                       {errors.state}
                     </ThemedText>
                   )}
                 </ThemedView>
                 <ThemedView className="w-full">
-                  <InputLabelText className="">City</InputLabelText>
+                  <InputLabelText className="">
+                    {t("city_label")}
+                  </InputLabelText>
                   <Input
                     size="xl"
                     className="h-[55px] rounded-lg border-primary-100 bg-primary-inputShade px-2"
@@ -500,7 +535,7 @@ export default function UserProfileSetup() {
                   >
                     <InputField
                       className=""
-                      placeholder="Enter city"
+                      placeholder={t("city_placeholder")}
                       value={values.city}
                       onChangeText={handleChange("city")}
                       onBlur={handleBlur("city")}
@@ -509,14 +544,18 @@ export default function UserProfileSetup() {
                     />
                   </Input>
                   {errors.city && touched.city && (
-                    <ThemedText lightColor="#FF3B30" type="b4_body" className="text-error-500">
+                    <ThemedText
+                      lightColor="#FF3B30"
+                      type="b4_body"
+                      className="text-error-500"
+                    >
                       {errors.city}
                     </ThemedText>
                   )}
                 </ThemedView>
 
                 <ThemedView>
-                  <InputLabelText>Gender</InputLabelText>
+                  <InputLabelText>{t("gender_label")}</InputLabelText>
                   <Select
                     selectedValue={values.gender}
                     onValueChange={handleChange("gender")}
@@ -526,7 +565,7 @@ export default function UserProfileSetup() {
                       className="h-[55px] rounded-lg mb-2 border-primary-100 bg-primary-inputShade px-2"
                     >
                       <SelectInput
-                        placeholder="Select gender"
+                        placeholder={t("gender_placeholder")}
                         className="flex-1"
                       />
                       <SelectIcon className="mr-3" as={ChevronDownIcon} />
@@ -537,27 +576,44 @@ export default function UserProfileSetup() {
                         <SelectDragIndicatorWrapper>
                           <SelectDragIndicator />
                         </SelectDragIndicatorWrapper>
-                        <SelectItem label="Male" value="male" />
-                        <SelectItem label="Female" value="female" />
-                        <SelectItem label="Other" value="other" />
+                        <SelectItem
+                          label={t("gender_options.male")}
+                          value="male"
+                        />
+                        <SelectItem
+                          label={t("gender_options.female")}
+                          value="female"
+                        />
+                        <SelectItem
+                          label={t("gender_options.other")}
+                          value="other"
+                        />
                       </SelectContent>
                     </SelectPortal>
                   </Select>
                   {errors.gender && touched.gender && (
-                    <ThemedText lightColor="#FF3B30" type="b4_body" className="text-error-500 mb-4">
+                    <ThemedText
+                      lightColor="#FF3B30"
+                      type="b4_body"
+                      className="text-error-500 mb-4"
+                    >
                       {errors.gender}
                     </ThemedText>
                   )}
                 </ThemedView>
                 <ThemedView>
                   <DateField
-                    label="Date of Birth"
+                    label={t("dob_label")}
                     labelClassName="b2_body"
                     value={values.dob as unknown as Date | null}
                     onChange={(d) => setFieldValue("dob", d)}
                   />
                   {errors.dob && touched.dob && (
-                    <ThemedText lightColor="#FF3B30" type="b4_body" className="text-error-500">
+                    <ThemedText
+                      lightColor="#FF3B30"
+                      type="b4_body"
+                      className="text-error-500"
+                    >
                       {String(errors.dob)}
                     </ThemedText>
                   )}
@@ -600,23 +656,24 @@ export default function UserProfileSetup() {
 
                         setFieldValue("profilePicUrl", url);
                         showNewToast({
-                          title: "Image uploaded",
-                          description: "Your profile photo was updated.",
+                          title: t("toast.image_uploaded_title"),
+                          description: t("toast.image_uploaded_description"),
                           icon: CircleCheckIcon,
                           action: "success",
                           variant: "solid",
                         });
                       } catch (e: any) {
                         showNewToast({
-                          title: "Upload failed",
-                          description: e?.message || "Could not upload image",
+                          title: t("toast.upload_failed_title"),
+                          description:
+                            e?.message || t("toast.upload_failed_default"),
                           icon: HelpCircleIcon,
                           action: "error",
                           variant: "solid",
                         });
                       }
                     }}
-                    helperText="Upload a profile photo"
+                    helperText={t("upload_helper_text")}
                   />
                 </ThemedView>
 
@@ -628,7 +685,11 @@ export default function UserProfileSetup() {
                   onPress={() => handleSubmit()}
                 >
                   <ThemedText type="s1_subtitle" className="text-white">
-                    {loading ? <ActivityIndicator color="white" /> : "Update"}
+                    {loading ? (
+                      <ActivityIndicator color="white" />
+                    ) : (
+                      t("update_button")
+                    )}
                   </ThemedText>
                 </Button>
               </ThemedView>
@@ -640,11 +701,11 @@ export default function UserProfileSetup() {
       {showModal && (
         <>
           <CustomModal
-            description="Your information has been saved successfully."
-            title="Profile Updated"
+            description={t("modal.description")}
+            title={t("modal.title")}
             img={require("@/assets/images/onboarding/modal-success.png")}
             firstBtnLink={"/(tabs)"}
-            firstBtnText="Return to Home"
+            firstBtnText={t("modal.button")}
             setShowModal={setShowModal}
             showModal={showModal}
             size="lg"
