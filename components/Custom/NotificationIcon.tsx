@@ -1,10 +1,11 @@
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { useAuthenticatedQuery } from "@/lib/api";
 import { INotificationsResponse } from "@/types/INotification";
+import { displayLocalNotification } from "@/utils/notificationHelper";
 import messaging from "@react-native-firebase/messaging";
 import { useRouter } from "expo-router";
 import { Bell } from "lucide-react-native";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { Platform, TouchableOpacity } from "react-native";
 import { ThemedText } from "../ThemedText";
 import { ThemedView } from "../ThemedView";
@@ -19,6 +20,7 @@ export default function NotificationIcon({}: IProps) {
   const router = useRouter();
   const list = Array.isArray(data?.data) ? data!.data : [];
   const unreadCount = list.filter((notif) => !notif.isRead).length || 0;
+  const previousIdsRef = useRef<Set<string>>(new Set());
 
   // Listen for foreground messages and refresh the list
   useEffect(() => {
@@ -28,6 +30,25 @@ export default function NotificationIcon({}: IProps) {
     });
     return unsubscribe;
   }, [refetch]);
+
+  useEffect(() => {
+    const currentIds = new Set(list.map((notif) => notif._id));
+    const previousIds = previousIdsRef.current;
+    const newNotifications = list.filter(
+      (notif) => !previousIds.has(notif._id)
+    );
+
+    if (previousIds.size > 0 && newNotifications.length > 0) {
+      const latest = newNotifications[0];
+      const title = latest.title || "New Notification";
+      const body = latest.message || "You have a new message";
+      void displayLocalNotification(title, body, {
+        notificationId: latest._id,
+      });
+    }
+
+    previousIdsRef.current = currentIds;
+  }, [list]);
   return (
     <TouchableOpacity
       onPress={() => {
@@ -52,7 +73,9 @@ export default function NotificationIcon({}: IProps) {
             <ThemedText
               lightColor="#ffff"
               darkColor="#ffff"
-              type="btn_tiny" className="text-white text-center">
+              type="btn_tiny"
+              className="text-white text-center"
+            >
               {isLoading ? ".." : unreadCount}
             </ThemedText>
           </ThemedView>

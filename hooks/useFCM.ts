@@ -33,6 +33,8 @@ export function useFCM() {
 
     const getToken = async () => {
       try {
+        await messaging().registerDeviceForRemoteMessages();
+        await messaging().setAutoInitEnabled(true);
         const token = await messaging().getToken();
         console.log("FCM Token:", token);
         setFcmToken(token);

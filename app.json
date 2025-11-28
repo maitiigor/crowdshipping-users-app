@@ -20,7 +20,10 @@
       "config": {
         "googleMapsApiKey": "AIzaSyApi7aYZFv4Ol4wNUeXITfZI1sKfWHEClY"
       },
-      "bundleIdentifier": "com.zeus001.crowdshippingusernewapp"
+      "bundleIdentifier": "com.zeus001.crowdshippingusernewapp",
+      "entitlements": {
+        "aps-environment": "development"
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -83,7 +86,10 @@
       "typedRoutes": true
     },
     "extra": {
-      "router": {}
+      "router": {},
+      "eas": {
+        "projectId": "5fd99e8c-41f9-42fe-884d-aff5731c4bbd"
+      }
     },
     "owner": "zeus001"
   }
