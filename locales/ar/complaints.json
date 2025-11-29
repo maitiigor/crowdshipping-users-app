@@ -1,0 +1,81 @@
+{
+  "header": {
+    "title": "الشكاوى",
+    "new_claim": "مطالبة جديدة",
+    "details_title": "تفاصيل المطالبة"
+  },
+  "search_placeholder": "بحث...",
+  "filters": {
+    "pending": "قيد الانتظار",
+    "resolved": "تم الحل"
+  },
+  "empty_state": {
+    "title": "لا توجد مطالبات {{filter}}",
+    "description": "ليس لديك مطالبات {{filter}} في الوقت الحالي. تحقق مرة أخرى لاحقًا للحصول على تحديثات."
+  },
+  "buttons": {
+    "close": "إغلاق",
+    "details": "تفاصيل",
+    "add_new": "إضافة جديد",
+    "cancel": "إلغاء",
+    "submit_claim": "تقديم المطالبة",
+    "open_attachment": "فتح المرفق"
+  },
+  "labels": {
+    "claim_id": "معرف المطالبة",
+    "last_updated_date": "تاريخ آخر تحديث",
+    "current_status": "الحالة الحالية",
+    "brief_description": "وصف موجز",
+    "nature_of_claims": "طبيعة المطالبات",
+    "other_options": "خيارات أخرى",
+    "claim_amount": "مبلغ المطالبة",
+    "tracking_id": "معرف التتبع",
+    "detailed_description": "وصف مفصل",
+    "summary": "ملخص",
+    "report_id": "معرف التقرير",
+    "claim_reference": "مرجع المطالبة",
+    "nature_of_claim": "طبيعة المطالبة",
+    "description": "الوصف",
+    "raised_by": "مقدم من",
+    "raised_by_id": "معرف المقدم",
+    "support_team": "فريق الدعم",
+    "timeline": "الجدول الزمني",
+    "created": "تم الإنشاء",
+    "updated": "تم التحديث",
+    "evidence": "الدليل",
+    "status": "الحالة",
+    "under_review": "قيد المراجعة",
+    "resolved": "تم الحل",
+    "no_attachment": "لم يتم تقديم مرفق لهذه المطالبة.",
+    "load_error": "تعذر تحميل هذه المطالبة. يرجى الرجوع والمحاولة مرة أخرى."
+  },
+  "validation": {
+    "nature_required": "طبيعة المطالبة مطلوبة",
+    "other_required": "الخيارات الأخرى مطلوبة",
+    "other_min": "يجب أن تكون الخيارات الأخرى 5 أحرف على الأقل",
+    "other_max": "لا يمكن أن تتجاوز الخيارات الأخرى 100 حرف",
+    "amount_number": "يجب أن يكون مبلغ التقرير رقمًا",
+    "amount_required": "مبلغ التقرير مطلوب",
+    "amount_positive": "يجب أن يكون مبلغ التقرير موجبًا",
+    "tracking_required": "معرف التتبع مطلوب",
+    "description_required": "الوصف مطلوب",
+    "description_min": "يجب أن يكون الوصف 20 حرفًا على الأقل",
+    "description_max": "لا يمكن أن يتجاوز الوصف 500 حرف"
+  },
+  "toast": {
+    "submitted_title": "تم تقديم المطالبة",
+    "submitted_desc": "تم تقديم مطالبتك بنجاح.",
+    "failed_title": "فشل طلب المطالبة",
+    "file_uploaded_title": "تم تحميل الملف",
+    "file_uploaded_desc": "مرفقك جاهز.",
+    "upload_failed_title": "فشل التحميل",
+    "invalid_amount_title": "مبلغ غير صالح",
+    "invalid_amount_desc": "يرجى إدخال مبلغ مطالبة صالح."
+  },
+  "placeholders": {
+    "enter_other": "أدخل خيارات أخرى",
+    "enter_amount": "أدخل المبلغ",
+    "enter_tracking": "أدخل معرف التتبع",
+    "enter_description": "أدخل وصف المنتج"
+  }
+}

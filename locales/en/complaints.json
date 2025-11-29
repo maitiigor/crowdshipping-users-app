@@ -1,0 +1,81 @@
+{
+  "header": {
+    "title": "Claims",
+    "new_claim": "New Claim",
+    "details_title": "Claim Details"
+  },
+  "search_placeholder": "Search...",
+  "filters": {
+    "pending": "Pending",
+    "resolved": "Resolved"
+  },
+  "empty_state": {
+    "title": "No {{filter}} Claims",
+    "description": "You have no {{filter}} claims at the moment. Check back later for updates."
+  },
+  "buttons": {
+    "close": "Close",
+    "details": "Details",
+    "add_new": "Add New",
+    "cancel": "Cancel",
+    "submit_claim": "Submit Claim",
+    "open_attachment": "Open attachment"
+  },
+  "labels": {
+    "claim_id": "Claim ID",
+    "last_updated_date": "Last Updated Date",
+    "current_status": "Current Status",
+    "brief_description": "Brief Description",
+    "nature_of_claims": "Nature of Claims",
+    "other_options": "Other Options",
+    "claim_amount": "Claim Amount",
+    "tracking_id": "Tracking ID",
+    "detailed_description": "Detailed Description",
+    "summary": "Summary",
+    "report_id": "Report ID",
+    "claim_reference": "Claim Reference",
+    "nature_of_claim": "Nature of Claim",
+    "description": "Description",
+    "raised_by": "Raised By",
+    "raised_by_id": "Raised By ID",
+    "support_team": "Support Team",
+    "timeline": "Timeline",
+    "created": "Created",
+    "updated": "Updated",
+    "evidence": "Evidence",
+    "status": "Status",
+    "under_review": "Under Review",
+    "resolved": "Resolved",
+    "no_attachment": "No attachment provided for this claim.",
+    "load_error": "Could not load this claim. Please go back and try again."
+  },
+  "validation": {
+    "nature_required": "Nature of claim is required",
+    "other_required": "Other options are required",
+    "other_min": "Other options must be at least 5 characters",
+    "other_max": "Other options cannot exceed 100 characters",
+    "amount_number": "Report amount must be a number",
+    "amount_required": "Report amount is required",
+    "amount_positive": "Report amount must be positive",
+    "tracking_required": "Tracking ID is required",
+    "description_required": "Description is required",
+    "description_min": "Description must be at least 20 characters",
+    "description_max": "Description cannot exceed 500 characters"
+  },
+  "toast": {
+    "submitted_title": "Claim Submitted",
+    "submitted_desc": "Your claim has been submitted successfully.",
+    "failed_title": "Claim Request Failed",
+    "file_uploaded_title": "File uploaded",
+    "file_uploaded_desc": "Your attachment is ready.",
+    "upload_failed_title": "Upload failed",
+    "invalid_amount_title": "Invalid amount",
+    "invalid_amount_desc": "Please enter a valid claim amount."
+  },
+  "placeholders": {
+    "enter_other": "Enter other options",
+    "enter_amount": "Enter amount",
+    "enter_tracking": "Enter Tracking ID",
+    "enter_description": "Enter Product Description"
+  }
+}

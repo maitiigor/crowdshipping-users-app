@@ -1,0 +1,45 @@
+{
+  "header": {
+    "title": "Historique des réservations",
+    "details_title": "Détails de la réservation"
+  },
+  "filters": {
+    "all": "Tous",
+    "in_progress": "En cours",
+    "pending": "En attente",
+    "delivered": "Livré",
+    "cancelled": "Annulé"
+  },
+  "empty_state": {
+    "title": "Aucune réservation disponible",
+    "description": "Il n'y a aucune réservation disponible pour le moment. Revenez plus tard pour les mises à jour."
+  },
+  "labels": {
+    "booking_summary": "Résumé de la réservation",
+    "booking_id": "ID de réservation",
+    "tracking_id": "ID de suivi",
+    "pickup_location": "Lieu de ramassage",
+    "dropoff_location": "Lieu de dépôt",
+    "product_type": "Type de produit",
+    "weight": "Poids",
+    "current_status": "Statut actuel",
+    "payment_status": "Statut du paiement",
+    "receiver_information": "Informations sur le destinataire",
+    "name": "Nom",
+    "phone_number": "Numéro de téléphone",
+    "alternative_phone": "Téléphone alternatif",
+    "sender_information": "Informations sur l'expéditeur",
+    "user_id": "ID utilisateur",
+    "location": "Emplacement",
+    "traveller_information": "Informations sur le voyageur",
+    "expected_arrival_time": "Heure d'arrivée prévue",
+    "loading": "Chargement des détails de la réservation..."
+  },
+  "buttons": {
+    "rate_driver": "Noter le chauffeur",
+    "report_driver": "Signaler le chauffeur",
+    "file_claim": "Déposer une réclamation",
+    "back": "Retour",
+    "cancel_booking": "Annuler la réservation"
+  }
+}

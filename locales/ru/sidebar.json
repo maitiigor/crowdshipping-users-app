@@ -1,0 +1,29 @@
+{
+  "menu": {
+    "home": "Главная",
+    "booking_history": "История бронирования",
+    "trips": "Поездки",
+    "bidding_history": "История ставок",
+    "track_order": "Отследить заказ",
+    "inbox": "Входящие",
+    "wallet": "Кошелек",
+    "report_issues": "Сообщить о проблеме",
+    "claims": "Претензии",
+    "support": "Поддержка",
+    "notifications": "Уведомления",
+    "settings": "Настройки",
+    "my_promo": "Мои промоакции",
+    "terms_conditions": "Условия и положения",
+    "privacy_policy": "Политика конфиденциальности"
+  },
+  "welcome_back": "С возвращением",
+  "loading": "Загрузка...",
+  "edit_profile": "Редактировать профиль",
+  "logout": "Выйти",
+  "logout_drawer": {
+    "title": "Выйти",
+    "description": "Вы уверены, что хотите выйти?",
+    "cancel": "Отмена",
+    "confirm": "Да, выйти"
+  }
+}

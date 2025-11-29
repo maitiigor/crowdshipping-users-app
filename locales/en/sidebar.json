@@ -1,0 +1,29 @@
+{
+  "menu": {
+    "home": "Home",
+    "booking_history": "Booking History",
+    "trips": "Trips",
+    "bidding_history": "Bidding History",
+    "track_order": "Track Order",
+    "inbox": "Inbox",
+    "wallet": "Wallet",
+    "report_issues": "Report Issues",
+    "claims": "Claims",
+    "support": "Support",
+    "notifications": "Notifications",
+    "settings": "Settings",
+    "my_promo": "My Promo",
+    "terms_conditions": "Terms & Conditions",
+    "privacy_policy": "Privacy Policy"
+  },
+  "welcome_back": "Welcome, back",
+  "loading": "Loading...",
+  "edit_profile": "Edit Profile",
+  "logout": "Logout",
+  "logout_drawer": {
+    "title": "Log out",
+    "description": "Are you sure you want to log out?",
+    "cancel": "Cancel",
+    "confirm": "Yes, Logout"
+  }
+}

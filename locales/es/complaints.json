@@ -1,0 +1,81 @@
+{
+  "header": {
+    "title": "Reclamos",
+    "new_claim": "Nuevo reclamo",
+    "details_title": "Detalles del reclamo"
+  },
+  "search_placeholder": "Buscar...",
+  "filters": {
+    "pending": "Pendiente",
+    "resolved": "Resuelto"
+  },
+  "empty_state": {
+    "title": "No hay reclamos {{filter}}",
+    "description": "No tienes reclamos {{filter}} en este momento. Vuelve más tarde para ver actualizaciones."
+  },
+  "buttons": {
+    "close": "Cerrar",
+    "details": "Detalles",
+    "add_new": "Agregar nuevo",
+    "cancel": "Cancelar",
+    "submit_claim": "Enviar reclamo",
+    "open_attachment": "Abrir adjunto"
+  },
+  "labels": {
+    "claim_id": "ID de reclamo",
+    "last_updated_date": "Fecha de última actualización",
+    "current_status": "Estado actual",
+    "brief_description": "Descripción breve",
+    "nature_of_claims": "Naturaleza de los reclamos",
+    "other_options": "Otras opciones",
+    "claim_amount": "Monto del reclamo",
+    "tracking_id": "ID de rastreo",
+    "detailed_description": "Descripción detallada",
+    "summary": "Resumen",
+    "report_id": "ID de reporte",
+    "claim_reference": "Referencia del reclamo",
+    "nature_of_claim": "Naturaleza del reclamo",
+    "description": "Descripción",
+    "raised_by": "Planteado por",
+    "raised_by_id": "ID de quien plantea",
+    "support_team": "Equipo de soporte",
+    "timeline": "Cronograma",
+    "created": "Creado",
+    "updated": "Actualizado",
+    "evidence": "Evidencia",
+    "status": "Estado",
+    "under_review": "En revisión",
+    "resolved": "Resuelto",
+    "no_attachment": "No se proporcionó adjunto para este reclamo.",
+    "load_error": "No se pudo cargar este reclamo. Por favor, regresa e inténtalo de nuevo."
+  },
+  "validation": {
+    "nature_required": "La naturaleza del reclamo es obligatoria",
+    "other_required": "Otras opciones son obligatorias",
+    "other_min": "Otras opciones deben tener al menos 5 caracteres",
+    "other_max": "Otras opciones no pueden exceder los 100 caracteres",
+    "amount_number": "El monto del reporte debe ser un número",
+    "amount_required": "El monto del reporte es obligatorio",
+    "amount_positive": "El monto del reporte debe ser positivo",
+    "tracking_required": "El ID de rastreo es obligatorio",
+    "description_required": "La descripción es obligatoria",
+    "description_min": "La descripción debe tener al menos 20 caracteres",
+    "description_max": "La descripción no puede exceder los 500 caracteres"
+  },
+  "toast": {
+    "submitted_title": "Reclamo enviado",
+    "submitted_desc": "Tu reclamo ha sido enviado exitosamente.",
+    "failed_title": "Solicitud de reclamo fallida",
+    "file_uploaded_title": "Archivo subido",
+    "file_uploaded_desc": "Tu adjunto está listo.",
+    "upload_failed_title": "Carga fallida",
+    "invalid_amount_title": "Monto inválido",
+    "invalid_amount_desc": "Por favor, ingresa un monto de reclamo válido."
+  },
+  "placeholders": {
+    "enter_other": "Ingresar otras opciones",
+    "enter_amount": "Ingresar monto",
+    "enter_tracking": "Ingresar ID de rastreo",
+    "enter_description": "Ingresar descripción del producto"
+  }
+}

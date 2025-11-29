@@ -1,0 +1,81 @@
+{
+  "header": {
+    "title": "Ansprüche",
+    "new_claim": "Neuer Anspruch",
+    "details_title": "Anspruchsdetails"
+  },
+  "search_placeholder": "Suchen...",
+  "filters": {
+    "pending": "Ausstehend",
+    "resolved": "Gelöst"
+  },
+  "empty_state": {
+    "title": "Keine {{filter}} Ansprüche",
+    "description": "Sie haben derzeit keine {{filter}} Ansprüche. Schauen Sie später wieder vorbei."
+  },
+  "buttons": {
+    "close": "Schließen",
+    "details": "Details",
+    "add_new": "Neu hinzufügen",
+    "cancel": "Abbrechen",
+    "submit_claim": "Anspruch einreichen",
+    "open_attachment": "Anhang öffnen"
+  },
+  "labels": {
+    "claim_id": "Anspruchs-ID",
+    "last_updated_date": "Letztes Aktualisierungsdatum",
+    "current_status": "Aktueller Status",
+    "brief_description": "Kurzbeschreibung",
+    "nature_of_claims": "Art der Ansprüche",
+    "other_options": "Andere Optionen",
+    "claim_amount": "Anspruchsbetrag",
+    "tracking_id": "Verfolgungs-ID",
+    "detailed_description": "Detaillierte Beschreibung",
+    "summary": "Zusammenfassung",
+    "report_id": "Berichts-ID",
+    "claim_reference": "Anspruchsreferenz",
+    "nature_of_claim": "Art des Anspruchs",
+    "description": "Beschreibung",
+    "raised_by": "Eingereicht von",
+    "raised_by_id": "Eingereicht von ID",
+    "support_team": "Support-Team",
+    "timeline": "Zeitplan",
+    "created": "Erstellt",
+    "updated": "Aktualisiert",
+    "evidence": "Beweis",
+    "status": "Status",
+    "under_review": "In Prüfung",
+    "resolved": "Gelöst",
+    "no_attachment": "Kein Anhang für diesen Anspruch bereitgestellt.",
+    "load_error": "Dieser Anspruch konnte nicht geladen werden. Bitte gehen Sie zurück und versuchen Sie es erneut."
+  },
+  "validation": {
+    "nature_required": "Art des Anspruchs ist erforderlich",
+    "other_required": "Andere Optionen sind erforderlich",
+    "other_min": "Andere Optionen müssen mindestens 5 Zeichen lang sein",
+    "other_max": "Andere Optionen dürfen 100 Zeichen nicht überschreiten",
+    "amount_number": "Berichtsbetrag muss eine Zahl sein",
+    "amount_required": "Berichtsbetrag ist erforderlich",
+    "amount_positive": "Berichtsbetrag muss positiv sein",
+    "tracking_required": "Verfolgungs-ID ist erforderlich",
+    "description_required": "Beschreibung ist erforderlich",
+    "description_min": "Beschreibung muss mindestens 20 Zeichen lang sein",
+    "description_max": "Beschreibung darf 500 Zeichen nicht überschreiten"
+  },
+  "toast": {
+    "submitted_title": "Anspruch eingereicht",
+    "submitted_desc": "Ihr Anspruch wurde erfolgreich eingereicht.",
+    "failed_title": "Anspruchsanfrage fehlgeschlagen",
+    "file_uploaded_title": "Datei hochgeladen",
+    "file_uploaded_desc": "Ihr Anhang ist bereit.",
+    "upload_failed_title": "Upload fehlgeschlagen",
+    "invalid_amount_title": "Ungültiger Betrag",
+    "invalid_amount_desc": "Bitte geben Sie einen gültigen Anspruchsbetrag ein."
+  },
+  "placeholders": {
+    "enter_other": "Andere Optionen eingeben",
+    "enter_amount": "Betrag eingeben",
+    "enter_tracking": "Verfolgungs-ID eingeben",
+    "enter_description": "Produktbeschreibung eingeben"
+  }
+}

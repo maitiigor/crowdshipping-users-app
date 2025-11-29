@@ -12,31 +12,34 @@ import { HStack } from "@/components/ui/hstack";
 import { Icon, SearchIcon } from "@/components/ui/icon";
 import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
 import { Skeleton, SkeletonText } from "@/components/ui/skeleton";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { useAuthenticatedQuery } from "@/lib/api";
 import { IClaimDatum, IClaimResponse } from "@/types/IReport";
 import dayjs from "dayjs";
 import { ChevronLeft, CircleQuestionMark } from "lucide-react-native";
-import { useThemeColor } from "@/hooks/useThemeColor";
+import { useTranslation } from "react-i18next";
 
-const filterList = [
-  {
-    label: "Pending",
-    value: "pending",
-  },
-  {
-    label: "Resolved",
-    value: "resolved",
-  },
-];
 export default function ClaimsScreen() {
   const navigation = useNavigation();
   const router = useRouter();
+  const { t } = useTranslation("complaints");
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedFilter, setSelectedFilter] = useState("pending");
   const backroundTopNav = useThemeColor({}, "background");
   const [toggleHideShowByID, setToggleHideShowByID] = useState(
     {} as Record<number, boolean>
   );
+  const filterList = [
+    {
+      label: t("filters.pending"),
+      value: "pending",
+    },
+    {
+      label: t("filters.resolved"),
+      value: "resolved",
+    },
+  ];
+
   const {
     data: pendingClaims,
     isLoading,
@@ -62,7 +65,7 @@ export default function ClaimsScreen() {
       headerTitle: () => {
         return (
           <ThemedText type="s1_subtitle" className="text-center">
-            Claims
+            {t("header.title")}
           </ThemedText>
         );
       },
@@ -111,7 +114,7 @@ export default function ClaimsScreen() {
       ),
       headerRight: () => <NotificationIcon />,
     });
-  }, [navigation, router, backroundTopNav]);
+  }, [navigation, router, backroundTopNav, t]);
   const currentData =
     selectedFilter === "pending"
       ? pendingClaims?.data || []
@@ -144,7 +147,7 @@ export default function ClaimsScreen() {
             <InputIcon as={SearchIcon} />
           </InputSlot>
           <InputField
-            placeholder={"Search..."}
+            placeholder={t("placeholders.search_by_id")}
             value={searchTerm}
             onChangeText={setSearchTerm}
           />
@@ -202,8 +205,8 @@ export default function ClaimsScreen() {
               }}
               ListEmptyComponent={
                 <EmptyState
-                  title={`No ${selectedFilter} Claims`}
-                  description={`You have no ${selectedFilter} claims at the moment. Check back later for updates.`}
+                  title={t("empty_state.title")}
+                  description={t("empty_state.description")}
                   icon={CircleQuestionMark}
                   className="mt-10"
                 />
@@ -228,7 +231,7 @@ export default function ClaimsScreen() {
                           type="default"
                           className="text-typography-500"
                         >
-                          Claim ID
+                          {t("labels.claim_id")}
                         </ThemedText>
                         <ThemedText
                           type="s2_subtitle"
@@ -242,7 +245,7 @@ export default function ClaimsScreen() {
                           type="default"
                           className="text-typography-500"
                         >
-                          Last Updated Date
+                          {t("labels.date")}
                         </ThemedText>
                         <ThemedText
                           type="s2_subtitle"
@@ -258,7 +261,7 @@ export default function ClaimsScreen() {
                           type="default"
                           className="text-typography-500"
                         >
-                          Current Status
+                          {t("labels.status")}
                         </ThemedText>
                         <ThemedText
                           type="c1_caption"
@@ -269,8 +272,8 @@ export default function ClaimsScreen() {
                           }`}
                         >
                           {item.status === "pending"
-                            ? "Under Review"
-                            : "Resolved"}
+                            ? t("status.under_review")
+                            : t("status.resolved")}
                         </ThemedText>
                       </ThemedView>
 
@@ -281,45 +284,15 @@ export default function ClaimsScreen() {
                               type="default"
                               className="text-typography-500"
                             >
-                              Brief Description
+                              {t("labels.description")}
                             </ThemedText>
                             <ThemedText
                               type="s2_subtitle"
                               className="text-typography-800 flex-1"
                             >
-                              {item.description || "No description provided"}
+                              {item.description || t("labels.no_description")}
                             </ThemedText>
                           </ThemedView>
-                          {/* <ThemedView className="flex-row gap-2 justify-between">
-                          <ThemedText
-                            type="default"
-                            className="text-typography-500"
-                          >
-                            Last Updated Date
-                          </ThemedText>
-                          <ThemedText
-                            type="s2_subtitle"
-                            className="text-typography-800 flex-1 text-right"
-                          >
-                            {dayjs(item.updatedAt).format(
-                              "MMMM D, YYYY | hh:mmA"
-                            )}
-                          </ThemedText>
-                        </ThemedView> */}
-                          {/* <ThemedView className="flex-row hidden gap-2 justify-between">
-                          <ThemedText
-                            type="default"
-                            className="text-typography-500"
-                          >
-                            Support Team
-                          </ThemedText>
-                          <ThemedText
-                            type="s2_subtitle"
-                            className="text-typography-800 flex-1 text-right"
-                          >
-                            Temi Badenoch
-                          </ThemedText>
-                        </ThemedView> */}
                           <ThemedView className="mt-5 flex-row gap-3">
                             <TouchableOpacity
                               onPress={() => {
@@ -335,7 +308,7 @@ export default function ClaimsScreen() {
                                 type="s2_subtitle"
                                 className={` text-center text-primary-500`}
                               >
-                                Close
+                                {t("buttons.close")}
                               </ThemedText>
                             </TouchableOpacity>
                             <TouchableOpacity
@@ -357,7 +330,7 @@ export default function ClaimsScreen() {
                                 darkColor="#FFFFFF"
                                 className={` text-center text-white`}
                               >
-                                Details
+                                {t("buttons.details")}
                               </ThemedText>
                             </TouchableOpacity>
                           </ThemedView>
@@ -387,7 +360,7 @@ export default function ClaimsScreen() {
             type="s2_subtitle"
             className="text-white text-center"
           >
-            Add New
+            {t("buttons.add_new")}
           </ThemedText>
         </Button>
       </ThemedView>

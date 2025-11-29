@@ -1,0 +1,29 @@
+{
+  "menu": {
+    "home": "Accueil",
+    "booking_history": "Historique des réservations",
+    "trips": "Voyages",
+    "bidding_history": "Historique des offres",
+    "track_order": "Suivre la commande",
+    "inbox": "Boîte de réception",
+    "wallet": "Portefeuille",
+    "report_issues": "Signaler un problème",
+    "claims": "Réclamations",
+    "support": "Support",
+    "notifications": "Notifications",
+    "settings": "Paramètres",
+    "my_promo": "Ma promo",
+    "terms_conditions": "Termes et conditions",
+    "privacy_policy": "Politique de confidentialité"
+  },
+  "welcome_back": "Bon retour",
+  "loading": "Chargement...",
+  "edit_profile": "Modifier le profil",
+  "logout": "Déconnexion",
+  "logout_drawer": {
+    "title": "Déconnexion",
+    "description": "Êtes-vous sûr de vouloir vous déconnecter ?",
+    "cancel": "Annuler",
+    "confirm": "Oui, déconnexion"
+  }
+}

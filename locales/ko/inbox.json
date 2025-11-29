@@ -1,0 +1,68 @@
+{
+  "header": {
+    "title": "받은편지함",
+    "chat_details": "채팅 세부정보"
+  },
+  "filters": {
+    "chats": "채팅",
+    "calls": "통화"
+  },
+  "empty_state": {
+    "title": "채팅이 없습니다",
+    "description": "현재 채팅이 없습니다. 대화를 시작하세요."
+  },
+  "labels": {
+    "no_messages": "아직 메시지가 없습니다",
+    "recording_failed": "녹음 실패",
+    "recording_failed_desc": "해당 녹음을 완료할 수 없습니다.",
+    "attachments_conflict": "첨부파일 충돌",
+    "attachments_conflict_desc": "오디오를 녹음하기 전에 다른 첨부파일을 제거하세요.",
+    "permission_needed": "권한 필요",
+    "permission_needed_desc": "이미지를 선택하려면 라이브러리 액세스가 필요합니다.",
+    "microphone_blocked": "마이크 차단됨",
+    "microphone_blocked_desc": "오디오 메시지를 녹음하려면 마이크 액세스가 필요합니다.",
+    "permission_error": "권한 오류",
+    "permission_error_desc": "마이크 액세스를 확인할 수 없습니다.",
+    "recording": "녹음 중",
+    "recording_desc": "마이크를 다시 탭하여 중지하고 오디오를 첨부하세요.",
+    "recording_error": "녹음 오류",
+    "recording_error_desc": "녹음을 시작할 수 없습니다.",
+    "attachment_ready": "첨부파일 준비 완료",
+    "attachment_ready_desc": "파일이 성공적으로 업로드되었습니다.",
+    "upload_failed": "업로드 실패",
+    "upload_failed_desc": "첨부파일을 업로드할 수 없습니다.",
+    "mixed_types_blocked": "혼합 유형 차단됨",
+    "mixed_types_blocked_desc": "메시지당 하나의 첨부파일 카테고리를 보내세요.",
+    "message_sent": "메시지 전송됨",
+    "message_sent_desc": "메시지가 전송되었습니다.",
+    "send_failed": "전송 실패",
+    "send_failed_desc": "메시지를 보낼 수 없습니다.",
+    "today": "오늘",
+    "yesterday": "어제",
+    "start_conversation": "대화를 시작하세요!",
+    "photos": "사진",
+    "audios": "오디오",
+    "files": "파일",
+    "recording_progress": "녹음 중...",
+    "message_failed": "메시지 실패",
+    "unknown_error": "알 수 없는 오류",
+    "nothing_to_send": "보낼 내용이 없습니다",
+    "nothing_to_send_desc": "먼저 메시지 또는 첨부파일을 추가하세요.",
+    "still_uploading": "아직 업로드 중",
+    "still_uploading_desc": "첨부파일 업로드가 완료될 때까지 기다려주세요.",
+    "upload_incomplete": "업로드 불완전",
+    "upload_incomplete_desc": "하나 이상의 파일이 성공적으로 업로드되지 않았습니다.",
+    "empty_message": "빈 메시지",
+    "empty_message_desc": "보내기 전에 메시지를 입력하세요."
+  },
+  "placeholders": {
+    "type_message": "메시지 보내기..."
+  },
+  "buttons": {
+    "send": "보내기",
+    "camera": "카메라",
+    "gallery": "갤러리",
+    "document": "문서",
+    "audio": "오디오"
+  }
+}

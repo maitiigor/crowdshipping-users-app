@@ -1,5 +1,6 @@
 import { useNavigation, useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { FlatList, TouchableOpacity, View } from "react-native";
 
 import { EmptyState } from "@/components/Custom/EmptyState";
@@ -11,43 +12,46 @@ import { HStack } from "@/components/ui/hstack";
 import { Icon } from "@/components/ui/icon";
 import { Image } from "@/components/ui/image";
 import { Skeleton, SkeletonText } from "@/components/ui/skeleton";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { useAuthenticatedQuery } from "@/lib/api";
 import { IBookingHistoryResponse } from "@/types/IBookingHistory";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { Book, ChevronLeft, ChevronRight, Dot } from "lucide-react-native";
-import { useThemeColor } from "@/hooks/useThemeColor";
 
 // dayjs fromNow plugin
 dayjs.extend(relativeTime);
 
-const filterList = [
-  {
-    label: "All",
-    value: "all",
-  },
-  {
-    label: "In Progress",
-    value: "in-progress",
-  },
-  {
-    label: "Pending",
-    value: "pending",
-  },
-  {
-    label: "Delivered",
-    value: "delivered",
-  },
-  {
-    label: "Cancelled",
-    value: "cancelled",
-  },
-];
 export default function BookingHistoryScreen() {
   const navigation = useNavigation();
   const router = useRouter();
+  const { t } = useTranslation("bookingHistory");
   const [selectedFilter, setSelectedFilter] = useState("all");
   const backroundTopNav = useThemeColor({}, "background");
+
+  const filterList = [
+    {
+      label: t("filters.all"),
+      value: "all",
+    },
+    {
+      label: t("filters.in_progress"),
+      value: "in-progress",
+    },
+    {
+      label: t("filters.pending"),
+      value: "pending",
+    },
+    {
+      label: t("filters.delivered"),
+      value: "delivered",
+    },
+    {
+      label: t("filters.cancelled"),
+      value: "cancelled",
+    },
+  ];
+
   // Build fetchOptions conditionally
   const fetchOptions = selectedFilter
     ? { query: { booking_status: selectedFilter.toLowerCase() } }
@@ -69,7 +73,7 @@ export default function BookingHistoryScreen() {
       headerTitle: () => {
         return (
           <ThemedText type="s1_subtitle" className="text-center">
-            Booking History
+            {t("header.title")}
           </ThemedText>
         );
       },
@@ -118,7 +122,7 @@ export default function BookingHistoryScreen() {
       ),
       headerRight: () => <NotificationIcon />,
     });
-  }, [navigation, router, backroundTopNav]);
+  }, [navigation, router, backroundTopNav, t]);
   return (
     <ThemedView className="flex-1 bg-white pt-3">
       <ThemedView className="flex-1 pb-20 px-[18px] overflow-hidden">
@@ -180,8 +184,8 @@ export default function BookingHistoryScreen() {
               }}
               ListEmptyComponent={
                 <EmptyState
-                  title="No Bookings available"
-                  description="There are no bookings available at the moment. Check back later for updates."
+                  title={t("empty_state.title")}
+                  description={t("empty_state.description")}
                   icon={Book}
                   className="mt-10"
                 />
@@ -223,7 +227,9 @@ export default function BookingHistoryScreen() {
                           type="c1_caption"
                           className="text-typography-700 capitalize"
                         >
-                          {selectedFilter}
+                          {t(`filters.${selectedFilter.replace("-", "_")}`, {
+                            defaultValue: selectedFilter,
+                          })}
                         </ThemedText>
                         <Icon
                           as={Dot}

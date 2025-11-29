@@ -15,18 +15,20 @@ import { Box } from "@/components/ui/box";
 import { HStack } from "@/components/ui/hstack";
 import { Icon } from "@/components/ui/icon";
 import { Skeleton, SkeletonText } from "@/components/ui/skeleton";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { useAuthenticatedQuery } from "@/lib/api";
 import { IConversationsResponse } from "@/types/IConversation";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { ChevronLeft, MessageCircle } from "lucide-react-native";
-import { useThemeColor } from "@/hooks/useThemeColor";
+import { useTranslation } from "react-i18next";
 
 // dayjs fromNow plugin
 dayjs.extend(relativeTime);
 export default function ChatScreen() {
   const navigation = useNavigation();
   const router = useRouter();
+  const { t } = useTranslation("inbox");
   const backroundTopNav = useThemeColor({}, "background");
   const [selectedFilter, setSelectedFilter] = useState("all");
   const { data, isLoading, refetch, isFetching } = useAuthenticatedQuery<
@@ -34,14 +36,14 @@ export default function ChatScreen() {
   >(["conversations"], "/conversations");
   const filterList = [
     {
-      label: "Chats",
+      label: t("filters.chats"),
       value: "chats",
       onPress: () => {
         return;
       },
     },
     {
-      label: "Calls",
+      label: t("filters.calls"),
       value: "calls",
       onPress: () => {
         router.push({
@@ -56,7 +58,7 @@ export default function ChatScreen() {
       headerTitle: () => {
         return (
           <ThemedText type="s1_subtitle" className="text-center">
-            Inbox
+            {t("header.title")}
           </ThemedText>
         );
       },
@@ -105,7 +107,7 @@ export default function ChatScreen() {
       ),
       headerRight: () => <NotificationIcon />,
     });
-  }, [navigation, router, backroundTopNav]);
+  }, [navigation, router, backroundTopNav, t]);
   useEffect(() => {
     // Ensure "chats" is active when the screen mounts and every time it gains focus
     setSelectedFilter("chats");
@@ -184,8 +186,8 @@ export default function ChatScreen() {
               }}
               ListEmptyComponent={
                 <EmptyState
-                  title="No chats"
-                  description="You have no chats at the moment. Start a conversation to get started."
+                  title={t("empty_state.title")}
+                  description={t("empty_state.description")}
                   icon={MessageCircle}
                   className="mt-10"
                 />
@@ -245,7 +247,7 @@ export default function ChatScreen() {
                         >
                           {item?.lastMessage?.length > 30
                             ? item?.lastMessage.substring(0, 30) + "..."
-                            : item?.lastMessage || "No messages yet"}
+                            : item?.lastMessage || t("labels.no_messages")}
                         </ThemedText>
 
                         {item.unreadCount > 0 && (

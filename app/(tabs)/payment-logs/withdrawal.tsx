@@ -25,6 +25,7 @@ import {
   LucideIcon,
 } from "lucide-react-native";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   ActivityIndicator,
   KeyboardAvoidingView,
@@ -39,6 +40,7 @@ export default function WithdrawalScreen() {
   const insets = useSafeAreaInsets();
   const backroundTopNav = useThemeColor({}, "background");
   const [bankValues, setBankValues] = useState({ bankCode: "", bankName: "" });
+  const { t } = useTranslation("paymentLogs");
   console.log("🚀 ~ WithdrawalScreen ~ bankValues:", bankValues);
   const { data, isLoading } = useAuthenticatedQuery<
     IWalletRequestResponse | undefined
@@ -53,19 +55,19 @@ export default function WithdrawalScreen() {
   const selectedCurrency = currency?.code || "NGN";
   const validationSchema = Yup.object().shape({
     amount: Yup.number()
-      .typeError("Amount must be a number")
-      .required("Amount is required")
-      .min(100, "Minimum withdrawal is 100")
+      .typeError(t("validation.amount_required"))
+      .required(t("validation.amount_required"))
+      .min(100, `${t("validation.amount_min")} 100`)
       .max(
         data?.data.wallet.availableBalance || 0,
-        "Amount exceeds available balance"
+        t("withdrawal.insufficient_balance")
       ),
-    bankCode: Yup.string().required("Bank is required"),
+    bankCode: Yup.string().required(t("validation.bank_required")),
     accountNumber: Yup.string()
-      .required("Account Number is required")
-      .matches(/^\d+$/, "Account Number must be digits only")
-      .min(10, "Account Number must be at least 10 digits"),
-    accountName: Yup.string().required("Account Name is required"),
+      .required(t("validation.account_number_required"))
+      .matches(/^\d+$/, t("validation.account_number_invalid"))
+      .min(10, t("validation.account_number_invalid")),
+    accountName: Yup.string().required(t("validation.account_number_required")),
   });
   const {
     mutateAsync: mutateResolveAccount,
@@ -94,7 +96,7 @@ export default function WithdrawalScreen() {
       headerTitle: () => {
         return (
           <ThemedText type="s1_subtitle" className="text-center">
-            Withdraw to bank
+            {t("header.withdrawal")}
           </ThemedText>
         );
       },
@@ -143,7 +145,7 @@ export default function WithdrawalScreen() {
       ),
       headerRight: () => <NotificationIcon />,
     });
-  }, [navigation, backroundTopNav]);
+  }, [navigation, backroundTopNav, t]);
   const showNewToast = ({
     title,
     description,
@@ -195,8 +197,8 @@ export default function WithdrawalScreen() {
       });
       console.log("🚀 ~ handleInitiateWithdrawal ~ response:", response);
       showNewToast({
-        title: "Success",
-        description: "Withdrawal Request successfully!",
+        title: t("withdrawal.success_title"),
+        description: t("withdrawal.success_message"),
         icon: CircleCheckIcon,
         action: "success",
         variant: "solid",
@@ -221,7 +223,7 @@ export default function WithdrawalScreen() {
         "Withdrawal Request failed";
 
       showNewToast({
-        title: "Withdrawal Request Failed",
+        title: t("withdrawal.error_title"),
         description: message,
         icon: HelpCircleIcon,
         action: "error",
@@ -271,7 +273,9 @@ export default function WithdrawalScreen() {
               }) => (
                 <ThemedView className="flex gap-4 mt-5">
                   <ThemedView>
-                    <InputLabelText className="">Amount</InputLabelText>
+                    <InputLabelText className="">
+                      {t("withdrawal.amount")}
+                    </InputLabelText>
                     <Input
                       size="xl"
                       className="h-[55px] border-primary-100 rounded-lg mb-2 bg-primary-inputShade px-2"
@@ -280,7 +284,7 @@ export default function WithdrawalScreen() {
                     >
                       <InputField
                         className=""
-                        placeholder="Enter Amount"
+                        placeholder={t("withdrawal.amount_placeholder")}
                         value={values.amount}
                         onChangeText={handleChange("amount")}
                         onBlur={handleBlur("amount")}
@@ -300,7 +304,7 @@ export default function WithdrawalScreen() {
 
                     <ThemedView className=" flex-row items-center justify-between">
                       <ThemedText className="text-typography-800">
-                        Wallet Balance
+                        {t("wallet.total_balance")}
                       </ThemedText>
                       <ThemedText type="default" className="text-primary-500">
                         {isLoading
@@ -360,7 +364,7 @@ export default function WithdrawalScreen() {
                   <ThemedView className="flex flex-1 gap-3 w-full">
                     <ThemedView className="flex-1 w-full">
                       <InputLabelText className="">
-                        Account Number
+                        {t("withdrawal.account_number")}
                       </InputLabelText>
                       <Input
                         size="xl"
@@ -372,7 +376,9 @@ export default function WithdrawalScreen() {
                       >
                         <InputField
                           className=""
-                          placeholder="Enter Account Number"
+                          placeholder={t(
+                            "withdrawal.account_number_placeholder"
+                          )}
                           value={values.accountNumber}
                           onChangeText={async (text: string) => {
                             // Keep only digits
@@ -402,11 +408,11 @@ export default function WithdrawalScreen() {
                                 console.error("Error resolving account:", err);
                                 // Add toast for user feedback
                                 showNewToast({
-                                  title: "Account Resolution Failed",
+                                  title: t("withdrawal.error_title"),
                                   description:
                                     err?.data?.message ||
                                     err?.message ||
-                                    "Unable to verify account. Please check details and try again.",
+                                    t("withdrawal.invalid_account_desc"),
                                   icon: HelpCircleIcon, // Ensure this icon is imported
                                   action: "error",
                                   variant: "solid",
@@ -433,7 +439,9 @@ export default function WithdrawalScreen() {
                   </ThemedView>
                   <ThemedView className="flex flex-1 gap-3 w-full">
                     <ThemedView className="flex-1 w-full">
-                      <InputLabelText className="">Account Name</InputLabelText>
+                      <InputLabelText className="">
+                        {t("withdrawal.account_name")}
+                      </InputLabelText>
                       <Input
                         size="xl"
                         isDisabled={isSuccessResolveAccount}
@@ -445,7 +453,7 @@ export default function WithdrawalScreen() {
                       >
                         <InputField
                           className=""
-                          placeholder="Account name will auto-fill"
+                          placeholder={t("withdrawal.account_name_placeholder")}
                           value={values.accountName}
                           onChangeText={handleChange("accountName")}
                           onBlur={handleBlur("accountName")}
@@ -471,7 +479,7 @@ export default function WithdrawalScreen() {
                           type="b2_body"
                           className="text-primary-500 text-right"
                         >
-                          Choose Beneficiary
+                          {t("withdrawal.choose_beneficiary")}
                         </ThemedText>
                       </Link>
                     </ThemedView>
@@ -487,11 +495,13 @@ export default function WithdrawalScreen() {
                     <ThemedText
                       lightColor="#FFFFFF"
                       darkColor="#FFFFFF"
-                      type="s1_subtitle" className="text-white">
+                      type="s1_subtitle"
+                      className="text-white"
+                    >
                       {loading ? (
                         <ActivityIndicator color="white" />
                       ) : (
-                        "Continue"
+                        t("withdrawal.withdraw_button")
                       )}
                     </ThemedText>
                   </Button>
@@ -504,8 +514,8 @@ export default function WithdrawalScreen() {
       {showModal && (
         <>
           <CustomModal
-            description="Your withdrawal request has been submitted and is pending admin verification."
-            title="Withdrawal Request Submitted"
+            description={t("withdrawal.success_message")}
+            title={t("withdrawal.success_title")}
             img={require("@/assets/images/onboarding/modal-success.png")}
             firstBtnLink={""}
             firstBtnText="Go Back"

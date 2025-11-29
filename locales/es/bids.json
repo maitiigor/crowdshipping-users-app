@@ -1,0 +1,50 @@
+{
+  "header": {
+    "title": "Ofertas",
+    "air": "Aéreo",
+    "maritime": "Marítimo"
+  },
+  "search_placeholder": "Buscar viajes disponibles...",
+  "empty_state": {
+    "title": "No hay ofertas disponibles",
+    "description": "No hay ofertas disponibles en este momento. Vuelve más tarde para ver actualizaciones."
+  },
+  "buttons": {
+    "view_bid": "Ver oferta",
+    "cancel_bid": "Cancelar oferta",
+    "pay": "Pagar",
+    "renegotiate": "Renegociar",
+    "retry": "Reintentar"
+  },
+  "labels": {
+    "from": "De:",
+    "to": "A:",
+    "bid_amount": "Monto de la oferta",
+    "parcel_tracking_id": "ID de rastreo del paquete",
+    "total_weight": "Peso total",
+    "parcel_group": "Grupo de paquetes",
+    "trip_mode": "Modo de viaje",
+    "air_freight": "Carga aérea",
+    "maritime_freight": "Carga marítima",
+    "bidder": "Oferente",
+    "user_id": "ID de usuario",
+    "city": "Ciudad",
+    "parcel_journey": "Viaje del paquete",
+    "pick_up": "Recogida",
+    "distance": "Distancia",
+    "drop_off": "Entrega",
+    "trip_timeline": "Cronograma del viaje",
+    "departure": "Salida",
+    "arrival": "Llegada",
+    "trip_status": "Estado del viaje",
+    "trip_created_by": "Viaje creado por",
+    "bid_details": "Detalles de la oferta",
+    "bid_details_unavailable": "Detalles de la oferta no disponibles",
+    "bid_details_error": "No pudimos cargar los detalles de la oferta. Por favor, inténtalo de nuevo."
+  },
+  "status": {
+    "accepted": "Aceptado",
+    "pending": "Pendiente",
+    "cancelled": "Cancelado"
+  }
+}

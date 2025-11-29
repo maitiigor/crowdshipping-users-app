@@ -1,0 +1,50 @@
+{
+  "header": {
+    "title": "Lances",
+    "air": "Aéreo",
+    "maritime": "Marítimo"
+  },
+  "search_placeholder": "Buscar viagens disponíveis...",
+  "empty_state": {
+    "title": "Nenhum lance disponível",
+    "description": "Não há lances disponíveis no momento. Verifique novamente mais tarde para atualizações."
+  },
+  "buttons": {
+    "view_bid": "Ver lance",
+    "cancel_bid": "Cancelar lance",
+    "pay": "Pagar",
+    "renegotiate": "Renegociar",
+    "retry": "Tentar novamente"
+  },
+  "labels": {
+    "from": "De:",
+    "to": "Para:",
+    "bid_amount": "Valor do lance",
+    "parcel_tracking_id": "ID de rastreamento do pacote",
+    "total_weight": "Peso total",
+    "parcel_group": "Grupo de pacotes",
+    "trip_mode": "Modo de viagem",
+    "air_freight": "Frete aéreo",
+    "maritime_freight": "Frete marítimo",
+    "bidder": "Licitante",
+    "user_id": "ID do usuário",
+    "city": "Cidade",
+    "parcel_journey": "Jornada do pacote",
+    "pick_up": "Coleta",
+    "distance": "Distância",
+    "drop_off": "Entrega",
+    "trip_timeline": "Cronograma da viagem",
+    "departure": "Partida",
+    "arrival": "Chegada",
+    "trip_status": "Status da viagem",
+    "trip_created_by": "Viagem criada por",
+    "bid_details": "Detalhes do lance",
+    "bid_details_unavailable": "Detalhes do lance indisponíveis",
+    "bid_details_error": "Não foi possível carregar os detalhes do lance. Tente novamente."
+  },
+  "status": {
+    "accepted": "Aceito",
+    "pending": "Pendente",
+    "cancelled": "Cancelado"
+  }
+}

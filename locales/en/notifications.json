@@ -1,0 +1,28 @@
+{
+  "header": {
+    "title": "Notifications",
+    "details_title": "Notifications"
+  },
+  "empty_state": {
+    "title": "No unread notifications",
+    "description": "You have no unread notifications at the moment. Check back later for updates."
+  },
+  "labels": {
+    "details": "Details",
+    "notification_id": "Notification ID",
+    "related_booking": "Related Booking",
+    "triggered_by": "Triggered By",
+    "created": "Created",
+    "updated": "Updated",
+    "type": "Type",
+    "channel": "Channel",
+    "read": "Read",
+    "unread": "Unread",
+    "delivered": "Delivered",
+    "not_delivered": "Not delivered",
+    "load_failed": "Could not load this notification. Please go back and try again."
+  },
+  "buttons": {
+    "view_booking": "View booking"
+  }
+}

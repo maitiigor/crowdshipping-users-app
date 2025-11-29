@@ -1,0 +1,68 @@
+{
+  "header": {
+    "title": "收件箱",
+    "chat_details": "聊天详情"
+  },
+  "filters": {
+    "chats": "聊天",
+    "calls": "通话"
+  },
+  "empty_state": {
+    "title": "没有聊天",
+    "description": "您目前没有聊天。开始对话以开始使用。"
+  },
+  "labels": {
+    "no_messages": "还没有消息",
+    "recording_failed": "录音失败",
+    "recording_failed_desc": "我们无法完成该录音。",
+    "attachments_conflict": "附件冲突",
+    "attachments_conflict_desc": "录制音频前请删除其他附件。",
+    "permission_needed": "需要权限",
+    "permission_needed_desc": "我们需要访问您的图库以选择图片。",
+    "microphone_blocked": "麦克风被阻止",
+    "microphone_blocked_desc": "我们需要麦克风访问权限来录制音频消息。",
+    "permission_error": "权限错误",
+    "permission_error_desc": "无法验证麦克风访问权限。",
+    "recording": "录音中",
+    "recording_desc": "再次点击麦克风以停止并附加您的音频。",
+    "recording_error": "录音错误",
+    "recording_error_desc": "无法开始录音。",
+    "attachment_ready": "附件已准备好",
+    "attachment_ready_desc": "您的文件已成功上传。",
+    "upload_failed": "上传失败",
+    "upload_failed_desc": "无法上传附件。",
+    "mixed_types_blocked": "混合类型被阻止",
+    "mixed_types_blocked_desc": "每条消息发送一个附件类别。",
+    "message_sent": "消息已发送",
+    "message_sent_desc": "您的消息已发送。",
+    "send_failed": "发送失败",
+    "send_failed_desc": "我们无法发送您的消息。",
+    "today": "今天",
+    "yesterday": "昨天",
+    "start_conversation": "开始对话！",
+    "photos": "照片",
+    "audios": "音频",
+    "files": "文件",
+    "recording_progress": "录音中...",
+    "message_failed": "消息失败",
+    "unknown_error": "未知错误",
+    "nothing_to_send": "没有要发送的内容",
+    "nothing_to_send_desc": "请先添加消息或附件。",
+    "still_uploading": "仍在上传",
+    "still_uploading_desc": "请等待附件完成上传。",
+    "upload_incomplete": "上传不完整",
+    "upload_incomplete_desc": "一个或多个文件未成功上传。",
+    "empty_message": "空消息",
+    "empty_message_desc": "发送前请输入消息。"
+  },
+  "placeholders": {
+    "type_message": "发送消息..."
+  },
+  "buttons": {
+    "send": "发送",
+    "camera": "相机",
+    "gallery": "图库",
+    "document": "文档",
+    "audio": "音频"
+  }
+}

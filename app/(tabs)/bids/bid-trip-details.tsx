@@ -36,11 +36,13 @@ import {
   Weight,
 } from "lucide-react-native";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { TouchableOpacity } from "react-native";
 
 export default function BidDetails() {
   const navigation = useNavigation();
   const router = useRouter();
+  const { t } = useTranslation("bids");
   const { bidId, tripTypeId } = useLocalSearchParams();
   const bidIdStr = paramToString(bidId);
   console.log("🚀 ~ BidDetails ~ bidIdStr:", bidIdStr);
@@ -67,7 +69,8 @@ export default function BidDetails() {
       headerTitle: () => {
         return (
           <ThemedText type="s1_subtitle" className="text-center">
-            Bid Details ({activeTripType === 2 ? "Air" : "Maritime"})
+            {t("header.bid_details")} (
+            {activeTripType === 2 ? t("header.air") : t("header.maritime")})
           </ThemedText>
         );
       },
@@ -116,7 +119,7 @@ export default function BidDetails() {
       ),
       headerRight: () => <NotificationIcon />,
     });
-  }, [navigation, activeTripType, backroundTopNav]);
+  }, [navigation, activeTripType, backroundTopNav, t, router]);
 
   const isBusy = airDetailsLoading || airDetailsFetching;
   const bidData = airDetailsData?.data;
@@ -221,7 +224,7 @@ export default function BidDetails() {
           <ThemedView className="gap-5">
             <ThemedView className="bg-primary-500 rounded-3xl p-5 gap-3">
               <ThemedText type="c2_caption" className="text-primary-100">
-                Bid Amount
+                {t("labels.bid_amount")}
               </ThemedText>
               <ThemedText
                 type="s1_subtitle"
@@ -237,7 +240,7 @@ export default function BidDetails() {
             <ThemedView className="flex-row items-center justify-between">
               <ThemedView className="gap-1">
                 <ThemedText type="c2_caption" className="text-typography-500">
-                  Parcel Tracking ID
+                  {t("labels.parcel_tracking_id")}
                 </ThemedText>
                 <ThemedText type="b2_body" className="text-typography-900">
                   {bidData.parcelGroup?.trackingId || "-"}
@@ -258,7 +261,11 @@ export default function BidDetails() {
                       : "text-primary-600"
                   }`}
                 >
-                  {bidData.parcelGroup?.status || "pending"}
+                  {bidData.parcelGroup?.status
+                    ? t(`status.${bidData.parcelGroup.status.toLowerCase()}`, {
+                        defaultValue: bidData.parcelGroup.status,
+                      })
+                    : t("status.pending")}
                 </ThemedText>
               </ThemedView>
             </ThemedView>
@@ -267,7 +274,7 @@ export default function BidDetails() {
               <ThemedView className="flex-1 min-w-[46%]">
                 <InfoRow
                   icon={Weight}
-                  label="Total Weight"
+                  label={t("labels.total_weight")}
                   value={`${bidData.parcelGroup?.weight ?? 0} kg`}
                   accent="primary"
                 />
@@ -275,16 +282,18 @@ export default function BidDetails() {
               <ThemedView className="flex-1 min-w-[46%]">
                 <InfoRow
                   icon={Package}
-                  label="Parcel Group"
+                  label={t("labels.parcel_group")}
                   value={bidData.parcelGroup?._id}
                 />
               </ThemedView>
               <ThemedView className="flex-1 min-w-[46%]">
                 <InfoRow
                   icon={activeTripType === 2 ? Plane : Ship}
-                  label="Trip Mode"
+                  label={t("labels.trip_mode")}
                   value={
-                    activeTripType === 2 ? "Air Freight" : "Maritime Freight"
+                    activeTripType === 2
+                      ? t("labels.air_freight")
+                      : t("labels.maritime_freight")
                   }
                 />
               </ThemedView>
@@ -292,7 +301,7 @@ export default function BidDetails() {
 
             <ThemedView className="bg-white border border-primary-50 rounded-3xl p-6 gap-5">
               <ThemedText type="s2_subtitle" className="text-typography-900">
-                Bidder
+                {t("labels.bidder")}
               </ThemedText>
               <ThemedView className="flex-row gap-4 items-center">
                 <Avatar size="lg" className="border border-primary-100">
@@ -321,12 +330,12 @@ export default function BidDetails() {
               <ThemedView className="gap-4">
                 <InfoRow
                   icon={User}
-                  label="User ID"
+                  label={t("labels.user_id")}
                   value={bidData.bidder?.userId}
                 />
                 <InfoRow
                   icon={MapPin}
-                  label="City"
+                  label={t("labels.city")}
                   value={[
                     bidData.bidder?.profile?.city,
                     bidData.bidder?.profile?.state,
@@ -340,26 +349,26 @@ export default function BidDetails() {
 
             <ThemedView className="bg-white border border-primary-50 rounded-3xl p-6 gap-6">
               <ThemedText type="s2_subtitle" className="text-typography-900">
-                Parcel Journey
+                {t("labels.parcel_journey")}
               </ThemedText>
               <ThemedView className="gap-6">
                 <ThemedView className="gap-4">
                   <InfoRow
                     icon={MapPinned}
-                    label="Pick Up"
+                    label={t("labels.pick_up")}
                     value={bidData.parcelGroup?.pickUpLocation?.address}
                     accent="primary"
                   />
                   <InfoRow
                     icon={ArrowRight}
-                    label="Distance"
+                    label={t("labels.distance")}
                     value={`From ${pickupLabel || "pickup point"} to ${
                       dropOffLabel || "destination"
                     }`}
                   />
                   <InfoRow
                     icon={MapPin}
-                    label="Drop Off"
+                    label={t("labels.drop_off")}
                     value={bidData.parcelGroup?.dropOffLocation?.address}
                   />
                 </ThemedView>
@@ -368,29 +377,29 @@ export default function BidDetails() {
 
             <ThemedView className="bg-white border border-primary-50 rounded-3xl p-6 gap-6">
               <ThemedText type="s2_subtitle" className="text-typography-900">
-                Trip Timeline
+                {t("labels.trip_timeline")}
               </ThemedText>
               <ThemedView className="gap-5">
                 <InfoRow
                   icon={Calendar}
-                  label="Departure"
+                  label={t("labels.departure")}
                   value={formatDate(bidData.parcelGroup?.trip?.departureDate)}
                 />
                 <InfoRow
                   icon={Clock}
-                  label="Arrival"
+                  label={t("labels.arrival")}
                   value={formatDate(bidData.parcelGroup?.trip?.arrivalDate)}
                 />
                 <InfoRow
                   icon={DollarSign}
-                  label="Trip Status"
+                  label={t("labels.trip_status")}
                   value={bidData.parcelGroup?.trip?.status}
                 />
               </ThemedView>
 
               <ThemedView className="border border-primary-50 rounded-2xl p-4 gap-4">
                 <ThemedText type="c2_caption" className="text-typography-500">
-                  Trip Created By
+                  {t("labels.trip_created_by")}
                 </ThemedText>
                 <ThemedView className="flex-row gap-3 items-center">
                   <Avatar size="md" className="border border-primary-100">
@@ -437,7 +446,7 @@ export default function BidDetails() {
                   }}
                 >
                   <ThemedText type="s1_subtitle" className="text-primary-500">
-                    Cancel Bid
+                    {t("buttons.cancel_bid")}
                   </ThemedText>
                 </Button>
                 <Button
@@ -473,8 +482,8 @@ export default function BidDetails() {
                 >
                   <ThemedText type="s1_subtitle" className="text-white">
                     {bidData.parcelGroup?.status.toLowerCase() === "accepted"
-                      ? "Pay"
-                      : "Re-negotiate"}
+                      ? t("buttons.pay")
+                      : t("buttons.renegotiate")}
                   </ThemedText>
                 </Button>
               </ThemedView>
@@ -489,13 +498,13 @@ export default function BidDetails() {
               type="s1_subtitle"
               className="text-typography-800 text-center"
             >
-              Bid Details Unavailable
+              {t("labels.bid_details_unavailable")}
             </ThemedText>
             <ThemedText
               type="default"
               className="text-typography-500 text-center"
             >
-              We couldn&apos;t load the bid details. Please try again.
+              {t("labels.bid_details_error")}
             </ThemedText>
             <Button
               variant="outline"
@@ -504,7 +513,7 @@ export default function BidDetails() {
               className="mt-2"
             >
               <ThemedText type="b2_body" className="text-primary-500">
-                Retry
+                {t("buttons.retry")}
               </ThemedText>
             </Button>
           </ThemedView>

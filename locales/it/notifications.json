@@ -1,0 +1,28 @@
+{
+  "header": {
+    "title": "Notifiche",
+    "details_title": "Notifiche"
+  },
+  "empty_state": {
+    "title": "Nessuna notifica non letta",
+    "description": "Non hai notifiche non lette al momento. Controlla più tardi per gli aggiornamenti."
+  },
+  "labels": {
+    "details": "Dettagli",
+    "notification_id": "ID Notifica",
+    "related_booking": "Prenotazione Correlata",
+    "triggered_by": "Attivato Da",
+    "created": "Creato",
+    "updated": "Aggiornato",
+    "type": "Tipo",
+    "channel": "Canale",
+    "read": "Letto",
+    "unread": "Non letto",
+    "delivered": "Consegnato",
+    "not_delivered": "Non consegnato",
+    "load_failed": "Impossibile caricare questa notifica. Torna indietro e riprova."
+  },
+  "buttons": {
+    "view_booking": "Visualizza prenotazione"
+  }
+}

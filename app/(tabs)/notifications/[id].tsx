@@ -24,6 +24,7 @@ import {
   Info,
 } from "lucide-react-native";
 import React, { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { TouchableOpacity } from "react-native";
 
 dayjs.extend(relativeTime);
@@ -32,6 +33,7 @@ const NotificationDetail = () => {
   const navigation = useNavigation();
   const router = useRouter();
   const { id } = useLocalSearchParams<{ id: string }>();
+  const { t } = useTranslation("notifications");
   const backroundTopNav = useThemeColor({}, "background");
   const { refetch: refetchNotifications } = useAuthenticatedQuery<
     INotificationsResponse | undefined
@@ -49,7 +51,7 @@ const NotificationDetail = () => {
       headerTitle: () => {
         return (
           <ThemedText type="s1_subtitle" className="text-center">
-            Notifications
+            {t("header.details_title")}
           </ThemedText>
         );
       },
@@ -98,7 +100,7 @@ const NotificationDetail = () => {
       ),
       headerRight: () => <NotificationIcon />,
     });
-  }, [navigation, router, backroundTopNav]);
+  }, [navigation, router, backroundTopNav, t]);
   useEffect(() => {
     const markAsRead = async () => {
       if (data?.data && !data.data.isRead) {
@@ -145,7 +147,7 @@ const NotificationDetail = () => {
                     type="h5_header"
                     className="text-typography-900"
                   >
-                    {notif?.title || "Notification"}
+                    {notif?.title || t("header.details_title")}
                   </ThemedText>
                   <ThemedText type="c2_caption" className="text-typography-600">
                     {notif
@@ -169,25 +171,27 @@ const NotificationDetail = () => {
                       type="c2_caption"
                       className="text-secondary-700"
                     >
-                      Type: {notif.type}
+                      {t("labels.type")}: {notif.type}
                     </ThemedText>
                   </ThemedView>
                 ) : null}
                 {notif?.channel ? (
                   <ThemedView className="px-3 py-1 rounded-full bg-primary-50 border border-primary-100">
                     <ThemedText type="c2_caption" className="text-primary-700">
-                      Channel: {notif.channel}
+                      {t("labels.channel")}: {notif.channel}
                     </ThemedText>
                   </ThemedView>
                 ) : null}
                 <ThemedView className="px-3 py-1 rounded-full bg-success-50 border border-success-100">
                   <ThemedText type="c2_caption" className="text-success-700">
-                    {notif?.isRead ? "Read" : "Unread"}
+                    {notif?.isRead ? t("labels.read") : t("labels.unread")}
                   </ThemedText>
                 </ThemedView>
                 <ThemedView className="px-3 py-1 rounded-full bg-warning-50 border border-warning-100">
                   <ThemedText type="c2_caption" className="text-warning-700">
-                    {notif?.delivered ? "Delivered" : "Not delivered"}
+                    {notif?.delivered
+                      ? t("labels.delivered")
+                      : t("labels.not_delivered")}
                   </ThemedText>
                 </ThemedView>
               </HStack>
@@ -203,12 +207,12 @@ const NotificationDetail = () => {
           ) : (
             <ThemedView className="border border-background-100 rounded-2xl p-4 bg-background-0 gap-4">
               <ThemedText type="btn_giant" className="text-typography-800">
-                Details
+                {t("labels.details")}
               </ThemedText>
               <ThemedView className="gap-3">
                 <HStack className="justify-between items-center">
                   <ThemedText type="btn_medium" className="text-typography-600">
-                    Notification ID
+                    {t("labels.notification_id")}
                   </ThemedText>
                   <ThemedText type="btn_medium" className="text-typography-900">
                     {notif?._id ?? id}
@@ -220,7 +224,7 @@ const NotificationDetail = () => {
                       type="btn_medium"
                       className="text-typography-600"
                     >
-                      Related Booking
+                      {t("labels.related_booking")}
                     </ThemedText>
                     <ThemedText
                       type="btn_medium"
@@ -236,7 +240,7 @@ const NotificationDetail = () => {
                       type="btn_medium"
                       className="text-typography-600"
                     >
-                      Triggered By
+                      {t("labels.triggered_by")}
                     </ThemedText>
                     <ThemedText
                       type="btn_medium"
@@ -257,7 +261,7 @@ const NotificationDetail = () => {
                       type="btn_medium"
                       className="text-typography-600"
                     >
-                      Created
+                      {t("labels.created")}
                     </ThemedText>
                   </HStack>
                   <ThemedText type="btn_medium" className="text-typography-900">
@@ -277,7 +281,7 @@ const NotificationDetail = () => {
                       type="btn_medium"
                       className="text-typography-600"
                     >
-                      Updated
+                      {t("labels.updated")}
                     </ThemedText>
                   </HStack>
                   <ThemedText type="btn_medium" className="text-typography-900">
@@ -308,7 +312,7 @@ const NotificationDetail = () => {
               }}
             >
               <ButtonIcon as={Info} />
-              <ButtonText size="lg">View booking</ButtonText>
+              <ButtonText size="lg">{t("buttons.view_booking")}</ButtonText>
             </Button>
           ) : null}
 
@@ -316,7 +320,7 @@ const NotificationDetail = () => {
           {!isLoading && !notif && (
             <ThemedView className="p-4 rounded-xl bg-error-50 border border-error-100">
               <ThemedText type="b3_body" className="text-error-700">
-                Could not load this notification. Please go back and try again.
+                {t("labels.load_failed")}
               </ThemedText>
             </ThemedView>
           )}

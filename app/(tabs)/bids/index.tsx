@@ -20,12 +20,14 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import { useLocalSearchParams, useNavigation, useRouter } from "expo-router";
 import { ChevronLeft, Plane, Ship } from "lucide-react-native";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { FlatList, TouchableOpacity, View } from "react-native";
 
 dayjs.extend(relativeTime);
 export default function TripDelivery() {
   const navigation = useNavigation();
   const router = useRouter();
+  const { t } = useTranslation("bids");
   console.log("🚀 ~ TripDelivery ~ router:", router);
   const { tripTypeId } = useLocalSearchParams();
   const backroundTopNav = useThemeColor({}, "background");
@@ -58,8 +60,8 @@ export default function TripDelivery() {
       headerTitle: () => {
         return (
           <ThemedText type="s1_subtitle" className="text-center">
-            Bids(
-            {activeTripType === 2 ? "Air" : "Maritime"})
+            {t("header.title")}(
+            {activeTripType === 2 ? t("header.air") : t("header.maritime")})
           </ThemedText>
         );
       },
@@ -108,11 +110,11 @@ export default function TripDelivery() {
       ),
       headerRight: () => <NotificationIcon />,
     });
-  }, [navigation, activeTripType, backroundTopNav]);
+  }, [navigation, activeTripType, backroundTopNav, t]);
 
   const tripTypes = [
-    { id: 2, name: "Air", Icon: ErrandsSvg },
-    { id: 3, name: "Maritime", Icon: RideSvg },
+    { id: 2, name: t("header.air"), Icon: ErrandsSvg },
+    { id: 3, name: t("header.maritime"), Icon: RideSvg },
   ];
   return (
     <>
@@ -130,7 +132,7 @@ export default function TripDelivery() {
                 <InputSlot className="pl-3">
                   <InputIcon as={SearchIcon} />
                 </InputSlot>
-                <InputField placeholder={"Search for available trips..."} />
+                <InputField placeholder={t("search_placeholder")} />
               </Input>
             </ThemedView>
 
@@ -209,8 +211,8 @@ export default function TripDelivery() {
                 }}
                 ListEmptyComponent={
                   <EmptyState
-                    title="No Bids available"
-                    description="There are no bids available at the moment. Check back later for updates."
+                    title={t("empty_state.title")}
+                    description={t("empty_state.description")}
                     icon={activeTripType === 2 ? Plane : Ship}
                     className="mt-10"
                   />
@@ -253,7 +255,12 @@ export default function TripDelivery() {
                                 }
                               `}
                             >
-                              {item.parcelGroup?.status}
+                              {item.parcelGroup?.status
+                                ? t(
+                                    `status.${item.parcelGroup.status.toLowerCase()}`,
+                                    { defaultValue: item.parcelGroup.status }
+                                  )
+                                : ""}
                             </ThemedText>
                           </Button>
                         </ThemedView>
@@ -262,7 +269,7 @@ export default function TripDelivery() {
                             type="s2_subtitle"
                             className="text-typography-800"
                           >
-                            From:
+                            {t("labels.from")}
                           </ThemedText>
                           <ThemedText
                             type="default"
@@ -280,7 +287,7 @@ export default function TripDelivery() {
                             type="s2_subtitle"
                             className="text-typography-800"
                           >
-                            To:
+                            {t("labels.to")}
                           </ThemedText>
                           <ThemedText
                             type="default"
@@ -308,7 +315,7 @@ export default function TripDelivery() {
                           type="s2_subtitle"
                           className="text-white text-center"
                         >
-                          View BId
+                          {t("buttons.view_bid")}
                         </ThemedText>
                       </Button>
                     </ThemedView>

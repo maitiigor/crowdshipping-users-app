@@ -25,6 +25,7 @@ import { useCountry } from "@/hooks/useCountry";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { useAppSelector } from "@/store";
 import relativeTime from "dayjs/plugin/relativeTime";
+import { useTranslation } from "react-i18next";
 
 // dayjs fromNow plugin
 dayjs.extend(relativeTime);
@@ -47,10 +48,11 @@ export default function PaymentLogScreen() {
   );
   const currency = selectedCountry?.currencies?.[0];
   const selectedCurrency = currency?.code || "NGN";
+  const { t } = useTranslation("paymentLogs");
   console.log("🚀 ~ HomeScreen ~ currency:", selectedCurrency);
   const filterList = [
     {
-      label: "Withdrawal",
+      label: t("wallet.withdrawal"),
       value: "withdrawal",
       onPress: () => {
         router.push({
@@ -59,7 +61,7 @@ export default function PaymentLogScreen() {
       },
     },
     {
-      label: "Top Up",
+      label: t("wallet.top_up"),
       value: "top Up",
       onPress: () => {
         router.push({
@@ -74,7 +76,7 @@ export default function PaymentLogScreen() {
       headerTitle: () => {
         return (
           <ThemedText type="s1_subtitle" className="text-center">
-            Wallet
+            {t("header.wallet")}
           </ThemedText>
         );
       },
@@ -123,7 +125,7 @@ export default function PaymentLogScreen() {
       ),
       headerRight: () => <NotificationIcon />,
     });
-  }, [navigation, router, backroundTopNav]);
+  }, [navigation, router, backroundTopNav, t]);
   // useEffect(() => {
   //   // Ensure "withdrawal" is active when the screen mounts and every time it gains focus
   //   setSelectedFilter("withdrawal");
@@ -178,7 +180,7 @@ export default function PaymentLogScreen() {
                   type="h5_header"
                   className="text-white"
                 >
-                  Total Balance
+                  {t("wallet.total_balance")}
                 </ThemedText>
                 <TouchableOpacity
                   onPress={() => setShowAmount(!showAmount)}
@@ -227,7 +229,9 @@ export default function PaymentLogScreen() {
               ))}
             </ThemedView>
             <ThemedView className="flex-row justify-between gap-3 mt-5 items-center">
-              <ThemedText type="s1_subtitle">Transaction History</ThemedText>
+              <ThemedText type="s1_subtitle">
+                {t("wallet.transaction_history")}
+              </ThemedText>
               <Pressable
                 onPress={() => {
                   router.push({
@@ -236,7 +240,7 @@ export default function PaymentLogScreen() {
                 }}
               >
                 <ThemedText type="default" className="text-primary-500">
-                  See all
+                  {t("wallet.see_all")}
                 </ThemedText>
               </Pressable>
             </ThemedView>
@@ -247,7 +251,7 @@ export default function PaymentLogScreen() {
                   data={data?.data.transactions.slice(0, 5)}
                   ListEmptyComponent={
                     <ThemedText type="b2_body" className="text-center mt-10">
-                      No transactions found.
+                      {t("wallet.no_transactions")}
                     </ThemedText>
                   }
                   contentContainerClassName="pb-20"
@@ -284,7 +288,7 @@ export default function PaymentLogScreen() {
                             numberOfLines={2}
                             ellipsizeMode="tail"
                           >
-                            {item?.title ?? `Wallet has been ${item.type}ed`}
+                            {item?.title ?? t(`wallet.wallet_${item.type}ed`)}
                           </ThemedText>
                           <ThemedView className="flex-row items-center">
                             <ThemedText

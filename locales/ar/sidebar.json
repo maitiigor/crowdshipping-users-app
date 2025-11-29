@@ -1,0 +1,29 @@
+{
+  "menu": {
+    "home": "الرئيسية",
+    "booking_history": "سجل الحجز",
+    "trips": "الرحلات",
+    "bidding_history": "سجل العطاءات",
+    "track_order": "تتبع الطلب",
+    "inbox": "صندوق الوارد",
+    "wallet": "المحفظة",
+    "report_issues": "الإبلاغ عن مشاكل",
+    "claims": "المطالبات",
+    "support": "الدعم",
+    "notifications": "الإشعارات",
+    "settings": "الإعدادات",
+    "my_promo": "عروضي",
+    "terms_conditions": "الشروط والأحكام",
+    "privacy_policy": "سياسة الخصوصية"
+  },
+  "welcome_back": "مرحبًا بعودتك",
+  "loading": "جاري التحميل...",
+  "edit_profile": "تعديل الملف الشخصي",
+  "logout": "تسجيل الخروج",
+  "logout_drawer": {
+    "title": "تسجيل الخروج",
+    "description": "هل أنت متأكد أنك تريد تسجيل الخروج؟",
+    "cancel": "إلغاء",
+    "confirm": "نعم، تسجيل الخروج"
+  }
+}

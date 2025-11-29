@@ -44,6 +44,7 @@ import { Icon } from "@/components/ui/icon";
 import { Input, InputField, InputSlot } from "@/components/ui/input";
 import { Menu, MenuItem, MenuItemLabel } from "@/components/ui/menu";
 import { useToast } from "@/components/ui/toast";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import {
   useAuthenticatedPatch,
   useAuthenticatedPost,
@@ -70,7 +71,7 @@ import {
   StopCircle,
   X,
 } from "lucide-react-native";
-import { useThemeColor } from "@/hooks/useThemeColor";
+import { useTranslation } from "react-i18next";
 
 const formatSeconds = (value?: number) => {
   if (!value || Number.isNaN(value)) {
@@ -161,6 +162,7 @@ export default function ChatDetailsScreen() {
   const { id, participantName } = useLocalSearchParams();
   const router = useRouter();
   const toast = useToast();
+  const { t } = useTranslation("inbox");
   const backroundTopNav = useThemeColor({}, "background");
   const conversationId = (Array.isArray(id) ? id[0] : id) ?? "";
   const routeParticipantName = Array.isArray(participantName)
@@ -190,7 +192,7 @@ export default function ChatDetailsScreen() {
   const participant = data?.data?.participant;
   const participantAvatar = participant?.profile?.profilePicUrl;
   const displayName =
-    routeParticipantName || participant?.fullName || "Chat Details";
+    routeParticipantName || participant?.fullName || t("header.chat_details");
   type MessageRole = "sender" | "receiver";
   type MessageType =
     | "text"
@@ -324,8 +326,8 @@ export default function ChatDetailsScreen() {
     const labelForDay = (dayTs: number) => {
       const todayKey = getDayKey(Date.now());
       const yesterdayKey = todayKey - 24 * 60 * 60 * 1000;
-      if (dayTs === todayKey) return "Today";
-      if (dayTs === yesterdayKey) return "Yesterday";
+      if (dayTs === todayKey) return t("labels.today");
+      if (dayTs === yesterdayKey) return t("labels.yesterday");
       return new Date(dayTs).toLocaleDateString(undefined, {
         month: "short",
         day: "numeric",
@@ -420,8 +422,8 @@ export default function ChatDetailsScreen() {
       const result = await AudioModule.requestRecordingPermissionsAsync();
       if (!result.granted) {
         showNewToast({
-          title: "Microphone blocked",
-          description: "We need microphone access to record audio messages.",
+          title: t("labels.microphone_blocked"),
+          description: t("labels.microphone_blocked_desc"),
           icon: HelpCircleIcon,
           action: "warning",
           variant: "solid",
@@ -431,8 +433,8 @@ export default function ChatDetailsScreen() {
       return true;
     } catch (err: any) {
       showNewToast({
-        title: "Permission error",
-        description: err?.message || "Could not verify microphone access.",
+        title: t("labels.permission_error"),
+        description: err?.message || t("labels.permission_error_desc"),
         icon: HelpCircleIcon,
         action: "error",
         variant: "solid",
@@ -532,8 +534,8 @@ export default function ChatDetailsScreen() {
           uploading: false,
         });
         showNewToast({
-          title: "Attachment Ready",
-          description: "Your file was uploaded successfully.",
+          title: t("labels.attachment_ready"),
+          description: t("labels.attachment_ready_desc"),
           icon: CircleCheckIcon,
           action: "success",
           variant: "solid",
@@ -546,7 +548,7 @@ export default function ChatDetailsScreen() {
           (typeof uploadError === "string" ? uploadError : undefined) ||
           "Unable to upload attachment.";
         showNewToast({
-          title: "Upload Failed",
+          title: t("labels.upload_failed"),
           description: message,
           icon: HelpCircleIcon,
           action: "error",
@@ -575,8 +577,8 @@ export default function ChatDetailsScreen() {
     ) => {
       if (!ensureSingleKind(kind)) {
         showNewToast({
-          title: "Mixed Types Blocked",
-          description: "Send one attachment category per message.",
+          title: t("labels.mixed_types_blocked"),
+          description: t("labels.mixed_types_blocked_desc"),
           icon: HelpCircleIcon,
           action: "warning",
           variant: "solid",
@@ -611,8 +613,8 @@ export default function ChatDetailsScreen() {
     const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (permission.status !== "granted") {
       showNewToast({
-        title: "Permission Needed",
-        description: "We need access to your library to pick images.",
+        title: t("labels.permission_needed"),
+        description: t("labels.permission_needed_desc"),
         icon: HelpCircleIcon,
         action: "warning",
         variant: "solid",
@@ -703,8 +705,8 @@ export default function ChatDetailsScreen() {
         );
       } catch (err: any) {
         showNewToast({
-          title: "Recording failed",
-          description: err?.message || "We couldn't finish that recording.",
+          title: t("labels.recording_failed"),
+          description: err?.message || t("labels.recording_failed_desc"),
           icon: HelpCircleIcon,
           action: "error",
           variant: "solid",
@@ -715,8 +717,8 @@ export default function ChatDetailsScreen() {
 
     if (!ensureSingleKind("voice")) {
       showNewToast({
-        title: "Attachments conflict",
-        description: "Remove other attachments before recording audio.",
+        title: t("labels.attachments_conflict"),
+        description: t("labels.attachments_conflict_desc"),
         icon: HelpCircleIcon,
         action: "warning",
         variant: "solid",
@@ -738,16 +740,16 @@ export default function ChatDetailsScreen() {
       await audioRecorder.prepareToRecordAsync();
       audioRecorder.record();
       showNewToast({
-        title: "Recording",
-        description: "Tap the mic again to stop and attach your audio.",
+        title: t("labels.recording"),
+        description: t("labels.recording_desc"),
         icon: CircleCheckIcon,
         action: "info",
         variant: "solid",
       });
     } catch (err: any) {
       showNewToast({
-        title: "Recording error",
-        description: err?.message || "Unable to start recording.",
+        title: t("labels.recording_error"),
+        description: err?.message || t("labels.recording_error_desc"),
         icon: HelpCircleIcon,
         action: "error",
         variant: "solid",
@@ -807,8 +809,9 @@ export default function ChatDetailsScreen() {
         return true;
       } catch (e: any) {
         showNewToast({
-          title: "Message Failed",
-          description: e?.data?.message || e?.message || "Unknown error",
+          title: t("labels.message_failed"),
+          description:
+            e?.data?.message || e?.message || t("labels.unknown_error"),
           icon: HelpCircleIcon,
           action: "error",
           variant: "solid",
@@ -891,7 +894,7 @@ export default function ChatDetailsScreen() {
         </TouchableOpacity>
       ),
     });
-  }, [displayName, navigation, router, backroundTopNav]);
+  }, [displayName, navigation, router, backroundTopNav, t]);
 
   return (
     <>
@@ -916,7 +919,7 @@ export default function ChatDetailsScreen() {
                     type="b3_body"
                     className="text-typography-500 text-center"
                   >
-                    No messages yet. Start the conversation!
+                    {t("labels.start_conversation")}
                   </ThemedText>
                 </ThemedView>
               ) : (
@@ -1106,8 +1109,8 @@ export default function ChatDetailsScreen() {
 
               if (!hasText && !hasAttachments) {
                 showNewToast({
-                  title: "Nothing to send",
-                  description: "Add a message or attachment first.",
+                  title: t("labels.nothing_to_send"),
+                  description: t("labels.nothing_to_send_desc"),
                   icon: HelpCircleIcon,
                   action: "info",
                   variant: "solid",
@@ -1117,9 +1120,8 @@ export default function ChatDetailsScreen() {
 
               if (hasUploadingAttachment) {
                 showNewToast({
-                  title: "Still uploading",
-                  description:
-                    "Please wait for attachments to finish uploading.",
+                  title: t("labels.still_uploading"),
+                  description: t("labels.still_uploading_desc"),
                   icon: HelpCircleIcon,
                   action: "warning",
                   variant: "solid",
@@ -1132,8 +1134,8 @@ export default function ChatDetailsScreen() {
                 uploadedAttachments.length !== draftsSnapshot.length
               ) {
                 showNewToast({
-                  title: "Upload incomplete",
-                  description: "One or more files did not upload successfully.",
+                  title: t("labels.upload_incomplete"),
+                  description: t("labels.upload_incomplete_desc"),
                   icon: HelpCircleIcon,
                   action: "warning",
                   variant: "solid",
@@ -1147,8 +1149,8 @@ export default function ChatDetailsScreen() {
 
               if (messageType === "text" && !hasText) {
                 showNewToast({
-                  title: "Empty message",
-                  description: "Type a message before sending.",
+                  title: t("labels.empty_message"),
+                  description: t("labels.empty_message_desc"),
                   icon: HelpCircleIcon,
                   action: "info",
                   variant: "solid",
@@ -1304,7 +1306,7 @@ export default function ChatDetailsScreen() {
                                 type="s2_subtitle"
                                 className="text-black"
                               >
-                                Photos
+                                {t("labels.photos")}
                               </ThemedText>
                             </ThemedView>
                           </MenuItemLabel>
@@ -1323,7 +1325,7 @@ export default function ChatDetailsScreen() {
                                 type="s2_subtitle"
                                 className="text-black"
                               >
-                                Audios
+                                {t("labels.audios")}
                               </ThemedText>
                             </ThemedView>
                           </MenuItemLabel>
@@ -1342,7 +1344,7 @@ export default function ChatDetailsScreen() {
                                 type="s2_subtitle"
                                 className="text-black"
                               >
-                                Files
+                                {t("labels.files")}
                               </ThemedText>
                             </ThemedView>
                           </MenuItemLabel>
@@ -1357,12 +1359,15 @@ export default function ChatDetailsScreen() {
                             className="text-error-500"
                           />
                           <ThemedText type="b4_body" className="text-error-500">
-                            Recording… {formatMillis(recordingDurationMillis)}
+                            {t("labels.recording_progress")}{" "}
+                            {formatMillis(recordingDurationMillis)}
                           </ThemedText>
                         </ThemedView>
                       )}
                       <InputField
-                        placeholder={`${isRecording ? "" : "send message..."}`}
+                        placeholder={`${
+                          isRecording ? "" : t("placeholders.type_message")
+                        }`}
                         value={values.message}
                         className="bg-transparent px-0 pb-5 m-0 top-4 text-typography-900"
                         onChangeText={handleChange("message")}

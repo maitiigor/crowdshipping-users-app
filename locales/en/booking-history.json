@@ -1,0 +1,45 @@
+{
+  "header": {
+    "title": "Booking History",
+    "details_title": "Booking Details"
+  },
+  "filters": {
+    "all": "All",
+    "in_progress": "In Progress",
+    "pending": "Pending",
+    "delivered": "Delivered",
+    "cancelled": "Cancelled"
+  },
+  "empty_state": {
+    "title": "No Bookings available",
+    "description": "There are no bookings available at the moment. Check back later for updates."
+  },
+  "labels": {
+    "booking_summary": "Booking Summary",
+    "booking_id": "Booking ID",
+    "tracking_id": "Tracking ID",
+    "pickup_location": "Pickup Location",
+    "dropoff_location": "Dropoff Location",
+    "product_type": "Product Type",
+    "weight": "Weight",
+    "current_status": "Current Status",
+    "payment_status": "Payment Status",
+    "receiver_information": "Receiver Information",
+    "name": "Name",
+    "phone_number": "Phone Number",
+    "alternative_phone": "Alternative Phone",
+    "sender_information": "Sender Information",
+    "user_id": "User ID",
+    "location": "Location",
+    "traveller_information": "Traveller Information",
+    "expected_arrival_time": "Expected Arrival Time",
+    "loading": "Loading booking details..."
+  },
+  "buttons": {
+    "rate_driver": "Rate Driver",
+    "report_driver": "Report Driver",
+    "file_claim": "File a Claim",
+    "back": "Back",
+    "cancel_booking": "Cancel Booking"
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "header": {
+    "title": "Bids",
+    "air": "Air",
+    "maritime": "Maritime"
+  },
+  "search_placeholder": "Search for available trips...",
+  "empty_state": {
+    "title": "No Bids available",
+    "description": "There are no bids available at the moment. Check back later for updates."
+  },
+  "buttons": {
+    "view_bid": "View Bid",
+    "cancel_bid": "Cancel Bid",
+    "pay": "Pay",
+    "renegotiate": "Re-negotiate",
+    "retry": "Retry"
+  },
+  "labels": {
+    "from": "From:",
+    "to": "To:",
+    "bid_amount": "Bid Amount",
+    "parcel_tracking_id": "Parcel Tracking ID",
+    "total_weight": "Total Weight",
+    "parcel_group": "Parcel Group",
+    "trip_mode": "Trip Mode",
+    "air_freight": "Air Freight",
+    "maritime_freight": "Maritime Freight",
+    "bidder": "Bidder",
+    "user_id": "User ID",
+    "city": "City",
+    "parcel_journey": "Parcel Journey",
+    "pick_up": "Pick Up",
+    "distance": "Distance",
+    "drop_off": "Drop Off",
+    "trip_timeline": "Trip Timeline",
+    "departure": "Departure",
+    "arrival": "Arrival",
+    "trip_status": "Trip Status",
+    "trip_created_by": "Trip Created By",
+    "bid_details": "Bid Details",
+    "bid_details_unavailable": "Bid Details Unavailable",
+    "bid_details_error": "We couldn't load the bid details. Please try again."
+  },
+  "status": {
+    "accepted": "Accepted",
+    "pending": "Pending",
+    "cancelled": "Cancelled"
+  }
+}

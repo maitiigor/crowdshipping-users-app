@@ -1,0 +1,50 @@
+{
+  "header": {
+    "title": "出价",
+    "air": "空运",
+    "maritime": "海运"
+  },
+  "search_placeholder": "搜索可用行程...",
+  "empty_state": {
+    "title": "无可用出价",
+    "description": "目前没有可用出价。请稍后回来查看更新。"
+  },
+  "buttons": {
+    "view_bid": "查看出价",
+    "cancel_bid": "取消出价",
+    "pay": "支付",
+    "renegotiate": "重新协商",
+    "retry": "重试"
+  },
+  "labels": {
+    "from": "从：",
+    "to": "到：",
+    "bid_amount": "出价金额",
+    "parcel_tracking_id": "包裹追踪ID",
+    "total_weight": "总重量",
+    "parcel_group": "包裹组",
+    "trip_mode": "行程模式",
+    "air_freight": "空运",
+    "maritime_freight": "海运",
+    "bidder": "出价人",
+    "user_id": "用户ID",
+    "city": "城市",
+    "parcel_journey": "包裹旅程",
+    "pick_up": "取件",
+    "distance": "距离",
+    "drop_off": "送件",
+    "trip_timeline": "行程时间表",
+    "departure": "出发",
+    "arrival": "到达",
+    "trip_status": "行程状态",
+    "trip_created_by": "行程创建者",
+    "bid_details": "出价详情",
+    "bid_details_unavailable": "出价详情不可用",
+    "bid_details_error": "我们无法加载出价详情。请重试。"
+  },
+  "status": {
+    "accepted": "已接受",
+    "pending": "待处理",
+    "cancelled": "已取消"
+  }
+}

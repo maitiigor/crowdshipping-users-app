@@ -12,11 +12,13 @@ import { IBookingDetailsResponse } from "@/types/IBookingHistory";
 import { useLocalSearchParams, useNavigation, useRouter } from "expo-router";
 import { ChevronLeft, Clock3 } from "lucide-react-native";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { TouchableOpacity } from "react-native";
 
 export default function BookingDetailScreen() {
   const navigation = useNavigation();
   const router = useRouter();
+  const { t } = useTranslation("bookingHistory");
   const { id, selectedFilter } = useLocalSearchParams();
   const [showModal, setShowModal] = useState(false);
   const backroundTopNav = useThemeColor({}, "background");
@@ -36,7 +38,7 @@ export default function BookingDetailScreen() {
       headerTitle: () => {
         return (
           <ThemedText type="s1_subtitle" className="text-center">
-            Booking Details
+            {t("header.details_title")}
           </ThemedText>
         );
       },
@@ -86,12 +88,12 @@ export default function BookingDetailScreen() {
       ),
       headerRight: () => <NotificationIcon />,
     });
-  }, [navigation, backroundTopNav]);
+  }, [navigation, backroundTopNav, t]);
 
   if (isLoadingBookingDetails) {
     return (
       <ThemedView className="flex-1 justify-center items-center">
-        <ThemedText type="btn_medium">Loading booking details...</ThemedText>
+        <ThemedText type="btn_medium">{t("labels.loading")}</ThemedText>
       </ThemedView>
     );
   }
@@ -123,7 +125,7 @@ export default function BookingDetailScreen() {
                     type="btn_giant"
                     className="text-typography-800 pb-1"
                   >
-                    Booking Summary
+                    {t("labels.booking_summary")}
                   </ThemedText>
                   <ThemedView className="border border-primary-50 p-5 rounded-2xl flex gap-5">
                     <ThemedView className="flex-row justify-between">
@@ -131,7 +133,7 @@ export default function BookingDetailScreen() {
                         type="btn_medium"
                         className="text-typography-600"
                       >
-                        Booking ID
+                        {t("labels.booking_id")}
                       </ThemedText>
                       <ThemedText type="btn_medium" className="">
                         {bookingDetailsData?.data?.bookingRef || "N/A"}
@@ -142,7 +144,7 @@ export default function BookingDetailScreen() {
                         type="btn_medium"
                         className="text-typography-600"
                       >
-                        Tracking ID
+                        {t("labels.tracking_id")}
                       </ThemedText>
                       <ThemedText type="btn_medium" className="">
                         {bookingDetailsData?.data?.parcelGroup?.trackingId ||
@@ -154,7 +156,7 @@ export default function BookingDetailScreen() {
                         type="btn_medium"
                         className="text-typography-600"
                       >
-                        Pickup Location
+                        {t("labels.pickup_location")}
                       </ThemedText>
                       <ThemedText
                         type="btn_medium"
@@ -170,7 +172,7 @@ export default function BookingDetailScreen() {
                         type="btn_medium"
                         className="text-typography-600"
                       >
-                        Dropoff Location
+                        {t("labels.dropoff_location")}
                       </ThemedText>
                       <ThemedText
                         type="btn_medium"
@@ -186,7 +188,7 @@ export default function BookingDetailScreen() {
                         type="btn_medium"
                         className="text-typography-600"
                       >
-                        Product Type
+                        {t("labels.product_type")}
                       </ThemedText>
                       <ThemedText type="btn_medium" className="capitalize">
                         {bookingDetailsData?.data?.parcels?.[0]?.productType ||
@@ -198,7 +200,7 @@ export default function BookingDetailScreen() {
                         type="btn_medium"
                         className="text-typography-600"
                       >
-                        Weight
+                        {t("labels.weight")}
                       </ThemedText>
                       <ThemedText type="btn_medium" className="">
                         {bookingDetailsData?.data?.parcels?.[0]
@@ -212,14 +214,20 @@ export default function BookingDetailScreen() {
                         type="btn_medium"
                         className="text-typography-600"
                       >
-                        Current Status
+                        {t("labels.current_status")}
                       </ThemedText>
                       <ThemedText
                         type="b4_body"
                         className="bg-[#CDF5E0] px-4 py-2 rounded-lg capitalize text-[#009A49]"
                       >
-                        {bookingDetailsData?.data?.status?.toLowerCase() ||
-                          "N/A"}
+                        {bookingDetailsData?.data?.status
+                          ? t(
+                              `status.${bookingDetailsData.data.status.toLowerCase()}`,
+                              {
+                                defaultValue: bookingDetailsData.data.status,
+                              }
+                            )
+                          : "N/A"}
                       </ThemedText>
                     </ThemedView>
                     <ThemedView className="flex-row justify-between items-center">
@@ -227,7 +235,7 @@ export default function BookingDetailScreen() {
                         type="btn_medium"
                         className="text-typography-600"
                       >
-                        Payment Status
+                        {t("labels.payment_status")}
                       </ThemedText>
                       <ThemedText
                         type="b4_body"
@@ -243,7 +251,7 @@ export default function BookingDetailScreen() {
                     type="btn_giant"
                     className="text-typography-800 pb-1"
                   >
-                    Receiver Information
+                    {t("labels.receiver_information")}
                   </ThemedText>
                   <ThemedView className="border border-primary-50 p-5 rounded-2xl flex gap-5">
                     <ThemedView className="flex-row justify-between">
@@ -251,7 +259,7 @@ export default function BookingDetailScreen() {
                         type="btn_medium"
                         className="text-typography-600"
                       >
-                        Name
+                        {t("labels.name")}
                       </ThemedText>
                       <ThemedText type="btn_medium" className="">
                         {bookingDetailsData?.data?.parcelGroup?.receiverName ||
@@ -264,7 +272,7 @@ export default function BookingDetailScreen() {
                         type="btn_medium"
                         className="text-typography-600"
                       >
-                        Phone Number
+                        {t("labels.phone_number")}
                       </ThemedText>
                       <ThemedText type="btn_medium" className="">
                         {bookingDetailsData?.data?.parcelGroup?.receiverPhone ||
@@ -276,7 +284,7 @@ export default function BookingDetailScreen() {
                         type="btn_medium"
                         className="text-typography-600"
                       >
-                        Alternative Phone
+                        {t("labels.alternative_phone")}
                       </ThemedText>
                       <ThemedText type="btn_medium" className="">
                         {bookingDetailsData?.data?.parcelGroup
@@ -290,7 +298,7 @@ export default function BookingDetailScreen() {
                     type="btn_giant"
                     className="text-typography-800 pb-1"
                   >
-                    Sender Information
+                    {t("labels.sender_information")}
                   </ThemedText>
                   <ThemedView className="border border-primary-50 p-5 rounded-2xl flex gap-5">
                     <ThemedView className="flex-row justify-between">
@@ -298,7 +306,7 @@ export default function BookingDetailScreen() {
                         type="btn_medium"
                         className="text-typography-600"
                       >
-                        Name
+                        {t("labels.name")}
                       </ThemedText>
                       <ThemedText type="btn_medium" className="">
                         {bookingDetailsData?.data?.sender?.fullName || "N/A"}
@@ -309,7 +317,7 @@ export default function BookingDetailScreen() {
                         type="btn_medium"
                         className="text-typography-600"
                       >
-                        User ID
+                        {t("labels.user_id")}
                       </ThemedText>
                       <ThemedText type="btn_medium" className="">
                         {bookingDetailsData?.data?.sender?.userId || "N/A"}
@@ -320,7 +328,7 @@ export default function BookingDetailScreen() {
                         type="btn_medium"
                         className="text-typography-600"
                       >
-                        Location
+                        {t("labels.location")}
                       </ThemedText>
                       <ThemedText
                         type="btn_medium"
@@ -338,7 +346,7 @@ export default function BookingDetailScreen() {
                     type="btn_giant"
                     className="text-typography-800 pb-1"
                   >
-                    Traveller Information
+                    {t("labels.traveller_information")}
                   </ThemedText>
                   <ThemedView className="border border-primary-50 p-5 rounded-2xl flex gap-5">
                     <ThemedView className="flex-row justify-between">
@@ -346,7 +354,7 @@ export default function BookingDetailScreen() {
                         type="btn_medium"
                         className="text-typography-600"
                       >
-                        Name
+                        {t("labels.name")}
                       </ThemedText>
                       <ThemedText type="btn_medium" className="">
                         {bookingDetailsData?.data?.traveller?.fullName || "N/A"}
@@ -357,7 +365,7 @@ export default function BookingDetailScreen() {
                         type="btn_medium"
                         className="text-typography-600"
                       >
-                        User ID
+                        {t("labels.user_id")}
                       </ThemedText>
                       <ThemedText type="btn_medium" className="">
                         {bookingDetailsData?.data?.traveller?.userId || "N/A"}
@@ -368,7 +376,7 @@ export default function BookingDetailScreen() {
                         type="btn_medium"
                         className="text-typography-600"
                       >
-                        Location
+                        {t("labels.location")}
                       </ThemedText>
                       <ThemedText
                         type="btn_medium"
@@ -386,7 +394,7 @@ export default function BookingDetailScreen() {
                     type="btn_giant"
                     className="text-typography-800 pb-1"
                   >
-                    Expected Arrival Time
+                    {t("labels.expected_arrival_time")}
                   </ThemedText>
                   <ThemedView className="border  border-primary-50 px-5 py-10 rounded-2xl flex justify-center items-center gap-5">
                     <ThemedView className="flex-row justify-center items-center gap-3">
@@ -429,7 +437,7 @@ export default function BookingDetailScreen() {
                     type="s2_subtitle"
                     className="text-primary-500  text-center "
                   >
-                    Rate Driver
+                    {t("buttons.rate_driver")}
                   </ThemedText>
                 </Button>
                 <Button
@@ -442,7 +450,7 @@ export default function BookingDetailScreen() {
                     type="s2_subtitle"
                     className="text-primary-500  text-center "
                   >
-                    Report Driver
+                    {t("buttons.report_driver")}
                   </ThemedText>
                 </Button>
                 <Button
@@ -455,7 +463,7 @@ export default function BookingDetailScreen() {
                     type="s2_subtitle"
                     className="text-primary-500  text-center "
                   >
-                    File a Claim
+                    {t("buttons.file_claim")}
                   </ThemedText>
                 </Button>
               </ThemedView>
@@ -477,7 +485,7 @@ export default function BookingDetailScreen() {
               type="s2_subtitle"
               className="text-primary-500  text-center "
             >
-              Back
+              {t("buttons.back")}
             </ThemedText>
           </Button>
           <Button
@@ -494,7 +502,7 @@ export default function BookingDetailScreen() {
               type="s2_subtitle"
               className="text-white text-center"
             >
-              Cancel Booking
+              {t("buttons.cancel_booking")}
             </ThemedText>
           </Button>
           {showModal && (

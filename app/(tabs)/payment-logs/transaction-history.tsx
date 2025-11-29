@@ -21,6 +21,7 @@ import {
   ListFilterPlus,
 } from "lucide-react-native";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { FlatList, TouchableOpacity, View } from "react-native";
 
 // dayjs fromNow plugin
@@ -30,6 +31,7 @@ export default function TransactionHistoryScreen() {
   const router = useRouter();
   const backroundTopNav = useThemeColor({}, "background");
   const [selectedFilter, setSelectedFilter] = useState<string>("");
+  const { t } = useTranslation("paymentLogs");
 
   // Build fetchOptions conditionally
   const fetchOptions = selectedFilter
@@ -51,7 +53,7 @@ export default function TransactionHistoryScreen() {
       headerTitle: () => {
         return (
           <ThemedText type="s1_subtitle" className="text-center">
-            Transaction History
+            {t("header.transaction_history")}
           </ThemedText>
         );
       },
@@ -100,7 +102,7 @@ export default function TransactionHistoryScreen() {
       ),
       headerRight: () => <NotificationIcon />,
     });
-  }, [navigation, router, backroundTopNav]);
+  }, [navigation, router, backroundTopNav, t]);
 
   return (
     <ThemedView className="flex-1 bg-white p-5">
@@ -108,7 +110,7 @@ export default function TransactionHistoryScreen() {
         <ThemedView className="flex">
           <ThemedView className="flex-row justify-between items-center">
             <ThemedText type="h5_header" className="text-black mt-4">
-              Filter
+              {t("transaction.filter")}
             </ThemedText>
             <Menu
               placement="bottom"
@@ -135,14 +137,14 @@ export default function TransactionHistoryScreen() {
               <MenuItem key="debit" textValue="debit">
                 <MenuItemLabel size="sm">
                   <ThemedText type="default" className="text-black">
-                    Debit
+                    {t("transaction.debit")}
                   </ThemedText>
                 </MenuItemLabel>
               </MenuItem>
               <MenuItem key="credit" textValue="credit">
                 <MenuItemLabel size="sm">
                   <ThemedText type="default" className="text-black">
-                    Credit
+                    {t("transaction.credit")}
                   </ThemedText>
                 </MenuItemLabel>
               </MenuItem>
@@ -170,8 +172,8 @@ export default function TransactionHistoryScreen() {
                 data={data?.data.transactions ?? []}
                 ListEmptyComponent={
                   <EmptyState
-                    title="No transactions yet"
-                    description="Your transaction history will appear here."
+                    title={t("transaction.empty_title")}
+                    description={t("transaction.empty_description")}
                     icon={History}
                     className="mt-10"
                   />
@@ -214,7 +216,7 @@ export default function TransactionHistoryScreen() {
                           numberOfLines={2}
                           ellipsizeMode="tail"
                         >
-                          {item?.title ?? `Wallet has been ${item.type}ed`}
+                          {item?.title ?? t(`wallet.wallet_${item.type}ed`)}
                         </ThemedText>
                         <ThemedView className="flex-row items-center">
                           <ThemedText

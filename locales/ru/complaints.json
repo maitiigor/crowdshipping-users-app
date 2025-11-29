@@ -1,0 +1,81 @@
+{
+  "header": {
+    "title": "Претензии",
+    "new_claim": "Новая претензия",
+    "details_title": "Детали претензии"
+  },
+  "search_placeholder": "Поиск...",
+  "filters": {
+    "pending": "В ожидании",
+    "resolved": "Решено"
+  },
+  "empty_state": {
+    "title": "Нет претензий {{filter}}",
+    "description": "На данный момент у вас нет претензий {{filter}}. Зайдите позже для обновлений."
+  },
+  "buttons": {
+    "close": "Закрыть",
+    "details": "Детали",
+    "add_new": "Добавить новую",
+    "cancel": "Отмена",
+    "submit_claim": "Отправить претензию",
+    "open_attachment": "Открыть вложение"
+  },
+  "labels": {
+    "claim_id": "ID претензии",
+    "last_updated_date": "Дата последнего обновления",
+    "current_status": "Текущий статус",
+    "brief_description": "Краткое описание",
+    "nature_of_claims": "Характер претензий",
+    "other_options": "Другие варианты",
+    "claim_amount": "Сумма претензии",
+    "tracking_id": "ID отслеживания",
+    "detailed_description": "Подробное описание",
+    "summary": "Сводка",
+    "report_id": "ID отчета",
+    "claim_reference": "Ссылка на претензию",
+    "nature_of_claim": "Характер претензии",
+    "description": "Описание",
+    "raised_by": "Поднято",
+    "raised_by_id": "ID инициатора",
+    "support_team": "Команда поддержки",
+    "timeline": "Хронология",
+    "created": "Создано",
+    "updated": "Обновлено",
+    "evidence": "Доказательства",
+    "status": "Статус",
+    "under_review": "На рассмотрении",
+    "resolved": "Решено",
+    "no_attachment": "Вложение для этой претензии не предоставлено.",
+    "load_error": "Не удалось загрузить эту претензию. Пожалуйста, вернитесь и попробуйте снова."
+  },
+  "validation": {
+    "nature_required": "Характер претензии обязателен",
+    "other_required": "Другие варианты обязательны",
+    "other_min": "Другие варианты должны содержать не менее 5 символов",
+    "other_max": "Другие варианты не могут превышать 100 символов",
+    "amount_number": "Сумма отчета должна быть числом",
+    "amount_required": "Сумма отчета обязательна",
+    "amount_positive": "Сумма отчета должна быть положительной",
+    "tracking_required": "ID отслеживания обязателен",
+    "description_required": "Описание обязательно",
+    "description_min": "Описание должно содержать не менее 20 символов",
+    "description_max": "Описание не может превышать 500 символов"
+  },
+  "toast": {
+    "submitted_title": "Претензия отправлена",
+    "submitted_desc": "Ваша претензия была успешно отправлена.",
+    "failed_title": "Запрос претензии не удался",
+    "file_uploaded_title": "Файл загружен",
+    "file_uploaded_desc": "Ваше вложение готово.",
+    "upload_failed_title": "Загрузка не удалась",
+    "invalid_amount_title": "Неверная сумма",
+    "invalid_amount_desc": "Пожалуйста, введите действительную сумму претензии."
+  },
+  "placeholders": {
+    "enter_other": "Введите другие варианты",
+    "enter_amount": "Введите сумму",
+    "enter_tracking": "Введите ID отслеживания",
+    "enter_description": "Введите описание продукта"
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "header": {
+    "title": "История бронирования",
+    "details_title": "Детали бронирования"
+  },
+  "filters": {
+    "all": "Все",
+    "in_progress": "В процессе",
+    "pending": "В ожидании",
+    "delivered": "Доставлено",
+    "cancelled": "Отменено"
+  },
+  "empty_state": {
+    "title": "Нет доступных бронирований",
+    "description": "На данный момент нет доступных бронирований. Зайдите позже для обновлений."
+  },
+  "labels": {
+    "booking_summary": "Сводка бронирования",
+    "booking_id": "ID бронирования",
+    "tracking_id": "ID отслеживания",
+    "pickup_location": "Место забора",
+    "dropoff_location": "Место доставки",
+    "product_type": "Тип продукта",
+    "weight": "Вес",
+    "current_status": "Текущий статус",
+    "payment_status": "Статус оплаты",
+    "receiver_information": "Информация о получателе",
+    "name": "Имя",
+    "phone_number": "Номер телефона",
+    "alternative_phone": "Альтернативный телефон",
+    "sender_information": "Информация об отправителе",
+    "user_id": "ID пользователя",
+    "location": "Местоположение",
+    "traveller_information": "Информация о путешественнике",
+    "expected_arrival_time": "Ожидаемое время прибытия",
+    "loading": "Загрузка деталей бронирования..."
+  },
+  "buttons": {
+    "rate_driver": "Оценить водителя",
+    "report_driver": "Пожаловаться на водителя",
+    "file_claim": "Подать претензию",
+    "back": "Назад",
+    "cancel_booking": "Отменить бронирование"
+  }
+}

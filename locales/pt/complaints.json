@@ -1,0 +1,81 @@
+{
+  "header": {
+    "title": "Reclamações",
+    "new_claim": "Nova reclamação",
+    "details_title": "Detalhes da reclamação"
+  },
+  "search_placeholder": "Pesquisar...",
+  "filters": {
+    "pending": "Pendente",
+    "resolved": "Resolvido"
+  },
+  "empty_state": {
+    "title": "Nenhuma reclamação {{filter}}",
+    "description": "Você não tem reclamações {{filter}} no momento. Verifique novamente mais tarde para atualizações."
+  },
+  "buttons": {
+    "close": "Fechar",
+    "details": "Detalhes",
+    "add_new": "Adicionar novo",
+    "cancel": "Cancelar",
+    "submit_claim": "Enviar reclamação",
+    "open_attachment": "Abrir anexo"
+  },
+  "labels": {
+    "claim_id": "ID da reclamação",
+    "last_updated_date": "Data da última atualização",
+    "current_status": "Status atual",
+    "brief_description": "Breve descrição",
+    "nature_of_claims": "Natureza das reclamações",
+    "other_options": "Outras opções",
+    "claim_amount": "Valor da reclamação",
+    "tracking_id": "ID de rastreamento",
+    "detailed_description": "Descrição detalhada",
+    "summary": "Resumo",
+    "report_id": "ID do relatório",
+    "claim_reference": "Referência da reclamação",
+    "nature_of_claim": "Natureza da reclamação",
+    "description": "Descrição",
+    "raised_by": "Levantado por",
+    "raised_by_id": "ID do levantador",
+    "support_team": "Equipe de suporte",
+    "timeline": "Cronograma",
+    "created": "Criado",
+    "updated": "Atualizado",
+    "evidence": "Evidência",
+    "status": "Status",
+    "under_review": "Em análise",
+    "resolved": "Resolvido",
+    "no_attachment": "Nenhum anexo fornecido para esta reclamação.",
+    "load_error": "Não foi possível carregar esta reclamação. Volte e tente novamente."
+  },
+  "validation": {
+    "nature_required": "A natureza da reclamação é obrigatória",
+    "other_required": "Outras opções são obrigatórias",
+    "other_min": "Outras opções devem ter pelo menos 5 caracteres",
+    "other_max": "Outras opções não podem exceder 100 caracteres",
+    "amount_number": "O valor do relatório deve ser um número",
+    "amount_required": "O valor do relatório é obrigatório",
+    "amount_positive": "O valor do relatório deve ser positivo",
+    "tracking_required": "O ID de rastreamento é obrigatório",
+    "description_required": "A descrição é obrigatória",
+    "description_min": "A descrição deve ter pelo menos 20 caracteres",
+    "description_max": "A descrição não pode exceder 500 caracteres"
+  },
+  "toast": {
+    "submitted_title": "Reclamação enviada",
+    "submitted_desc": "Sua reclamação foi enviada com sucesso.",
+    "failed_title": "Falha na solicitação de reclamação",
+    "file_uploaded_title": "Arquivo enviado",
+    "file_uploaded_desc": "Seu anexo está pronto.",
+    "upload_failed_title": "Falha no envio",
+    "invalid_amount_title": "Valor inválido",
+    "invalid_amount_desc": "Insira um valor de reclamação válido."
+  },
+  "placeholders": {
+    "enter_other": "Inserir outras opções",
+    "enter_amount": "Inserir valor",
+    "enter_tracking": "Inserir ID de rastreamento",
+    "enter_description": "Inserir descrição do produto"
+  }
+}

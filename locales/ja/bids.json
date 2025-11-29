@@ -1,0 +1,50 @@
+{
+  "header": {
+    "title": "入札",
+    "air": "航空",
+    "maritime": "海上"
+  },
+  "search_placeholder": "利用可能な旅行を検索...",
+  "empty_state": {
+    "title": "利用可能な入札はありません",
+    "description": "現在、利用可能な入札はありません。後で更新を確認してください。"
+  },
+  "buttons": {
+    "view_bid": "入札を表示",
+    "cancel_bid": "入札をキャンセル",
+    "pay": "支払う",
+    "renegotiate": "再交渉",
+    "retry": "再試行"
+  },
+  "labels": {
+    "from": "から：",
+    "to": "へ：",
+    "bid_amount": "入札額",
+    "parcel_tracking_id": "荷物追跡ID",
+    "total_weight": "総重量",
+    "parcel_group": "荷物グループ",
+    "trip_mode": "旅行モード",
+    "air_freight": "航空貨物",
+    "maritime_freight": "海上貨物",
+    "bidder": "入札者",
+    "user_id": "ユーザーID",
+    "city": "都市",
+    "parcel_journey": "荷物の旅程",
+    "pick_up": "集荷",
+    "distance": "距離",
+    "drop_off": "配達",
+    "trip_timeline": "旅行タイムライン",
+    "departure": "出発",
+    "arrival": "到着",
+    "trip_status": "旅行ステータス",
+    "trip_created_by": "旅行作成者",
+    "bid_details": "入札詳細",
+    "bid_details_unavailable": "入札詳細利用不可",
+    "bid_details_error": "入札詳細を読み込めませんでした。再試行してください。"
+  },
+  "status": {
+    "accepted": "承認済み",
+    "pending": "保留中",
+    "cancelled": "キャンセル済み"
+  }
+}

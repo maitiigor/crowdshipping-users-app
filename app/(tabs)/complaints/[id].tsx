@@ -23,6 +23,7 @@ import {
   ShieldAlert,
 } from "lucide-react-native";
 import React, { useCallback, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { Alert, Linking, TouchableOpacity } from "react-native";
 
 const statusStyles: Record<string, string> = {
@@ -34,6 +35,7 @@ const statusStyles: Record<string, string> = {
 
 const ClaimDetails = () => {
   const navigation = useNavigation();
+  const { t } = useTranslation("complaints");
   const { id } = useLocalSearchParams<{ id: string }>();
   const idStr = paramToString(id);
   const router = useRouter();
@@ -55,7 +57,7 @@ const ClaimDetails = () => {
       headerShown: true,
       headerTitle: () => (
         <ThemedText type="s1_subtitle" className="text-center">
-          Claim Details
+          {t("header.details_title")}
         </ThemedText>
       ),
       headerTitleAlign: "center",
@@ -93,7 +95,7 @@ const ClaimDetails = () => {
         </TouchableOpacity>
       ),
     });
-  }, [isRefetching, navigation, refetch, backroundTopNav]);
+  }, [isRefetching, navigation, refetch, backroundTopNav, t]);
 
   const handleOpenEvidence = useCallback(async () => {
     if (!report?.evidence) return;
@@ -166,13 +168,13 @@ const ClaimDetails = () => {
                       type="h5_header"
                       className="text-typography-900"
                     >
-                      {report.natureOfClaim || "Claim"}
+                      {report.natureOfClaim || t("labels.claim")}
                     </ThemedText>
                     <ThemedText
                       type="c2_caption"
                       className="text-typography-600"
                     >
-                      Reference: {report.claimRef}
+                      {t("labels.reference")}: {report.claimRef}
                     </ThemedText>
                   </ThemedView>
                 </HStack>
@@ -182,12 +184,18 @@ const ClaimDetails = () => {
                     className={`px-3 py-1 rounded-full border ${statusClass}`}
                   >
                     <ThemedText type="c2_caption" className="capitalize">
-                      Status: {report.status || "unknown"}
+                      {t("labels.status")}:{" "}
+                      {report.status
+                        ? t(`status.${report.status.toLowerCase()}`, {
+                            defaultValue: report.status,
+                          })
+                        : "unknown"}
                     </ThemedText>
                   </ThemedView>
                   <ThemedView className="px-3 py-1 rounded-full bg-neutral-50 border border-neutral-100">
                     <ThemedText type="c2_caption" className="text-neutral-700">
-                      Raised by: {report.raisedBy?.fullName || "Unknown"}
+                      {t("labels.raised_by")}:{" "}
+                      {report.raisedBy?.fullName || "Unknown"}
                     </ThemedText>
                   </ThemedView>
                 </HStack>
@@ -195,22 +203,28 @@ const ClaimDetails = () => {
 
               <ThemedView className="border border-background-100 rounded-2xl p-4 bg-background-0 gap-4">
                 <ThemedText type="btn_giant" className="text-typography-800">
-                  Summary
+                  {t("labels.summary")}
                 </ThemedText>
                 <ThemedView className="gap-3">
-                  <SummaryRow label="Report ID" value={report._id || id} />
-                  <SummaryRow label="Claim Reference" value={report.claimRef} />
                   <SummaryRow
-                    label="Nature of Claim"
+                    label={t("labels.report_id")}
+                    value={report._id || id}
+                  />
+                  <SummaryRow
+                    label={t("labels.claim_reference")}
+                    value={report.claimRef}
+                  />
+                  <SummaryRow
+                    label={t("labels.nature_of_claim")}
                     value={report.natureOfClaim}
                   />
                   <SummaryRow
-                    label="Description"
+                    label={t("labels.description")}
                     value={report.description}
                     multiline
                   />
                   <SummaryRow
-                    label="Claim Amount"
+                    label={t("labels.claim_amount")}
                     value={formatCurrency(
                       report.claimAmount,
                       selectedCurrency,
@@ -218,25 +232,28 @@ const ClaimDetails = () => {
                     )}
                   />
                   <SummaryRow
-                    label="Raised By"
+                    label={t("labels.raised_by")}
                     value={report.raisedBy?.fullName}
                   />
-                  <SummaryRow label="Raised By ID" value={report.raisedById} />
                   <SummaryRow
-                    label="Support Team"
-                    value={report.supportTeam || "Not assigned"}
+                    label={t("labels.raised_by_id")}
+                    value={report.raisedById}
+                  />
+                  <SummaryRow
+                    label={t("labels.support_team")}
+                    value={report.supportTeam || t("labels.not_assigned")}
                   />
                 </ThemedView>
               </ThemedView>
 
               <ThemedView className="border border-background-100 rounded-2xl p-4 bg-background-0 gap-4">
                 <ThemedText type="btn_giant" className="text-typography-800">
-                  Timeline
+                  {t("labels.timeline")}
                 </ThemedText>
                 <ThemedView className="gap-3">
                   <TimelineRow
                     icon={CalendarClock}
-                    label="Created"
+                    label={t("labels.created")}
                     value={
                       report.createdAt
                         ? dayjs(report.createdAt).format("MMM D, YYYY h:mm A")
@@ -245,7 +262,7 @@ const ClaimDetails = () => {
                   />
                   <TimelineRow
                     icon={CalendarClock}
-                    label="Updated"
+                    label={t("labels.updated")}
                     value={
                       report.updatedAt
                         ? dayjs(report.updatedAt).format("MMM D, YYYY h:mm A")
@@ -257,7 +274,7 @@ const ClaimDetails = () => {
 
               <ThemedView className="border border-background-100 rounded-2xl p-4 bg-background-0 gap-4">
                 <ThemedText type="btn_giant" className="text-typography-800">
-                  Evidence
+                  {t("labels.evidence")}
                 </ThemedText>
                 {report.evidence ? (
                   <Button
@@ -268,12 +285,12 @@ const ClaimDetails = () => {
                   >
                     <ButtonIcon as={Download} />
                     <ButtonText numberOfLines={1} ellipsizeMode="tail">
-                      Open attachment
+                      {t("buttons.open_attachment")}
                     </ButtonText>
                   </Button>
                 ) : (
                   <ThemedText type="b4_body" className="text-typography-600">
-                    No attachment provided for this claim.
+                    {t("labels.no_evidence")}
                   </ThemedText>
                 )}
               </ThemedView>
@@ -281,7 +298,7 @@ const ClaimDetails = () => {
           ) : (
             <ThemedView className="p-4 rounded-xl bg-error-50 border border-error-100">
               <ThemedText type="b3_body" className="text-error-700">
-                Could not load this claim. Please go back and try again.
+                {t("errors.load_failed")}
               </ThemedText>
             </ThemedView>
           )}

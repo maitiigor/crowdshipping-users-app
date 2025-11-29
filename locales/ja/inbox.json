@@ -1,0 +1,68 @@
+{
+  "header": {
+    "title": "受信トレイ",
+    "chat_details": "チャット詳細"
+  },
+  "filters": {
+    "chats": "チャット",
+    "calls": "通話"
+  },
+  "empty_state": {
+    "title": "チャットがありません",
+    "description": "現在チャットがありません。会話を開始してください。"
+  },
+  "labels": {
+    "no_messages": "まだメッセージがありません",
+    "recording_failed": "録音失敗",
+    "recording_failed_desc": "その録音を完了できませんでした。",
+    "attachments_conflict": "添付ファイルの競合",
+    "attachments_conflict_desc": "音声を録音する前に他の添付ファイルを削除してください。",
+    "permission_needed": "権限が必要です",
+    "permission_needed_desc": "画像を選択するにはライブラリへのアクセスが必要です。",
+    "microphone_blocked": "マイクがブロックされています",
+    "microphone_blocked_desc": "音声メッセージを録音するにはマイクへのアクセスが必要です。",
+    "permission_error": "権限エラー",
+    "permission_error_desc": "マイクアクセスを確認できませんでした。",
+    "recording": "録音中",
+    "recording_desc": "もう一度マイクをタップして停止し、音声を添付してください。",
+    "recording_error": "録音エラー",
+    "recording_error_desc": "録音を開始できませんでした。",
+    "attachment_ready": "添付ファイルの準備完了",
+    "attachment_ready_desc": "ファイルが正常にアップロードされました。",
+    "upload_failed": "アップロード失敗",
+    "upload_failed_desc": "添付ファイルをアップロードできませんでした。",
+    "mixed_types_blocked": "混合タイプがブロックされました",
+    "mixed_types_blocked_desc": "メッセージごとに1つの添付ファイルカテゴリを送信してください。",
+    "message_sent": "メッセージ送信済み",
+    "message_sent_desc": "メッセージが送信されました。",
+    "send_failed": "送信失敗",
+    "send_failed_desc": "メッセージを送信できませんでした。",
+    "today": "今日",
+    "yesterday": "昨日",
+    "start_conversation": "会話を始めましょう！",
+    "photos": "写真",
+    "audios": "音声",
+    "files": "ファイル",
+    "recording_progress": "録音中...",
+    "message_failed": "メッセージ失敗",
+    "unknown_error": "不明なエラー",
+    "nothing_to_send": "送信するものがありません",
+    "nothing_to_send_desc": "最初にメッセージまたは添付ファイルを追加してください。",
+    "still_uploading": "まだアップロード中",
+    "still_uploading_desc": "添付ファイルのアップロードが完了するまでお待ちください。",
+    "upload_incomplete": "アップロード不完全",
+    "upload_incomplete_desc": "1つ以上のファイルが正常にアップロードされませんでした。",
+    "empty_message": "空のメッセージ",
+    "empty_message_desc": "送信する前にメッセージを入力してください。"
+  },
+  "placeholders": {
+    "type_message": "メッセージを送信..."
+  },
+  "buttons": {
+    "send": "送信",
+    "camera": "カメラ",
+    "gallery": "ギャラリー",
+    "document": "ドキュメント",
+    "audio": "音声"
+  }
+}

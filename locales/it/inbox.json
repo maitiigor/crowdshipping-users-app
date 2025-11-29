@@ -1,0 +1,68 @@
+{
+  "header": {
+    "title": "Posta in arrivo",
+    "chat_details": "Dettagli Chat"
+  },
+  "filters": {
+    "chats": "Chat",
+    "calls": "Chiamate"
+  },
+  "empty_state": {
+    "title": "Nessuna chat",
+    "description": "Non hai chat al momento. Inizia una conversazione per iniziare."
+  },
+  "labels": {
+    "no_messages": "Nessun messaggio ancora",
+    "recording_failed": "Registrazione fallita",
+    "recording_failed_desc": "Non siamo riusciti a completare quella registrazione.",
+    "attachments_conflict": "Conflitto allegati",
+    "attachments_conflict_desc": "Rimuovi altri allegati prima di registrare audio.",
+    "permission_needed": "Permesso Necessario",
+    "permission_needed_desc": "Abbiamo bisogno dell'accesso alla tua libreria per selezionare le immagini.",
+    "microphone_blocked": "Microfono bloccato",
+    "microphone_blocked_desc": "Abbiamo bisogno dell'accesso al microfono per registrare messaggi audio.",
+    "permission_error": "Errore di permesso",
+    "permission_error_desc": "Impossibile verificare l'accesso al microfono.",
+    "recording": "Registrazione",
+    "recording_desc": "Tocca di nuovo il microfono per fermare e allegare il tuo audio.",
+    "recording_error": "Errore di registrazione",
+    "recording_error_desc": "Impossibile avviare la registrazione.",
+    "attachment_ready": "Allegato Pronto",
+    "attachment_ready_desc": "Il tuo file è stato caricato con successo.",
+    "upload_failed": "Caricamento Fallito",
+    "upload_failed_desc": "Impossibile caricare l'allegato.",
+    "mixed_types_blocked": "Tipi Misti Bloccati",
+    "mixed_types_blocked_desc": "Invia una categoria di allegato per messaggio.",
+    "message_sent": "Messaggio Inviato",
+    "message_sent_desc": "Il tuo messaggio è stato inviato.",
+    "send_failed": "Invio Fallito",
+    "send_failed_desc": "Non siamo riusciti a inviare il tuo messaggio.",
+    "today": "Oggi",
+    "yesterday": "Ieri",
+    "start_conversation": "Inizia la conversazione!",
+    "photos": "Foto",
+    "audios": "Audio",
+    "files": "File",
+    "recording_progress": "Registrazione...",
+    "message_failed": "Messaggio Fallito",
+    "unknown_error": "Errore sconosciuto",
+    "nothing_to_send": "Niente da inviare",
+    "nothing_to_send_desc": "Aggiungi prima un messaggio o un allegato.",
+    "still_uploading": "Ancora in caricamento",
+    "still_uploading_desc": "Attendi che gli allegati finiscano di caricarsi.",
+    "upload_incomplete": "Caricamento incompleto",
+    "upload_incomplete_desc": "Uno o più file non sono stati caricati con successo.",
+    "empty_message": "Messaggio vuoto",
+    "empty_message_desc": "Digita un messaggio prima di inviare."
+  },
+  "placeholders": {
+    "type_message": "invia messaggio..."
+  },
+  "buttons": {
+    "send": "Invia",
+    "camera": "Fotocamera",
+    "gallery": "Galleria",
+    "document": "Documento",
+    "audio": "Audio"
+  }
+}

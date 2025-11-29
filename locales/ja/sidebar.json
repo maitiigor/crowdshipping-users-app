@@ -1,0 +1,29 @@
+{
+  "menu": {
+    "home": "ホーム",
+    "booking_history": "予約履歴",
+    "trips": "旅行",
+    "bidding_history": "入札履歴",
+    "track_order": "注文追跡",
+    "inbox": "受信トレイ",
+    "wallet": "ウォレット",
+    "report_issues": "問題を報告",
+    "claims": "クレーム",
+    "support": "サポート",
+    "notifications": "通知",
+    "settings": "設定",
+    "my_promo": "マイプロモ",
+    "terms_conditions": "利用規約",
+    "privacy_policy": "プライバシーポリシー"
+  },
+  "welcome_back": "お帰りなさい",
+  "loading": "読み込み中...",
+  "edit_profile": "プロフィール編集",
+  "logout": "ログアウト",
+  "logout_drawer": {
+    "title": "ログアウト",
+    "description": "ログアウトしてもよろしいですか？",
+    "cancel": "キャンセル",
+    "confirm": "はい、ログアウトします"
+  }
+}

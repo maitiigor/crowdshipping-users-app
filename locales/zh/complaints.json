@@ -1,0 +1,81 @@
+{
+  "header": {
+    "title": "索赔",
+    "new_claim": "新索赔",
+    "details_title": "索赔详情"
+  },
+  "search_placeholder": "搜索...",
+  "filters": {
+    "pending": "待处理",
+    "resolved": "已解决"
+  },
+  "empty_state": {
+    "title": "无 {{filter}} 索赔",
+    "description": "目前您没有 {{filter}} 索赔。请稍后回来查看更新。"
+  },
+  "buttons": {
+    "close": "关闭",
+    "details": "详情",
+    "add_new": "新增",
+    "cancel": "取消",
+    "submit_claim": "提交索赔",
+    "open_attachment": "打开附件"
+  },
+  "labels": {
+    "claim_id": "索赔ID",
+    "last_updated_date": "最后更新日期",
+    "current_status": "当前状态",
+    "brief_description": "简要描述",
+    "nature_of_claims": "索赔性质",
+    "other_options": "其他选项",
+    "claim_amount": "索赔金额",
+    "tracking_id": "追踪ID",
+    "detailed_description": "详细描述",
+    "summary": "摘要",
+    "report_id": "报告ID",
+    "claim_reference": "索赔参考",
+    "nature_of_claim": "索赔性质",
+    "description": "描述",
+    "raised_by": "提出人",
+    "raised_by_id": "提出人ID",
+    "support_team": "支持团队",
+    "timeline": "时间表",
+    "created": "已创建",
+    "updated": "已更新",
+    "evidence": "证据",
+    "status": "状态",
+    "under_review": "审核中",
+    "resolved": "已解决",
+    "no_attachment": "此索赔未提供附件。",
+    "load_error": "无法加载此索赔。请返回并重试。"
+  },
+  "validation": {
+    "nature_required": "索赔性质是必填项",
+    "other_required": "其他选项是必填项",
+    "other_min": "其他选项必须至少5个字符",
+    "other_max": "其他选项不能超过100个字符",
+    "amount_number": "报告金额必须是数字",
+    "amount_required": "报告金额是必填项",
+    "amount_positive": "报告金额必须为正数",
+    "tracking_required": "追踪ID是必填项",
+    "description_required": "描述是必填项",
+    "description_min": "描述必须至少20个字符",
+    "description_max": "描述不能超过500个字符"
+  },
+  "toast": {
+    "submitted_title": "索赔已提交",
+    "submitted_desc": "您的索赔已成功提交。",
+    "failed_title": "索赔请求失败",
+    "file_uploaded_title": "文件已上传",
+    "file_uploaded_desc": "您的附件已准备就绪。",
+    "upload_failed_title": "上传失败",
+    "invalid_amount_title": "金额无效",
+    "invalid_amount_desc": "请输入有效的索赔金额。"
+  },
+  "placeholders": {
+    "enter_other": "输入其他选项",
+    "enter_amount": "输入金额",
+    "enter_tracking": "输入追踪ID",
+    "enter_description": "输入产品描述"
+  }
+}

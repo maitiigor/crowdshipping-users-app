@@ -1,0 +1,81 @@
+{
+  "header": {
+    "title": "クレーム",
+    "new_claim": "新しいクレーム",
+    "details_title": "クレーム詳細"
+  },
+  "search_placeholder": "検索...",
+  "filters": {
+    "pending": "保留中",
+    "resolved": "解決済み"
+  },
+  "empty_state": {
+    "title": "{{filter}} クレームはありません",
+    "description": "現在、{{filter}} クレームはありません。後で更新を確認してください。"
+  },
+  "buttons": {
+    "close": "閉じる",
+    "details": "詳細",
+    "add_new": "新規追加",
+    "cancel": "キャンセル",
+    "submit_claim": "クレームを送信",
+    "open_attachment": "添付ファイルを開く"
+  },
+  "labels": {
+    "claim_id": "クレームID",
+    "last_updated_date": "最終更新日",
+    "current_status": "現在のステータス",
+    "brief_description": "簡単な説明",
+    "nature_of_claims": "クレームの性質",
+    "other_options": "その他のオプション",
+    "claim_amount": "クレーム額",
+    "tracking_id": "追跡ID",
+    "detailed_description": "詳細な説明",
+    "summary": "概要",
+    "report_id": "レポートID",
+    "claim_reference": "クレーム参照",
+    "nature_of_claim": "クレームの性質",
+    "description": "説明",
+    "raised_by": "提起者",
+    "raised_by_id": "提起者ID",
+    "support_team": "サポートチーム",
+    "timeline": "タイムライン",
+    "created": "作成済み",
+    "updated": "更新済み",
+    "evidence": "証拠",
+    "status": "ステータス",
+    "under_review": "審査中",
+    "resolved": "解決済み",
+    "no_attachment": "このクレームには添付ファイルがありません。",
+    "load_error": "このクレームを読み込めませんでした。戻って再試行してください。"
+  },
+  "validation": {
+    "nature_required": "クレームの性質は必須です",
+    "other_required": "その他のオプションは必須です",
+    "other_min": "その他のオプションは5文字以上である必要があります",
+    "other_max": "その他のオプションは100文字を超えることはできません",
+    "amount_number": "レポート額は数値である必要があります",
+    "amount_required": "レポート額は必須です",
+    "amount_positive": "レポート額は正の数である必要があります",
+    "tracking_required": "追跡IDは必須です",
+    "description_required": "説明は必須です",
+    "description_min": "説明は20文字以上である必要があります",
+    "description_max": "説明は500文字を超えることはできません"
+  },
+  "toast": {
+    "submitted_title": "クレーム送信済み",
+    "submitted_desc": "クレームが正常に送信されました。",
+    "failed_title": "クレームリクエスト失敗",
+    "file_uploaded_title": "ファイルアップロード済み",
+    "file_uploaded_desc": "添付ファイルの準備ができました。",
+    "upload_failed_title": "アップロード失敗",
+    "invalid_amount_title": "無効な金額",
+    "invalid_amount_desc": "有効なクレーム額を入力してください。"
+  },
+  "placeholders": {
+    "enter_other": "その他のオプションを入力",
+    "enter_amount": "金額を入力",
+    "enter_tracking": "追跡IDを入力",
+    "enter_description": "製品説明を入力"
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "header": {
+    "title": "صندوق الوارد",
+    "chat_details": "تفاصيل الدردشة"
+  },
+  "filters": {
+    "chats": "الدردشات",
+    "calls": "المكالمات"
+  },
+  "empty_state": {
+    "title": "لا توجد دردشات",
+    "description": "ليس لديك دردشات في الوقت الحالي. ابدأ محادثة للبدء."
+  },
+  "labels": {
+    "no_messages": "لا توجد رسائل بعد",
+    "recording_failed": "فشل التسجيل",
+    "recording_failed_desc": "لم نتمكن من إنهاء هذا التسجيل.",
+    "attachments_conflict": "تعارض المرفقات",
+    "attachments_conflict_desc": "قم بإزالة المرفقات الأخرى قبل تسجيل الصوت.",
+    "permission_needed": "الإذن مطلوب",
+    "permission_needed_desc": "نحتاج إلى الوصول إلى مكتبتك لاختيار الصور.",
+    "microphone_blocked": "الميكروفون محظور",
+    "microphone_blocked_desc": "نحتاج إلى الوصول إلى الميكروفون لتسجيل الرسائل الصوتية.",
+    "permission_error": "خطأ في الإذن",
+    "permission_error_desc": "تعذر التحقق من الوصول إلى الميكروفون.",
+    "recording": "جاري التسجيل",
+    "recording_desc": "اضغط على الميكروفون مرة أخرى للتوقف وإرفاق الصوت الخاص بك.",
+    "recording_error": "خطأ في التسجيل",
+    "recording_error_desc": "تعذر بدء التسجيل.",
+    "attachment_ready": "المرفق جاهز",
+    "attachment_ready_desc": "تم تحميل ملفك بنجاح.",
+    "upload_failed": "فشل التحميل",
+    "upload_failed_desc": "تعذر تحميل المرفق.",
+    "mixed_types_blocked": "الأنواع المختلطة محظورة",
+    "mixed_types_blocked_desc": "أرسل فئة مرفق واحدة لكل رسالة.",
+    "message_sent": "تم إرسال الرسالة",
+    "message_sent_desc": "تم إرسال رسالتك.",
+    "send_failed": "فشل الإرسال",
+    "send_failed_desc": "لم نتمكن من إرسال رسالتك.",
+    "today": "اليوم",
+    "yesterday": "أمس",
+    "start_conversation": "ابدأ المحادثة!",
+    "photos": "الصور",
+    "audios": "الصوتيات",
+    "files": "الملفات",
+    "recording_progress": "جاري التسجيل...",
+    "message_failed": "فشلت الرسالة",
+    "unknown_error": "خطأ غير معروف",
+    "nothing_to_send": "لا يوجد شيء للإرسال",
+    "nothing_to_send_desc": "أضف رسالة أو مرفقاً أولاً.",
+    "still_uploading": "لا يزال قيد التحميل",
+    "still_uploading_desc": "يرجى الانتظار حتى ينتهي تحميل المرفقات.",
+    "upload_incomplete": "التحميل غير مكتمل",
+    "upload_incomplete_desc": "لم يتم تحميل ملف واحد أو أكثر بنجاح.",
+    "empty_message": "رسالة فارغة",
+    "empty_message_desc": "اكتب رسالة قبل الإرسال."
+  },
+  "placeholders": {
+    "type_message": "إرسال رسالة..."
+  },
+  "buttons": {
+    "send": "إرسال",
+    "camera": "الكاميرا",
+    "gallery": "المعرض",
+    "document": "مستند",
+    "audio": "صوت"
+  }
+}

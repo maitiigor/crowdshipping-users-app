@@ -41,6 +41,7 @@ import {
   HelpCircleIcon,
   LucideIcon,
 } from "lucide-react-native";
+import { useTranslation } from "react-i18next";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as Yup from "yup";
 
@@ -91,6 +92,7 @@ export default function AddNewReportScreen() {
   const navigation = useNavigation();
   const router = useRouter();
   const toast = useToast();
+  const { t } = useTranslation("complaints");
   const [file, setFile] = useState<PickedFile | null>(null);
   const backroundTopNav = useThemeColor({}, "background");
   const insets = useSafeAreaInsets();
@@ -111,14 +113,14 @@ export default function AddNewReportScreen() {
     }
   >("/issue/log/cliam");
   const validationSchema = Yup.object().shape({
-    natureOfClaim: Yup.string().required("Nature of claim is required"),
+    natureOfClaim: Yup.string().required(t("validation.nature_required")),
     otherOption: Yup.string().when("natureOfClaim", {
       is: "Others", // when natureOfClaim is "Others"
       then: (schema) =>
         schema
-          .required("Other options are required")
-          .min(5, "Other options must be at least 5 characters")
-          .max(100, "Other options cannot exceed 100 characters"),
+          .required(t("validation.other_required"))
+          .min(5, t("validation.other_min"))
+          .max(100, t("validation.other_max")),
       otherwise: (schema) => schema.notRequired(),
     }),
     claimAmount: Yup.number()
@@ -129,14 +131,14 @@ export default function AddNewReportScreen() {
         }
         return value;
       })
-      .typeError("Report amount must be a number")
-      .required("Report amount is required")
-      .positive("Report amount must be positive"),
-    trackingId: Yup.string().required("Tracking ID is required"),
+      .typeError(t("validation.amount_number"))
+      .required(t("validation.amount_required"))
+      .positive(t("validation.amount_positive")),
+    trackingId: Yup.string().required(t("validation.tracking_required")),
     description: Yup.string()
-      .required("Description is required")
-      .min(20, "Description must be at least 20 characters")
-      .max(500, "Description cannot exceed 500 characters"),
+      .required(t("validation.description_required"))
+      .min(20, t("validation.description_min"))
+      .max(500, t("validation.description_max")),
     attachment: Yup.mixed(),
   });
   useEffect(() => {
@@ -145,7 +147,7 @@ export default function AddNewReportScreen() {
       headerTitle: () => {
         return (
           <ThemedText type="s1_subtitle" className="text-center">
-            New Claim
+            {t("header.new_claim_title")}
           </ThemedText>
         );
       },
@@ -194,7 +196,7 @@ export default function AddNewReportScreen() {
       ),
       headerRight: () => <NotificationIcon />,
     });
-  }, [navigation, backroundTopNav]);
+  }, [navigation, backroundTopNav, t]);
   const showNewToast = ({
     title,
     description,
@@ -244,8 +246,8 @@ export default function AddNewReportScreen() {
       });
 
       showNewToast({
-        title: "Claim Submitted",
-        description: "Your claim has been submitted successfully.",
+        title: t("alerts.claim_submitted"),
+        description: t("alerts.claim_submitted_desc"),
         icon: CircleCheckIcon,
         action: "success",
         variant: "solid",
@@ -260,10 +262,10 @@ export default function AddNewReportScreen() {
         e?.data?.message ||
         e?.message ||
         (typeof error === "string" ? error : undefined) ||
-        "Sign up failed";
+        t("errors.signup_failed");
 
       showNewToast({
-        title: "Claim Request Failed",
+        title: t("alerts.claim_failed"),
         description: message,
         icon: HelpCircleIcon,
         action: "error",
@@ -300,8 +302,8 @@ export default function AddNewReportScreen() {
 
                 if (!Number.isFinite(numericAmount)) {
                   showNewToast({
-                    title: "Invalid amount",
-                    description: "Please enter a valid claim amount.",
+                    title: t("alerts.invalid_amount"),
+                    description: t("alerts.invalid_amount_desc"),
                     icon: HelpCircleIcon,
                     action: "error",
                     variant: "solid",
@@ -335,7 +337,7 @@ export default function AddNewReportScreen() {
                 <ThemedView className="flex gap-4">
                   <ThemedView>
                     <InputLabelText type="b2_body">
-                      Nature of Claims
+                      {t("labels.nature_of_claim")}
                     </InputLabelText>
                     <Select
                       selectedValue={values.natureOfClaim}
@@ -392,7 +394,7 @@ export default function AddNewReportScreen() {
                   {values.natureOfClaim === "Others" && (
                     <ThemedView>
                       <InputLabelText type="b2_body" className="">
-                        Other Options
+                        {t("labels.other_options")}
                       </InputLabelText>
                       <Input
                         size="xl"
@@ -404,7 +406,7 @@ export default function AddNewReportScreen() {
                       >
                         <InputField
                           className=""
-                          placeholder="Enter other options"
+                          placeholder={t("placeholders.enter_other_options")}
                           value={values.otherOption}
                           onChangeText={handleChange("otherOption")}
                           onBlur={handleBlur("otherOption")}
@@ -426,7 +428,7 @@ export default function AddNewReportScreen() {
 
                   <ThemedView>
                     <InputLabelText type="b2_body" className="">
-                      Claim Amount
+                      {t("labels.claim_amount")}
                     </InputLabelText>
                     <Input
                       size="xl"
@@ -436,7 +438,7 @@ export default function AddNewReportScreen() {
                     >
                       <InputField
                         className=""
-                        placeholder="Enter amount"
+                        placeholder={t("placeholders.enter_amount")}
                         value={values.claimAmount}
                         onChangeText={handleChange("claimAmount")}
                         onBlur={handleBlur("claimAmount")}
@@ -456,7 +458,7 @@ export default function AddNewReportScreen() {
                   </ThemedView>
                   <ThemedView>
                     <InputLabelText type="b2_body" className="">
-                      Tracking ID
+                      {t("labels.tracking_id")}
                     </InputLabelText>
                     <Input
                       size="xl"
@@ -466,7 +468,7 @@ export default function AddNewReportScreen() {
                     >
                       <InputField
                         className=""
-                        placeholder="Enter Tracking ID"
+                        placeholder={t("placeholders.enter_tracking_id")}
                         value={values.trackingId}
                         onChangeText={handleChange("trackingId")}
                         onBlur={handleBlur("trackingId")}
@@ -486,7 +488,7 @@ export default function AddNewReportScreen() {
                   </ThemedView>
                   <ThemedView>
                     <InputLabelText type="b2_body" className="pb-1">
-                      Detailed Description
+                      {t("labels.detailed_description")}
                     </InputLabelText>
                     <Textarea
                       size="lg"
@@ -500,7 +502,7 @@ export default function AddNewReportScreen() {
                         value={values.description}
                         onChangeText={handleChange("description")}
                         onBlur={handleBlur("description")}
-                        placeholder="Enter Product Description"
+                        placeholder={t("placeholders.enter_description")}
                         multiline
                         maxLength={500}
                         numberOfLines={10}
@@ -548,8 +550,8 @@ export default function AddNewReportScreen() {
                         }
                         setFieldValue("evidence", url);
                         showNewToast({
-                          title: "File uploaded",
-                          description: "Your attachment is ready.",
+                          title: t("alerts.file_uploaded"),
+                          description: t("alerts.file_uploaded_desc"),
                           icon: CircleCheckIcon,
                           action: "success",
                           variant: "solid",
@@ -563,9 +565,9 @@ export default function AddNewReportScreen() {
                           (typeof uploadError === "string"
                             ? uploadError
                             : undefined) ||
-                          "We couldn't upload your file.";
+                          t("errors.upload_failed_desc");
                         showNewToast({
-                          title: "Upload failed",
+                          title: t("alerts.upload_failed"),
                           description: message,
                           icon: HelpCircleIcon,
                           action: "error",
@@ -577,7 +579,7 @@ export default function AddNewReportScreen() {
                     size={50}
                     previewShape="rounded"
                     label=""
-                    helperText="upload photos, videos, receipts, or other relevant files."
+                    helperText={t("labels.upload_helper")}
                     allowImages
                     allowVideos
                     allowDocuments
@@ -596,7 +598,7 @@ export default function AddNewReportScreen() {
                         type="s2_subtitle"
                         className={` text-center text-primary-500`}
                       >
-                        Cancel
+                        {t("buttons.cancel")}
                       </ThemedText>
                     </Button>
                     <Button
@@ -616,7 +618,7 @@ export default function AddNewReportScreen() {
                         {loading || isUploading ? (
                           <ActivityIndicator color="white" />
                         ) : (
-                          "Submit Claim"
+                          t("buttons.submit_claim")
                         )}
                       </ThemedText>
                     </Button>

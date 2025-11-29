@@ -1,0 +1,28 @@
+{
+  "header": {
+    "title": "Notifications",
+    "details_title": "Notifications"
+  },
+  "empty_state": {
+    "title": "Aucune notification non lue",
+    "description": "Vous n'avez aucune notification non lue pour le moment. Revenez plus tard pour les mises à jour."
+  },
+  "labels": {
+    "details": "Détails",
+    "notification_id": "ID de Notification",
+    "related_booking": "Réservation Associée",
+    "triggered_by": "Déclenché Par",
+    "created": "Créé",
+    "updated": "Mis à jour",
+    "type": "Type",
+    "channel": "Canal",
+    "read": "Lu",
+    "unread": "Non lu",
+    "delivered": "Livré",
+    "not_delivered": "Non livré",
+    "load_failed": "Impossible de charger cette notification. Veuillez revenir en arrière et réessayer."
+  },
+  "buttons": {
+    "view_booking": "Voir la réservation"
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "header": {
+    "title": "Réclamations",
+    "new_claim": "Nouvelle réclamation",
+    "details_title": "Détails de la réclamation"
+  },
+  "search_placeholder": "Rechercher...",
+  "filters": {
+    "pending": "En attente",
+    "resolved": "Résolu"
+  },
+  "empty_state": {
+    "title": "Aucune réclamation {{filter}}",
+    "description": "Vous n'avez aucune réclamation {{filter}} pour le moment. Revenez plus tard pour les mises à jour."
+  },
+  "buttons": {
+    "close": "Fermer",
+    "details": "Détails",
+    "add_new": "Ajouter nouveau",
+    "cancel": "Annuler",
+    "submit_claim": "Soumettre la réclamation",
+    "open_attachment": "Ouvrir la pièce jointe"
+  },
+  "labels": {
+    "claim_id": "ID de réclamation",
+    "last_updated_date": "Date de dernière mise à jour",
+    "current_status": "Statut actuel",
+    "brief_description": "Brève description",
+    "nature_of_claims": "Nature des réclamations",
+    "other_options": "Autres options",
+    "claim_amount": "Montant de la réclamation",
+    "tracking_id": "ID de suivi",
+    "detailed_description": "Description détaillée",
+    "summary": "Résumé",
+    "report_id": "ID de rapport",
+    "claim_reference": "Référence de la réclamation",
+    "nature_of_claim": "Nature de la réclamation",
+    "description": "Description",
+    "raised_by": "Soulevé par",
+    "raised_by_id": "ID de l'auteur",
+    "support_team": "Équipe de support",
+    "timeline": "Chronologie",
+    "created": "Créé",
+    "updated": "Mis à jour",
+    "evidence": "Preuve",
+    "status": "Statut",
+    "under_review": "En cours d'examen",
+    "resolved": "Résolu",
+    "no_attachment": "Aucune pièce jointe fournie pour cette réclamation.",
+    "load_error": "Impossible de charger cette réclamation. Veuillez revenir en arrière et réessayer."
+  },
+  "validation": {
+    "nature_required": "La nature de la réclamation est requise",
+    "other_required": "Les autres options sont requises",
+    "other_min": "Les autres options doivent comporter au moins 5 caractères",
+    "other_max": "Les autres options ne peuvent pas dépasser 100 caractères",
+    "amount_number": "Le montant du rapport doit être un nombre",
+    "amount_required": "Le montant du rapport est requis",
+    "amount_positive": "Le montant du rapport doit être positif",
+    "tracking_required": "L'ID de suivi est requis",
+    "description_required": "La description est requise",
+    "description_min": "La description doit comporter au moins 20 caractères",
+    "description_max": "La description ne peut pas dépasser 500 caractères"
+  },
+  "toast": {
+    "submitted_title": "Réclamation soumise",
+    "submitted_desc": "Votre réclamation a été soumise avec succès.",
+    "failed_title": "Échec de la demande de réclamation",
+    "file_uploaded_title": "Fichier téléchargé",
+    "file_uploaded_desc": "Votre pièce jointe est prête.",
+    "upload_failed_title": "Échec du téléchargement",
+    "invalid_amount_title": "Montant invalide",
+    "invalid_amount_desc": "Veuillez saisir un montant de réclamation valide."
+  },
+  "placeholders": {
+    "enter_other": "Entrer d'autres options",
+    "enter_amount": "Entrer le montant",
+    "enter_tracking": "Entrer l'ID de suivi",
+    "enter_description": "Entrer la description du produit"
+  }
+}

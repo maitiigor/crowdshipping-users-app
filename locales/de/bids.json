@@ -1,0 +1,50 @@
+{
+  "header": {
+    "title": "Gebote",
+    "air": "Luft",
+    "maritime": "See"
+  },
+  "search_placeholder": "Nach verfügbaren Reisen suchen...",
+  "empty_state": {
+    "title": "Keine Gebote verfügbar",
+    "description": "Derzeit sind keine Gebote verfügbar. Schauen Sie später wieder vorbei."
+  },
+  "buttons": {
+    "view_bid": "Gebot ansehen",
+    "cancel_bid": "Gebot stornieren",
+    "pay": "Bezahlen",
+    "renegotiate": "Neu verhandeln",
+    "retry": "Wiederholen"
+  },
+  "labels": {
+    "from": "Von:",
+    "to": "Nach:",
+    "bid_amount": "Gebotsbetrag",
+    "parcel_tracking_id": "Paketverfolgungs-ID",
+    "total_weight": "Gesamtgewicht",
+    "parcel_group": "Paketgruppe",
+    "trip_mode": "Reisemodus",
+    "air_freight": "Luftfracht",
+    "maritime_freight": "Seefracht",
+    "bidder": "Bieter",
+    "user_id": "Benutzer-ID",
+    "city": "Stadt",
+    "parcel_journey": "Paketreise",
+    "pick_up": "Abholung",
+    "distance": "Entfernung",
+    "drop_off": "Abgabe",
+    "trip_timeline": "Reisezeitplan",
+    "departure": "Abfahrt",
+    "arrival": "Ankunft",
+    "trip_status": "Reisestatus",
+    "trip_created_by": "Reise erstellt von",
+    "bid_details": "Gebotsdetails",
+    "bid_details_unavailable": "Gebotsdetails nicht verfügbar",
+    "bid_details_error": "Wir konnten die Gebotsdetails nicht laden. Bitte versuchen Sie es erneut."
+  },
+  "status": {
+    "accepted": "Akzeptiert",
+    "pending": "Ausstehend",
+    "cancelled": "Storniert"
+  }
+}

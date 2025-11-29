@@ -1,0 +1,45 @@
+{
+  "header": {
+    "title": "Historial de reservas",
+    "details_title": "Detalles de la reserva"
+  },
+  "filters": {
+    "all": "Todos",
+    "in_progress": "En progreso",
+    "pending": "Pendiente",
+    "delivered": "Entregado",
+    "cancelled": "Cancelado"
+  },
+  "empty_state": {
+    "title": "No hay reservas disponibles",
+    "description": "No hay reservas disponibles en este momento. Vuelve más tarde para ver actualizaciones."
+  },
+  "labels": {
+    "booking_summary": "Resumen de la reserva",
+    "booking_id": "ID de reserva",
+    "tracking_id": "ID de rastreo",
+    "pickup_location": "Lugar de recogida",
+    "dropoff_location": "Lugar de entrega",
+    "product_type": "Tipo de producto",
+    "weight": "Peso",
+    "current_status": "Estado actual",
+    "payment_status": "Estado del pago",
+    "receiver_information": "Información del receptor",
+    "name": "Nombre",
+    "phone_number": "Número de teléfono",
+    "alternative_phone": "Teléfono alternativo",
+    "sender_information": "Información del remitente",
+    "user_id": "ID de usuario",
+    "location": "Ubicación",
+    "traveller_information": "Información del viajero",
+    "expected_arrival_time": "Hora de llegada estimada",
+    "loading": "Cargando detalles de la reserva..."
+  },
+  "buttons": {
+    "rate_driver": "Calificar conductor",
+    "report_driver": "Reportar conductor",
+    "file_claim": "Presentar un reclamo",
+    "back": "Atrás",
+    "cancel_booking": "Cancelar reserva"
+  }
+}

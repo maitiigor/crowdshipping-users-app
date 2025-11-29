@@ -1,0 +1,50 @@
+{
+  "header": {
+    "title": "العطاءات",
+    "air": "جوي",
+    "maritime": "بحري"
+  },
+  "search_placeholder": "البحث عن رحلات متاحة...",
+  "empty_state": {
+    "title": "لا توجد عطاءات متاحة",
+    "description": "لا توجد عطاءات متاحة في الوقت الحالي. تحقق مرة أخرى لاحقًا للحصول على تحديثات."
+  },
+  "buttons": {
+    "view_bid": "عرض العطاء",
+    "cancel_bid": "إلغاء العطاء",
+    "pay": "دفع",
+    "renegotiate": "إعادة التفاوض",
+    "retry": "إعادة المحاولة"
+  },
+  "labels": {
+    "from": "من:",
+    "to": "إلى:",
+    "bid_amount": "مبلغ العطاء",
+    "parcel_tracking_id": "رقم تتبع الطرد",
+    "total_weight": "الوزن الإجمالي",
+    "parcel_group": "مجموعة الطرود",
+    "trip_mode": "وضع الرحلة",
+    "air_freight": "شحن جوي",
+    "maritime_freight": "شحن بحري",
+    "bidder": "مقدم العطاء",
+    "user_id": "معرف المستخدم",
+    "city": "المدينة",
+    "parcel_journey": "رحلة الطرد",
+    "pick_up": "استلام",
+    "distance": "المسافة",
+    "drop_off": "تسليم",
+    "trip_timeline": "الجدول الزمني للرحلة",
+    "departure": "المغادرة",
+    "arrival": "الوصول",
+    "trip_status": "حالة الرحلة",
+    "trip_created_by": "تم إنشاء الرحلة بواسطة",
+    "bid_details": "تفاصيل العطاء",
+    "bid_details_unavailable": "تفاصيل العطاء غير متاحة",
+    "bid_details_error": "لم نتمكن من تحميل تفاصيل العطاء. يرجى المحاولة مرة أخرى."
+  },
+  "status": {
+    "accepted": "مقبول",
+    "pending": "قيد الانتظار",
+    "cancelled": "ملغى"
+  }
+}

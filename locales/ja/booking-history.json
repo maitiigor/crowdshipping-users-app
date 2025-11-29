@@ -1,0 +1,45 @@
+{
+  "header": {
+    "title": "予約履歴",
+    "details_title": "予約詳細"
+  },
+  "filters": {
+    "all": "すべて",
+    "in_progress": "進行中",
+    "pending": "保留中",
+    "delivered": "配達済み",
+    "cancelled": "キャンセル済み"
+  },
+  "empty_state": {
+    "title": "利用可能な予約はありません",
+    "description": "現在、利用可能な予約はありません。後で更新を確認してください。"
+  },
+  "labels": {
+    "booking_summary": "予約概要",
+    "booking_id": "予約ID",
+    "tracking_id": "追跡ID",
+    "pickup_location": "集荷場所",
+    "dropoff_location": "配達場所",
+    "product_type": "製品タイプ",
+    "weight": "重量",
+    "current_status": "現在のステータス",
+    "payment_status": "支払いステータス",
+    "receiver_information": "受取人情報",
+    "name": "名前",
+    "phone_number": "電話番号",
+    "alternative_phone": "代替電話番号",
+    "sender_information": "差出人情報",
+    "user_id": "ユーザーID",
+    "location": "場所",
+    "traveller_information": "旅行者情報",
+    "expected_arrival_time": "到着予定時刻",
+    "loading": "予約詳細を読み込み中..."
+  },
+  "buttons": {
+    "rate_driver": "ドライバーを評価",
+    "report_driver": "ドライバーを報告",
+    "file_claim": "クレームを提出",
+    "back": "戻る",
+    "cancel_booking": "予約をキャンセル"
+  }
+}

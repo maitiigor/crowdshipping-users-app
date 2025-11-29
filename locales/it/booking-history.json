@@ -1,0 +1,45 @@
+{
+  "header": {
+    "title": "Cronologia prenotazioni",
+    "details_title": "Dettagli prenotazione"
+  },
+  "filters": {
+    "all": "Tutti",
+    "in_progress": "In corso",
+    "pending": "In attesa",
+    "delivered": "Consegnato",
+    "cancelled": "Annullato"
+  },
+  "empty_state": {
+    "title": "Nessuna prenotazione disponibile",
+    "description": "Non ci sono prenotazioni disponibili al momento. Controlla più tardi per aggiornamenti."
+  },
+  "labels": {
+    "booking_summary": "Riepilogo prenotazione",
+    "booking_id": "ID prenotazione",
+    "tracking_id": "ID tracciamento",
+    "pickup_location": "Luogo di ritiro",
+    "dropoff_location": "Luogo di consegna",
+    "product_type": "Tipo di prodotto",
+    "weight": "Peso",
+    "current_status": "Stato attuale",
+    "payment_status": "Stato pagamento",
+    "receiver_information": "Informazioni destinatario",
+    "name": "Nome",
+    "phone_number": "Numero di telefono",
+    "alternative_phone": "Telefono alternativo",
+    "sender_information": "Informazioni mittente",
+    "user_id": "ID utente",
+    "location": "Posizione",
+    "traveller_information": "Informazioni viaggiatore",
+    "expected_arrival_time": "Orario di arrivo previsto",
+    "loading": "Caricamento dettagli prenotazione..."
+  },
+  "buttons": {
+    "rate_driver": "Valuta autista",
+    "report_driver": "Segnala autista",
+    "file_claim": "Presenta reclamo",
+    "back": "Indietro",
+    "cancel_booking": "Annulla prenotazione"
+  }
+}

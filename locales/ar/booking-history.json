@@ -1,0 +1,45 @@
+{
+  "header": {
+    "title": "سجل الحجز",
+    "details_title": "تفاصيل الحجز"
+  },
+  "filters": {
+    "all": "الكل",
+    "in_progress": "قيد التنفيذ",
+    "pending": "قيد الانتظار",
+    "delivered": "تم التسليم",
+    "cancelled": "ملغى"
+  },
+  "empty_state": {
+    "title": "لا توجد حجوزات متاحة",
+    "description": "لا توجد حجوزات متاحة في الوقت الحالي. تحقق مرة أخرى لاحقًا للحصول على تحديثات."
+  },
+  "labels": {
+    "booking_summary": "ملخص الحجز",
+    "booking_id": "معرف الحجز",
+    "tracking_id": "معرف التتبع",
+    "pickup_location": "موقع الاستلام",
+    "dropoff_location": "موقع التسليم",
+    "product_type": "نوع المنتج",
+    "weight": "الوزن",
+    "current_status": "الحالة الحالية",
+    "payment_status": "حالة الدفع",
+    "receiver_information": "معلومات المستلم",
+    "name": "الاسم",
+    "phone_number": "رقم الهاتف",
+    "alternative_phone": "هاتف بديل",
+    "sender_information": "معلومات المرسل",
+    "user_id": "معرف المستخدم",
+    "location": "الموقع",
+    "traveller_information": "معلومات المسافر",
+    "expected_arrival_time": "وقت الوصول المتوقع",
+    "loading": "جاري تحميل تفاصيل الحجز..."
+  },
+  "buttons": {
+    "rate_driver": "تقييم السائق",
+    "report_driver": "الإبلاغ عن السائق",
+    "file_claim": "تقديم مطالبة",
+    "back": "رجوع",
+    "cancel_booking": "إلغاء الحجز"
+  }
+}

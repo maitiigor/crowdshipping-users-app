@@ -1,0 +1,29 @@
+{
+  "menu": {
+    "home": "Home",
+    "booking_history": "Cronologia prenotazioni",
+    "trips": "Viaggi",
+    "bidding_history": "Cronologia offerte",
+    "track_order": "Traccia ordine",
+    "inbox": "Posta in arrivo",
+    "wallet": "Portafoglio",
+    "report_issues": "Segnala problemi",
+    "claims": "Reclami",
+    "support": "Supporto",
+    "notifications": "Notifiche",
+    "settings": "Impostazioni",
+    "my_promo": "Le mie promozioni",
+    "terms_conditions": "Termini e condizioni",
+    "privacy_policy": "Informativa sulla privacy"
+  },
+  "welcome_back": "Bentornato",
+  "loading": "Caricamento...",
+  "edit_profile": "Modifica profilo",
+  "logout": "Disconnetti",
+  "logout_drawer": {
+    "title": "Disconnetti",
+    "description": "Sei sicuro di voler uscire?",
+    "cancel": "Annulla",
+    "confirm": "Sì, esci"
+  }
+}

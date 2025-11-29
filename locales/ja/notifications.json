@@ -1,0 +1,28 @@
+{
+  "header": {
+    "title": "通知",
+    "details_title": "通知"
+  },
+  "empty_state": {
+    "title": "未読の通知はありません",
+    "description": "現在、未読の通知はありません。後で更新を確認してください。"
+  },
+  "labels": {
+    "details": "詳細",
+    "notification_id": "通知ID",
+    "related_booking": "関連予約",
+    "triggered_by": "トリガー元",
+    "created": "作成日時",
+    "updated": "更新日時",
+    "type": "タイプ",
+    "channel": "チャンネル",
+    "read": "既読",
+    "unread": "未読",
+    "delivered": "配信済み",
+    "not_delivered": "未配信",
+    "load_failed": "この通知を読み込めませんでした。戻ってもう一度お試しください。"
+  },
+  "buttons": {
+    "view_booking": "予約を表示"
+  }
+}

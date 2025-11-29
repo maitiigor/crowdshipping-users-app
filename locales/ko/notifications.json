@@ -1,0 +1,28 @@
+{
+  "header": {
+    "title": "알림",
+    "details_title": "알림"
+  },
+  "empty_state": {
+    "title": "읽지 않은 알림이 없습니다",
+    "description": "현재 읽지 않은 알림이 없습니다. 나중에 업데이트를 확인하세요."
+  },
+  "labels": {
+    "details": "세부정보",
+    "notification_id": "알림 ID",
+    "related_booking": "관련 예약",
+    "triggered_by": "트리거 대상",
+    "created": "생성일",
+    "updated": "업데이트일",
+    "type": "유형",
+    "channel": "채널",
+    "read": "읽음",
+    "unread": "읽지 않음",
+    "delivered": "전달됨",
+    "not_delivered": "전달되지 않음",
+    "load_failed": "이 알림을 로드할 수 없습니다. 뒤로 가서 다시 시도하세요."
+  },
+  "buttons": {
+    "view_booking": "예약 보기"
+  }
+}

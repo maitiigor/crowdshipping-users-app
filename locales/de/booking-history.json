@@ -1,0 +1,45 @@
+{
+  "header": {
+    "title": "Buchungsverlauf",
+    "details_title": "Buchungsdetails"
+  },
+  "filters": {
+    "all": "Alle",
+    "in_progress": "In Bearbeitung",
+    "pending": "Ausstehend",
+    "delivered": "Geliefert",
+    "cancelled": "Storniert"
+  },
+  "empty_state": {
+    "title": "Keine Buchungen verfügbar",
+    "description": "Derzeit sind keine Buchungen verfügbar. Schauen Sie später wieder vorbei."
+  },
+  "labels": {
+    "booking_summary": "Buchungszusammenfassung",
+    "booking_id": "Buchungs-ID",
+    "tracking_id": "Verfolgungs-ID",
+    "pickup_location": "Abholort",
+    "dropoff_location": "Abgabeort",
+    "product_type": "Produkttyp",
+    "weight": "Gewicht",
+    "current_status": "Aktueller Status",
+    "payment_status": "Zahlungsstatus",
+    "receiver_information": "Empfängerinformationen",
+    "name": "Name",
+    "phone_number": "Telefonnummer",
+    "alternative_phone": "Alternative Telefonnummer",
+    "sender_information": "Absenderinformationen",
+    "user_id": "Benutzer-ID",
+    "location": "Standort",
+    "traveller_information": "Reisendeninformationen",
+    "expected_arrival_time": "Erwartete Ankunftszeit",
+    "loading": "Lade Buchungsdetails..."
+  },
+  "buttons": {
+    "rate_driver": "Fahrer bewerten",
+    "report_driver": "Fahrer melden",
+    "file_claim": "Anspruch geltend machen",
+    "back": "Zurück",
+    "cancel_booking": "Buchung stornieren"
+  }
+}

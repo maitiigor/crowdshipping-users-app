@@ -16,6 +16,7 @@ import { INotificationsResponse } from "@/types/INotification";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { BellIcon, ChevronLeft } from "lucide-react-native";
+import { useTranslation } from "react-i18next";
 
 // dayjs fromNow plugin
 
@@ -24,6 +25,7 @@ dayjs.extend(relativeTime);
 export default function NotificationScreen() {
   const navigation = useNavigation();
   const router = useRouter();
+  const { t } = useTranslation("notifications");
   const backroundTopNav = useThemeColor({}, "background");
   const { data, isLoading, refetch, isFetching } = useAuthenticatedQuery<
     INotificationsResponse | undefined
@@ -37,7 +39,7 @@ export default function NotificationScreen() {
       headerTitle: () => {
         return (
           <ThemedText type="s1_subtitle" className="text-center">
-            Notifications
+            {t("header.title")}
           </ThemedText>
         );
       },
@@ -86,7 +88,7 @@ export default function NotificationScreen() {
       ),
       headerRight: () => <NotificationIcon />,
     });
-  }, [navigation, router, backroundTopNav]);
+  }, [navigation, router, backroundTopNav, t]);
 
   // i want to refetch the notifications when the user comes back to this screen
   useEffect(() => {
@@ -126,8 +128,8 @@ export default function NotificationScreen() {
               }}
               ListEmptyComponent={
                 <EmptyState
-                  title="No unread notifications"
-                  description="You have no unread notifications at the moment. Check back later for updates."
+                  title={t("empty_state.title")}
+                  description={t("empty_state.description")}
                   icon={BellIcon}
                   className="mt-10"
                 />

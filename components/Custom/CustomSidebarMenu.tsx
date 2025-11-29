@@ -40,6 +40,7 @@ import {
   Wallet,
 } from "lucide-react-native";
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { ThemedText } from "../ThemedText";
 import { ThemedView } from "../ThemedView";
@@ -59,84 +60,6 @@ type MenuItem = {
   linkTo: string;
 };
 
-const menuList: MenuItem[] = [
-  {
-    icon: Home,
-    name: "Home",
-    linkTo: "/",
-  },
-  {
-    icon: RotateCw,
-    name: "Booking History",
-    linkTo: "/(tabs)/booking-history",
-  },
-  {
-    icon: TruckElectric,
-    name: "Trips",
-    linkTo: "/(tabs)/trips",
-  },
-  {
-    icon: ArrowRightLeft,
-    name: "Bidding History",
-    linkTo: "/(tabs)/bids",
-  },
-  {
-    icon: TrainTrack,
-    name: "Track Order",
-    linkTo: "/(tabs)/track-order",
-  },
-  {
-    icon: MailPlus,
-    name: "Inbox",
-    linkTo: "/(tabs)/inbox/chats",
-  },
-  {
-    icon: Wallet,
-    name: "Wallet",
-    linkTo: "/(tabs)/payment-logs/main",
-  },
-  {
-    icon: CircleDollarSign,
-    name: "Report Issues",
-    linkTo: "/(tabs)/reports/list",
-  },
-  {
-    icon: MessageCircleMore,
-    name: "Claims",
-    linkTo: "/(tabs)/complaints/list",
-  },
-  {
-    icon: Headset,
-    name: "Support",
-    linkTo: "/(tabs)/support",
-  },
-  {
-    icon: Bell,
-    name: "Notifications",
-    linkTo: "/(tabs)/notifications",
-  },
-  {
-    icon: SettingsIcon,
-    name: "Settings",
-    linkTo: "/(tabs)/settings",
-  },
-  {
-    icon: Gift,
-    name: "My Promo",
-    linkTo: "/(tabs)/promo",
-  },
-  {
-    icon: NotepadText,
-    name: "Terms & Conditions",
-    linkTo: "/(onboarding)/terms-of-service",
-  },
-  {
-    icon: ScrollText,
-    name: "Privacy Policy",
-    linkTo: "/(onboarding)/privacy-policy",
-  },
-];
-
 export default function CustomSidebarMenu({
   showDrawer,
   setShowDrawer,
@@ -149,6 +72,86 @@ export default function CustomSidebarMenu({
   const dispatch = useDispatch();
   const backgroundColor = useThemeColor({}, "background");
   const color = useThemeColor({}, "text");
+  const { t } = useTranslation("sidebar");
+
+  const menuList: MenuItem[] = [
+    {
+      icon: Home,
+      name: t("menu.home"),
+      linkTo: "/",
+    },
+    {
+      icon: RotateCw,
+      name: t("menu.booking_history"),
+      linkTo: "/(tabs)/booking-history",
+    },
+    {
+      icon: TruckElectric,
+      name: t("menu.trips"),
+      linkTo: "/(tabs)/trips",
+    },
+    {
+      icon: ArrowRightLeft,
+      name: t("menu.bidding_history"),
+      linkTo: "/(tabs)/bids",
+    },
+    {
+      icon: TrainTrack,
+      name: t("menu.track_order"),
+      linkTo: "/(tabs)/track-order",
+    },
+    {
+      icon: MailPlus,
+      name: t("menu.inbox"),
+      linkTo: "/(tabs)/inbox/chats",
+    },
+    {
+      icon: Wallet,
+      name: t("menu.wallet"),
+      linkTo: "/(tabs)/payment-logs/main",
+    },
+    {
+      icon: CircleDollarSign,
+      name: t("menu.report_issues"),
+      linkTo: "/(tabs)/reports/list",
+    },
+    {
+      icon: MessageCircleMore,
+      name: t("menu.claims"),
+      linkTo: "/(tabs)/complaints/list",
+    },
+    {
+      icon: Headset,
+      name: t("menu.support"),
+      linkTo: "/(tabs)/support",
+    },
+    {
+      icon: Bell,
+      name: t("menu.notifications"),
+      linkTo: "/(tabs)/notifications",
+    },
+    {
+      icon: SettingsIcon,
+      name: t("menu.settings"),
+      linkTo: "/(tabs)/settings",
+    },
+    {
+      icon: Gift,
+      name: t("menu.my_promo"),
+      linkTo: "/(tabs)/promo",
+    },
+    {
+      icon: NotepadText,
+      name: t("menu.terms_conditions"),
+      linkTo: "/(onboarding)/terms-of-service",
+    },
+    {
+      icon: ScrollText,
+      name: t("menu.privacy_policy"),
+      linkTo: "/(onboarding)/privacy-policy",
+    },
+  ];
+
   const handleLogout = async () => {
     try {
       dispatch(logout());
@@ -186,9 +189,9 @@ export default function CustomSidebarMenu({
                 />
               </Avatar>
               <VStack className="justify-normal">
-                <ThemedText type="default">Welcome, back</ThemedText>
+                <ThemedText type="default">{t("welcome_back")}</ThemedText>
                 <ThemedText type="s1_subtitle" className="text-typography-950">
-                  {isLoading ? "Loading..." : userProfileData?.data?.fullName}
+                  {isLoading ? t("loading") : userProfileData?.data?.fullName}
                 </ThemedText>
               </VStack>
             </DrawerHeader>
@@ -205,7 +208,7 @@ export default function CustomSidebarMenu({
                 type="s2_subtitle"
                 className="text-primary-600 pt-2 pl-2"
               >
-                Edit Profile
+                {t("edit_profile")}
               </ThemedText>
             </Pressable>
 
@@ -261,7 +264,7 @@ export default function CustomSidebarMenu({
                   className="text-left text-primary-500"
                   type="btn_giant"
                 >
-                  Logout
+                  {t("logout")}
                 </ThemedText>
               </Button>
             </DrawerFooter>
@@ -279,20 +282,18 @@ export default function CustomSidebarMenu({
           }}
         >
           <DrawerBackdrop />
-          <DrawerContent
-            style={{ backgroundColor }}
-            className="rounded-2xl">
+          <DrawerContent style={{ backgroundColor }} className="rounded-2xl">
             <DrawerHeader className="flex justify-center">
               <ThemedText
                 type="h3_header"
                 className="text-primary-500 text-center"
               >
-                Log out
+                {t("logout_drawer.title")}
               </ThemedText>
             </DrawerHeader>
             <DrawerBody>
               <ThemedText type="b2_body" className="text-center">
-                Are you sure you want to log out?
+                {t("logout_drawer.description")}
               </ThemedText>
             </DrawerBody>
             <DrawerFooter>
@@ -309,7 +310,7 @@ export default function CustomSidebarMenu({
                     type="s2_subtitle"
                     className="text-primary-500 text-center"
                   >
-                    Cancel
+                    {t("logout_drawer.cancel")}
                   </ThemedText>
                 </Button>
                 <Button
@@ -326,7 +327,7 @@ export default function CustomSidebarMenu({
                     type="s2_subtitle"
                     className="text-white text-center"
                   >
-                    Yes, Logout
+                    {t("logout_drawer.confirm")}
                   </ThemedText>
                 </Button>
               </ThemedView>

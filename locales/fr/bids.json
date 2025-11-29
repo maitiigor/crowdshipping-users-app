@@ -1,0 +1,50 @@
+{
+  "header": {
+    "title": "Offres",
+    "air": "Aérien",
+    "maritime": "Maritime"
+  },
+  "search_placeholder": "Rechercher des voyages disponibles...",
+  "empty_state": {
+    "title": "Aucune offre disponible",
+    "description": "Il n'y a aucune offre disponible pour le moment. Revenez plus tard pour les mises à jour."
+  },
+  "buttons": {
+    "view_bid": "Voir l'offre",
+    "cancel_bid": "Annuler l'offre",
+    "pay": "Payer",
+    "renegotiate": "Renégocier",
+    "retry": "Réessayer"
+  },
+  "labels": {
+    "from": "De :",
+    "to": "À :",
+    "bid_amount": "Montant de l'offre",
+    "parcel_tracking_id": "ID de suivi du colis",
+    "total_weight": "Poids total",
+    "parcel_group": "Groupe de colis",
+    "trip_mode": "Mode de voyage",
+    "air_freight": "Fret aérien",
+    "maritime_freight": "Fret maritime",
+    "bidder": "Enchérisseur",
+    "user_id": "ID utilisateur",
+    "city": "Ville",
+    "parcel_journey": "Parcours du colis",
+    "pick_up": "Ramassage",
+    "distance": "Distance",
+    "drop_off": "Dépôt",
+    "trip_timeline": "Chronologie du voyage",
+    "departure": "Départ",
+    "arrival": "Arrivée",
+    "trip_status": "Statut du voyage",
+    "trip_created_by": "Voyage créé par",
+    "bid_details": "Détails de l'offre",
+    "bid_details_unavailable": "Détails de l'offre indisponibles",
+    "bid_details_error": "Nous n'avons pas pu charger les détails de l'offre. Veuillez réessayer."
+  },
+  "status": {
+    "accepted": "Accepté",
+    "pending": "En attente",
+    "cancelled": "Annulé"
+  }
+}

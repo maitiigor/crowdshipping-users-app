@@ -1,0 +1,29 @@
+{
+  "menu": {
+    "home": "홈",
+    "booking_history": "예약 내역",
+    "trips": "여행",
+    "bidding_history": "입찰 내역",
+    "track_order": "주문 추적",
+    "inbox": "받은 편지함",
+    "wallet": "지갑",
+    "report_issues": "문제 신고",
+    "claims": "청구",
+    "support": "지원",
+    "notifications": "알림",
+    "settings": "설정",
+    "my_promo": "내 프로모션",
+    "terms_conditions": "이용 약관",
+    "privacy_policy": "개인정보 처리방침"
+  },
+  "welcome_back": "환영합니다",
+  "loading": "로딩 중...",
+  "edit_profile": "프로필 편집",
+  "logout": "로그아웃",
+  "logout_drawer": {
+    "title": "로그아웃",
+    "description": "로그아웃 하시겠습니까?",
+    "cancel": "취소",
+    "confirm": "예, 로그아웃"
+  }
+}

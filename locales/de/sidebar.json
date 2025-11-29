@@ -1,0 +1,29 @@
+{
+  "menu": {
+    "home": "Startseite",
+    "booking_history": "Buchungsverlauf",
+    "trips": "Fahrten",
+    "bidding_history": "Gebotsverlauf",
+    "track_order": "Bestellung verfolgen",
+    "inbox": "Posteingang",
+    "wallet": "Brieftasche",
+    "report_issues": "Probleme melden",
+    "claims": "Ansprüche",
+    "support": "Support",
+    "notifications": "Benachrichtigungen",
+    "settings": "Einstellungen",
+    "my_promo": "Meine Promo",
+    "terms_conditions": "Allgemeine Geschäftsbedingungen",
+    "privacy_policy": "Datenschutzrichtlinie"
+  },
+  "welcome_back": "Willkommen zurück",
+  "loading": "Laden...",
+  "edit_profile": "Profil bearbeiten",
+  "logout": "Abmelden",
+  "logout_drawer": {
+    "title": "Abmelden",
+    "description": "Sind Sie sicher, dass Sie sich abmelden möchten?",
+    "cancel": "Abbrechen",
+    "confirm": "Ja, abmelden"
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "header": {
+    "title": "预订历史",
+    "details_title": "预订详情"
+  },
+  "filters": {
+    "all": "全部",
+    "in_progress": "进行中",
+    "pending": "待处理",
+    "delivered": "已送达",
+    "cancelled": "已取消"
+  },
+  "empty_state": {
+    "title": "无可用预订",
+    "description": "目前没有可用预订。请稍后回来查看更新。"
+  },
+  "labels": {
+    "booking_summary": "预订摘要",
+    "booking_id": "预订ID",
+    "tracking_id": "追踪ID",
+    "pickup_location": "取件地点",
+    "dropoff_location": "送件地点",
+    "product_type": "产品类型",
+    "weight": "重量",
+    "current_status": "当前状态",
+    "payment_status": "支付状态",
+    "receiver_information": "收件人信息",
+    "name": "姓名",
+    "phone_number": "电话号码",
+    "alternative_phone": "备用电话",
+    "sender_information": "发件人信息",
+    "user_id": "用户ID",
+    "location": "位置",
+    "traveller_information": "旅客信息",
+    "expected_arrival_time": "预计到达时间",
+    "loading": "正在加载预订详情..."
+  },
+  "buttons": {
+    "rate_driver": "评价司机",
+    "report_driver": "举报司机",
+    "file_claim": "提出索赔",
+    "back": "返回",
+    "cancel_booking": "取消预订"
+  }
+}

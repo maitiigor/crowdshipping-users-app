@@ -1,0 +1,28 @@
+{
+  "header": {
+    "title": "通知",
+    "details_title": "通知"
+  },
+  "empty_state": {
+    "title": "没有未读通知",
+    "description": "您目前没有未读通知。请稍后查看更新。"
+  },
+  "labels": {
+    "details": "详情",
+    "notification_id": "通知ID",
+    "related_booking": "相关预订",
+    "triggered_by": "触发者",
+    "created": "创建时间",
+    "updated": "更新时间",
+    "type": "类型",
+    "channel": "渠道",
+    "read": "已读",
+    "unread": "未读",
+    "delivered": "已送达",
+    "not_delivered": "未送达",
+    "load_failed": "无法加载此通知。请返回并重试。"
+  },
+  "buttons": {
+    "view_booking": "查看预订"
+  }
+}

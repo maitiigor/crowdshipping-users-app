@@ -1,0 +1,28 @@
+{
+  "header": {
+    "title": "Benachrichtigungen",
+    "details_title": "Benachrichtigungen"
+  },
+  "empty_state": {
+    "title": "Keine ungelesenen Benachrichtigungen",
+    "description": "Sie haben derzeit keine ungelesenen Benachrichtigungen. Schauen Sie später nach Updates."
+  },
+  "labels": {
+    "details": "Details",
+    "notification_id": "Benachrichtigungs-ID",
+    "related_booking": "Zugehörige Buchung",
+    "triggered_by": "Ausgelöst von",
+    "created": "Erstellt",
+    "updated": "Aktualisiert",
+    "type": "Typ",
+    "channel": "Kanal",
+    "read": "Gelesen",
+    "unread": "Ungelesen",
+    "delivered": "Zugestellt",
+    "not_delivered": "Nicht zugestellt",
+    "load_failed": "Diese Benachrichtigung konnte nicht geladen werden. Bitte gehen Sie zurück und versuchen Sie es erneut."
+  },
+  "buttons": {
+    "view_booking": "Buchung anzeigen"
+  }
+}

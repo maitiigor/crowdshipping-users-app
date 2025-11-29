@@ -1,0 +1,29 @@
+{
+  "menu": {
+    "home": "首页",
+    "booking_history": "预订历史",
+    "trips": "行程",
+    "bidding_history": "竞标历史",
+    "track_order": "追踪订单",
+    "inbox": "收件箱",
+    "wallet": "钱包",
+    "report_issues": "报告问题",
+    "claims": "索赔",
+    "support": "支持",
+    "notifications": "通知",
+    "settings": "设置",
+    "my_promo": "我的优惠",
+    "terms_conditions": "条款和条件",
+    "privacy_policy": "隐私政策"
+  },
+  "welcome_back": "欢迎回来",
+  "loading": "加载中...",
+  "edit_profile": "编辑个人资料",
+  "logout": "登出",
+  "logout_drawer": {
+    "title": "登出",
+    "description": "您确定要登出吗？",
+    "cancel": "取消",
+    "confirm": "是的，登出"
+  }
+}

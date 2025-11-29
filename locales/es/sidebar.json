@@ -1,0 +1,29 @@
+{
+  "menu": {
+    "home": "Inicio",
+    "booking_history": "Historial de reservas",
+    "trips": "Viajes",
+    "bidding_history": "Historial de ofertas",
+    "track_order": "Rastrear pedido",
+    "inbox": "Bandeja de entrada",
+    "wallet": "Billetera",
+    "report_issues": "Reportar problemas",
+    "claims": "Reclamos",
+    "support": "Soporte",
+    "notifications": "Notificaciones",
+    "settings": "Configuración",
+    "my_promo": "Mi promoción",
+    "terms_conditions": "Términos y condiciones",
+    "privacy_policy": "Política de privacidad"
+  },
+  "welcome_back": "Bienvenido de nuevo",
+  "loading": "Cargando...",
+  "edit_profile": "Editar perfil",
+  "logout": "Cerrar sesión",
+  "logout_drawer": {
+    "title": "Cerrar sesión",
+    "description": "¿Estás seguro de que quieres cerrar sesión?",
+    "cancel": "Cancelar",
+    "confirm": "Sí, cerrar sesión"
+  }
+}

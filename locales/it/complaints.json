@@ -1,0 +1,81 @@
+{
+  "header": {
+    "title": "Reclami",
+    "new_claim": "Nuovo reclamo",
+    "details_title": "Dettagli reclamo"
+  },
+  "search_placeholder": "Cerca...",
+  "filters": {
+    "pending": "In attesa",
+    "resolved": "Risolto"
+  },
+  "empty_state": {
+    "title": "Nessun reclamo {{filter}}",
+    "description": "Non hai reclami {{filter}} al momento. Controlla più tardi per aggiornamenti."
+  },
+  "buttons": {
+    "close": "Chiudi",
+    "details": "Dettagli",
+    "add_new": "Aggiungi nuovo",
+    "cancel": "Annulla",
+    "submit_claim": "Invia reclamo",
+    "open_attachment": "Apri allegato"
+  },
+  "labels": {
+    "claim_id": "ID reclamo",
+    "last_updated_date": "Data ultimo aggiornamento",
+    "current_status": "Stato attuale",
+    "brief_description": "Breve descrizione",
+    "nature_of_claims": "Natura dei reclami",
+    "other_options": "Altre opzioni",
+    "claim_amount": "Importo reclamo",
+    "tracking_id": "ID tracciamento",
+    "detailed_description": "Descrizione dettagliata",
+    "summary": "Riepilogo",
+    "report_id": "ID rapporto",
+    "claim_reference": "Riferimento reclamo",
+    "nature_of_claim": "Natura del reclamo",
+    "description": "Descrizione",
+    "raised_by": "Sollevato da",
+    "raised_by_id": "ID sollevatore",
+    "support_team": "Team di supporto",
+    "timeline": "Cronologia",
+    "created": "Creato",
+    "updated": "Aggiornato",
+    "evidence": "Prova",
+    "status": "Stato",
+    "under_review": "In revisione",
+    "resolved": "Risolto",
+    "no_attachment": "Nessun allegato fornito per questo reclamo.",
+    "load_error": "Impossibile caricare questo reclamo. Torna indietro e riprova."
+  },
+  "validation": {
+    "nature_required": "La natura del reclamo è obbligatoria",
+    "other_required": "Altre opzioni sono obbligatorie",
+    "other_min": "Altre opzioni devono avere almeno 5 caratteri",
+    "other_max": "Altre opzioni non possono superare 100 caratteri",
+    "amount_number": "L'importo del rapporto deve essere un numero",
+    "amount_required": "L'importo del rapporto è obbligatorio",
+    "amount_positive": "L'importo del rapporto deve essere positivo",
+    "tracking_required": "L'ID di tracciamento è obbligatorio",
+    "description_required": "La descrizione è obbligatoria",
+    "description_min": "La descrizione deve avere almeno 20 caratteri",
+    "description_max": "La descrizione non può superare 500 caratteri"
+  },
+  "toast": {
+    "submitted_title": "Reclamo inviato",
+    "submitted_desc": "Il tuo reclamo è stato inviato con successo.",
+    "failed_title": "Richiesta reclamo fallita",
+    "file_uploaded_title": "File caricato",
+    "file_uploaded_desc": "Il tuo allegato è pronto.",
+    "upload_failed_title": "Caricamento fallito",
+    "invalid_amount_title": "Importo non valido",
+    "invalid_amount_desc": "Inserisci un importo reclamo valido."
+  },
+  "placeholders": {
+    "enter_other": "Inserisci altre opzioni",
+    "enter_amount": "Inserisci importo",
+    "enter_tracking": "Inserisci ID tracciamento",
+    "enter_description": "Inserisci descrizione prodotto"
+  }
+}
