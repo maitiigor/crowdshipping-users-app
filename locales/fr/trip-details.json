@@ -1,0 +1,77 @@
+{
+  "header": {
+    "title": "Détails du trajet"
+  },
+  "loading": {
+    "trip_details": "Chargement des détails du trajet...",
+    "no_data": "Aucune donnée de trajet disponible",
+    "go_back": "Retour"
+  },
+  "status": {
+    "going_to_pickup": "En route pour le ramassage",
+    "picked_up": "Ramassé",
+    "in_progress": "En cours",
+    "in_transit": "En route",
+    "arrived_destination": "Arrivé à destination",
+    "delivered": "Livré",
+    "toll_bill_pending": "Facture de péage en attente",
+    "completed": "Terminé",
+    "pending": "En attente",
+    "cancelled": "Annulé"
+  },
+  "banner": {
+    "in_transit": "Votre colis est en route",
+    "completed": "Colis livré",
+    "delivered": "Colis livré",
+    "pending_driver": "En attente du chauffeur",
+    "pending_pathfinder": "En attente du guide",
+    "cancelled": "Commande annulée",
+    "going_to_pickup_driver": "Le chauffeur est en route pour récupérer votre colis",
+    "going_to_pickup_pathfinder": "Le guide est en route pour récupérer votre colis",
+    "picked_up": "Colis récupéré",
+    "arrived_destination": "Arrivé à destination",
+    "in_progress": "Colis en cours",
+    "toll_bill_pending": "Facture de péage en attente"
+  },
+  "driver": {
+    "driver": "Chauffeur",
+    "pathfinder": "Guide",
+    "loading": "Chargement...",
+    "current_location": "Emplacement actuel du {{role}}",
+    "location": "Emplacement du {{role}}"
+  },
+  "info": {
+    "estimated_time": "Temps estimé",
+    "package_weight": "Poids du colis",
+    "track_id": "ID de suivi"
+  },
+  "location": {
+    "no_data": "Aucune donnée de localisation disponible pour le moment",
+    "speed": "Vitesse: {{speed}} km/h"
+  },
+  "button": {
+    "waiting_driver": "En attente du chauffeur...",
+    "waiting_pathfinder": "En attente du guide...",
+    "tracking_active": "Suivi actif"
+  },
+  "modal": {
+    "title": "Expédition terminée",
+    "review_prompt": "Veuillez laisser un avis étoilé pour votre coursier",
+    "thank_you": "Merci, vous avez noté notre {{role}} {{rating}} étoile",
+    "write_review": "Écrire un avis",
+    "cancel": "Annuler"
+  },
+  "rating": {
+    "one": "une",
+    "two": "deux",
+    "three": "trois",
+    "four": "quatre",
+    "five": "cinq"
+  },
+  "toast": {
+    "success": "Succès",
+    "review_success": "{{name}} évalué avec succès!",
+    "review_failed": "Échec de l'évaluation de {{name}}",
+    "failed_default": "Échec de la mise à jour du compte"
+  }
+}

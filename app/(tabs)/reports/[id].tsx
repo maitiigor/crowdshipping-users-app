@@ -23,6 +23,7 @@ import {
   ShieldAlert,
 } from "lucide-react-native";
 import React, { useCallback, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { Alert, Linking, TouchableOpacity } from "react-native";
 
 const statusStyles: Record<string, string> = {
@@ -40,6 +41,7 @@ const ReportDetails = () => {
     ISingleReportResponse | undefined
   >(["report", id], `/issue/report/${id}`);
   const backroundTopNav = useThemeColor({}, "background");
+  const { t } = useTranslation("reports");
 
   const report = data?.data;
   const { countryCode } = useCountry();
@@ -55,7 +57,7 @@ const ReportDetails = () => {
       headerShown: true,
       headerTitle: () => (
         <ThemedText type="s1_subtitle" className="text-center">
-          Report Details
+          {t("header.details")}
         </ThemedText>
       ),
       headerTitleAlign: "center",
@@ -105,8 +107,8 @@ const ReportDetails = () => {
       await Linking.openURL(report.evidence);
     } catch {
       Alert.alert(
-        "Unable to open evidence",
-        "We couldn't open the attachment link. Please try again later."
+        t("toast.unable_open_evidence"),
+        t("toast.unable_open_evidence_desc")
       );
     }
   }, [report?.evidence]);
@@ -166,13 +168,13 @@ const ReportDetails = () => {
                       type="h5_header"
                       className="text-typography-900"
                     >
-                      {report.natureOfReport || "Report"}
+                      {report.natureOfReport || t("header.title")}
                     </ThemedText>
                     <ThemedText
                       type="c2_caption"
                       className="text-typography-600"
                     >
-                      Reference: {report.reportRef}
+                      {t("details.reference")}: {report.reportRef}
                     </ThemedText>
                   </ThemedView>
                 </HStack>
@@ -184,7 +186,7 @@ const ReportDetails = () => {
                         type="c2_caption"
                         className="text-primary-700"
                       >
-                        Type: {report.reportType}
+                        {t("details.type")}: {report.reportType}
                       </ThemedText>
                     </ThemedView>
                   ) : null}
@@ -192,12 +194,13 @@ const ReportDetails = () => {
                     className={`px-3 py-1 rounded-full border ${statusClass}`}
                   >
                     <ThemedText type="c2_caption" className="capitalize">
-                      Status: {report.status || "unknown"}
+                      {t("details.status")}: {report.status || "unknown"}
                     </ThemedText>
                   </ThemedView>
                   <ThemedView className="px-3 py-1 rounded-full bg-neutral-50 border border-neutral-100">
                     <ThemedText type="c2_caption" className="text-neutral-700">
-                      Raised by: {report.raisedBy?.fullName || "Unknown"}
+                      {t("details.raised_by")}:{" "}
+                      {report.raisedBy?.fullName || "Unknown"}
                     </ThemedText>
                   </ThemedView>
                 </HStack>
@@ -205,25 +208,28 @@ const ReportDetails = () => {
 
               <ThemedView className="border border-background-100 rounded-2xl p-4 bg-background-0 gap-4">
                 <ThemedText type="btn_giant" className="text-typography-800">
-                  Summary
+                  {t("details.summary")}
                 </ThemedText>
                 <ThemedView className="gap-3">
-                  <SummaryRow label="Report ID" value={report._id || id} />
                   <SummaryRow
-                    label="Report Reference"
+                    label={t("list.report_id")}
+                    value={report._id || id}
+                  />
+                  <SummaryRow
+                    label={t("details.report_reference")}
                     value={report.reportRef}
                   />
                   <SummaryRow
-                    label="Nature of Report"
+                    label={t("form.nature_of_report")}
                     value={report.natureOfReport}
                   />
                   <SummaryRow
-                    label="Description"
+                    label={t("form.detailed_description")}
                     value={report.description}
                     multiline
                   />
                   <SummaryRow
-                    label="Report Amount"
+                    label={t("form.report_amount")}
                     value={formatCurrency(
                       report.reportAmount,
                       selectedCurrency,
@@ -231,7 +237,7 @@ const ReportDetails = () => {
                     )}
                   />
                   <SummaryRow
-                    label="Amount Refunded"
+                    label={t("details.amount_refunded")}
                     value={formatCurrency(
                       report.amountRefunded,
                       selectedCurrency,
@@ -239,25 +245,28 @@ const ReportDetails = () => {
                     )}
                   />
                   <SummaryRow
-                    label="Raised By"
+                    label={t("details.raised_by")}
                     value={report.raisedBy?.fullName}
                   />
-                  <SummaryRow label="Raised By ID" value={report.raisedById} />
                   <SummaryRow
-                    label="Support Team"
-                    value={report.supportTeam || "Not assigned"}
+                    label={t("details.raised_by_id")}
+                    value={report.raisedById}
+                  />
+                  <SummaryRow
+                    label={t("details.support_team")}
+                    value={report.supportTeam || t("details.not_assigned")}
                   />
                 </ThemedView>
               </ThemedView>
 
               <ThemedView className="border border-background-100 rounded-2xl p-4 bg-background-0 gap-4">
                 <ThemedText type="btn_giant" className="text-typography-800">
-                  Timeline
+                  {t("details.timeline")}
                 </ThemedText>
                 <ThemedView className="gap-3">
                   <TimelineRow
                     icon={CalendarClock}
-                    label="Created"
+                    label={t("details.created")}
                     value={
                       report.createdAt
                         ? dayjs(report.createdAt).format("MMM D, YYYY h:mm A")
@@ -266,7 +275,7 @@ const ReportDetails = () => {
                   />
                   <TimelineRow
                     icon={CalendarClock}
-                    label="Updated"
+                    label={t("details.updated")}
                     value={
                       report.updatedAt
                         ? dayjs(report.updatedAt).format("MMM D, YYYY h:mm A")
@@ -278,7 +287,7 @@ const ReportDetails = () => {
 
               <ThemedView className="border border-background-100 rounded-2xl p-4 bg-background-0 gap-4">
                 <ThemedText type="btn_giant" className="text-typography-800">
-                  Evidence
+                  {t("details.evidence")}
                 </ThemedText>
                 {report.evidence ? (
                   <Button
@@ -289,12 +298,12 @@ const ReportDetails = () => {
                   >
                     <ButtonIcon as={Download} />
                     <ButtonText numberOfLines={1} ellipsizeMode="tail">
-                      Open attachment
+                      {t("details.open_attachment")}
                     </ButtonText>
                   </Button>
                 ) : (
                   <ThemedText type="b4_body" className="text-typography-600">
-                    No attachment provided for this report.
+                    {t("details.no_attachment")}
                   </ThemedText>
                 )}
               </ThemedView>
@@ -302,7 +311,7 @@ const ReportDetails = () => {
           ) : (
             <ThemedView className="p-4 rounded-xl bg-error-50 border border-error-100">
               <ThemedText type="b3_body" className="text-error-700">
-                Could not load this report. Please go back and try again.
+                {t("details.error_loading")}
               </ThemedText>
             </ThemedView>
           )}

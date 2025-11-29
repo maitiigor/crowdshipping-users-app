@@ -1,0 +1,34 @@
+{
+  "header": {
+    "title": "Preferências do Usuário"
+  },
+  "main": {
+    "customize_your_experience": "Personalize Sua Experiência",
+    "manage_notifications_desc": "Gerenciar notificações e configurações de aparência",
+    "notifications_title": "Notificações",
+    "email_notif_title": "Notificações por E-mail",
+    "email_notif_desc": "Receber atualizações por e-mail",
+    "sms_notif_title": "Notificações SMS",
+    "sms_notif_desc": "Receber atualizações por SMS",
+    "appearance_title": "Aparência",
+    "light_mode": "Modo Claro",
+    "light_mode_desc": "Brilhante e claro",
+    "dark_mode": "Modo Escuro",
+    "dark_mode_desc": "Fácil para os olhos",
+    "system_default": "Padrão do Sistema",
+    "system_default_desc": "Seguir configurações do dispositivo",
+    "auto_save": "💡 As alterações são salvas automaticamente"
+  },
+  "toast": {
+    "success": "Sucesso",
+    "error": "Erro",
+    "email_enabled": "Notificações por e-mail ativadas",
+    "email_disabled": "Notificações por e-mail desativadas",
+    "sms_enabled": "Notificações SMS ativadas",
+    "sms_disabled": "Notificações SMS desativadas",
+    "theme_changed": "Tema alterado para {{theme}}",
+    "update_email_failed": "Falha ao atualizar preferência de e-mail",
+    "update_sms_failed": "Falha ao atualizar preferência de SMS",
+    "update_theme_failed": "Falha ao atualizar tema"
+  }
+}

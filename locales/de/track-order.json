@@ -1,0 +1,31 @@
+{
+  "header": {
+    "title": "Bestellung verfolgen"
+  },
+  "form": {
+    "tracking_reference": "Tracking-Referenz",
+    "placeholder": "z.B. PKG-123456789",
+    "validation_required": "Tracking-Referenz ist erforderlich",
+    "track_button": "Bestellung verfolgen"
+  },
+  "status": {
+    "package_status": "Paketstatus",
+    "tracking_id": "Tracking-ID"
+  },
+  "location": {
+    "title": "Standortdetails",
+    "pickup": "Abholort",
+    "dropoff": "Lieferort"
+  },
+  "timeline": {
+    "title": "Zeitachse",
+    "created": "Erstellt",
+    "last_updated": "Zuletzt aktualisiert"
+  },
+  "toast": {
+    "success": "Erfolg",
+    "success_desc": "Bestellung erfolgreich verfolgt!",
+    "failed_title": "Tracking-Prozess fehlgeschlagen",
+    "failed_default": "Anmeldung fehlgeschlagen"
+  }
+}

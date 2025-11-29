@@ -1,0 +1,77 @@
+{
+  "header": {
+    "title": "Detalles del viaje"
+  },
+  "loading": {
+    "trip_details": "Cargando detalles del viaje...",
+    "no_data": "No hay datos de viaje disponibles",
+    "go_back": "Volver"
+  },
+  "status": {
+    "going_to_pickup": "Yendo a recoger",
+    "picked_up": "Recogido",
+    "in_progress": "En progreso",
+    "in_transit": "En camino",
+    "arrived_destination": "Llegó al destino",
+    "delivered": "Entregado",
+    "toll_bill_pending": "Factura de peaje pendiente",
+    "completed": "Completado",
+    "pending": "Pendiente",
+    "cancelled": "Cancelado"
+  },
+  "banner": {
+    "in_transit": "Tu paquete está en camino",
+    "completed": "Paquete entregado",
+    "delivered": "Paquete entregado",
+    "pending_driver": "Esperando al conductor",
+    "pending_pathfinder": "Esperando al guía",
+    "cancelled": "Pedido cancelado",
+    "going_to_pickup_driver": "El conductor está en camino para recoger tu paquete",
+    "going_to_pickup_pathfinder": "El guía está en camino para recoger tu paquete",
+    "picked_up": "Paquete recogido",
+    "arrived_destination": "Llegó al destino",
+    "in_progress": "Paquete en progreso",
+    "toll_bill_pending": "Factura de peaje pendiente"
+  },
+  "driver": {
+    "driver": "Conductor",
+    "pathfinder": "Guía",
+    "loading": "Cargando...",
+    "current_location": "Ubicación actual del {{role}}",
+    "location": "Ubicación del {{role}}"
+  },
+  "info": {
+    "estimated_time": "Tiempo estimado",
+    "package_weight": "Peso del paquete",
+    "track_id": "ID de seguimiento"
+  },
+  "location": {
+    "no_data": "No hay datos de ubicación disponibles aún",
+    "speed": "Velocidad: {{speed}} km/h"
+  },
+  "button": {
+    "waiting_driver": "Esperando al conductor...",
+    "waiting_pathfinder": "Esperando al guía...",
+    "tracking_active": "Seguimiento activo"
+  },
+  "modal": {
+    "title": "Envío completado",
+    "review_prompt": "Por favor, deja una reseña con estrellas para tu mensajero",
+    "thank_you": "Gracias, calificaste a nuestro {{role}} con {{rating}} estrella",
+    "write_review": "Escribir una reseña",
+    "cancel": "Cancelar"
+  },
+  "rating": {
+    "one": "una",
+    "two": "dos",
+    "three": "tres",
+    "four": "cuatro",
+    "five": "cinco"
+  },
+  "toast": {
+    "success": "Éxito",
+    "review_success": "¡{{name}} calificado con éxito!",
+    "review_failed": "Falló la calificación de {{name}}",
+    "failed_default": "Falló la actualización de la cuenta"
+  }
+}

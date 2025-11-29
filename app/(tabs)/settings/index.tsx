@@ -22,6 +22,7 @@ import {
   Sun,
 } from "lucide-react-native";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { ActivityIndicator, Switch, TouchableOpacity } from "react-native";
 
 /**
@@ -44,6 +45,7 @@ export default function UserPreference() {
   const navigation = useNavigation();
   const router = useRouter();
   const toast = useToast();
+  const { t } = useTranslation("settings");
 
   const { data, isLoading, refetch } = useAuthenticatedQuery<
     IUserPreferenceResponse | undefined
@@ -82,7 +84,7 @@ export default function UserPreference() {
       headerTitle: () => {
         return (
           <ThemedText type="s1_subtitle" className="text-center">
-            User Preferences
+            {t("header.title")}
           </ThemedText>
         );
       },
@@ -131,7 +133,7 @@ export default function UserPreference() {
       ),
       headerRight: () => <NotificationIcon />,
     });
-  }, [navigation, router, backgroundColor]);
+  }, [navigation, router, backgroundColor, t]);
 
   const showNewToast = ({
     title,
@@ -172,8 +174,10 @@ export default function UserPreference() {
     try {
       await mutateAsync({ enableEmail: value });
       showNewToast({
-        title: "Success",
-        description: `Email notifications ${value ? "enabled" : "disabled"}`,
+        title: t("toast.success"),
+        description: value
+          ? t("toast.email_enabled")
+          : t("toast.email_disabled"),
         icon: CheckCircle2,
         action: "success",
         variant: "solid",
@@ -182,8 +186,8 @@ export default function UserPreference() {
     } catch {
       setEnableEmail(!value); // Revert on error
       showNewToast({
-        title: "Error",
-        description: "Failed to update email preference",
+        title: t("toast.error"),
+        description: t("toast.update_email_failed"),
         icon: Mail,
         action: "error",
         variant: "solid",
@@ -196,8 +200,8 @@ export default function UserPreference() {
     try {
       await mutateAsync({ enableSms: value });
       showNewToast({
-        title: "Success",
-        description: `SMS notifications ${value ? "enabled" : "disabled"}`,
+        title: t("toast.success"),
+        description: value ? t("toast.sms_enabled") : t("toast.sms_disabled"),
         icon: CheckCircle2,
         action: "success",
         variant: "solid",
@@ -206,8 +210,8 @@ export default function UserPreference() {
     } catch {
       setEnableSms(!value); // Revert on error
       showNewToast({
-        title: "Error",
-        description: "Failed to update SMS preference",
+        title: t("toast.error"),
+        description: t("toast.update_sms_failed"),
         icon: MessageSquare,
         action: "error",
         variant: "solid",
@@ -225,8 +229,8 @@ export default function UserPreference() {
       await mutateAsync({ theme });
 
       showNewToast({
-        title: "Success",
-        description: `Theme changed to ${theme}`,
+        title: t("toast.success"),
+        description: t("toast.theme_changed", { theme: theme }),
         icon: CheckCircle2,
         action: "success",
         variant: "solid",
@@ -234,8 +238,8 @@ export default function UserPreference() {
       refetch();
     } catch {
       showNewToast({
-        title: "Error",
-        description: "Failed to update theme",
+        title: t("toast.error"),
+        description: t("toast.update_theme_failed"),
         icon: Sun,
         action: "error",
         variant: "solid",
@@ -260,10 +264,10 @@ export default function UserPreference() {
           {/* Header Section */}
           <ThemedView className="mt-6 mb-8">
             <ThemedText type="h3_header" className="text-typography-900 mb-2">
-              Customize Your Experience
+              {t("main.customize_your_experience")}
             </ThemedText>
             <ThemedText type="default" className="text-typography-500">
-              Manage notifications and appearance settings
+              {t("main.manage_notifications_desc")}
             </ThemedText>
           </ThemedView>
 
@@ -278,7 +282,7 @@ export default function UserPreference() {
                 />
               </ThemedView>
               <ThemedText type="s1_subtitle" className="text-typography-900">
-                Notifications
+                {t("main.notifications_title")}
               </ThemedText>
             </ThemedView>
 
@@ -294,13 +298,13 @@ export default function UserPreference() {
                       type="s1_subtitle"
                       className="text-typography-900 mb-1"
                     >
-                      Email Notifications
+                      {t("main.email_notif_title")}
                     </ThemedText>
                     <ThemedText
                       type="default"
                       className="text-typography-500 text-sm"
                     >
-                      Receive updates via email
+                      {t("main.email_notif_desc")}
                     </ThemedText>
                   </ThemedView>
                 </ThemedView>
@@ -331,13 +335,13 @@ export default function UserPreference() {
                       type="s1_subtitle"
                       className="text-typography-900 mb-1"
                     >
-                      SMS Notifications
+                      {t("main.sms_notif_title")}
                     </ThemedText>
                     <ThemedText
                       type="default"
                       className="text-typography-500 text-sm"
                     >
-                      Receive updates via SMS
+                      {t("main.sms_notif_desc")}
                     </ThemedText>
                   </ThemedView>
                 </ThemedView>
@@ -360,7 +364,7 @@ export default function UserPreference() {
                 <Icon as={Sun} size="xl" className="text-purple-600" />
               </ThemedView>
               <ThemedText type="s1_subtitle" className="text-typography-900">
-                Appearance
+                {t("main.appearance_title")}
               </ThemedText>
             </ThemedView>
 
@@ -404,13 +408,13 @@ export default function UserPreference() {
                             : "text-typography-700"
                         }
                       >
-                        Light Mode
+                        {t("main.light_mode")}
                       </ThemedText>
                       <ThemedText
                         type="default"
                         className="text-typography-500 text-xs mt-1"
                       >
-                        Bright and clear
+                        {t("main.light_mode_desc")}
                       </ThemedText>
                     </ThemedView>
                   </ThemedView>
@@ -458,13 +462,13 @@ export default function UserPreference() {
                             : "text-typography-700"
                         }
                       >
-                        Dark Mode
+                        {t("main.dark_mode")}
                       </ThemedText>
                       <ThemedText
                         type="default"
                         className="text-typography-500 text-xs mt-1"
                       >
-                        Easy on the eyes
+                        {t("main.dark_mode_desc")}
                       </ThemedText>
                     </ThemedView>
                   </ThemedView>
@@ -511,13 +515,13 @@ export default function UserPreference() {
                             : "text-typography-700"
                         }
                       >
-                        System Default
+                        {t("main.system_default")}
                       </ThemedText>
                       <ThemedText
                         type="default"
                         className="text-typography-500 text-xs mt-1"
                       >
-                        Follow device settings
+                        {t("main.system_default_desc")}
                       </ThemedText>
                     </ThemedView>
                   </ThemedView>
@@ -532,7 +536,7 @@ export default function UserPreference() {
           {/* Info Section */}
           <ThemedView className="bg-blue-50 rounded-2xl p-4 mb-6">
             <ThemedText type="default" className="text-blue-900 text-center">
-              💡 Changes are saved automatically
+              {t("main.auto_save")}
             </ThemedText>
           </ThemedView>
         </ThemedView>

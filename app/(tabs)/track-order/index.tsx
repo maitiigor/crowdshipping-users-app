@@ -27,6 +27,7 @@ import {
   XCircle,
 } from "lucide-react-native";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { ActivityIndicator, TouchableOpacity } from "react-native";
 import * as Yup from "yup";
 
@@ -49,12 +50,13 @@ export default function TrackOrderScreen() {
   const backroundTopNav = useThemeColor({}, "background");
   const router = useRouter();
   const toast = useToast();
+  const { t } = useTranslation("trackOrder");
   const [trackOrderData, setTrackOrderData] = useState<TrackOrderData | null>(
     null
   );
   const validationSchema = () => {
     return Yup.object().shape({
-      trackingRef: Yup.string().required("Tracking reference is required"),
+      trackingRef: Yup.string().required(t("form.validation_required")),
     });
   };
   const { mutateAsync, error, loading } = useAuthenticatedPost<
@@ -69,7 +71,7 @@ export default function TrackOrderScreen() {
       headerTitle: () => {
         return (
           <ThemedText type="s1_subtitle" className="text-center">
-            Track Order
+            {t("header.title")}
           </ThemedText>
         );
       },
@@ -160,8 +162,8 @@ export default function TrackOrderScreen() {
 
       console.log("🚀 ~ handleSubmit ~ response:", response);
       showNewToast({
-        title: "Success",
-        description: "Order tracked successfully!",
+        title: t("toast.success"),
+        description: t("toast.success_desc"),
         icon: CircleCheckIcon,
         action: "success",
         variant: "solid",
@@ -175,7 +177,7 @@ export default function TrackOrderScreen() {
         (typeof error === "string" ? error : undefined) ||
         "Sign up failed";
       showNewToast({
-        title: "Tracking Order Process Failed",
+        title: t("toast.failed_title"),
         description: message,
         icon: HelpCircleIcon,
         action: "error",
@@ -214,7 +216,7 @@ export default function TrackOrderScreen() {
               <ThemedView className="flex gap-4 mt-5">
                 <ThemedView>
                   <InputLabelText className="pb-2">
-                    Tracking Reference
+                    {t("form.tracking_reference")}
                   </InputLabelText>
                   <Input
                     size="xl"
@@ -224,7 +226,7 @@ export default function TrackOrderScreen() {
                   >
                     <InputField
                       className=""
-                      placeholder="e.g PKG-123456789"
+                      placeholder={t("form.placeholder")}
                       value={values.trackingRef}
                       onChangeText={handleChange("trackingRef")}
                       onBlur={handleBlur("trackingRef")}
@@ -256,7 +258,7 @@ export default function TrackOrderScreen() {
                       {loading ? (
                         <ActivityIndicator color="#FFFFFF" />
                       ) : (
-                        "Track Order"
+                        t("form.track_button")
                       )}
                     </ThemedText>
                   </Button>
@@ -301,7 +303,7 @@ export default function TrackOrderScreen() {
                     </ThemedView>
                     <ThemedView>
                       <ThemedText type="b4_body" className="text-gray-500">
-                        Package Status
+                        {t("status.package_status")}
                       </ThemedText>
                       <ThemedText
                         type="s1_subtitle"
@@ -346,7 +348,7 @@ export default function TrackOrderScreen() {
                   <ThemedView className="flex-row items-center gap-2 mb-2">
                     <Icon as={Package} size="md" className="text-gray-600" />
                     <ThemedText type="b4_body" className="text-gray-500">
-                      Tracking ID
+                      {t("status.tracking_id")}
                     </ThemedText>
                   </ThemedView>
                   <ThemedText
@@ -361,7 +363,7 @@ export default function TrackOrderScreen() {
               {/* Location Details Card */}
               <ThemedView className="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 shadow-l">
                 <ThemedText type="h3_header" className="text-xl font-bold mb-4">
-                  Location Details
+                  {t("location.title")}
                 </ThemedText>
 
                 {/* Pick-up Location */}
@@ -372,7 +374,7 @@ export default function TrackOrderScreen() {
                     </ThemedView>
                     <ThemedView className="flex-1">
                       <ThemedText type="b4_body" className="text-gray-500 mb-1">
-                        Pick-up Location
+                        {t("location.pickup")}
                       </ThemedText>
                       <ThemedText
                         type="b3_body"
@@ -395,7 +397,7 @@ export default function TrackOrderScreen() {
                     </ThemedView>
                     <ThemedView className="flex-1">
                       <ThemedText type="b4_body" className="text-gray-500 mb-1">
-                        Drop-off Location
+                        {t("location.dropoff")}
                       </ThemedText>
                       <ThemedText
                         type="b3_body"
@@ -411,7 +413,7 @@ export default function TrackOrderScreen() {
               {/* Timeline Card */}
               <ThemedView className="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 shadow-l">
                 <ThemedText type="h3_header" className="text-xl font-bold mb-4">
-                  Timeline
+                  {t("timeline.title")}
                 </ThemedText>
 
                 <ThemedView className="gap-4">
@@ -422,7 +424,7 @@ export default function TrackOrderScreen() {
                     </ThemedView>
                     <ThemedView className="flex-1">
                       <ThemedText type="b4_body" className="text-gray-500 mb-1">
-                        Created
+                        {t("timeline.created")}
                       </ThemedText>
                       <ThemedText
                         type="b3_body"
@@ -446,7 +448,7 @@ export default function TrackOrderScreen() {
                     </ThemedView>
                     <ThemedView className="flex-1">
                       <ThemedText type="b4_body" className="text-gray-500 mb-1">
-                        Last Updated
+                        {t("timeline.last_updated")}
                       </ThemedText>
                       <ThemedText
                         type="b3_body"

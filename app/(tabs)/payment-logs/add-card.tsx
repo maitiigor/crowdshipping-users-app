@@ -26,6 +26,7 @@ import {
   LucideIcon,
 } from "lucide-react-native";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   ActivityIndicator,
   KeyboardAvoidingView,
@@ -42,17 +43,20 @@ export default function UpdateWalletAccountScreen() {
   console.log("🚀 ~ WithdrawalScreen ~ bankValues:", bankValues);
   const [showModal, setShowModal] = useState(false);
   const backroundTopNav = useThemeColor({}, "background");
+  const { t } = useTranslation("paymentLogs");
   const { data, isLoading, refetch } = useAuthenticatedQuery<
     IWalletRequestResponse | undefined
   >(["wallet"], "/wallet/fetch");
   console.log("🚀 ~ UpdateWalletAccountScreen ~ data:", data);
   const validationSchema = Yup.object().shape({
-    bankName: Yup.string().required("Bank is required"),
+    bankName: Yup.string().required(t("validation.bank_required")),
     accountNumber: Yup.string()
-      .required("Account Number is required")
-      .matches(/^\d+$/, "Account Number must be digits only")
-      .min(10, "Account Number must be at least 10 digits"),
-    accountName: Yup.string().required("Account Name is required"),
+      .required(t("validation.account_number_required"))
+      .matches(/^\d+$/, t("validation.account_number_invalid"))
+      .min(10, t("validation.account_number_invalid")),
+    accountName: Yup.string().required(
+      t("validation.account_name_required") || "Account Name is required"
+    ),
   });
   const {
     mutateAsync: mutateResolveAccount,
@@ -80,7 +84,7 @@ export default function UpdateWalletAccountScreen() {
       headerTitle: () => {
         return (
           <ThemedText type="s1_subtitle" className="text-center">
-            Update Bank Account
+            {t("add_bank.title")}
           </ThemedText>
         );
       },
@@ -129,7 +133,7 @@ export default function UpdateWalletAccountScreen() {
       ),
       headerRight: () => <NotificationIcon />,
     });
-  }, [navigation, backroundTopNav]);
+  }, [navigation, backroundTopNav, t]);
   const showNewToast = ({
     title,
     description,
@@ -182,8 +186,8 @@ export default function UpdateWalletAccountScreen() {
         accountName: values.accountName,
       });
       showNewToast({
-        title: "Success",
-        description: "Account Updated successfully!",
+        title: t("add_bank.success_title"),
+        description: t("add_bank.success_message"),
         icon: CircleCheckIcon,
         action: "success",
         variant: "solid",
@@ -208,7 +212,7 @@ export default function UpdateWalletAccountScreen() {
         "Account Update failed";
 
       showNewToast({
-        title: "Account Update Failed",
+        title: t("add_bank.error_title"),
         description: message,
         icon: HelpCircleIcon,
         action: "error",
@@ -306,7 +310,7 @@ export default function UpdateWalletAccountScreen() {
                   <ThemedView className="flex flex-1 gap-3 w-full">
                     <ThemedView className="flex-1 w-full">
                       <InputLabelText className="">
-                        Account Number
+                        {t("add_bank.account_number")}
                       </InputLabelText>
                       <Input
                         size="xl"
@@ -318,7 +322,7 @@ export default function UpdateWalletAccountScreen() {
                       >
                         <InputField
                           className=""
-                          placeholder="Enter Account Number"
+                          placeholder={t("add_bank.account_number_placeholder")}
                           value={values.accountNumber}
                           onChangeText={async (text: string) => {
                             // Keep only digits
@@ -348,11 +352,11 @@ export default function UpdateWalletAccountScreen() {
                                 console.error("Error resolving account:", err);
                                 // Add toast for user feedback
                                 showNewToast({
-                                  title: "Account Resolution Failed",
+                                  title: t("withdrawal.error_title"),
                                   description:
                                     err?.data?.message ||
                                     err?.message ||
-                                    "Unable to verify account. Please check details and try again.",
+                                    t("withdrawal.invalid_account_desc"),
                                   icon: HelpCircleIcon, // Ensure this icon is imported
                                   action: "error",
                                   variant: "solid",
@@ -378,7 +382,9 @@ export default function UpdateWalletAccountScreen() {
                   </ThemedView>
                   <ThemedView className="flex flex-1 gap-3 w-full">
                     <ThemedView className="flex-1 w-full">
-                      <InputLabelText className="">Account Name</InputLabelText>
+                      <InputLabelText className="">
+                        {t("add_bank.account_name")}
+                      </InputLabelText>
                       <Input
                         size="xl"
                         isDisabled={isSuccessResolveAccount}
@@ -390,7 +396,7 @@ export default function UpdateWalletAccountScreen() {
                       >
                         <InputField
                           className=""
-                          placeholder="Account name will auto-fill"
+                          placeholder={t("add_bank.account_name_placeholder")}
                           value={values.accountName}
                           onChangeText={handleChange("accountName")}
                           onBlur={handleBlur("accountName")}
@@ -420,7 +426,7 @@ export default function UpdateWalletAccountScreen() {
                       {loading ? (
                         <ActivityIndicator color="white" />
                       ) : (
-                        "Update Account"
+                        t("add_bank.save_account")
                       )}
                     </ThemedText>
                   </Button>
@@ -433,8 +439,8 @@ export default function UpdateWalletAccountScreen() {
       {showModal && (
         <>
           <CustomModal
-            description="Your bank account has been updated successfully."
-            title="Account Updated"
+            description={t("add_bank.success_message")}
+            title={t("add_bank.success_title")}
             img={require("@/assets/images/onboarding/modal-success.png")}
             firstBtnLink={""}
             firstBtnText="Go Back"

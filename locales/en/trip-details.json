@@ -1,0 +1,77 @@
+{
+  "header": {
+    "title": "Trip Details"
+  },
+  "loading": {
+    "trip_details": "Loading trip details...",
+    "no_data": "No trip data available",
+    "go_back": "Go Back"
+  },
+  "status": {
+    "going_to_pickup": "Going to pickup",
+    "picked_up": "Picked up",
+    "in_progress": "In progress",
+    "in_transit": "On the way",
+    "arrived_destination": "Arrived at destination",
+    "delivered": "Delivered",
+    "toll_bill_pending": "Toll bill pending",
+    "completed": "Completed",
+    "pending": "Pending",
+    "cancelled": "Cancelled"
+  },
+  "banner": {
+    "in_transit": "Your Package is on the way",
+    "completed": "Package Delivered",
+    "delivered": "Package Delivered",
+    "pending_driver": "Waiting for Driver",
+    "pending_pathfinder": "Waiting for Pathfinder",
+    "cancelled": "Order Cancelled",
+    "going_to_pickup_driver": "Driver is on the way to pick up your package",
+    "going_to_pickup_pathfinder": "Pathfinder is on the way to pick up your package",
+    "picked_up": "Package Picked Up",
+    "arrived_destination": "Arrived at destination",
+    "in_progress": "Package in progress",
+    "toll_bill_pending": "Toll bill pending"
+  },
+  "driver": {
+    "driver": "Driver",
+    "pathfinder": "Pathfinder",
+    "loading": "Loading...",
+    "current_location": "Current {{role}} Location",
+    "location": "{{role}} Location"
+  },
+  "info": {
+    "estimated_time": "Estimated Time",
+    "package_weight": "Package Weight",
+    "track_id": "Track ID"
+  },
+  "location": {
+    "no_data": "No location data available yet",
+    "speed": "Speed: {{speed}} km/h"
+  },
+  "button": {
+    "waiting_driver": "Waiting for Driver...",
+    "waiting_pathfinder": "Waiting for Pathfinder...",
+    "tracking_active": "Tracking Active"
+  },
+  "modal": {
+    "title": "Shipping Completed",
+    "review_prompt": "Please leave a star review for your courier",
+    "thank_you": "Thank you, You rated our {{role}} {{rating}} star",
+    "write_review": "Write a review",
+    "cancel": "Cancel"
+  },
+  "rating": {
+    "one": "one",
+    "two": "two",
+    "three": "three",
+    "four": "four",
+    "five": "five"
+  },
+  "toast": {
+    "success": "Success",
+    "review_success": "{{name}} reviewed successfully!",
+    "review_failed": "{{name}} Review Failed",
+    "failed_default": "Account Update failed"
+  }
+}

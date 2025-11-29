@@ -1,0 +1,77 @@
+{
+  "header": {
+    "title": "Dettagli del viaggio"
+  },
+  "loading": {
+    "trip_details": "Caricamento dettagli del viaggio...",
+    "no_data": "Nessun dato di viaggio disponibile",
+    "go_back": "Indietro"
+  },
+  "status": {
+    "going_to_pickup": "In viaggio per il ritiro",
+    "picked_up": "Ritirato",
+    "in_progress": "In corso",
+    "in_transit": "In transito",
+    "arrived_destination": "Arrivato a destinazione",
+    "delivered": "Consegnato",
+    "toll_bill_pending": "Fattura pedaggio in sospeso",
+    "completed": "Completato",
+    "pending": "In attesa",
+    "cancelled": "Annullato"
+  },
+  "banner": {
+    "in_transit": "Il tuo pacco è in viaggio",
+    "completed": "Pacco consegnato",
+    "delivered": "Pacco consegnato",
+    "pending_driver": "In attesa dell'autista",
+    "pending_pathfinder": "In attesa del pathfinder",
+    "cancelled": "Ordine annullato",
+    "going_to_pickup_driver": "L'autista è in viaggio per ritirare il tuo pacco",
+    "going_to_pickup_pathfinder": "Il pathfinder è in viaggio per ritirare il tuo pacco",
+    "picked_up": "Pacco ritirato",
+    "arrived_destination": "Arrivato a destinazione",
+    "in_progress": "Pacco in corso",
+    "toll_bill_pending": "Fattura pedaggio in sospeso"
+  },
+  "driver": {
+    "driver": "Autista",
+    "pathfinder": "Pathfinder",
+    "loading": "Caricamento...",
+    "current_location": "Posizione attuale del {{role}}",
+    "location": "Posizione del {{role}}"
+  },
+  "info": {
+    "estimated_time": "Tempo stimato",
+    "package_weight": "Peso del pacco",
+    "track_id": "ID di tracciamento"
+  },
+  "location": {
+    "no_data": "Nessun dato di posizione disponibile ancora",
+    "speed": "Velocità: {{speed}} km/h"
+  },
+  "button": {
+    "waiting_driver": "In attesa dell'autista...",
+    "waiting_pathfinder": "In attesa del pathfinder...",
+    "tracking_active": "Tracciamento attivo"
+  },
+  "modal": {
+    "title": "Spedizione completata",
+    "review_prompt": "Per favore lascia una recensione con stelle per il tuo corriere",
+    "thank_you": "Grazie, hai valutato il nostro {{role}} {{rating}} stella",
+    "write_review": "Scrivi una recensione",
+    "cancel": "Annulla"
+  },
+  "rating": {
+    "one": "una",
+    "two": "due",
+    "three": "tre",
+    "four": "quattro",
+    "five": "cinque"
+  },
+  "toast": {
+    "success": "Successo",
+    "review_success": "{{name}} recensito con successo!",
+    "review_failed": "Recensione di {{name}} fallita",
+    "failed_default": "Aggiornamento account fallito"
+  }
+}

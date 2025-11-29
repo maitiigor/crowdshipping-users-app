@@ -1,0 +1,31 @@
+{
+  "header": {
+    "title": "注文追跡"
+  },
+  "form": {
+    "tracking_reference": "追跡参照",
+    "placeholder": "例：PKG-123456789",
+    "validation_required": "追跡参照は必須です",
+    "track_button": "注文を追跡"
+  },
+  "status": {
+    "package_status": "荷物の状態",
+    "tracking_id": "追跡ID"
+  },
+  "location": {
+    "title": "場所の詳細",
+    "pickup": "集荷場所",
+    "dropoff": "配達場所"
+  },
+  "timeline": {
+    "title": "タイムライン",
+    "created": "作成日",
+    "last_updated": "最終更新"
+  },
+  "toast": {
+    "success": "成功",
+    "success_desc": "注文の追跡に成功しました！",
+    "failed_title": "注文追跡プロセスが失敗しました",
+    "failed_default": "登録に失敗しました"
+  }
+}

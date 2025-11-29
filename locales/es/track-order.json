@@ -1,0 +1,31 @@
+{
+  "header": {
+    "title": "Rastrear pedido"
+  },
+  "form": {
+    "tracking_reference": "Referencia de seguimiento",
+    "placeholder": "ej. PKG-123456789",
+    "validation_required": "La referencia de seguimiento es obligatoria",
+    "track_button": "Rastrear pedido"
+  },
+  "status": {
+    "package_status": "Estado del paquete",
+    "tracking_id": "ID de seguimiento"
+  },
+  "location": {
+    "title": "Detalles de ubicación",
+    "pickup": "Ubicación de recogida",
+    "dropoff": "Ubicación de entrega"
+  },
+  "timeline": {
+    "title": "Cronología",
+    "created": "Creado",
+    "last_updated": "Última actualización"
+  },
+  "toast": {
+    "success": "Éxito",
+    "success_desc": "¡Pedido rastreado con éxito!",
+    "failed_title": "Falló el proceso de seguimiento del pedido",
+    "failed_default": "Falló el registro"
+  }
+}

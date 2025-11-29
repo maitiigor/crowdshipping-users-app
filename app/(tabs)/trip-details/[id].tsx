@@ -49,6 +49,7 @@ import React, {
   useRef,
   useState,
 } from "react";
+import { useTranslation } from "react-i18next";
 import {
   ActivityIndicator,
   AppState,
@@ -70,6 +71,7 @@ export default function TrackBidOrder() {
   const router = useRouter();
   const toast = useToast();
   const backroundTopNav = useThemeColor({}, "background");
+  const { t } = useTranslation("tripDetails");
   const [showModal, setShowModal] = useState(true);
   const [rating, setRating] = useState<number>(0);
   const [selectedLocationId, setSelectedLocationId] = useState<string | null>(
@@ -379,7 +381,7 @@ export default function TrackBidOrder() {
       headerTitle: () => {
         return (
           <ThemedText type="s1_subtitle" className="text-center">
-            Trip Details
+            {t("header.title")}
           </ThemedText>
         );
       },
@@ -497,8 +499,10 @@ export default function TrackBidOrder() {
         review: "",
       });
       showNewToast({
-        title: "Success",
-        description: `${ongoingTripsData?.data?.traveller.fullName} reviewed successfully!`,
+        title: t("toast.success"),
+        description: t("toast.review_success", {
+          name: ongoingTripsData?.data?.traveller.fullName,
+        }),
         icon: CircleCheckIcon,
         action: "success",
         variant: "solid",
@@ -513,7 +517,9 @@ export default function TrackBidOrder() {
         "Account Update failed";
 
       showNewToast({
-        title: `${ongoingTripsData?.data?.traveller.fullName} Review Failed`,
+        title: t("toast.review_failed", {
+          name: ongoingTripsData?.data?.traveller.fullName,
+        }),
         description: message,
         icon: HelpCircleIcon,
         action: "error",
@@ -560,7 +566,7 @@ export default function TrackBidOrder() {
   if (isLoadingOngoingTrips) {
     return (
       <ThemedView className="flex-1 bg-white items-center justify-center">
-        <ThemedText type="s1_subtitle">Loading trip details...</ThemedText>
+        <ThemedText type="s1_subtitle">{t("loading.trip_details")}</ThemedText>
       </ThemedView>
     );
   }
@@ -568,7 +574,7 @@ export default function TrackBidOrder() {
   if (!ongoingTripsData?.data) {
     return (
       <ThemedView className="flex-1 bg-white items-center justify-center">
-        <ThemedText type="s1_subtitle">No trip data available</ThemedText>
+        <ThemedText type="s1_subtitle">{t("loading.no_data")}</ThemedText>
         <Button
           variant="solid"
           size="lg"
@@ -576,7 +582,7 @@ export default function TrackBidOrder() {
           onPress={() => router.back()}
         >
           <ThemedText type="btn_large" className="text-white">
-            Go Back
+            {t("loading.go_back")}
           </ThemedText>
         </Button>
       </ThemedView>
@@ -740,8 +746,12 @@ export default function TrackBidOrder() {
                 className="mt-5 rounded-[12px]"
               >
                 <ThemedText type="btn_large" className="text-white">
-                  Waiting for{" "}
-                  {orderData?.fleetType === "road" ? "Driver" : "Pathfinder"}...
+                  {t("button.waiting_driver", {
+                    defaultValue:
+                      orderData?.fleetType === "road"
+                        ? t("button.waiting_driver")
+                        : t("button.waiting_pathfinder"),
+                  })}
                 </ThemedText>
               </Button>
             )}
@@ -755,7 +765,7 @@ export default function TrackBidOrder() {
                 }}
               >
                 <ThemedText type="btn_large" className="text-white">
-                  Tracking Active
+                  {t("button.tracking_active")}
                 </ThemedText>
               </Button>
             )}
@@ -883,7 +893,7 @@ export default function TrackBidOrder() {
                             type="c1_caption"
                             className="text-typography-600 text-center"
                           >
-                            Estimated Time
+                            {t("info.estimated_time")}
                           </ThemedText>
                         </ThemedView>
                       </View>
@@ -905,7 +915,7 @@ export default function TrackBidOrder() {
                             type="c1_caption"
                             className="text-typography-600 text-center"
                           >
-                            Package Weight
+                            {t("info.package_weight")}
                           </ThemedText>
                         </ThemedView>
                       </View>
@@ -927,7 +937,7 @@ export default function TrackBidOrder() {
                             type="c1_caption"
                             className="text-typography-600 text-center"
                           >
-                            Track ID
+                            {t("info.track_id")}
                           </ThemedText>
                         </ThemedView>
                       </View>
@@ -1041,7 +1051,7 @@ export default function TrackBidOrder() {
                       type="b4_body"
                       className="text-center text-typography-600"
                     >
-                      No location data available yet
+                      {t("location.no_data")}
                     </ThemedText>
                   )}
                 </ThemedView>
@@ -1068,9 +1078,9 @@ export default function TrackBidOrder() {
                       ? "four"
                       : "five"
                   } star`
-                : "Please leave a star review for your courier"
+                : t("modal.review_prompt")
             }
-            title="Shipping Completed"
+            title={t("modal.title")}
             img={require("@/assets/images/onboarding/modal-success.png")}
             firstBtnLink={""}
             firstBtnText=""
@@ -1131,7 +1141,7 @@ export default function TrackBidOrder() {
                         type="btn_large"
                         className="text-white w-full text-center flex"
                       >
-                        Write a review
+                        {t("modal.write_review")}
                       </ThemedText>
                     )}
                   </Pressable>
@@ -1147,7 +1157,7 @@ export default function TrackBidOrder() {
                       type="btn_large"
                       className="text-primary-500 w-full text-center"
                     >
-                      Cancel
+                      {t("modal.cancel")}
                     </ThemedText>
                   </Pressable>
                 </Link>

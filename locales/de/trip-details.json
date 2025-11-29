@@ -1,0 +1,77 @@
+{
+  "header": {
+    "title": "Reisedetails"
+  },
+  "loading": {
+    "trip_details": "Reisedetails werden geladen...",
+    "no_data": "Keine Reisedaten verfügbar",
+    "go_back": "Zurück"
+  },
+  "status": {
+    "going_to_pickup": "Auf dem Weg zur Abholung",
+    "picked_up": "Abgeholt",
+    "in_progress": "In Bearbeitung",
+    "in_transit": "Unterwegs",
+    "arrived_destination": "Am Ziel angekommen",
+    "delivered": "Zugestellt",
+    "toll_bill_pending": "Mautrechnung ausstehend",
+    "completed": "Abgeschlossen",
+    "pending": "Ausstehend",
+    "cancelled": "Storniert"
+  },
+  "banner": {
+    "in_transit": "Ihr Paket ist unterwegs",
+    "completed": "Paket zugestellt",
+    "delivered": "Paket zugestellt",
+    "pending_driver": "Warten auf Fahrer",
+    "pending_pathfinder": "Warten auf Pfadfinder",
+    "cancelled": "Bestellung storniert",
+    "going_to_pickup_driver": "Fahrer ist auf dem Weg, um Ihr Paket abzuholen",
+    "going_to_pickup_pathfinder": "Pfadfinder ist auf dem Weg, um Ihr Paket abzuholen",
+    "picked_up": "Paket abgeholt",
+    "arrived_destination": "Am Ziel angekommen",
+    "in_progress": "Paket in Bearbeitung",
+    "toll_bill_pending": "Mautrechnung ausstehend"
+  },
+  "driver": {
+    "driver": "Fahrer",
+    "pathfinder": "Pfadfinder",
+    "loading": "Laden...",
+    "current_location": "Aktueller Standort des {{role}}",
+    "location": "Standort des {{role}}"
+  },
+  "info": {
+    "estimated_time": "Geschätzte Zeit",
+    "package_weight": "Paketgewicht",
+    "track_id": "Tracking-ID"
+  },
+  "location": {
+    "no_data": "Noch keine Standortdaten verfügbar",
+    "speed": "Geschwindigkeit: {{speed}} km/h"
+  },
+  "button": {
+    "waiting_driver": "Warten auf Fahrer...",
+    "waiting_pathfinder": "Warten auf Pfadfinder...",
+    "tracking_active": "Tracking aktiv"
+  },
+  "modal": {
+    "title": "Versand abgeschlossen",
+    "review_prompt": "Bitte hinterlassen Sie eine Sternebewertung für Ihren Kurier",
+    "thank_you": "Danke, Sie haben unseren {{role}} mit {{rating}} Stern bewertet",
+    "write_review": "Eine Bewertung schreiben",
+    "cancel": "Abbrechen"
+  },
+  "rating": {
+    "one": "einem",
+    "two": "zwei",
+    "three": "drei",
+    "four": "vier",
+    "five": "fünf"
+  },
+  "toast": {
+    "success": "Erfolg",
+    "review_success": "{{name}} erfolgreich bewertet!",
+    "review_failed": "Bewertung von {{name}} fehlgeschlagen",
+    "failed_default": "Kontoaktualisierung fehlgeschlagen"
+  }
+}

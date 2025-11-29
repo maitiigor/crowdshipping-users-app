@@ -24,6 +24,7 @@ import { useLocalSearchParams, useNavigation, useRouter } from "expo-router";
 import { Formik } from "formik";
 import { ChevronLeft } from "lucide-react-native";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { KeyboardAvoidingView, TouchableOpacity } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 export default function AddBank() {
@@ -34,6 +35,7 @@ export default function AddBank() {
   const [selectedPickupAddress, setSelectedPickupAddress] =
     useState<AddressSelection | null>(null);
   const backroundTopNav = useThemeColor({}, "background");
+  const { t } = useTranslation("paymentLogs");
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
@@ -42,7 +44,7 @@ export default function AddBank() {
       headerTitle: () => {
         return (
           <ThemedText type="s1_subtitle" className="text-center">
-            Add New Bank
+            {t("add_bank.title")}
           </ThemedText>
         );
       },
@@ -91,7 +93,7 @@ export default function AddBank() {
       ),
       headerRight: () => <NotificationIcon />,
     });
-  }, [navigation, backroundTopNav]);
+  }, [navigation, backroundTopNav, t]);
 
   return (
     <KeyboardAvoidingView
@@ -134,7 +136,7 @@ export default function AddBank() {
                 <ThemedView className="flex gap-4 mt-5">
                   <ThemedView>
                     <InputLabelText type="b2_body">
-                      Select Bank Name
+                      {t("add_bank.bank_name")}
                     </InputLabelText>
                     <Select
                       selectedValue={values.bankName}
@@ -145,7 +147,10 @@ export default function AddBank() {
                         className="h-[55px] rounded-lg border-primary-100  bg-primary-inputShade px-2"
                       >
                         <SelectInput
-                          placeholder="Select a bank"
+                          placeholder={
+                            t("add_bank.bank_name_placeholder") ||
+                            "Select a bank"
+                          }
                           value={values.bankName}
                           className="flex-1"
                         />
@@ -165,7 +170,12 @@ export default function AddBank() {
                             <InputSlot className="pl-3">
                               <InputIcon as={SearchIcon} />
                             </InputSlot>
-                            <InputField placeholder={"Search..."} />
+                            <InputField
+                              placeholder={
+                                t("transaction.search_placeholder") ||
+                                "Search..."
+                              }
+                            />
                           </Input>
                           {[
                             {
@@ -196,7 +206,9 @@ export default function AddBank() {
                   </ThemedView>
                   <ThemedView className="flex flex-1 gap-3 w-full">
                     <ThemedView className="flex-1 w-full">
-                      <InputLabelText className="">Account Name</InputLabelText>
+                      <InputLabelText className="">
+                        {t("add_bank.account_name")}
+                      </InputLabelText>
                       <Input
                         size="xl"
                         className="h-[55px] border-primary-100 rounded-lg mb-2 bg-primary-inputShade px-2"
@@ -207,7 +219,7 @@ export default function AddBank() {
                       >
                         <InputField
                           className=""
-                          placeholder="Enter Account Name"
+                          placeholder={t("add_bank.account_name_placeholder")}
                           value={values.accountName}
                           onChangeText={handleChange("accountName")}
                           onBlur={handleBlur("accountName")}
@@ -227,7 +239,9 @@ export default function AddBank() {
                   </ThemedView>
 
                   <ThemedView>
-                    <InputLabelText className="">Account Number</InputLabelText>
+                    <InputLabelText className="">
+                      {t("add_bank.account_number")}
+                    </InputLabelText>
                     <Input
                       size="xl"
                       className="h-[55px] border-primary-100 rounded-lg mb-2 bg-primary-inputShade px-2"
@@ -238,7 +252,7 @@ export default function AddBank() {
                     >
                       <InputField
                         className=""
-                        placeholder="Enter Account Number"
+                        placeholder={t("add_bank.account_number_placeholder")}
                         value={values.accountNumber}
                         onChangeText={handleChange("accountNumber")}
                         onBlur={handleBlur("accountNumber")}
@@ -263,7 +277,7 @@ export default function AddBank() {
                     onPress={() => handleSubmit()}
                   >
                     <ThemedText type="s1_subtitle" className="text-white">
-                      Continue
+                      {t("add_bank.save_account")}
                     </ThemedText>
                   </Button>
                 </ThemedView>

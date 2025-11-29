@@ -1,0 +1,77 @@
+{
+  "header": {
+    "title": "여행 세부정보"
+  },
+  "loading": {
+    "trip_details": "여행 세부정보 로딩 중...",
+    "no_data": "사용 가능한 여행 데이터 없음",
+    "go_back": "돌아가기"
+  },
+  "status": {
+    "going_to_pickup": "픽업 중",
+    "picked_up": "픽업 완료",
+    "in_progress": "진행 중",
+    "in_transit": "배송 중",
+    "arrived_destination": "목적지 도착",
+    "delivered": "배송 완료",
+    "toll_bill_pending": "통행료 청구 대기 중",
+    "completed": "완료",
+    "pending": "대기 중",
+    "cancelled": "취소됨"
+  },
+  "banner": {
+    "in_transit": "패키지가 배송 중입니다",
+    "completed": "패키지 배송 완료",
+    "delivered": "패키지 배송 완료",
+    "pending_driver": "운전자 대기 중",
+    "pending_pathfinder": "길잡이 대기 중",
+    "cancelled": "주문 취소됨",
+    "going_to_pickup_driver": "운전자가 패키지를 픽업하러 가는 중입니다",
+    "going_to_pickup_pathfinder": "길잡이가 패키지를 픽업하러 가는 중입니다",
+    "picked_up": "패키지 픽업 완료",
+    "arrived_destination": "목적지 도착",
+    "in_progress": "패키지 진행 중",
+    "toll_bill_pending": "통행료 청구 대기 중"
+  },
+  "driver": {
+    "driver": "운전자",
+    "pathfinder": "길잡이",
+    "loading": "로딩 중...",
+    "current_location": "{{role}}의 현재 위치",
+    "location": "{{role}}의 위치"
+  },
+  "info": {
+    "estimated_time": "예상 시간",
+    "package_weight": "패키지 무게",
+    "track_id": "추적 ID"
+  },
+  "location": {
+    "no_data": "아직 위치 데이터가 없습니다",
+    "speed": "속도: {{speed}} km/h"
+  },
+  "button": {
+    "waiting_driver": "운전자 대기 중...",
+    "waiting_pathfinder": "길잡이 대기 중...",
+    "tracking_active": "추적 활성화"
+  },
+  "modal": {
+    "title": "배송 완료",
+    "review_prompt": "배달원에게 별점 리뷰를 남겨주세요",
+    "thank_you": "감사합니다. {{role}}에게 {{rating}}개의 별을 주셨습니다",
+    "write_review": "리뷰 작성",
+    "cancel": "취소"
+  },
+  "rating": {
+    "one": "하나",
+    "two": "둘",
+    "three": "셋",
+    "four": "넷",
+    "five": "다섯"
+  },
+  "toast": {
+    "success": "성공",
+    "review_success": "{{name}} 리뷰 성공!",
+    "review_failed": "{{name}} 리뷰 실패",
+    "failed_default": "계정 업데이트 실패"
+  }
+}

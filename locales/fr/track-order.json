@@ -1,0 +1,31 @@
+{
+  "header": {
+    "title": "Suivre la commande"
+  },
+  "form": {
+    "tracking_reference": "Référence de suivi",
+    "placeholder": "ex. PKG-123456789",
+    "validation_required": "La référence de suivi est requise",
+    "track_button": "Suivre la commande"
+  },
+  "status": {
+    "package_status": "Statut du colis",
+    "tracking_id": "ID de suivi"
+  },
+  "location": {
+    "title": "Détails de l'emplacement",
+    "pickup": "Lieu de ramassage",
+    "dropoff": "Lieu de dépôt"
+  },
+  "timeline": {
+    "title": "Chronologie",
+    "created": "Créé",
+    "last_updated": "Dernière mise à jour"
+  },
+  "toast": {
+    "success": "Succès",
+    "success_desc": "Commande suivie avec succès!",
+    "failed_title": "Échec du processus de suivi de commande",
+    "failed_default": "Échec de l'inscription"
+  }
+}

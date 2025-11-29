@@ -1,0 +1,31 @@
+{
+  "header": {
+    "title": "주문 추적"
+  },
+  "form": {
+    "tracking_reference": "추적 참조",
+    "placeholder": "예: PKG-123456789",
+    "validation_required": "추적 참조는 필수입니다",
+    "track_button": "주문 추적"
+  },
+  "status": {
+    "package_status": "패키지 상태",
+    "tracking_id": "추적 ID"
+  },
+  "location": {
+    "title": "위치 세부정보",
+    "pickup": "픽업 위치",
+    "dropoff": "배송 위치"
+  },
+  "timeline": {
+    "title": "타임라인",
+    "created": "생성됨",
+    "last_updated": "마지막 업데이트"
+  },
+  "toast": {
+    "success": "성공",
+    "success_desc": "주문 추적 성공!",
+    "failed_title": "주문 추적 프로세스 실패",
+    "failed_default": "가입 실패"
+  }
+}

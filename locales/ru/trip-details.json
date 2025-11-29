@@ -1,0 +1,77 @@
+{
+  "header": {
+    "title": "Детали поездки"
+  },
+  "loading": {
+    "trip_details": "Загрузка деталей поездки...",
+    "no_data": "Нет доступных данных о поездке",
+    "go_back": "Назад"
+  },
+  "status": {
+    "going_to_pickup": "Едет за посылкой",
+    "picked_up": "Забрано",
+    "in_progress": "В процессе",
+    "in_transit": "В пути",
+    "arrived_destination": "Прибыл в пункт назначения",
+    "delivered": "Доставлено",
+    "toll_bill_pending": "Счет за проезд ожидает оплаты",
+    "completed": "Завершено",
+    "pending": "Ожидает",
+    "cancelled": "Отменено"
+  },
+  "banner": {
+    "in_transit": "Ваша посылка в пути",
+    "completed": "Посылка доставлена",
+    "delivered": "Посылка доставлена",
+    "pending_driver": "Ожидание водителя",
+    "pending_pathfinder": "Ожидание проводника",
+    "cancelled": "Заказ отменен",
+    "going_to_pickup_driver": "Водитель едет забрать вашу посылку",
+    "going_to_pickup_pathfinder": "Проводник едет забрать вашу посылку",
+    "picked_up": "Посылка забрана",
+    "arrived_destination": "Прибыл в пункт назначения",
+    "in_progress": "Посылка в процессе",
+    "toll_bill_pending": "Счет за проезд ожидает оплаты"
+  },
+  "driver": {
+    "driver": "Водитель",
+    "pathfinder": "Проводник",
+    "loading": "Загрузка...",
+    "current_location": "Текущее местоположение {{role}}",
+    "location": "Местоположение {{role}}"
+  },
+  "info": {
+    "estimated_time": "Расчетное время",
+    "package_weight": "Вес посылки",
+    "track_id": "ID отслеживания"
+  },
+  "location": {
+    "no_data": "Данные о местоположении пока недоступны",
+    "speed": "Скорость: {{speed}} км/ч"
+  },
+  "button": {
+    "waiting_driver": "Ожидание водителя...",
+    "waiting_pathfinder": "Ожидание проводника...",
+    "tracking_active": "Отслеживание активно"
+  },
+  "modal": {
+    "title": "Доставка завершена",
+    "review_prompt": "Пожалуйста, оставьте звездный отзыв для вашего курьера",
+    "thank_you": "Спасибо, вы оценили нашего {{role}} на {{rating}} звезд",
+    "write_review": "Написать отзыв",
+    "cancel": "Отмена"
+  },
+  "rating": {
+    "one": "одну",
+    "two": "две",
+    "three": "три",
+    "four": "четыре",
+    "five": "пять"
+  },
+  "toast": {
+    "success": "Успех",
+    "review_success": "{{name}} успешно оценен!",
+    "review_failed": "Не удалось оценить {{name}}",
+    "failed_default": "Не удалось обновить аккаунт"
+  }
+}

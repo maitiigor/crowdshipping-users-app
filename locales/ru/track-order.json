@@ -1,0 +1,31 @@
+{
+  "header": {
+    "title": "Отследить заказ"
+  },
+  "form": {
+    "tracking_reference": "Номер отслеживания",
+    "placeholder": "напр. PKG-123456789",
+    "validation_required": "Номер отслеживания обязателен",
+    "track_button": "Отследить заказ"
+  },
+  "status": {
+    "package_status": "Статус посылки",
+    "tracking_id": "ID отслеживания"
+  },
+  "location": {
+    "title": "Детали местоположения",
+    "pickup": "Место получения",
+    "dropoff": "Место доставки"
+  },
+  "timeline": {
+    "title": "Хронология",
+    "created": "Создано",
+    "last_updated": "Последнее обновление"
+  },
+  "toast": {
+    "success": "Успех",
+    "success_desc": "Заказ успешно отслежен!",
+    "failed_title": "Процесс отслеживания заказа не удался",
+    "failed_default": "Регистрация не удалась"
+  }
+}

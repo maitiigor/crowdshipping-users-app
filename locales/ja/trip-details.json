@@ -1,0 +1,77 @@
+{
+  "header": {
+    "title": "旅行の詳細"
+  },
+  "loading": {
+    "trip_details": "旅行の詳細を読み込んでいます...",
+    "no_data": "利用可能な旅行データがありません",
+    "go_back": "戻る"
+  },
+  "status": {
+    "going_to_pickup": "集荷に向かっています",
+    "picked_up": "集荷済み",
+    "in_progress": "進行中",
+    "in_transit": "配送中",
+    "arrived_destination": "目的地に到着",
+    "delivered": "配達済み",
+    "toll_bill_pending": "通行料金保留中",
+    "completed": "完了",
+    "pending": "保留中",
+    "cancelled": "キャンセル済み"
+  },
+  "banner": {
+    "in_transit": "荷物は配送中です",
+    "completed": "荷物が配達されました",
+    "delivered": "荷物が配達されました",
+    "pending_driver": "ドライバーを待っています",
+    "pending_pathfinder": "パスファインダーを待っています",
+    "cancelled": "注文がキャンセルされました",
+    "going_to_pickup_driver": "ドライバーが荷物を集荷に向かっています",
+    "going_to_pickup_pathfinder": "パスファインダーが荷物を集荷に向かっています",
+    "picked_up": "荷物が集荷されました",
+    "arrived_destination": "目的地に到着",
+    "in_progress": "荷物は進行中です",
+    "toll_bill_pending": "通行料金保留中"
+  },
+  "driver": {
+    "driver": "ドライバー",
+    "pathfinder": "パスファインダー",
+    "loading": "読み込み中...",
+    "current_location": "{{role}}の現在地",
+    "location": "{{role}}の位置"
+  },
+  "info": {
+    "estimated_time": "予定時間",
+    "package_weight": "荷物の重量",
+    "track_id": "追跡ID"
+  },
+  "location": {
+    "no_data": "位置データはまだ利用できません",
+    "speed": "速度：{{speed}} km/h"
+  },
+  "button": {
+    "waiting_driver": "ドライバーを待っています...",
+    "waiting_pathfinder": "パスファインダーを待っています...",
+    "tracking_active": "追跡アクティブ"
+  },
+  "modal": {
+    "title": "配送完了",
+    "review_prompt": "配達員に星評価を残してください",
+    "thank_you": "ありがとうございます。{{role}}に{{rating}}つ星の評価をしました",
+    "write_review": "レビューを書く",
+    "cancel": "キャンセル"
+  },
+  "rating": {
+    "one": "1",
+    "two": "2",
+    "three": "3",
+    "four": "4",
+    "five": "5"
+  },
+  "toast": {
+    "success": "成功",
+    "review_success": "{{name}}のレビューが成功しました！",
+    "review_failed": "{{name}}のレビューが失敗しました",
+    "failed_default": "アカウントの更新に失敗しました"
+  }
+}

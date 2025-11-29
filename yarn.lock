@@ -1094,15 +1094,7 @@
     "@babel/code-frame" "~7.10.4"
     json5 "^2.2.3"
 
-"@expo/json-file@^9.1.5":
-  version "9.1.5"
-  resolved "https://registry.npmjs.org/@expo/json-file/-/json-file-9.1.5.tgz"
-  integrity sha512-prWBhLUlmcQtvN6Y7BpW2k9zXGd3ySa3R6rAguMJkp1z22nunLN64KYTUWfijFlprFoxm9r2VNnGkcbndAlgKA==
-  dependencies:
-    "@babel/code-frame" "~7.10.4"
-    json5 "^2.2.3"
-
-"@expo/json-file@~9.1.5":
+"@expo/json-file@^9.1.5", "@expo/json-file@~9.1.5":
   version "9.1.5"
   resolved "https://registry.npmjs.org/@expo/json-file/-/json-file-9.1.5.tgz"
   integrity sha512-prWBhLUlmcQtvN6Y7BpW2k9zXGd3ySa3R6rAguMJkp1z22nunLN64KYTUWfijFlprFoxm9r2VNnGkcbndAlgKA==

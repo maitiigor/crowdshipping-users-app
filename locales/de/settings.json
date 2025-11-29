@@ -1,0 +1,34 @@
+{
+  "header": {
+    "title": "Benutzereinstellungen"
+  },
+  "main": {
+    "customize_your_experience": "Passen Sie Ihre Erfahrung an",
+    "manage_notifications_desc": "Benachrichtigungen und Erscheinungsbild verwalten",
+    "notifications_title": "Benachrichtigungen",
+    "email_notif_title": "E-Mail-Benachrichtigungen",
+    "email_notif_desc": "Updates per E-Mail erhalten",
+    "sms_notif_title": "SMS-Benachrichtigungen",
+    "sms_notif_desc": "Updates per SMS erhalten",
+    "appearance_title": "Erscheinungsbild",
+    "light_mode": "Heller Modus",
+    "light_mode_desc": "Hell und klar",
+    "dark_mode": "Dunkler Modus",
+    "dark_mode_desc": "Angenehm für die Augen",
+    "system_default": "Systemstandard",
+    "system_default_desc": "Geräteeinstellungen folgen",
+    "auto_save": "💡 Änderungen werden automatisch gespeichert"
+  },
+  "toast": {
+    "success": "Erfolg",
+    "error": "Fehler",
+    "email_enabled": "E-Mail-Benachrichtigungen aktiviert",
+    "email_disabled": "E-Mail-Benachrichtigungen deaktiviert",
+    "sms_enabled": "SMS-Benachrichtigungen aktiviert",
+    "sms_disabled": "SMS-Benachrichtigungen deaktiviert",
+    "theme_changed": "Thema geändert zu {{theme}}",
+    "update_email_failed": "Aktualisierung der E-Mail-Einstellungen fehlgeschlagen",
+    "update_sms_failed": "Aktualisierung der SMS-Einstellungen fehlgeschlagen",
+    "update_theme_failed": "Aktualisierung des Themas fehlgeschlagen"
+  }
+}

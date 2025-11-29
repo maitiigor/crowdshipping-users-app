@@ -1,0 +1,34 @@
+{
+  "header": {
+    "title": "用户偏好"
+  },
+  "main": {
+    "customize_your_experience": "自定义您的体验",
+    "manage_notifications_desc": "管理通知和外观设置",
+    "notifications_title": "通知",
+    "email_notif_title": "电子邮件通知",
+    "email_notif_desc": "通过电子邮件接收更新",
+    "sms_notif_title": "短信通知",
+    "sms_notif_desc": "通过短信接收更新",
+    "appearance_title": "外观",
+    "light_mode": "浅色模式",
+    "light_mode_desc": "明亮清晰",
+    "dark_mode": "深色模式",
+    "dark_mode_desc": "护眼",
+    "system_default": "系统默认",
+    "system_default_desc": "跟随设备设置",
+    "auto_save": "💡 更改会自动保存"
+  },
+  "toast": {
+    "success": "成功",
+    "error": "错误",
+    "email_enabled": "电子邮件通知已启用",
+    "email_disabled": "电子邮件通知已禁用",
+    "sms_enabled": "短信通知已启用",
+    "sms_disabled": "短信通知已禁用",
+    "theme_changed": "主题已更改为 {{theme}}",
+    "update_email_failed": "更新电子邮件偏好失败",
+    "update_sms_failed": "更新短信偏好失败",
+    "update_theme_failed": "更新主题失败"
+  }
+}

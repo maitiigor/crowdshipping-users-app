@@ -1,0 +1,31 @@
+{
+  "header": {
+    "title": "تتبع الطلب"
+  },
+  "form": {
+    "tracking_reference": "مرجع التتبع",
+    "placeholder": "مثال PKG-123456789",
+    "validation_required": "مرجع التتبع مطلوب",
+    "track_button": "تتبع الطلب"
+  },
+  "status": {
+    "package_status": "حالة الطرد",
+    "tracking_id": "معرف التتبع"
+  },
+  "location": {
+    "title": "تفاصيل الموقع",
+    "pickup": "موقع الاستلام",
+    "dropoff": "موقع التسليم"
+  },
+  "timeline": {
+    "title": "الجدول الزمني",
+    "created": "تم الإنشاء",
+    "last_updated": "آخر تحديث"
+  },
+  "toast": {
+    "success": "نجاح",
+    "success_desc": "تم تتبع الطلب بنجاح!",
+    "failed_title": "فشلت عملية تتبع الطلب",
+    "failed_default": "فشل التسجيل"
+  }
+}

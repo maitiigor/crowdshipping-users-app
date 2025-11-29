@@ -1,3 +1,5 @@
+// eslint-disable-next-line import/namespace
+// eslint-disable-next-line import/namespace
 import BankDropdown from "@/components/Custom/BankDropdown";
 import { CustomModal } from "@/components/Custom/CustomModal";
 import CustomToast from "@/components/Custom/CustomToast";

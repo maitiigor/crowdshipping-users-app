@@ -11,6 +11,7 @@ import { useToast } from "@/components/ui/toast";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { useAuthenticatedPatch } from "@/lib/api";
 import { useLocalSearchParams, useNavigation, useRouter } from "expo-router";
+import * as Yup from "yup";  
 import { Formik } from "formik";
 import {
   ChevronLeft,
@@ -26,8 +27,8 @@ import {
   TouchableOpacity,
 } from "react-native";
 
+import { useTranslation } from "react-i18next";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import * as Yup from "yup";
 const validationSchema = Yup.object().shape({
   code: Yup.array()
     .of(Yup.string().matches(/^\d$/, "Digit only").required("Required"))
@@ -40,6 +41,7 @@ export default function ConfirmPaymentPin() {
   const backroundTopNav = useThemeColor({}, "background");
   const router = useRouter();
   const toast = useToast();
+  const { t } = useTranslation("paymentLogs");
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
   const [secondsLeft, setSecondsLeft] = useState(20); // countdown state
   const [showModal, setShowModal] = useState(false);
@@ -61,7 +63,7 @@ export default function ConfirmPaymentPin() {
       headerTitle: () => {
         return (
           <ThemedText type="s1_subtitle" className="text-center">
-            Confirm Pin
+            {t("pin.title")}
           </ThemedText>
         );
       },
@@ -191,8 +193,8 @@ export default function ConfirmPaymentPin() {
       });
       console.log("🚀 ~ handleSubmit ~ response:", response);
       showNewToast({
-        title: "Success",
-        description: "OTP verified successfully!",
+        title: t("pin.success_title"),
+        description: t("pin.success_message"),
         icon: CircleCheckIcon,
         action: "success",
         variant: "solid",
@@ -209,7 +211,7 @@ export default function ConfirmPaymentPin() {
         "Sign up failed";
 
       showNewToast({
-        title: "OTP Failed",
+        title: t("pin.error_title"),
         description: message,
         icon: HelpCircleIcon,
         action: "error",
@@ -229,7 +231,7 @@ export default function ConfirmPaymentPin() {
         <ThemedView className="flex-1">
           <ThemedView className=" justify-center items-center mt-20">
             <ThemedText type="default" className="text-typography-500">
-              Enter your Pin to confirm payment
+              {t("pin.enter_pin")}
             </ThemedText>
           </ThemedView>
 
@@ -293,7 +295,7 @@ export default function ConfirmPaymentPin() {
                 {touched.code && errors.code && (
                   <ThemedText type="b4_body" className="text-error-500 mb-4">
                     {Array.isArray(errors.code)
-                      ? "Enter 5 digits"
+                      ? t("validation.pin_invalid")
                       : (errors.code as string)}
                   </ThemedText>
                 )}
@@ -305,7 +307,7 @@ export default function ConfirmPaymentPin() {
                   onPress={() => handleSubmit()}
                 >
                   <ThemedText type="s1_subtitle" className="text-white">
-                    Continue
+                    {t("pin.continue")}
                   </ThemedText>
                 </Button>
               </ThemedView>
@@ -349,13 +351,13 @@ export default function ConfirmPaymentPin() {
       {showModal && (
         <>
           <CustomModal
-            description="Your balance will be added your wallet"
-            title="Top Up Successful!"
+            description={t("pin.success_message")}
+            title={t("pin.success_title")}
             img={require("@/assets/images/onboarding/modal-success.png")}
             firstBtnLink={"/(tabs)/payment-receipt"}
-            firstBtnText="View Receipt"
+            firstBtnText={t("transaction.view_receipt") || "View Receipt"}
             secondBtnLink={"/(tabs)"}
-            secondBtnText="Home"
+            secondBtnText={t("header.home") || "Home"}
             setShowModal={setShowModal}
             showModal={showModal}
             size="lg"

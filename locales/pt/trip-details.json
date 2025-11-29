@@ -1,0 +1,77 @@
+{
+  "header": {
+    "title": "Detalhes da viagem"
+  },
+  "loading": {
+    "trip_details": "Carregando detalhes da viagem...",
+    "no_data": "Nenhum dado de viagem disponível",
+    "go_back": "Voltar"
+  },
+  "status": {
+    "going_to_pickup": "Indo para coleta",
+    "picked_up": "Coletado",
+    "in_progress": "Em andamento",
+    "in_transit": "Em trânsito",
+    "arrived_destination": "Chegou ao destino",
+    "delivered": "Entregue",
+    "toll_bill_pending": "Conta de pedágio pendente",
+    "completed": "Concluído",
+    "pending": "Pendente",
+    "cancelled": "Cancelado"
+  },
+  "banner": {
+    "in_transit": "Seu pacote está a caminho",
+    "completed": "Pacote entregue",
+    "delivered": "Pacote entregue",
+    "pending_driver": "Aguardando motorista",
+    "pending_pathfinder": "Aguardando guia",
+    "cancelled": "Pedido cancelado",
+    "going_to_pickup_driver": "O motorista está a caminho para coletar seu pacote",
+    "going_to_pickup_pathfinder": "O guia está a caminho para coletar seu pacote",
+    "picked_up": "Pacote coletado",
+    "arrived_destination": "Chegou ao destino",
+    "in_progress": "Pacote em andamento",
+    "toll_bill_pending": "Conta de pedágio pendente"
+  },
+  "driver": {
+    "driver": "Motorista",
+    "pathfinder": "Guia",
+    "loading": "Carregando...",
+    "current_location": "Localização atual do {{role}}",
+    "location": "Localização do {{role}}"
+  },
+  "info": {
+    "estimated_time": "Tempo estimado",
+    "package_weight": "Peso do pacote",
+    "track_id": "ID de rastreamento"
+  },
+  "location": {
+    "no_data": "Nenhum dado de localização disponível ainda",
+    "speed": "Velocidade: {{speed}} km/h"
+  },
+  "button": {
+    "waiting_driver": "Aguardando motorista...",
+    "waiting_pathfinder": "Aguardando guia...",
+    "tracking_active": "Rastreamento ativo"
+  },
+  "modal": {
+    "title": "Envio concluído",
+    "review_prompt": "Por favor, deixe uma avaliação com estrelas para seu entregador",
+    "thank_you": "Obrigado, você avaliou nosso {{role}} com {{rating}} estrela",
+    "write_review": "Escrever uma avaliação",
+    "cancel": "Cancelar"
+  },
+  "rating": {
+    "one": "uma",
+    "two": "duas",
+    "three": "três",
+    "four": "quatro",
+    "five": "cinco"
+  },
+  "toast": {
+    "success": "Sucesso",
+    "review_success": "{{name}} avaliado com sucesso!",
+    "review_failed": "Falha na avaliação de {{name}}",
+    "failed_default": "Falha na atualização da conta"
+  }
+}

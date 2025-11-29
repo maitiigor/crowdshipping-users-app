@@ -1,0 +1,34 @@
+{
+  "header": {
+    "title": "Préférences utilisateur"
+  },
+  "main": {
+    "customize_your_experience": "Personnalisez votre expérience",
+    "manage_notifications_desc": "Gérer les notifications et les paramètres d'apparence",
+    "notifications_title": "Notifications",
+    "email_notif_title": "Notifications par e-mail",
+    "email_notif_desc": "Recevoir des mises à jour par e-mail",
+    "sms_notif_title": "Notifications SMS",
+    "sms_notif_desc": "Recevoir des mises à jour par SMS",
+    "appearance_title": "Apparence",
+    "light_mode": "Mode clair",
+    "light_mode_desc": "Lumineux et clair",
+    "dark_mode": "Mode sombre",
+    "dark_mode_desc": "Facile pour les yeux",
+    "system_default": "Défaut du système",
+    "system_default_desc": "Suivre les paramètres de l'appareil",
+    "auto_save": "💡 Les modifications sont enregistrées automatiquement"
+  },
+  "toast": {
+    "success": "Succès",
+    "error": "Erreur",
+    "email_enabled": "Notifications par e-mail activées",
+    "email_disabled": "Notifications par e-mail désactivées",
+    "sms_enabled": "Notifications SMS activées",
+    "sms_disabled": "Notifications SMS désactivées",
+    "theme_changed": "Thème changé en {{theme}}",
+    "update_email_failed": "Échec de la mise à jour des préférences de messagerie",
+    "update_sms_failed": "Échec de la mise à jour des préférences SMS",
+    "update_theme_failed": "Échec de la mise à jour du thème"
+  }
+}

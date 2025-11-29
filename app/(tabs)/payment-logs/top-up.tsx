@@ -35,20 +35,21 @@ import {
   LucideIcon,
 } from "lucide-react-native";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { ActivityIndicator, Linking, TouchableOpacity } from "react-native";
 import * as Yup from "yup";
 // Payment SDK imports
 import { useCountry } from "@/hooks/useCountry";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { useAppSelector } from "@/store";
 import { INotificationsResponse } from "@/types/INotification";
 import { IUserProfileResponse } from "@/types/IUserProfile";
 import { useStripe } from "@stripe/stripe-react-native";
 import { usePaystack } from "react-native-paystack-webview";
-import { useThemeColor } from "@/hooks/useThemeColor";
 
 const validationSchema = Yup.object().shape({
   amount: Yup.number()
-    .typeError("Amount must be a number")
+    .typeError("Amount must be a number") // Ideally this should be translated inside the component or using a function if yup supports it, but for now I'll leave it or try to move it inside the component if possible. Since it's outside, I can't use `t`. I'll move `validationSchema` inside the component.
     .required("Amount is required")
     .min(100, "Minimum withdrawal is 100"),
   paymentType: Yup.string().required("Please select a payment method"),
@@ -65,6 +66,7 @@ export default function TopUpScreen() {
   const { popup } = usePaystack();
   const { countryCode } = useCountry();
   const backroundTopNav = useThemeColor({}, "background");
+  const { t } = useTranslation("paymentLogs");
   // Get the selected country from Redux
   const selectedCountry = useAppSelector(
     (state) => state.country.selectedCountry
@@ -114,7 +116,7 @@ export default function TopUpScreen() {
       headerTitle: () => {
         return (
           <ThemedText type="s1_subtitle" className="text-center">
-            Top Up
+            {t("header.top_up")}
           </ThemedText>
         );
       },
@@ -163,7 +165,7 @@ export default function TopUpScreen() {
       ),
       headerRight: () => <NotificationIcon />,
     });
-  }, [navigation, router, backroundTopNav]);
+  }, [navigation, router, backroundTopNav, t]);
 
   const paymentTypes = [
     { id: 1, name: "Paystack", value: "paystack", Icon: PaystackSvg },
@@ -246,8 +248,8 @@ export default function TopUpScreen() {
       if (presentError) {
         if (presentError.code === "Canceled") {
           showNewToast({
-            title: "Payment Cancelled",
-            description: "You cancelled the payment process",
+            title: t("top_up.payment_cancelled"),
+            description: t("top_up.payment_cancelled_desc"),
             icon: HelpCircleIcon,
             action: "info",
             variant: "solid",
@@ -262,8 +264,8 @@ export default function TopUpScreen() {
     } catch (error: any) {
       console.log("🚀 ~ handleStripePayment ~ error:", error);
       showNewToast({
-        title: "Payment Failed",
-        description: error.message || "Failed to process Stripe payment",
+        title: t("top_up.payment_failed"),
+        description: error.message || t("top_up.payment_failed_desc"),
         icon: HelpCircleIcon,
         action: "error",
         variant: "solid",
@@ -284,8 +286,8 @@ export default function TopUpScreen() {
   }) => {
     if (!popup?.checkout && !popup?.newTransaction) {
       showNewToast({
-        title: "Payment Unavailable",
-        description: "Unable to launch Paystack checkout right now.",
+        title: t("top_up.payment_unavailable"),
+        description: t("top_up.payment_unavailable_desc"),
         icon: HelpCircleIcon,
         action: "error",
         variant: "solid",
@@ -296,9 +298,8 @@ export default function TopUpScreen() {
     const customerEmail = userProfile?.data.email;
     if (!customerEmail) {
       showNewToast({
-        title: "Missing Email",
-        description:
-          "We couldn't find your email address. Please update your profile before topping up.",
+        title: t("top_up.missing_email"),
+        description: t("top_up.missing_email_desc"),
         icon: HelpCircleIcon,
         action: "error",
         variant: "solid",
@@ -334,8 +335,8 @@ export default function TopUpScreen() {
       },
       onCancel: () => {
         showNewToast({
-          title: "Payment Cancelled",
-          description: "You cancelled the payment process",
+          title: t("top_up.payment_cancelled"),
+          description: t("top_up.payment_cancelled_desc"),
           icon: HelpCircleIcon,
           action: "info",
           variant: "solid",
@@ -343,9 +344,8 @@ export default function TopUpScreen() {
       },
       onError: (err: { message?: string }) => {
         showNewToast({
-          title: "Payment Failed",
-          description:
-            err?.message || "Unable to complete Paystack payment at the moment",
+          title: t("top_up.payment_failed"),
+          description: err?.message || t("top_up.payment_failed_desc"),
           icon: HelpCircleIcon,
           action: "error",
           variant: "solid",
@@ -360,8 +360,8 @@ export default function TopUpScreen() {
 
     if (!launchMethod) {
       showNewToast({
-        title: "Payment Unavailable",
-        description: "Unable to start Paystack checkout right now.",
+        title: t("top_up.payment_unavailable"),
+        description: t("top_up.payment_unavailable_desc"),
         icon: HelpCircleIcon,
         action: "error",
         variant: "solid",
@@ -378,10 +378,8 @@ export default function TopUpScreen() {
     } catch (err: any) {
       console.error("Paystack checkout failed", err);
       showNewToast({
-        title: "Unable to start Paystack",
-        description:
-          err?.message ||
-          "We couldn't start the Paystack checkout. Please try again.",
+        title: t("top_up.unable_to_start_paystack"),
+        description: err?.message || t("top_up.unable_to_start_paystack_desc"),
         icon: HelpCircleIcon,
         action: "error",
         variant: "solid",
@@ -412,8 +410,8 @@ export default function TopUpScreen() {
       });
 
       showNewToast({
-        title: "Success",
-        description: "Top-up completed successfully!",
+        title: t("top_up.success_title"),
+        description: t("top_up.success_message"),
         icon: CircleCheckIcon,
         action: "success",
         variant: "solid",
@@ -430,8 +428,8 @@ export default function TopUpScreen() {
     } catch (error: any) {
       console.log("🚀 ~ verifyPayment ~ error:", error);
       showNewToast({
-        title: "Verification Failed",
-        description: error?.message || "Failed to verify payment",
+        title: t("top_up.verification_failed"),
+        description: error?.message || t("top_up.verification_failed_desc"),
         icon: HelpCircleIcon,
         action: "error",
         variant: "solid",
@@ -485,7 +483,7 @@ export default function TopUpScreen() {
         "Top-Up Request failed";
 
       showNewToast({
-        title: "Top-Up Request Failed",
+        title: t("top_up.error_title"),
         description: message,
         icon: HelpCircleIcon,
         action: "error",
@@ -539,7 +537,9 @@ export default function TopUpScreen() {
               }) => (
                 <ThemedView className="flex gap-4 mt-5">
                   <ThemedView>
-                    <InputLabelText className="">Amount</InputLabelText>
+                    <InputLabelText className="">
+                      {t("top_up.amount")}
+                    </InputLabelText>
                     <Input
                       size="xl"
                       className="h-[55px] border-primary-100 rounded-lg mb-2 bg-primary-inputShade px-2"
@@ -548,7 +548,7 @@ export default function TopUpScreen() {
                     >
                       <InputField
                         className=""
-                        placeholder="Min. N5000"
+                        placeholder={t("top_up.amount_placeholder")}
                         value={values.amount}
                         onChangeText={handleChange("amount")}
                         onBlur={handleBlur("amount")}
@@ -565,7 +565,9 @@ export default function TopUpScreen() {
                       </ThemedText>
                     )}
                   </ThemedView>
-                  <ThemedText type="s1_subtitle">Select Card</ThemedText>
+                  <ThemedText type="s1_subtitle">
+                    {t("top_up.select_card")}
+                  </ThemedText>
                   <ThemedView className="mt-5 border p-3 rounded-xl border-typography-100">
                     <RadioGroup
                       value={values.paymentType}
@@ -608,7 +610,7 @@ export default function TopUpScreen() {
                           type="b2_body"
                           className="text-primary-500 text-right"
                         >
-                          + Update Bank Account
+                          {t("top_up.add_new_card")}
                         </ThemedText>
                       </Link>
                     </ThemedView>
@@ -624,7 +626,7 @@ export default function TopUpScreen() {
                       {loading || loadingVerifyTopUp ? (
                         <ActivityIndicator color="white" />
                       ) : (
-                        "Top Up"
+                        t("top_up.top_up_button")
                       )}
                     </ThemedText>
                   </Button>

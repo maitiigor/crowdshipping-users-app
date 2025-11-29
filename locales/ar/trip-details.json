@@ -1,0 +1,77 @@
+{
+  "header": {
+    "title": "تفاصيل الرحلة"
+  },
+  "loading": {
+    "trip_details": "جارٍ تحميل تفاصيل الرحلة...",
+    "no_data": "لا توجد بيانات رحلة متاحة",
+    "go_back": "العودة"
+  },
+  "status": {
+    "going_to_pickup": "في الطريق للاستلام",
+    "picked_up": "تم الاستلام",
+    "in_progress": "قيد التنفيذ",
+    "in_transit": "في الطريق",
+    "arrived_destination": "وصل إلى الوجهة",
+    "delivered": "تم التسليم",
+    "toll_bill_pending": "فاتورة الرسوم معلقة",
+    "completed": "مكتمل",
+    "pending": "قيد الانتظار",
+    "cancelled": "ملغى"
+  },
+  "banner": {
+    "in_transit": "طردك في الطريق",
+    "completed": "تم تسليم الطرد",
+    "delivered": "تم تسليم الطرد",
+    "pending_driver": "في انتظار السائق",
+    "pending_pathfinder": "في انتظار الدليل",
+    "cancelled": "تم إلغاء الطلب",
+    "going_to_pickup_driver": "السائق في الطريق لاستلام طردك",
+    "going_to_pickup_pathfinder": "الدليل في الطريق لاستلام طردك",
+    "picked_up": "تم استلام الطرد",
+    "arrived_destination": "وصل إلى الوجهة",
+    "in_progress": "الطرد قيد التنفيذ",
+    "toll_bill_pending": "فاتورة الرسوم معلقة"
+  },
+  "driver": {
+    "driver": "سائق",
+    "pathfinder": "دليل",
+    "loading": "جارٍ التحميل...",
+    "current_location": "موقع {{role}} الحالي",
+    "location": "موقع {{role}}"
+  },
+  "info": {
+    "estimated_time": "الوقت المقدر",
+    "package_weight": "وزن الطرد",
+    "track_id": "معرف التتبع"
+  },
+  "location": {
+    "no_data": "لا توجد بيانات موقع متاحة بعد",
+    "speed": "السرعة: {{speed}} كم/س"
+  },
+  "button": {
+    "waiting_driver": "في انتظار السائق...",
+    "waiting_pathfinder": "في انتظار الدليل...",
+    "tracking_active": "التتبع نشط"
+  },
+  "modal": {
+    "title": "اكتمل الشحن",
+    "review_prompt": "يرجى ترك تقييم بالنجوم للساعي",
+    "thank_you": "شكرًا لك، لقد قيمت {{role}} بـ {{rating}} نجمة",
+    "write_review": "كتابة مراجعة",
+    "cancel": "إلغاء"
+  },
+  "rating": {
+    "one": "واحدة",
+    "two": "اثنتان",
+    "three": "ثلاث",
+    "four": "أربع",
+    "five": "خمس"
+  },
+  "toast": {
+    "success": "نجاح",
+    "review_success": "تم تقييم {{name}} بنجاح!",
+    "review_failed": "فشل تقييم {{name}}",
+    "failed_default": "فشل تحديث الحساب"
+  }
+}

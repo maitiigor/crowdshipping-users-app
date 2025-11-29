@@ -1,0 +1,31 @@
+{
+  "header": {
+    "title": "追踪订单"
+  },
+  "form": {
+    "tracking_reference": "追踪参考",
+    "placeholder": "例如 PKG-123456789",
+    "validation_required": "追踪参考为必填项",
+    "track_button": "追踪订单"
+  },
+  "status": {
+    "package_status": "包裹状态",
+    "tracking_id": "追踪 ID"
+  },
+  "location": {
+    "title": "位置详情",
+    "pickup": "取件地点",
+    "dropoff": "送达地点"
+  },
+  "timeline": {
+    "title": "时间线",
+    "created": "创建时间",
+    "last_updated": "最后更新"
+  },
+  "toast": {
+    "success": "成功",
+    "success_desc": "订单追踪成功！",
+    "failed_title": "追踪订单流程失败",
+    "failed_default": "注册失败"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "header": {
+    "title": "Track Order"
+  },
+  "form": {
+    "tracking_reference": "Tracking Reference",
+    "placeholder": "e.g PKG-123456789",
+    "validation_required": "Tracking reference is required",
+    "track_button": "Track Order"
+  },
+  "status": {
+    "package_status": "Package Status",
+    "tracking_id": "Tracking ID"
+  },
+  "location": {
+    "title": "Location Details",
+    "pickup": "Pick-up Location",
+    "dropoff": "Drop-off Location"
+  },
+  "timeline": {
+    "title": "Timeline",
+    "created": "Created",
+    "last_updated": "Last Updated"
+  },
+  "toast": {
+    "success": "Success",
+    "success_desc": "Order tracked successfully!",
+    "failed_title": "Tracking Order Process Failed",
+    "failed_default": "Sign up failed"
+  }
+}

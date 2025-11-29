@@ -1,0 +1,34 @@
+{
+  "header": {
+    "title": "ユーザー設定"
+  },
+  "main": {
+    "customize_your_experience": "体験をカスタマイズ",
+    "manage_notifications_desc": "通知と外観設定を管理",
+    "notifications_title": "通知",
+    "email_notif_title": "メール通知",
+    "email_notif_desc": "メールで更新を受け取る",
+    "sms_notif_title": "SMS通知",
+    "sms_notif_desc": "SMSで更新を受け取る",
+    "appearance_title": "外観",
+    "light_mode": "ライトモード",
+    "light_mode_desc": "明るく鮮明",
+    "dark_mode": "ダークモード",
+    "dark_mode_desc": "目に優しい",
+    "system_default": "システムデフォルト",
+    "system_default_desc": "デバイス設定に従う",
+    "auto_save": "💡 変更は自動的に保存されます"
+  },
+  "toast": {
+    "success": "成功",
+    "error": "エラー",
+    "email_enabled": "メール通知が有効になりました",
+    "email_disabled": "メール通知が無効になりました",
+    "sms_enabled": "SMS通知が有効になりました",
+    "sms_disabled": "SMS通知が無効になりました",
+    "theme_changed": "テーマが{{theme}}に変更されました",
+    "update_email_failed": "メール設定の更新に失敗しました",
+    "update_sms_failed": "SMS設定の更新に失敗しました",
+    "update_theme_failed": "テーマの更新に失敗しました"
+  }
+}

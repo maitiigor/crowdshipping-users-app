@@ -1,0 +1,31 @@
+{
+  "header": {
+    "title": "Traccia ordine"
+  },
+  "form": {
+    "tracking_reference": "Riferimento di tracciamento",
+    "placeholder": "es. PKG-123456789",
+    "validation_required": "Il riferimento di tracciamento è obbligatorio",
+    "track_button": "Traccia ordine"
+  },
+  "status": {
+    "package_status": "Stato del pacco",
+    "tracking_id": "ID di tracciamento"
+  },
+  "location": {
+    "title": "Dettagli posizione",
+    "pickup": "Luogo di ritiro",
+    "dropoff": "Luogo di consegna"
+  },
+  "timeline": {
+    "title": "Cronologia",
+    "created": "Creato",
+    "last_updated": "Ultimo aggiornamento"
+  },
+  "toast": {
+    "success": "Successo",
+    "success_desc": "Ordine tracciato con successo!",
+    "failed_title": "Processo di tracciamento ordine fallito",
+    "failed_default": "Registrazione fallita"
+  }
+}

@@ -12,11 +12,13 @@ import { HStack } from "@/components/ui/hstack";
 import { Icon, SearchIcon } from "@/components/ui/icon";
 import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
 import { Skeleton, SkeletonText } from "@/components/ui/skeleton";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { useAuthenticatedQuery } from "@/lib/api";
 import { IReportDatum, IReportResponse } from "@/types/IReport";
 import dayjs from "dayjs";
 import { ChevronLeft, CircleQuestionMark } from "lucide-react-native";
-import { useThemeColor } from "@/hooks/useThemeColor";
+
+import { useTranslation } from "react-i18next";
 
 const filterList = [
   {
@@ -32,6 +34,7 @@ export default function ReportScreen() {
   const navigation = useNavigation();
   const router = useRouter();
   const backroundTopNav = useThemeColor({}, "background");
+  const { t } = useTranslation("reports");
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedFilter, setSelectedFilter] = useState("pending");
   const [toggleHideShowByID, setToggleHideShowByID] = useState(
@@ -61,7 +64,7 @@ export default function ReportScreen() {
       headerTitle: () => {
         return (
           <ThemedText type="s1_subtitle" className="text-center">
-            Report
+            {t("header.title")}
           </ThemedText>
         );
       },
@@ -133,7 +136,7 @@ export default function ReportScreen() {
             <InputIcon as={SearchIcon} />
           </InputSlot>
           <InputField
-            placeholder={"Search..."}
+            placeholder={t("list.search_placeholder")}
             value={searchTerm}
             onChangeText={setSearchTerm}
           />
@@ -157,7 +160,9 @@ export default function ReportScreen() {
                     : "text-primary-500"
                 }`}
               >
-                {item.label}
+                {item.value === "pending"
+                  ? t("list.filter_pending")
+                  : t("list.filter_resolved")}
               </ThemedText>
             </TouchableOpacity>
           ))}
@@ -191,8 +196,16 @@ export default function ReportScreen() {
               }}
               ListEmptyComponent={
                 <EmptyState
-                  title={`No ${selectedFilter} reports`}
-                  description={`You have no ${selectedFilter} reports at the moment. Check back later for updates.`}
+                  title={
+                    selectedFilter === "pending"
+                      ? t("list.empty_pending_title")
+                      : t("list.empty_resolved_title")
+                  }
+                  description={
+                    selectedFilter === "pending"
+                      ? t("list.empty_pending_desc")
+                      : t("list.empty_resolved_desc")
+                  }
                   icon={CircleQuestionMark}
                   className="mt-10"
                 />
@@ -217,7 +230,7 @@ export default function ReportScreen() {
                           type="default"
                           className="text-typography-500"
                         >
-                          Report ID
+                          {t("list.report_id")}
                         </ThemedText>
                         <ThemedText
                           type="s2_subtitle"
@@ -231,7 +244,7 @@ export default function ReportScreen() {
                           type="default"
                           className="text-typography-500"
                         >
-                          Last Updated Date
+                          {t("list.last_updated")}
                         </ThemedText>
                         <ThemedText
                           type="s2_subtitle"
@@ -247,7 +260,7 @@ export default function ReportScreen() {
                           type="default"
                           className="text-typography-500"
                         >
-                          Current Status
+                          {t("list.current_status")}
                         </ThemedText>
                         <ThemedText
                           type="c1_caption"
@@ -258,8 +271,8 @@ export default function ReportScreen() {
                           }`}
                         >
                           {item.status === "pending"
-                            ? "Under Review"
-                            : "Resolved"}
+                            ? t("list.status_under_review")
+                            : t("list.status_resolved")}
                         </ThemedText>
                       </ThemedView>
 
@@ -270,13 +283,13 @@ export default function ReportScreen() {
                               type="default"
                               className="text-typography-500"
                             >
-                              Brief Description
+                              {t("list.brief_description")}
                             </ThemedText>
                             <ThemedText
                               type="s2_subtitle"
                               className="text-typography-800 flex-1"
                             >
-                              {item.description || "No description provided"}
+                              {item.description || t("list.no_description")}
                             </ThemedText>
                           </ThemedView>
                           {/* <ThemedView className="flex-row gap-2 justify-between">
@@ -325,7 +338,7 @@ export default function ReportScreen() {
                                 type="s2_subtitle"
                                 className={` text-center text-primary-500`}
                               >
-                                Close
+                                {t("list.close")}
                               </ThemedText>
                             </TouchableOpacity>
                             <TouchableOpacity
@@ -347,7 +360,7 @@ export default function ReportScreen() {
                                 type="s2_subtitle"
                                 className={` text-center text-white`}
                               >
-                                Details
+                                {t("list.details")}
                               </ThemedText>
                             </TouchableOpacity>
                           </ThemedView>
@@ -377,7 +390,7 @@ export default function ReportScreen() {
             type="s2_subtitle"
             className="text-white text-center"
           >
-            Add New
+            {t("list.add_new")}
           </ThemedText>
         </Button>
       </ThemedView>

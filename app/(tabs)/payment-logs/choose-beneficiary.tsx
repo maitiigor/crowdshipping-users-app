@@ -7,8 +7,9 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { Icon } from "@/components/ui/icon";
 import { Image } from "@/components/ui/image";
-import { ChevronLeft, ChevronRight, PlusCircle } from "lucide-react-native";
 import { useThemeColor } from "@/hooks/useThemeColor";
+import { ChevronLeft, ChevronRight, PlusCircle } from "lucide-react-native";
+import { useTranslation } from "react-i18next";
 
 const filterList = [
   {
@@ -32,6 +33,7 @@ export default function ChooseBeneficiary() {
   const navigation = useNavigation();
   const router = useRouter();
   const backroundTopNav = useThemeColor({}, "background");
+  const { t } = useTranslation("paymentLogs");
   const [selectedFilter, setSelectedFilter] = useState("all");
   useEffect(() => {
     navigation.setOptions({
@@ -39,7 +41,7 @@ export default function ChooseBeneficiary() {
       headerTitle: () => {
         return (
           <ThemedText type="s1_subtitle" className="text-center">
-            Select Bank
+            {t("beneficiary.title")}
           </ThemedText>
         );
       },
@@ -88,7 +90,7 @@ export default function ChooseBeneficiary() {
       ),
       headerRight: () => <NotificationIcon />,
     });
-  }, [navigation, router, backroundTopNav]);
+  }, [navigation, router, backroundTopNav, t]);
   return (
     <ThemedView className="flex-1 bg-white pt-3">
       <ThemedView className="flex-1 pb-20 px-2 overflow-hidden">
@@ -158,7 +160,7 @@ export default function ChooseBeneficiary() {
                   type="b2_body"
                   className="text-primary-500 text-right"
                 >
-                  Add Bank Account
+                  {t("beneficiary.add_new")}
                 </ThemedText>
               </Pressable>
             </Link>

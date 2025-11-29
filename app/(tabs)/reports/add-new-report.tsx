@@ -32,6 +32,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea, TextareaInput } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/toast";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { useAuthenticatedPost } from "@/lib/api";
 import { Formik } from "formik";
 import {
@@ -40,9 +41,9 @@ import {
   HelpCircleIcon,
   LucideIcon,
 } from "lucide-react-native";
+import { useTranslation } from "react-i18next";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as Yup from "yup";
-import { useThemeColor } from "@/hooks/useThemeColor";
 
 // MenuItem type removed (unused)
 const reportTypeList = [
@@ -115,6 +116,7 @@ export default function AddNewReportScreen() {
   const router = useRouter();
   const toast = useToast();
   const backroundTopNav = useThemeColor({}, "background");
+  const { t } = useTranslation("reports");
   const [file, setFile] = useState<PickedFile | null>(null);
   const insets = useSafeAreaInsets();
   const {
@@ -135,15 +137,15 @@ export default function AddNewReportScreen() {
     }
   >("/issue/log/report");
   const validationSchema = Yup.object().shape({
-    reportType: Yup.string().required("Report type is required"),
-    natureOfReport: Yup.string().required("Nature of report is required"),
+    reportType: Yup.string().required(t("validation.report_type_required")),
+    natureOfReport: Yup.string().required(t("validation.nature_required")),
     otherOption: Yup.string().when("natureOfReport", {
       is: "Others", // when natureOfReport is "Others"
       then: (schema) =>
         schema
-          .required("Other options are required")
-          .min(5, "Other options must be at least 5 characters")
-          .max(100, "Other options cannot exceed 100 characters"),
+          .required(t("validation.other_required"))
+          .min(5, t("validation.other_min"))
+          .max(100, t("validation.other_max")),
       otherwise: (schema) => schema.notRequired(),
     }),
     reportAmount: Yup.number()
@@ -154,20 +156,20 @@ export default function AddNewReportScreen() {
         }
         return value;
       })
-      .typeError("Report amount must be a number")
-      .required("Report amount is required")
-      .positive("Report amount must be positive"),
+      .typeError(t("validation.amount_invalid"))
+      .required(t("validation.amount_required"))
+      .positive(t("validation.amount_positive")),
     trackingId: Yup.string().when(
       "reportType",
       (reportType: any, schema: any) =>
         reportType === "Booking"
-          ? schema.required("Tracking ID is required for bookings")
+          ? schema.required(t("validation.tracking_id_required"))
           : schema
     ),
     description: Yup.string()
-      .required("Description is required")
-      .min(20, "Description must be at least 20 characters")
-      .max(500, "Description cannot exceed 500 characters"),
+      .required(t("validation.description_required"))
+      .min(20, t("validation.description_min"))
+      .max(500, t("validation.description_max")),
     attachment: Yup.mixed(),
   });
   useEffect(() => {
@@ -176,7 +178,7 @@ export default function AddNewReportScreen() {
       headerTitle: () => {
         return (
           <ThemedText type="s1_subtitle" className="text-center">
-            New Report
+            {t("header.new_report")}
           </ThemedText>
         );
       },
@@ -277,8 +279,8 @@ export default function AddNewReportScreen() {
       });
 
       showNewToast({
-        title: "Report Submitted",
-        description: "Your report has been submitted successfully.",
+        title: t("toast.submitted_title"),
+        description: t("toast.submitted_desc"),
         icon: CircleCheckIcon,
         action: "success",
         variant: "solid",
@@ -296,7 +298,7 @@ export default function AddNewReportScreen() {
         "Sign up failed";
 
       showNewToast({
-        title: "Report Request Failed",
+        title: t("toast.request_failed"),
         description: message,
         icon: HelpCircleIcon,
         action: "error",
@@ -334,8 +336,8 @@ export default function AddNewReportScreen() {
 
                 if (!Number.isFinite(numericAmount)) {
                   showNewToast({
-                    title: "Invalid amount",
-                    description: "Please enter a valid report amount.",
+                    title: t("validation.invalid_amount_title"),
+                    description: t("validation.invalid_amount_desc"),
                     icon: HelpCircleIcon,
                     action: "error",
                     variant: "solid",
@@ -368,7 +370,9 @@ export default function AddNewReportScreen() {
               }) => (
                 <ThemedView className="flex gap-4">
                   <ThemedView>
-                    <InputLabelText type="b2_body">Report Type</InputLabelText>
+                    <InputLabelText type="b2_body">
+                      {t("form.report_type")}
+                    </InputLabelText>
                     <Select
                       selectedValue={values.reportType}
                       onValueChange={handleChange("reportType")}
@@ -378,7 +382,7 @@ export default function AddNewReportScreen() {
                         className="h-[3.4375rem] rounded-lg border-primary-100  bg-primary-inputShade px-2"
                       >
                         <SelectInput
-                          placeholder="Select type"
+                          placeholder={t("form.select_type")}
                           value={values.reportType}
                           className="flex-1"
                         />
@@ -403,14 +407,18 @@ export default function AddNewReportScreen() {
                       </SelectPortal>
                     </Select>
                     {errors.reportType && touched.reportType && (
-                      <ThemedText lightColor="#FF3B30" type="b4_body" className="text-error-500">
+                      <ThemedText
+                        lightColor="#FF3B30"
+                        type="b4_body"
+                        className="text-error-500"
+                      >
                         {errors.reportType}
                       </ThemedText>
                     )}
                   </ThemedView>
                   <ThemedView>
                     <InputLabelText type="b2_body">
-                      Nature of Report
+                      {t("form.nature_of_report")}
                     </InputLabelText>
                     <Select
                       selectedValue={values.natureOfReport}
@@ -464,7 +472,11 @@ export default function AddNewReportScreen() {
                       </SelectPortal>
                     </Select>
                     {errors.natureOfReport && touched.natureOfReport && (
-                      <ThemedText lightColor="#FF3B30" type="b4_body" className="text-error-500">
+                      <ThemedText
+                        lightColor="#FF3B30"
+                        type="b4_body"
+                        className="text-error-500"
+                      >
                         {errors.natureOfReport}
                       </ThemedText>
                     )}
@@ -472,7 +484,7 @@ export default function AddNewReportScreen() {
                   {values.natureOfReport === "Others" && (
                     <ThemedView>
                       <InputLabelText type="b2_body" className="">
-                        Other Options
+                        {t("form.other_options")}
                       </InputLabelText>
                       <Input
                         size="xl"
@@ -484,7 +496,7 @@ export default function AddNewReportScreen() {
                       >
                         <InputField
                           className=""
-                          placeholder="Enter other options"
+                          placeholder={t("form.enter_other_options")}
                           value={values.otherOption}
                           onChangeText={handleChange("otherOption")}
                           onBlur={handleBlur("otherOption")}
@@ -493,7 +505,11 @@ export default function AddNewReportScreen() {
                         />
                       </Input>
                       {errors.otherOption && touched.otherOption && (
-                        <ThemedText lightColor="#FF3B30" type="b4_body" className="text-error-500">
+                        <ThemedText
+                          lightColor="#FF3B30"
+                          type="b4_body"
+                          className="text-error-500"
+                        >
                           {errors.otherOption}
                         </ThemedText>
                       )}
@@ -501,7 +517,7 @@ export default function AddNewReportScreen() {
                   )}
                   <ThemedView>
                     <InputLabelText type="b2_body" className="">
-                      Report Amount
+                      {t("form.report_amount")}
                     </InputLabelText>
                     <Input
                       size="xl"
@@ -513,7 +529,7 @@ export default function AddNewReportScreen() {
                     >
                       <InputField
                         className=""
-                        placeholder="Enter amount"
+                        placeholder={t("form.enter_amount")}
                         value={values.reportAmount}
                         onChangeText={handleChange("reportAmount")}
                         onBlur={handleBlur("reportAmount")}
@@ -522,14 +538,18 @@ export default function AddNewReportScreen() {
                       />
                     </Input>
                     {errors.reportAmount && touched.reportAmount && (
-                      <ThemedText lightColor="#FF3B30" type="b4_body" className="text-error-500">
+                      <ThemedText
+                        lightColor="#FF3B30"
+                        type="b4_body"
+                        className="text-error-500"
+                      >
                         {errors.reportAmount}
                       </ThemedText>
                     )}
                   </ThemedView>
                   <ThemedView>
                     <InputLabelText type="b2_body" className="">
-                      Tracking ID
+                      {t("form.tracking_id")}
                     </InputLabelText>
                     <Input
                       size="xl"
@@ -539,7 +559,7 @@ export default function AddNewReportScreen() {
                     >
                       <InputField
                         className=""
-                        placeholder="Enter Tracking ID"
+                        placeholder={t("form.enter_tracking_id")}
                         value={values.trackingId}
                         onChangeText={handleChange("trackingId")}
                         onBlur={handleBlur("trackingId")}
@@ -548,14 +568,18 @@ export default function AddNewReportScreen() {
                       />
                     </Input>
                     {errors.trackingId && touched.trackingId && (
-                      <ThemedText lightColor="#FF3B30" type="b4_body" className="text-error-500">
+                      <ThemedText
+                        lightColor="#FF3B30"
+                        type="b4_body"
+                        className="text-error-500"
+                      >
                         {errors.trackingId}
                       </ThemedText>
                     )}
                   </ThemedView>
                   <ThemedView>
                     <InputLabelText type="b2_body" className="pb-1">
-                      Detailed Description
+                      {t("form.detailed_description")}
                     </InputLabelText>
                     <Textarea
                       size="lg"
@@ -569,7 +593,7 @@ export default function AddNewReportScreen() {
                         value={values.description}
                         onChangeText={handleChange("description")}
                         onBlur={handleBlur("description")}
-                        placeholder="Enter Product Description"
+                        placeholder={t("form.enter_description")}
                         multiline
                         maxLength={500}
                         numberOfLines={10}
@@ -581,7 +605,11 @@ export default function AddNewReportScreen() {
                       {String(values.description?.length ?? 0)}/500
                     </ThemedText>
                     {errors.description && touched.description && (
-                      <ThemedText lightColor="#FF3B30" type="b4_body" className="text-error-500">
+                      <ThemedText
+                        lightColor="#FF3B30"
+                        type="b4_body"
+                        className="text-error-500"
+                      >
                         {String(errors.description)}
                       </ThemedText>
                     )}
@@ -613,8 +641,8 @@ export default function AddNewReportScreen() {
                         }
                         setFieldValue("evidence", url);
                         showNewToast({
-                          title: "File uploaded",
-                          description: "Your attachment is ready.",
+                          title: t("toast.file_uploaded"),
+                          description: t("toast.file_ready"),
                           icon: CircleCheckIcon,
                           action: "success",
                           variant: "solid",
@@ -630,7 +658,7 @@ export default function AddNewReportScreen() {
                             : undefined) ||
                           "We couldn't upload your file.";
                         showNewToast({
-                          title: "Upload failed",
+                          title: t("toast.upload_failed"),
                           description: message,
                           icon: HelpCircleIcon,
                           action: "error",
@@ -642,7 +670,7 @@ export default function AddNewReportScreen() {
                     size={50}
                     previewShape="rounded"
                     label=""
-                    helperText="upload photos, videos, receipts, or other relevant files."
+                    helperText={t("form.upload_helper")}
                     allowImages
                     allowVideos
                     allowDocuments
@@ -661,7 +689,7 @@ export default function AddNewReportScreen() {
                         type="s2_subtitle"
                         className={` text-center text-primary-500`}
                       >
-                        Cancel
+                        {t("form.cancel")}
                       </ThemedText>
                     </Button>
                     <Button
@@ -681,7 +709,7 @@ export default function AddNewReportScreen() {
                         {loading || isUploading ? (
                           <ActivityIndicator color="white" />
                         ) : (
-                          "Submit Report"
+                          t("form.submit")
                         )}
                       </ThemedText>
                     </Button>
