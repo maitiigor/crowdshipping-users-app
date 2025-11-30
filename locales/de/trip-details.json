@@ -73,5 +73,40 @@
     "review_success": "{{name}} erfolgreich bewertet!",
     "review_failed": "Bewertung von {{name}} fehlgeschlagen",
     "failed_default": "Kontoaktualisierung fehlgeschlagen"
+  },
+  "feedback": {
+    "title": "Fahrer-Feedback",
+    "validation": {
+      "review_min": "Bewertung muss mindestens 10 Zeichen lang sein",
+      "review_max": "Bewertung darf 500 Zeichen nicht überschreiten",
+      "review_required": "Bewertung ist erforderlich",
+      "rating_min": "Bewertung muss mindestens 1 Stern sein",
+      "rating_max": "Bewertung darf 5 Sterne nicht überschreiten",
+      "rating_required": "Bewertung ist erforderlich"
+    },
+    "comment_label": "Kommentar",
+    "review_placeholder": "Bewertung eingeben",
+    "submit_button": "Bewertung absenden",
+    "modal": {
+      "title": "Gesendet",
+      "description": "Ihre Bewertung und Rezension wurden gesendet",
+      "done": "Fertig"
+    }
+  },
+  "driver_details": {
+    "title": "Fahrerdetails",
+    "driver_info": "Fahrerinformationen",
+    "vehicle_info": "Fahrzeuginformationen",
+    "tracking_link": "Live-Tracking-Link / Karte",
+    "arrival_time": "Voraussichtliche Ankunftszeit",
+    "receiver_name": "Name des Empfängers",
+    "receiver_number": "Nummer des Empfängers",
+    "vehicle_type": "Fahrzeugtyp",
+    "vehicle_model": "Fahrzeugmarke/-modell",
+    "license_plate": "Kennzeichen",
+    "navigate": "Navigieren",
+    "cancel_booking": "Buchung stornieren",
+    "report_driver": "Fahrer melden",
+    "call_driver": "Fahrer anrufen"
   }
 }

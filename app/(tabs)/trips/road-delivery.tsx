@@ -48,25 +48,37 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as Yup from "yup";
 
-const validationSchema = Yup.object().shape({
-  vehicleCategoryId: Yup.string().required("Vehicle category is required"),
-  dropOffLocation: Yup.object()
-    .shape({
-      lat: Yup.number().required("Latitude is required"),
-      lng: Yup.number().required("Longitude is required"),
-      address: Yup.string().required("Address is required"),
-    })
-    .required("Drop-off location is required"),
-  pickupAddress: Yup.object()
-    .shape({
-      lat: Yup.number().required("Latitude is required"),
-      lng: Yup.number().required("Longitude is required"),
-      address: Yup.string().required("Address is required"),
-    })
-    .required("Pickup address is required"),
-  weight: Yup.string().required("Weight is required"),
-});
+import { useTranslation } from "react-i18next";
+
 export default function RoadDeliveryScreen() {
+  const { t } = useTranslation("trips");
+
+  const validationSchema = Yup.object().shape({
+    vehicleCategoryId: Yup.string().required(
+      t("road_delivery.validation.vehicle_required")
+    ),
+    dropOffLocation: Yup.object()
+      .shape({
+        lat: Yup.number().required(t("road_delivery.validation.lat_required")),
+        lng: Yup.number().required(t("road_delivery.validation.lng_required")),
+        address: Yup.string().required(
+          t("road_delivery.validation.address_required")
+        ),
+      })
+      .required(t("road_delivery.validation.dropoff_required")),
+    pickupAddress: Yup.object()
+      .shape({
+        lat: Yup.number().required(t("road_delivery.validation.lat_required")),
+        lng: Yup.number().required(t("road_delivery.validation.lng_required")),
+        address: Yup.string().required(
+          t("road_delivery.validation.address_required")
+        ),
+      })
+      .required(t("road_delivery.validation.pickup_required")),
+    weight: Yup.string().required(
+      t("road_delivery.validation.weight_required")
+    ),
+  });
   const navigation = useNavigation();
   const router = useRouter();
   const toast = useToast();
@@ -131,7 +143,7 @@ export default function RoadDeliveryScreen() {
       headerTitle: () => {
         return (
           <ThemedText type="s1_subtitle" className="text-center">
-            Enter Your Location
+            {t("header.enter_location")}
           </ThemedText>
         );
       },
@@ -287,8 +299,8 @@ export default function RoadDeliveryScreen() {
       const address = values.pickUpLocation.address;
       if (lat == null || lng == null || !address) {
         showNewToast({
-          title: "Missing Pickup Address",
-          description: "Please select a pickup address",
+          title: t("road_delivery.toast.missing_pickup_title"),
+          description: t("road_delivery.toast.missing_pickup_desc"),
           icon: HelpCircleIcon,
           action: "error",
           variant: "solid",
@@ -300,8 +312,8 @@ export default function RoadDeliveryScreen() {
       const addressDrop = values.dropOffLocation.address;
       if (latDrop == null || lngDrop == null || !addressDrop) {
         showNewToast({
-          title: "Missing Drop-off Address",
-          description: "Please select a drop-off address",
+          title: t("road_delivery.toast.missing_dropoff_title"),
+          description: t("road_delivery.toast.missing_dropoff_desc"),
           icon: HelpCircleIcon,
           action: "error",
           variant: "solid",
@@ -324,8 +336,8 @@ export default function RoadDeliveryScreen() {
         weight: values.weight,
       });
       showNewToast({
-        title: "Success",
-        description: "Road Delivery Initiated successfully!",
+        title: t("road_delivery.toast.success_title"),
+        description: t("road_delivery.toast.success_desc"),
         icon: CircleCheckIcon,
         action: "success",
         variant: "solid",
@@ -342,10 +354,10 @@ export default function RoadDeliveryScreen() {
         e?.data?.message ||
         e?.message ||
         (typeof error === "string" ? error : undefined) ||
-        "Sign up failed";
+        t("road_delivery.toast.failed_default");
       console.log("🚀 ~ handleSubmit ~ message:", message);
       showNewToast({
-        title: "Delivery Process Failed",
+        title: t("road_delivery.toast.failed_title"),
         description: message,
         icon: HelpCircleIcon,
         action: "error",
@@ -413,7 +425,9 @@ export default function RoadDeliveryScreen() {
                 <ThemedView className="flex gap-4">
                   {/* Address selection */}
                   <ThemedView>
-                    <InputLabelText className="">Pickup Address</InputLabelText>
+                    <InputLabelText className="">
+                      {t("road_delivery.pickup_address")}
+                    </InputLabelText>
                     <AddressPickerComponent
                       value={selectedPickupAddress}
                       onSelect={(sel) => {
@@ -434,13 +448,13 @@ export default function RoadDeliveryScreen() {
                       >
                         {typeof errors.pickupAddress === "string"
                           ? errors.pickupAddress
-                          : "Pickup address is required"}
+                          : t("road_delivery.validation.pickup_required")}
                       </ThemedText>
                     )}
                   </ThemedView>
                   <ThemedView>
                     <InputLabelText className="">
-                      Drop Off Location
+                      {t("road_delivery.dropoff_location")}
                     </InputLabelText>
                     <AddressPickerComponent
                       value={selectedDropOffAddress}
@@ -462,12 +476,14 @@ export default function RoadDeliveryScreen() {
                       >
                         {typeof errors.dropOffLocation === "string"
                           ? errors.dropOffLocation
-                          : "Drop-off location is required"}
+                          : t("road_delivery.validation.dropoff_required")}
                       </ThemedText>
                     )}
                   </ThemedView>
                   <ThemedView>
-                    <InputLabelText className="">Weight</InputLabelText>
+                    <InputLabelText className="">
+                      {t("road_delivery.weight")}
+                    </InputLabelText>
                     <Input
                       size="xl"
                       className="h-[55px] border-primary-100 rounded-lg mb-2 bg-primary-inputShade px-2"
@@ -476,7 +492,7 @@ export default function RoadDeliveryScreen() {
                     >
                       <InputField
                         className=""
-                        placeholder="Input your weight"
+                        placeholder={t("road_delivery.weight_placeholder")}
                         value={values.weight}
                         onChangeText={handleChange("weight")}
                         onBlur={handleBlur("weight")}
@@ -495,7 +511,9 @@ export default function RoadDeliveryScreen() {
                     )}
                   </ThemedView>
                   <ThemedView>
-                    <InputLabelText>{"Vehicle Option"}</InputLabelText>
+                    <InputLabelText>
+                      {t("road_delivery.vehicle_option")}
+                    </InputLabelText>
                     <Select
                       selectedValue={values.vehicleCategoryId}
                       onValueChange={handleChange("vehicleCategoryId")}
@@ -505,7 +523,7 @@ export default function RoadDeliveryScreen() {
                         className="h-[55px] rounded-lg mb-2 border-primary-100 bg-primary-inputShade px-2"
                       >
                         <SelectInput
-                          placeholder={"Select vehicle type"}
+                          placeholder={t("road_delivery.vehicle_placeholder")}
                           className="flex-1"
                         />
                         <SelectIcon className="mr-3" as={ChevronDownIcon} />
@@ -523,7 +541,7 @@ export default function RoadDeliveryScreen() {
                               className="rounded-md bg-primary-inputShade"
                             >
                               <InputField
-                                placeholder="Search..."
+                                placeholder={t("search.vehicle_placeholder")}
                                 value={search}
                                 onChangeText={setSearch}
                                 autoFocus={false}
@@ -563,7 +581,7 @@ export default function RoadDeliveryScreen() {
                     />
 
                     <ThemedText type="default" className="mt-2">
-                      Total Distance:{" "}
+                      {t("road_delivery.total_distance")}{" "}
                       <ThemedText type="btn_giant">
                         {selectedDistance.distance.toFixed(2)}{" "}
                         {selectedDistance.unit}
@@ -586,7 +604,7 @@ export default function RoadDeliveryScreen() {
                       {loading ? (
                         <ActivityIndicator color="white" />
                       ) : (
-                        "Continue"
+                        t("road_delivery.continue_button")
                       )}
                     </ThemedText>
                   </Button>

@@ -73,5 +73,40 @@
     "review_success": "{{name}} 리뷰 성공!",
     "review_failed": "{{name}} 리뷰 실패",
     "failed_default": "계정 업데이트 실패"
+  },
+  "feedback": {
+    "title": "운전자 피드백",
+    "validation": {
+      "review_min": "리뷰는 최소 10자 이상이어야 합니다",
+      "review_max": "리뷰는 500자를 초과할 수 없습니다",
+      "review_required": "리뷰는 필수입니다",
+      "rating_min": "평점은 최소 1점 이상이어야 합니다",
+      "rating_max": "평점은 5점을 초과할 수 없습니다",
+      "rating_required": "평점은 필수입니다"
+    },
+    "comment_label": "댓글",
+    "review_placeholder": "리뷰 입력",
+    "submit_button": "리뷰 제출",
+    "modal": {
+      "title": "제출됨",
+      "description": "평점과 리뷰가 제출되었습니다",
+      "done": "완료"
+    }
+  },
+  "driver_details": {
+    "title": "운전자 세부정보",
+    "driver_info": "운전자 정보",
+    "vehicle_info": "차량 정보",
+    "tracking_link": "실시간 추적 링크/지도",
+    "arrival_time": "예상 도착 시간",
+    "receiver_name": "수령인 이름",
+    "receiver_number": "수령인 번호",
+    "vehicle_type": "차량 유형",
+    "vehicle_model": "차량 제조사/모델",
+    "license_plate": "번호판",
+    "navigate": "탐색",
+    "cancel_booking": "예약 취소",
+    "report_driver": "운전자 신고",
+    "call_driver": "운전자에게 전화"
   }
 }

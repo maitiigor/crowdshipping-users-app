@@ -31,6 +31,7 @@ const resources = {
     settings: require("../locales/en/settings.json"),
     trackOrder: require("../locales/en/track-order.json"),
     tripDetails: require("../locales/en/trip-details.json"),
+    trips: require("../locales/en/trips.json"),
   },
   fr: {
     translation: require("../locales/fr.json"),
@@ -56,6 +57,7 @@ const resources = {
     settings: require("../locales/fr/settings.json"),
     trackOrder: require("../locales/fr/track-order.json"),
     tripDetails: require("../locales/fr/trip-details.json"),
+    trips: require("../locales/fr/trips.json"),
   },
   es: {
     translation: require("../locales/es.json"),
@@ -81,6 +83,7 @@ const resources = {
     settings: require("../locales/es/settings.json"),
     trackOrder: require("../locales/es/track-order.json"),
     tripDetails: require("../locales/es/trip-details.json"),
+    trips: require("../locales/es/trips.json"),
   },
   de: {
     translation: require("../locales/de.json"),
@@ -106,6 +109,7 @@ const resources = {
     settings: require("../locales/de/settings.json"),
     trackOrder: require("../locales/de/track-order.json"),
     tripDetails: require("../locales/de/trip-details.json"),
+    trips: require("../locales/de/trips.json"),
   },
   zh: {
     translation: require("../locales/zh.json"),
@@ -131,6 +135,7 @@ const resources = {
     settings: require("../locales/zh/settings.json"),
     trackOrder: require("../locales/zh/track-order.json"),
     tripDetails: require("../locales/zh/trip-details.json"),
+    trips: require("../locales/zh/trips.json"),
   },
   ja: {
     translation: require("../locales/ja.json"),
@@ -156,6 +161,7 @@ const resources = {
     settings: require("../locales/ja/settings.json"),
     trackOrder: require("../locales/ja/track-order.json"),
     tripDetails: require("../locales/ja/trip-details.json"),
+    trips: require("../locales/ja/trips.json"),
   },
   ko: {
     translation: require("../locales/ko.json"),
@@ -181,6 +187,7 @@ const resources = {
     settings: require("../locales/ko/settings.json"),
     trackOrder: require("../locales/ko/track-order.json"),
     tripDetails: require("../locales/ko/trip-details.json"),
+    trips: require("../locales/ko/trips.json"),
   },
   ru: {
     translation: require("../locales/ru.json"),
@@ -206,6 +213,7 @@ const resources = {
     settings: require("../locales/ru/settings.json"),
     trackOrder: require("../locales/ru/track-order.json"),
     tripDetails: require("../locales/ru/trip-details.json"),
+    trips: require("../locales/ru/trips.json"),
   },
   it: {
     translation: require("../locales/it.json"),
@@ -231,6 +239,7 @@ const resources = {
     settings: require("../locales/it/settings.json"),
     trackOrder: require("../locales/it/track-order.json"),
     tripDetails: require("../locales/it/trip-details.json"),
+    trips: require("../locales/it/trips.json"),
   },
   pt: {
     translation: require("../locales/pt.json"),
@@ -256,6 +265,7 @@ const resources = {
     settings: require("../locales/pt/settings.json"),
     trackOrder: require("../locales/pt/track-order.json"),
     tripDetails: require("../locales/pt/trip-details.json"),
+    trips: require("../locales/pt/trips.json"),
   },
   ar: {
     translation: require("../locales/ar.json"),
@@ -281,6 +291,7 @@ const resources = {
     settings: require("../locales/ar/settings.json"),
     trackOrder: require("../locales/ar/track-order.json"),
     tripDetails: require("../locales/ar/trip-details.json"),
+    trips: require("../locales/ar/trips.json"),
   },
 } as const;
 

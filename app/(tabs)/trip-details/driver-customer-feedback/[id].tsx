@@ -17,6 +17,7 @@ import { useLocalSearchParams, useNavigation, useRouter } from "expo-router";
 import { Formik } from "formik";
 import { ChevronLeft, CircleCheckIcon, LucideIcon } from "lucide-react-native";
 import React, { useCallback, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   ActivityIndicator,
   KeyboardAvoidingView,
@@ -24,17 +25,20 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as Yup from "yup";
-const validationSchema = Yup.object().shape({
-  review: Yup.string()
-    .min(10, "Review must be at least 10 characters")
-    .max(500, "Review cannot exceed 500 characters")
-    .required("Review is required"),
-  rating: Yup.number()
-    .min(1, "Rating must be at least 1 star")
-    .max(5, "Rating cannot exceed 5 stars")
-    .required("Rating is required"),
-});
+
 export default function DriverCustomerFeedback() {
+  const { t } = useTranslation("tripDetails");
+
+  const validationSchema = Yup.object().shape({
+    review: Yup.string()
+      .min(10, t("feedback.validation.review_min"))
+      .max(500, t("feedback.validation.review_max"))
+      .required(t("feedback.validation.review_required")),
+    rating: Yup.number()
+      .min(1, t("feedback.validation.rating_min"))
+      .max(5, t("feedback.validation.rating_max"))
+      .required(t("feedback.validation.rating_required")),
+  });
   const navigation = useNavigation();
   const router = useRouter();
   const toast = useToast();
@@ -64,7 +68,7 @@ export default function DriverCustomerFeedback() {
       headerTitle: () => {
         return (
           <ThemedText type="s1_subtitle" className="text-center">
-            Driver Feedback
+            {t("feedback.title")}
           </ThemedText>
         );
       },
@@ -157,8 +161,8 @@ export default function DriverCustomerFeedback() {
         review: values.review,
       });
       showNewToast({
-        title: "Success",
-        description: `${travellerNameStr} reviewed successfully!`,
+        title: t("toast.success"),
+        description: t("toast.review_success", { name: travellerNameStr }),
         icon: CircleCheckIcon,
         action: "success",
         variant: "solid",
@@ -170,10 +174,10 @@ export default function DriverCustomerFeedback() {
         e?.data?.message ||
         e?.message ||
         (typeof error === "string" ? error : undefined) ||
-        "Account Update failed";
+        t("toast.failed_default");
 
       showNewToast({
-        title: `${travellerNameStr} Review Failed`,
+        title: t("toast.review_failed", { name: travellerNameStr }),
         description: message,
         icon: HelpCircleIcon,
         action: "error",
@@ -242,7 +246,7 @@ export default function DriverCustomerFeedback() {
                   </ThemedView>
                   <ThemedView>
                     <InputLabelText type="b2_body" className="pb-1">
-                      comment
+                      {t("feedback.comment_label")}
                     </InputLabelText>
                     <Textarea
                       size="lg"
@@ -256,7 +260,7 @@ export default function DriverCustomerFeedback() {
                         value={values.review}
                         onChangeText={handleChange("review")}
                         onBlur={handleBlur("review")}
-                        placeholder="Enter Review"
+                        placeholder={t("feedback.review_placeholder")}
                         multiline
                         numberOfLines={10}
                         style={{ textAlignVertical: "top" }}
@@ -279,7 +283,7 @@ export default function DriverCustomerFeedback() {
                       <ActivityIndicator color="#fff" />
                     ) : (
                       <ThemedText type="s1_subtitle" className="text-white">
-                        Submit Review
+                        {t("feedback.submit_button")}
                       </ThemedText>
                     )}
                   </Button>
@@ -292,11 +296,11 @@ export default function DriverCustomerFeedback() {
       {showModal && (
         <>
           <CustomModal
-            description="Your rating and review has been submitted"
-            title="Submitted"
+            description={t("feedback.modal.description")}
+            title={t("feedback.modal.title")}
             img={require("@/assets/images/onboarding/modal-success.png")}
             firstBtnLink={"/(tabs)"}
-            firstBtnText="Done"
+            firstBtnText={t("feedback.modal.done")}
             secondBtnLink={""}
             secondBtnText=""
             setShowModal={setShowModal}

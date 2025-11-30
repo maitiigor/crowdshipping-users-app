@@ -21,7 +21,10 @@ import {
 import React, { useEffect } from "react";
 import { Pressable, TouchableOpacity } from "react-native";
 
+import { useTranslation } from "react-i18next";
+
 export default function DriverDetailScreen() {
+  const { t } = useTranslation("tripDetails");
   const navigation = useNavigation();
   const router = useRouter();
   const backroundTopNav = useThemeColor({}, "background");
@@ -32,7 +35,7 @@ export default function DriverDetailScreen() {
       headerTitle: () => {
         return (
           <ThemedText type="s1_subtitle" className="text-center">
-            Driver Details
+            {t("driver_details.title")}
           </ThemedText>
         );
       },
@@ -131,12 +134,12 @@ export default function DriverDetailScreen() {
             </ThemedView>
             <ThemedView>
               <ThemedText type="btn_giant" className="text-typography-600 pb-1">
-                Driver Information
+                {t("driver_details.driver_info")}
               </ThemedText>
               <ThemedView className="border border-primary-50 p-5 rounded-2xl flex gap-5">
                 <ThemedView className="flex-row justify-between">
                   <ThemedText type="btn_large" className="text-typography-600">
-                    Receiver’s Name
+                    {t("driver_details.receiver_name")}
                   </ThemedText>
                   <ThemedText type="btn_large" className="">
                     John Doe
@@ -144,7 +147,7 @@ export default function DriverDetailScreen() {
                 </ThemedView>
                 <ThemedView className="flex-row justify-between">
                   <ThemedText type="btn_large" className="text-typography-600">
-                    Receiver’s Number
+                    {t("driver_details.receiver_number")}
                   </ThemedText>
                   <ThemedText type="btn_large" className="">
                     +234 974 828 144
@@ -154,12 +157,12 @@ export default function DriverDetailScreen() {
             </ThemedView>
             <ThemedView>
               <ThemedText type="btn_giant" className="text-typography-600 pb-1">
-                Vehicle Information
+                {t("driver_details.vehicle_info")}
               </ThemedText>
               <ThemedView className="border border-primary-50 p-5 rounded-2xl flex gap-5">
                 <ThemedView className="flex-row justify-between">
                   <ThemedText type="btn_large" className="text-typography-600">
-                    Vehicle Type
+                    {t("driver_details.vehicle_type")}
                   </ThemedText>
                   <ThemedText type="btn_large" className="">
                     Sedan
@@ -167,7 +170,7 @@ export default function DriverDetailScreen() {
                 </ThemedView>
                 <ThemedView className="flex-row justify-between">
                   <ThemedText type="btn_large" className="text-typography-600">
-                    Vehicle Make/Model
+                    {t("driver_details.vehicle_model")}
                   </ThemedText>
                   <ThemedText type="btn_large" className="">
                     Toyota Camry
@@ -175,7 +178,7 @@ export default function DriverDetailScreen() {
                 </ThemedView>
                 <ThemedView className="flex-row justify-between">
                   <ThemedText type="btn_large" className="text-typography-600">
-                    License Plate
+                    {t("driver_details.license_plate")}
                   </ThemedText>
                   <ThemedText type="btn_large" className="">
                     ABC-1234
@@ -185,7 +188,7 @@ export default function DriverDetailScreen() {
             </ThemedView>
             <ThemedView>
               <ThemedText type="btn_giant" className="text-typography-600 pb-1">
-                Live Tracking Link/Map
+                {t("driver_details.tracking_link")}
               </ThemedText>
               <Pressable
                 onPress={() => {
@@ -205,14 +208,14 @@ export default function DriverDetailScreen() {
                     />
                   </ThemedView>
                   <ThemedText type="link" className="">
-                    Navigate
+                    {t("driver_details.navigate")}
                   </ThemedText>
                 </ThemedView>
               </Pressable>
             </ThemedView>
             <ThemedView>
               <ThemedText type="btn_giant" className="text-typography-600 pb-1">
-                Expected Arrival Time
+                {t("driver_details.arrival_time")}
               </ThemedText>
               <Pressable
                 onPress={() => {
@@ -246,7 +249,7 @@ export default function DriverDetailScreen() {
             type="s2_subtitle"
             className="text-primary-500 text-center "
           >
-            Cancel Booking
+            {t("driver_details.cancel_booking")}
           </ThemedText>
         </Button>
         <Button
@@ -256,7 +259,7 @@ export default function DriverDetailScreen() {
           className="flex-1 rounded-[12px] mx-1"
         >
           <ThemedText type="s2_subtitle" className="text-white text-center">
-            Report Driver
+            {t("driver_details.report_driver")}
           </ThemedText>
         </Button>
       </ThemedView>

@@ -1,0 +1,80 @@
+{
+  "header": {
+    "title": "الرحلات",
+    "land": "بري",
+    "air": "جوي",
+    "maritime": "بحري",
+    "enter_location": "أدخل موقعك",
+    "traveler_details": "تفاصيل المسافر"
+  },
+  "search": {
+    "placeholder": "البحث عن رحلات متاحة...",
+    "vehicle_placeholder": "بحث..."
+  },
+  "tabs": {
+    "ground": "بري",
+    "air": "جوي",
+    "maritime": "بحري"
+  },
+  "list": {
+    "departure": "المغادرة:",
+    "arrival": "الوصول:",
+    "status": "الحالة:",
+    "bid_button": "المزايدة في المساحة",
+    "empty_title": "لا توجد رحلات متاحة",
+    "empty_desc": "لا توجد رحلات متاحة في الوقت الحالي. تحقق مرة أخرى لاحقًا للحصول على تحديثات."
+  },
+  "road_delivery": {
+    "pickup_address": "عنوان الاستلام",
+    "dropoff_location": "موقع التسليم",
+    "weight": "الوزن",
+    "weight_placeholder": "أدخل وزنك",
+    "vehicle_option": "خيار المركبة",
+    "vehicle_placeholder": "اختر نوع المركبة",
+    "total_distance": "المسافة الإجمالية:",
+    "continue_button": "متابعة",
+    "validation": {
+      "vehicle_required": "فئة المركبة مطلوبة",
+      "dropoff_required": "موقع التسليم مطلوب",
+      "pickup_required": "عنوان الاستلام مطلوب",
+      "weight_required": "الوزن مطلوب",
+      "lat_required": "خط العرض مطلوب",
+      "lng_required": "خط الطول مطلوب",
+      "address_required": "العنوان مطلوب"
+    },
+    "toast": {
+      "missing_pickup_title": "عنوان الاستلام مفقود",
+      "missing_pickup_desc": "يرجى اختيار عنوان استلام",
+      "missing_dropoff_title": "عنوان التسليم مفقود",
+      "missing_dropoff_desc": "يرجى اختيار عنوان تسليم",
+      "success_title": "نجاح",
+      "success_desc": "تم بدء التوصيل البري بنجاح!",
+      "failed_title": "فشلت عملية التوصيل",
+      "failed_default": "فشل التسجيل"
+    }
+  },
+  "traveler_details": {
+    "trip_id": "معرف الرحلة",
+    "airline": "شركة الطيران",
+    "flight_number": "رقم الرحلة",
+    "departure_city": "مدينة المغادرة",
+    "arrival_city": "مدينة الوصول",
+    "departure_date": "تاريخ المغادرة",
+    "arrival_date": "تاريخ الوصول",
+    "status": "الحالة",
+    "mmsi_number": "رقم MMSI",
+    "vessel_name": "اسم السفينة",
+    "vessel_operator": "مشغل السفينة",
+    "voyage_number": "رقم الرحلة البحرية",
+    "container_number": "رقم الحاوية",
+    "departure_port": "ميناء المغادرة",
+    "arrival_port": "ميناء الوصول",
+    "trip_title_air": "رحلة جوية",
+    "trip_title_maritime": "رحلة بحرية",
+    "trip_prefix": "رحلة",
+    "unavailable_title": "تفاصيل الرحلة غير متاحة",
+    "unavailable_desc": "لم نتمكن من تحميل هذه الرحلة. يرجى المحاولة مرة أخرى.",
+    "retry_button": "إعادة المحاولة",
+    "enter_delivery_details": "أدخل تفاصيل التوصيل"
+  }
+}

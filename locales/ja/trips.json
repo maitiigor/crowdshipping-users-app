@@ -1,0 +1,80 @@
+{
+  "header": {
+    "title": "旅行",
+    "land": "陸路",
+    "air": "空路",
+    "maritime": "海路",
+    "enter_location": "場所を入力してください",
+    "traveler_details": "旅行者の詳細"
+  },
+  "search": {
+    "placeholder": "利用可能な旅行を検索...",
+    "vehicle_placeholder": "検索..."
+  },
+  "tabs": {
+    "ground": "地上",
+    "air": "航空",
+    "maritime": "海上"
+  },
+  "list": {
+    "departure": "出発:",
+    "arrival": "到着:",
+    "status": "ステータス:",
+    "bid_button": "スペースに入札",
+    "empty_title": "利用可能な旅行はありません",
+    "empty_desc": "現在利用可能な旅行はありません。後で更新を確認してください。"
+  },
+  "road_delivery": {
+    "pickup_address": "集荷先住所",
+    "dropoff_location": "配達先",
+    "weight": "重量",
+    "weight_placeholder": "重量を入力してください",
+    "vehicle_option": "車両オプション",
+    "vehicle_placeholder": "車両タイプを選択",
+    "total_distance": "総距離:",
+    "continue_button": "続行",
+    "validation": {
+      "vehicle_required": "車両カテゴリは必須です",
+      "dropoff_required": "配達先は必須です",
+      "pickup_required": "集荷先住所は必須です",
+      "weight_required": "重量は必須です",
+      "lat_required": "緯度は必須です",
+      "lng_required": "経度は必須です",
+      "address_required": "住所は必須です"
+    },
+    "toast": {
+      "missing_pickup_title": "集荷先住所がありません",
+      "missing_pickup_desc": "集荷先住所を選択してください",
+      "missing_dropoff_title": "配達先住所がありません",
+      "missing_dropoff_desc": "配達先住所を選択してください",
+      "success_title": "成功",
+      "success_desc": "陸路配送が正常に開始されました！",
+      "failed_title": "配送プロセスに失敗しました",
+      "failed_default": "サインアップに失敗しました"
+    }
+  },
+  "traveler_details": {
+    "trip_id": "旅行ID",
+    "airline": "航空会社",
+    "flight_number": "フライト番号",
+    "departure_city": "出発都市",
+    "arrival_city": "到着都市",
+    "departure_date": "出発日",
+    "arrival_date": "到着日",
+    "status": "ステータス",
+    "mmsi_number": "MMSI番号",
+    "vessel_name": "船名",
+    "vessel_operator": "船舶運航会社",
+    "voyage_number": "航海番号",
+    "container_number": "コンテナ番号",
+    "departure_port": "出発港",
+    "arrival_port": "到着港",
+    "trip_title_air": "空の旅",
+    "trip_title_maritime": "海の旅",
+    "trip_prefix": "旅行",
+    "unavailable_title": "旅行の詳細を利用できません",
+    "unavailable_desc": "この旅行を読み込めませんでした。もう一度お試しください。",
+    "retry_button": "再試行",
+    "enter_delivery_details": "配送詳細を入力"
+  }
+}

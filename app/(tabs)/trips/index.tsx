@@ -31,8 +31,11 @@ import { ChevronLeft, MapPin, Plane, Ship } from "lucide-react-native";
 import React, { useEffect, useState } from "react";
 import { FlatList, TouchableOpacity, View } from "react-native";
 
+import { useTranslation } from "react-i18next";
+
 dayjs.extend(relativeTime);
 export default function TripDelivery() {
+  const { t } = useTranslation("trips");
   const navigation = useNavigation();
   const backroundTopNav = useThemeColor({}, "background");
   const color = useThemeColor({}, "text");
@@ -66,12 +69,12 @@ export default function TripDelivery() {
       headerTitle: () => {
         return (
           <ThemedText type="s1_subtitle" className="text-center">
-            Trips(
+            {t("header.title")}(
             {activeTripType === 1
-              ? "Land"
+              ? t("header.land")
               : activeTripType === 2
-              ? "Air"
-              : "Maritime"}
+              ? t("header.air")
+              : t("header.maritime")}
             )
           </ThemedText>
         );
@@ -124,9 +127,9 @@ export default function TripDelivery() {
   }, [navigation, activeTripType, backroundTopNav]);
 
   const tripTypes = [
-    { id: 1, name: "Ground", Icon: GroundSvg },
-    { id: 2, name: "Air", Icon: ErrandsSvg },
-    { id: 3, name: "Maritime", Icon: RideSvg },
+    { id: 1, name: t("tabs.ground"), Icon: GroundSvg },
+    { id: 2, name: t("tabs.air"), Icon: ErrandsSvg },
+    { id: 3, name: t("tabs.maritime"), Icon: RideSvg },
   ];
   return (
     <>
@@ -144,7 +147,7 @@ export default function TripDelivery() {
                 <InputSlot className="pl-3">
                   <InputIcon as={SearchIcon} />
                 </InputSlot>
-                <InputField placeholder={"Search for available trips..."} />
+                <InputField placeholder={t("search.placeholder")} />
               </Input>
             </ThemedView>
 
@@ -226,8 +229,8 @@ export default function TripDelivery() {
                 }}
                 ListEmptyComponent={
                   <EmptyState
-                    title="No trips available"
-                    description="There are no trips available at the moment. Check back later for updates."
+                    title={t("list.empty_title")}
+                    description={t("list.empty_desc")}
                     icon={activeTripType === 2 ? Plane : Ship}
                     className="mt-10"
                   />
@@ -285,7 +288,7 @@ export default function TripDelivery() {
                             type="s2_subtitle"
                             className="text-typography-800"
                           >
-                            Departure:
+                            {t("list.departure")}
                           </ThemedText>
                           <ThemedText
                             type="default"
@@ -299,7 +302,7 @@ export default function TripDelivery() {
                             type="s2_subtitle"
                             className="text-typography-800"
                           >
-                            Arrival:
+                            {t("list.arrival")}
                           </ThemedText>
                           <ThemedText
                             type="default"
@@ -313,7 +316,7 @@ export default function TripDelivery() {
                             type="s2_subtitle"
                             className="text-typography-800"
                           >
-                            Status:
+                            {t("list.status")}
                           </ThemedText>
                           <ThemedText
                             type="default"
@@ -343,7 +346,7 @@ export default function TripDelivery() {
                           darkColor="#FFFFFF"
                           className="text-white text-center"
                         >
-                          Bid in Space
+                          {t("list.bid_button")}
                         </ThemedText>
                       </Button>
                     </ThemedView>

@@ -73,5 +73,40 @@
     "review_success": "{{name}}评价成功！",
     "review_failed": "{{name}}评价失败",
     "failed_default": "账户更新失败"
+  },
+  "feedback": {
+    "title": "司机反馈",
+    "validation": {
+      "review_min": "评论必须至少 10 个字符",
+      "review_max": "评论不能超过 500 个字符",
+      "review_required": "评论为必填项",
+      "rating_min": "评分必须至少 1 星",
+      "rating_max": "评分不能超过 5 星",
+      "rating_required": "评分为必填项"
+    },
+    "comment_label": "评论",
+    "review_placeholder": "输入评论",
+    "submit_button": "提交评论",
+    "modal": {
+      "title": "已提交",
+      "description": "您的评分和评论已提交",
+      "done": "完成"
+    }
+  },
+  "driver_details": {
+    "title": "司机详情",
+    "driver_info": "司机信息",
+    "vehicle_info": "车辆信息",
+    "tracking_link": "实时追踪链接/地图",
+    "arrival_time": "预计到达时间",
+    "receiver_name": "收件人姓名",
+    "receiver_number": "收件人号码",
+    "vehicle_type": "车辆类型",
+    "vehicle_model": "车辆品牌/型号",
+    "license_plate": "车牌号",
+    "navigate": "导航",
+    "cancel_booking": "取消预订",
+    "report_driver": "举报司机",
+    "call_driver": "呼叫司机"
   }
 }

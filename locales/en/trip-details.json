@@ -73,5 +73,40 @@
     "review_success": "{{name}} reviewed successfully!",
     "review_failed": "{{name}} Review Failed",
     "failed_default": "Account Update failed"
+  },
+  "feedback": {
+    "title": "Driver Feedback",
+    "validation": {
+      "review_min": "Review must be at least 10 characters",
+      "review_max": "Review cannot exceed 500 characters",
+      "review_required": "Review is required",
+      "rating_min": "Rating must be at least 1 star",
+      "rating_max": "Rating cannot exceed 5 stars",
+      "rating_required": "Rating is required"
+    },
+    "comment_label": "comment",
+    "review_placeholder": "Enter Review",
+    "submit_button": "Submit Review",
+    "modal": {
+      "title": "Submitted",
+      "description": "Your rating and review has been submitted",
+      "done": "Done"
+    }
+  },
+  "driver_details": {
+    "title": "Driver Details",
+    "driver_info": "Driver Information",
+    "vehicle_info": "Vehicle Information",
+    "tracking_link": "Live Tracking Link/Map",
+    "arrival_time": "Expected Arrival Time",
+    "receiver_name": "Receiver’s Name",
+    "receiver_number": "Receiver’s Number",
+    "vehicle_type": "Vehicle Type",
+    "vehicle_model": "Vehicle Make/Model",
+    "license_plate": "License Plate",
+    "navigate": "Navigate",
+    "cancel_booking": "Cancel Booking",
+    "report_driver": "Report Driver",
+    "call_driver": "Call Driver"
   }
 }

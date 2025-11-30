@@ -73,5 +73,40 @@
     "review_success": "{{name}}のレビューが成功しました！",
     "review_failed": "{{name}}のレビューが失敗しました",
     "failed_default": "アカウントの更新に失敗しました"
+  },
+  "feedback": {
+    "title": "ドライバーへのフィードバック",
+    "validation": {
+      "review_min": "レビューは10文字以上である必要があります",
+      "review_max": "レビューは500文字を超えることはできません",
+      "review_required": "レビューは必須です",
+      "rating_min": "評価は少なくとも1つ星である必要があります",
+      "rating_max": "評価は5つ星を超えることはできません",
+      "rating_required": "評価は必須です"
+    },
+    "comment_label": "コメント",
+    "review_placeholder": "レビューを入力",
+    "submit_button": "レビューを送信",
+    "modal": {
+      "title": "送信済み",
+      "description": "評価とレビューが送信されました",
+      "done": "完了"
+    }
+  },
+  "driver_details": {
+    "title": "ドライバーの詳細",
+    "driver_info": "ドライバー情報",
+    "vehicle_info": "車両情報",
+    "tracking_link": "ライブ追跡リンク/地図",
+    "arrival_time": "到着予定時刻",
+    "receiver_name": "受取人の名前",
+    "receiver_number": "受取人の番号",
+    "vehicle_type": "車両タイプ",
+    "vehicle_model": "車両のメーカー/モデル",
+    "license_plate": "ナンバープレート",
+    "navigate": "ナビゲート",
+    "cancel_booking": "予約をキャンセル",
+    "report_driver": "ドライバーを報告",
+    "call_driver": "ドライバーに電話"
   }
 }

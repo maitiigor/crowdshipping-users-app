@@ -1,0 +1,80 @@
+{
+  "header": {
+    "title": "Trips",
+    "land": "Land",
+    "air": "Air",
+    "maritime": "Maritime",
+    "enter_location": "Enter Your Location",
+    "traveler_details": "Traveler Details"
+  },
+  "search": {
+    "placeholder": "Search for available trips...",
+    "vehicle_placeholder": "Search..."
+  },
+  "tabs": {
+    "ground": "Ground",
+    "air": "Air",
+    "maritime": "Maritime"
+  },
+  "list": {
+    "departure": "Departure:",
+    "arrival": "Arrival:",
+    "status": "Status:",
+    "bid_button": "Bid in Space",
+    "empty_title": "No trips available",
+    "empty_desc": "There are no trips available at the moment. Check back later for updates."
+  },
+  "road_delivery": {
+    "pickup_address": "Pickup Address",
+    "dropoff_location": "Drop Off Location",
+    "weight": "Weight",
+    "weight_placeholder": "Input your weight",
+    "vehicle_option": "Vehicle Option",
+    "vehicle_placeholder": "Select vehicle type",
+    "total_distance": "Total Distance:",
+    "continue_button": "Continue",
+    "validation": {
+      "vehicle_required": "Vehicle category is required",
+      "dropoff_required": "Drop-off location is required",
+      "pickup_required": "Pickup address is required",
+      "weight_required": "Weight is required",
+      "lat_required": "Latitude is required",
+      "lng_required": "Longitude is required",
+      "address_required": "Address is required"
+    },
+    "toast": {
+      "missing_pickup_title": "Missing Pickup Address",
+      "missing_pickup_desc": "Please select a pickup address",
+      "missing_dropoff_title": "Missing Drop-off Address",
+      "missing_dropoff_desc": "Please select a drop-off address",
+      "success_title": "Success",
+      "success_desc": "Road Delivery Initiated successfully!",
+      "failed_title": "Delivery Process Failed",
+      "failed_default": "Sign up failed"
+    }
+  },
+  "traveler_details": {
+    "trip_id": "Trip ID",
+    "airline": "Airline",
+    "flight_number": "Flight Number",
+    "departure_city": "Departure City",
+    "arrival_city": "Arrival City",
+    "departure_date": "Departure Date",
+    "arrival_date": "Arrival Date",
+    "status": "Status",
+    "mmsi_number": "MMSI Number",
+    "vessel_name": "Vessel Name",
+    "vessel_operator": "Vessel Operator",
+    "voyage_number": "Voyage Number",
+    "container_number": "Container Number",
+    "departure_port": "Departure Port",
+    "arrival_port": "Arrival Port",
+    "trip_title_air": "Air Trip",
+    "trip_title_maritime": "Maritime Trip",
+    "trip_prefix": "Trip",
+    "unavailable_title": "Trip details unavailable",
+    "unavailable_desc": "We couldn't load this trip. Please try again.",
+    "retry_button": "Retry",
+    "enter_delivery_details": "Enter Delivery Details"
+  }
+}

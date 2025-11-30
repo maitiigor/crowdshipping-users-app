@@ -1,0 +1,80 @@
+{
+  "header": {
+    "title": "Trajets",
+    "land": "Terrestre",
+    "air": "Aérien",
+    "maritime": "Maritime",
+    "enter_location": "Entrez votre emplacement",
+    "traveler_details": "Détails du voyageur"
+  },
+  "search": {
+    "placeholder": "Rechercher des trajets disponibles...",
+    "vehicle_placeholder": "Rechercher..."
+  },
+  "tabs": {
+    "ground": "Terrestre",
+    "air": "Aérien",
+    "maritime": "Maritime"
+  },
+  "list": {
+    "departure": "Départ :",
+    "arrival": "Arrivée :",
+    "status": "Statut :",
+    "bid_button": "Enchérir dans l'espace",
+    "empty_title": "Aucun trajet disponible",
+    "empty_desc": "Il n'y a aucun trajet disponible pour le moment. Revenez plus tard pour les mises à jour."
+  },
+  "road_delivery": {
+    "pickup_address": "Adresse de ramassage",
+    "dropoff_location": "Lieu de dépôt",
+    "weight": "Poids",
+    "weight_placeholder": "Entrez votre poids",
+    "vehicle_option": "Option de véhicule",
+    "vehicle_placeholder": "Sélectionnez le type de véhicule",
+    "total_distance": "Distance totale :",
+    "continue_button": "Continuer",
+    "validation": {
+      "vehicle_required": "La catégorie de véhicule est requise",
+      "dropoff_required": "Le lieu de dépôt est requis",
+      "pickup_required": "L'adresse de ramassage est requise",
+      "weight_required": "Le poids est requis",
+      "lat_required": "La latitude est requise",
+      "lng_required": "La longitude est requise",
+      "address_required": "L'adresse est requise"
+    },
+    "toast": {
+      "missing_pickup_title": "Adresse de ramassage manquante",
+      "missing_pickup_desc": "Veuillez sélectionner une adresse de ramassage",
+      "missing_dropoff_title": "Adresse de dépôt manquante",
+      "missing_dropoff_desc": "Veuillez sélectionner une adresse de dépôt",
+      "success_title": "Succès",
+      "success_desc": "Livraison routière initiée avec succès !",
+      "failed_title": "Échec du processus de livraison",
+      "failed_default": "Échec de l'inscription"
+    }
+  },
+  "traveler_details": {
+    "trip_id": "ID du trajet",
+    "airline": "Compagnie aérienne",
+    "flight_number": "Numéro de vol",
+    "departure_city": "Ville de départ",
+    "arrival_city": "Ville d'arrivée",
+    "departure_date": "Date de départ",
+    "arrival_date": "Date d'arrivée",
+    "status": "Statut",
+    "mmsi_number": "Numéro MMSI",
+    "vessel_name": "Nom du navire",
+    "vessel_operator": "Opérateur du navire",
+    "voyage_number": "Numéro de voyage",
+    "container_number": "Numéro de conteneur",
+    "departure_port": "Port de départ",
+    "arrival_port": "Port d'arrivée",
+    "trip_title_air": "Trajet aérien",
+    "trip_title_maritime": "Trajet maritime",
+    "trip_prefix": "Trajet",
+    "unavailable_title": "Détails du trajet indisponibles",
+    "unavailable_desc": "Nous n'avons pas pu charger ce trajet. Veuillez réessayer.",
+    "retry_button": "Réessayer",
+    "enter_delivery_details": "Entrer les détails de livraison"
+  }
+}

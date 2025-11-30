@@ -73,5 +73,40 @@
     "review_success": "{{name}} recensito con successo!",
     "review_failed": "Recensione di {{name}} fallita",
     "failed_default": "Aggiornamento account fallito"
+  },
+  "feedback": {
+    "title": "Feedback autista",
+    "validation": {
+      "review_min": "La recensione deve contenere almeno 10 caratteri",
+      "review_max": "La recensione non può superare i 500 caratteri",
+      "review_required": "La recensione è obbligatoria",
+      "rating_min": "La valutazione deve essere di almeno 1 stella",
+      "rating_max": "La valutazione non può superare le 5 stelle",
+      "rating_required": "La valutazione è obbligatoria"
+    },
+    "comment_label": "commento",
+    "review_placeholder": "Inserisci recensione",
+    "submit_button": "Invia recensione",
+    "modal": {
+      "title": "Inviato",
+      "description": "La tua valutazione e recensione sono state inviate",
+      "done": "Fatto"
+    }
+  },
+  "driver_details": {
+    "title": "Dettagli autista",
+    "driver_info": "Informazioni autista",
+    "vehicle_info": "Informazioni veicolo",
+    "tracking_link": "Link tracciamento live / Mappa",
+    "arrival_time": "Orario di arrivo previsto",
+    "receiver_name": "Nome destinatario",
+    "receiver_number": "Numero destinatario",
+    "vehicle_type": "Tipo veicolo",
+    "vehicle_model": "Marca/Modello veicolo",
+    "license_plate": "Targa",
+    "navigate": "Naviga",
+    "cancel_booking": "Annulla prenotazione",
+    "report_driver": "Segnala autista",
+    "call_driver": "Chiama autista"
   }
 }

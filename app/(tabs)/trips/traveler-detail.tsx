@@ -15,7 +15,10 @@ import { ChevronLeft, MapPin } from "lucide-react-native";
 import React, { useEffect } from "react";
 import { TouchableOpacity } from "react-native";
 
+import { useTranslation } from "react-i18next";
+
 export default function TravelerDetail() {
+  const { t } = useTranslation("trips");
   const navigation = useNavigation();
   const router = useRouter();
   const backroundTopNav = useThemeColor({}, "background");
@@ -56,7 +59,7 @@ export default function TravelerDetail() {
       headerTitle: () => {
         return (
           <ThemedText type="s1_subtitle" className="text-center">
-            Traveler Details
+            {t("header.traveler_details")}
           </ThemedText>
         );
       },
@@ -158,77 +161,97 @@ export default function TravelerDetail() {
   const maritimeTripId = cleanText(maritimeTrip?.trip?.tripId);
 
   const tripTitle = isAirTrip
-    ? airTripTitle || (airTripId ? `Trip ${airTripId}` : "Air Trip")
+    ? airTripTitle ||
+      (airTripId
+        ? `${t("traveler_details.trip_prefix")} ${airTripId}`
+        : t("traveler_details.trip_title_air"))
     : maritimeTripTitle ||
-      (maritimeTripId ? `Trip ${maritimeTripId}` : "Maritime Trip");
+      (maritimeTripId
+        ? `${t("traveler_details.trip_prefix")} ${maritimeTripId}`
+        : t("traveler_details.trip_title_maritime"));
 
   const detailRows =
     isAirTrip && airTrip
       ? [
-          { label: "Trip ID", value: formatValue(airTrip.trip?.tripId) },
-          { label: "Airline", value: formatValue(airTrip.airlineName) },
           {
-            label: "Flight Number",
+            label: t("traveler_details.trip_id"),
+            value: formatValue(airTrip.trip?.tripId),
+          },
+          {
+            label: t("traveler_details.airline"),
+            value: formatValue(airTrip.airlineName),
+          },
+          {
+            label: t("traveler_details.flight_number"),
             value: formatValue(airTrip.flightNumber),
           },
           {
-            label: "Departure City",
+            label: t("traveler_details.departure_city"),
             value: formatValue(airTrip.departureCity),
           },
           {
-            label: "Arrival City",
+            label: t("traveler_details.arrival_city"),
             value: formatValue(airTrip.arrivalCity),
           },
           {
-            label: "Departure Date",
+            label: t("traveler_details.departure_date"),
             value: formatDate(airTrip.trip?.departureDate),
           },
           {
-            label: "Arrival Date",
+            label: t("traveler_details.arrival_date"),
             value: formatDate(airTrip.trip?.arrivalDate),
           },
-          { label: "Status", value: formatValue(airTrip.trip?.status) },
+          {
+            label: t("traveler_details.status"),
+            value: formatValue(airTrip.trip?.status),
+          },
         ]
       : !isAirTrip && maritimeTrip
       ? [
-          { label: "Trip ID", value: formatValue(maritimeTrip.trip?.tripId) },
           {
-            label: "MMSI Number",
+            label: t("traveler_details.trip_id"),
+            value: formatValue(maritimeTrip.trip?.tripId),
+          },
+          {
+            label: t("traveler_details.mmsi_number"),
             value: formatValue(maritimeTrip.mmsiNumber),
           },
           {
-            label: "Vessel Name",
+            label: t("traveler_details.vessel_name"),
             value: formatValue(maritimeTrip.vesselName),
           },
           {
-            label: "Vessel Operator",
+            label: t("traveler_details.vessel_operator"),
             value: formatValue(maritimeTrip.vesselOperator),
           },
           {
-            label: "Voyage Number",
+            label: t("traveler_details.voyage_number"),
             value: formatValue(maritimeTrip.voyageNumber),
           },
           {
-            label: "Container Number",
+            label: t("traveler_details.container_number"),
             value: formatValue(maritimeTrip.containerNumber),
           },
           {
-            label: "Departure Port",
+            label: t("traveler_details.departure_port"),
             value: formatValue(maritimeTrip.departurePort),
           },
           {
-            label: "Arrival Port",
+            label: t("traveler_details.arrival_port"),
             value: formatValue(maritimeTrip.arrivalPort),
           },
           {
-            label: "Departure Date",
+            label: t("traveler_details.departure_date"),
             value: formatDate(maritimeTrip.trip?.departureDate),
           },
           {
-            label: "Arrival Date",
+            label: t("traveler_details.arrival_date"),
             value: formatDate(maritimeTrip.trip?.arrivalDate),
           },
-          { label: "Status", value: formatValue(maritimeTrip.trip?.status) },
+          {
+            label: t("traveler_details.status"),
+            value: formatValue(maritimeTrip.trip?.status),
+          },
         ]
       : [];
 
@@ -347,17 +370,17 @@ export default function TravelerDetail() {
                     type="s2_subtitle"
                     className="text-typography-800 text-center"
                   >
-                    Trip details unavailable
+                    {t("traveler_details.unavailable_title")}
                   </ThemedText>
                   <ThemedText
                     type="default"
                     className="text-typography-500 text-center"
                   >
-                    We couldn&apos;t load this trip. Please try again.
+                    {t("traveler_details.unavailable_desc")}
                   </ThemedText>
                   <Button variant="outline" size="lg" onPress={handleRetry}>
                     <ThemedText type="b2_body" className="text-primary-500">
-                      Retry
+                      {t("traveler_details.retry_button")}
                     </ThemedText>
                   </Button>
                 </ThemedView>
@@ -383,8 +406,10 @@ export default function TravelerDetail() {
               <ThemedText
                 lightColor="#FFFFFF"
                 darkColor="#FFFFFF"
-                type="s2_subtitle" className="text-white text-center">
-                Enter Delivery Details
+                type="s2_subtitle"
+                className="text-white text-center"
+              >
+                {t("traveler_details.enter_delivery_details")}
               </ThemedText>
             </Button>
           </ThemedView>

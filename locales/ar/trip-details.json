@@ -73,5 +73,40 @@
     "review_success": "تم تقييم {{name}} بنجاح!",
     "review_failed": "فشل تقييم {{name}}",
     "failed_default": "فشل تحديث الحساب"
+  },
+  "feedback": {
+    "title": "ملاحظات السائق",
+    "validation": {
+      "review_min": "يجب أن تكون المراجعة 10 أحرف على الأقل",
+      "review_max": "لا يمكن أن تتجاوز المراجعة 500 حرف",
+      "review_required": "المراجعة مطلوبة",
+      "rating_min": "يجب أن يكون التقييم نجمة واحدة على الأقل",
+      "rating_max": "لا يمكن أن يتجاوز التقييم 5 نجوم",
+      "rating_required": "التقييم مطلوب"
+    },
+    "comment_label": "تعليق",
+    "review_placeholder": "أدخل المراجعة",
+    "submit_button": "إرسال المراجعة",
+    "modal": {
+      "title": "تم الإرسال",
+      "description": "تم إرسال تقييمك ومراجعتك",
+      "done": "تم"
+    }
+  },
+  "driver_details": {
+    "title": "تفاصيل السائق",
+    "driver_info": "معلومات السائق",
+    "vehicle_info": "معلومات المركبة",
+    "tracking_link": "رابط التتبع المباشر / الخريطة",
+    "arrival_time": "وقت الوصول المتوقع",
+    "receiver_name": "اسم المستلم",
+    "receiver_number": "رقم المستلم",
+    "vehicle_type": "نوع المركبة",
+    "vehicle_model": "طراز المركبة",
+    "license_plate": "لوحة الترخيص",
+    "navigate": "توجيه",
+    "cancel_booking": "إلغاء الحجز",
+    "report_driver": "الإبلاغ عن السائق",
+    "call_driver": "اتصل بالسائق"
   }
 }

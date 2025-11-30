@@ -1,0 +1,80 @@
+{
+  "header": {
+    "title": "Поездки",
+    "land": "Наземный",
+    "air": "Воздушный",
+    "maritime": "Морской",
+    "enter_location": "Введите ваше местоположение",
+    "traveler_details": "Детали путешественника"
+  },
+  "search": {
+    "placeholder": "Поиск доступных поездок...",
+    "vehicle_placeholder": "Поиск..."
+  },
+  "tabs": {
+    "ground": "Наземный",
+    "air": "Воздушный",
+    "maritime": "Морской"
+  },
+  "list": {
+    "departure": "Отправление:",
+    "arrival": "Прибытие:",
+    "status": "Статус:",
+    "bid_button": "Предложить место",
+    "empty_title": "Нет доступных поездок",
+    "empty_desc": "На данный момент нет доступных поездок. Проверьте позже."
+  },
+  "road_delivery": {
+    "pickup_address": "Адрес получения",
+    "dropoff_location": "Место доставки",
+    "weight": "Вес",
+    "weight_placeholder": "Введите ваш вес",
+    "vehicle_option": "Вариант транспортного средства",
+    "vehicle_placeholder": "Выберите тип транспортного средства",
+    "total_distance": "Общее расстояние:",
+    "continue_button": "Продолжить",
+    "validation": {
+      "vehicle_required": "Категория транспортного средства обязательна",
+      "dropoff_required": "Место доставки обязательно",
+      "pickup_required": "Адрес получения обязателен",
+      "weight_required": "Вес обязателен",
+      "lat_required": "Широта обязательна",
+      "lng_required": "Долгота обязательна",
+      "address_required": "Адрес обязателен"
+    },
+    "toast": {
+      "missing_pickup_title": "Отсутствует адрес получения",
+      "missing_pickup_desc": "Пожалуйста, выберите адрес получения",
+      "missing_dropoff_title": "Отсутствует адрес доставки",
+      "missing_dropoff_desc": "Пожалуйста, выберите адрес доставки",
+      "success_title": "Успех",
+      "success_desc": "Доставка по дороге успешно инициирована!",
+      "failed_title": "Процесс доставки не удался",
+      "failed_default": "Регистрация не удалась"
+    }
+  },
+  "traveler_details": {
+    "trip_id": "ID поездки",
+    "airline": "Авиакомпания",
+    "flight_number": "Номер рейса",
+    "departure_city": "Город отправления",
+    "arrival_city": "Город прибытия",
+    "departure_date": "Дата отправления",
+    "arrival_date": "Дата прибытия",
+    "status": "Статус",
+    "mmsi_number": "Номер MMSI",
+    "vessel_name": "Название судна",
+    "vessel_operator": "Оператор судна",
+    "voyage_number": "Номер рейса",
+    "container_number": "Номер контейнера",
+    "departure_port": "Порт отправления",
+    "arrival_port": "Порт прибытия",
+    "trip_title_air": "Авиаперелет",
+    "trip_title_maritime": "Морское путешествие",
+    "trip_prefix": "Поездка",
+    "unavailable_title": "Детали поездки недоступны",
+    "unavailable_desc": "Мы не смогли загрузить эту поездку. Пожалуйста, попробуйте снова.",
+    "retry_button": "Повторить",
+    "enter_delivery_details": "Введите детали доставки"
+  }
+}

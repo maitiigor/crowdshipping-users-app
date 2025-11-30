@@ -1,0 +1,80 @@
+{
+  "header": {
+    "title": "Reisen",
+    "land": "Land",
+    "air": "Luft",
+    "maritime": "See",
+    "enter_location": "Geben Sie Ihren Standort ein",
+    "traveler_details": "Reisenden-Details"
+  },
+  "search": {
+    "placeholder": "Nach verfügbaren Reisen suchen...",
+    "vehicle_placeholder": "Suchen..."
+  },
+  "tabs": {
+    "ground": "Boden",
+    "air": "Luft",
+    "maritime": "See"
+  },
+  "list": {
+    "departure": "Abfahrt:",
+    "arrival": "Ankunft:",
+    "status": "Status:",
+    "bid_button": "Gebot im Raum",
+    "empty_title": "Keine Reisen verfügbar",
+    "empty_desc": "Derzeit sind keine Reisen verfügbar. Schauen Sie später wieder vorbei."
+  },
+  "road_delivery": {
+    "pickup_address": "Abholadresse",
+    "dropoff_location": "Abgabeort",
+    "weight": "Gewicht",
+    "weight_placeholder": "Geben Sie Ihr Gewicht ein",
+    "vehicle_option": "Fahrzeugoption",
+    "vehicle_placeholder": "Fahrzeugtyp auswählen",
+    "total_distance": "Gesamtstrecke:",
+    "continue_button": "Weiter",
+    "validation": {
+      "vehicle_required": "Fahrzeugkategorie ist erforderlich",
+      "dropoff_required": "Abgabeort ist erforderlich",
+      "pickup_required": "Abholadresse ist erforderlich",
+      "weight_required": "Gewicht ist erforderlich",
+      "lat_required": "Breitengrad ist erforderlich",
+      "lng_required": "Längengrad ist erforderlich",
+      "address_required": "Adresse ist erforderlich"
+    },
+    "toast": {
+      "missing_pickup_title": "Fehlende Abholadresse",
+      "missing_pickup_desc": "Bitte wählen Sie eine Abholadresse aus",
+      "missing_dropoff_title": "Fehlende Abgabeadresse",
+      "missing_dropoff_desc": "Bitte wählen Sie eine Abgabeadresse aus",
+      "success_title": "Erfolg",
+      "success_desc": "Straßenlieferung erfolgreich eingeleitet!",
+      "failed_title": "Lieferprozess fehlgeschlagen",
+      "failed_default": "Anmeldung fehlgeschlagen"
+    }
+  },
+  "traveler_details": {
+    "trip_id": "Reise-ID",
+    "airline": "Fluggesellschaft",
+    "flight_number": "Flugnummer",
+    "departure_city": "Abflugstadt",
+    "arrival_city": "Ankunftsstadt",
+    "departure_date": "Abflugdatum",
+    "arrival_date": "Ankunftsdatum",
+    "status": "Status",
+    "mmsi_number": "MMSI-Nummer",
+    "vessel_name": "Schiffsname",
+    "vessel_operator": "Schiffsbetreiber",
+    "voyage_number": "Reisenummer",
+    "container_number": "Containernummer",
+    "departure_port": "Abfahrtshafen",
+    "arrival_port": "Ankunftshafen",
+    "trip_title_air": "Flugreise",
+    "trip_title_maritime": "Seereise",
+    "trip_prefix": "Reise",
+    "unavailable_title": "Reisedetails nicht verfügbar",
+    "unavailable_desc": "Wir konnten diese Reise nicht laden. Bitte versuchen Sie es erneut.",
+    "retry_button": "Wiederholen",
+    "enter_delivery_details": "Lieferdetails eingeben"
+  }
+}

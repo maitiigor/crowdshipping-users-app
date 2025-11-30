@@ -73,5 +73,40 @@
     "review_success": "{{name}} évalué avec succès!",
     "review_failed": "Échec de l'évaluation de {{name}}",
     "failed_default": "Échec de la mise à jour du compte"
+  },
+  "feedback": {
+    "title": "Avis sur le chauffeur",
+    "validation": {
+      "review_min": "L'avis doit contenir au moins 10 caractères",
+      "review_max": "L'avis ne peut pas dépasser 500 caractères",
+      "review_required": "L'avis est requis",
+      "rating_min": "La note doit être d'au moins 1 étoile",
+      "rating_max": "La note ne peut pas dépasser 5 étoiles",
+      "rating_required": "La note est requise"
+    },
+    "comment_label": "commentaire",
+    "review_placeholder": "Entrez votre avis",
+    "submit_button": "Soumettre l'avis",
+    "modal": {
+      "title": "Soumis",
+      "description": "Votre note et votre avis ont été soumis",
+      "done": "Terminé"
+    }
+  },
+  "driver_details": {
+    "title": "Détails du chauffeur",
+    "driver_info": "Informations sur le chauffeur",
+    "vehicle_info": "Informations sur le véhicule",
+    "tracking_link": "Lien de suivi en direct / Carte",
+    "arrival_time": "Heure d'arrivée prévue",
+    "receiver_name": "Nom du destinataire",
+    "receiver_number": "Numéro du destinataire",
+    "vehicle_type": "Type de véhicule",
+    "vehicle_model": "Marque/Modèle du véhicule",
+    "license_plate": "Plaque d'immatriculation",
+    "navigate": "Naviguer",
+    "cancel_booking": "Annuler la réservation",
+    "report_driver": "Signaler le chauffeur",
+    "call_driver": "Appeler le chauffeur"
   }
 }

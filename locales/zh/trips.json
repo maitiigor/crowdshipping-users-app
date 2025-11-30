@@ -1,0 +1,80 @@
+{
+  "header": {
+    "title": "行程",
+    "land": "陆运",
+    "air": "空运",
+    "maritime": "海运",
+    "enter_location": "输入您的位置",
+    "traveler_details": "旅客详情"
+  },
+  "search": {
+    "placeholder": "搜索可用行程...",
+    "vehicle_placeholder": "搜索..."
+  },
+  "tabs": {
+    "ground": "陆地",
+    "air": "空中",
+    "maritime": "海上"
+  },
+  "list": {
+    "departure": "出发：",
+    "arrival": "到达：",
+    "status": "状态：",
+    "bid_button": "空间竞价",
+    "empty_title": "无可用行程",
+    "empty_desc": "目前没有可用行程。请稍后查看更新。"
+  },
+  "road_delivery": {
+    "pickup_address": "取件地址",
+    "dropoff_location": "送货地点",
+    "weight": "重量",
+    "weight_placeholder": "输入您的重量",
+    "vehicle_option": "车辆选项",
+    "vehicle_placeholder": "选择车辆类型",
+    "total_distance": "总距离：",
+    "continue_button": "继续",
+    "validation": {
+      "vehicle_required": "车辆类别为必填项",
+      "dropoff_required": "送货地点为必填项",
+      "pickup_required": "取件地址为必填项",
+      "weight_required": "重量为必填项",
+      "lat_required": "纬度为必填项",
+      "lng_required": "经度为必填项",
+      "address_required": "地址为必填项"
+    },
+    "toast": {
+      "missing_pickup_title": "缺少取件地址",
+      "missing_pickup_desc": "请选择取件地址",
+      "missing_dropoff_title": "缺少送货地址",
+      "missing_dropoff_desc": "请选择送货地址",
+      "success_title": "成功",
+      "success_desc": "陆运发起成功！",
+      "failed_title": "配送流程失败",
+      "failed_default": "注册失败"
+    }
+  },
+  "traveler_details": {
+    "trip_id": "行程 ID",
+    "airline": "航空公司",
+    "flight_number": "航班号",
+    "departure_city": "出发城市",
+    "arrival_city": "到达城市",
+    "departure_date": "出发日期",
+    "arrival_date": "到达日期",
+    "status": "状态",
+    "mmsi_number": "MMSI 号码",
+    "vessel_name": "船名",
+    "vessel_operator": "船舶运营商",
+    "voyage_number": "航次号",
+    "container_number": "集装箱号",
+    "departure_port": "出发港口",
+    "arrival_port": "到达港口",
+    "trip_title_air": "空运行程",
+    "trip_title_maritime": "海运行程",
+    "trip_prefix": "行程",
+    "unavailable_title": "行程详情不可用",
+    "unavailable_desc": "我们无法加载此行程。请重试。",
+    "retry_button": "重试",
+    "enter_delivery_details": "输入配送详情"
+  }
+}

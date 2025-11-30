@@ -73,5 +73,40 @@
     "review_success": "¡{{name}} calificado con éxito!",
     "review_failed": "Falló la calificación de {{name}}",
     "failed_default": "Falló la actualización de la cuenta"
+  },
+  "feedback": {
+    "title": "Comentarios del conductor",
+    "validation": {
+      "review_min": "La reseña debe tener al menos 10 caracteres",
+      "review_max": "La reseña no puede exceder los 500 caracteres",
+      "review_required": "La reseña es obligatoria",
+      "rating_min": "La calificación debe ser de al menos 1 estrella",
+      "rating_max": "La calificación no puede exceder las 5 estrellas",
+      "rating_required": "La calificación es obligatoria"
+    },
+    "comment_label": "comentario",
+    "review_placeholder": "Ingrese su reseña",
+    "submit_button": "Enviar reseña",
+    "modal": {
+      "title": "Enviado",
+      "description": "Su calificación y reseña han sido enviadas",
+      "done": "Hecho"
+    }
+  },
+  "driver_details": {
+    "title": "Detalles del conductor",
+    "driver_info": "Información del conductor",
+    "vehicle_info": "Información del vehículo",
+    "tracking_link": "Enlace de seguimiento en vivo / Mapa",
+    "arrival_time": "Hora de llegada estimada",
+    "receiver_name": "Nombre del receptor",
+    "receiver_number": "Número del receptor",
+    "vehicle_type": "Tipo de vehículo",
+    "vehicle_model": "Marca/Modelo del vehículo",
+    "license_plate": "Placa de matrícula",
+    "navigate": "Navegar",
+    "cancel_booking": "Cancelar reserva",
+    "report_driver": "Reportar conductor",
+    "call_driver": "Llamar al conductor"
   }
 }

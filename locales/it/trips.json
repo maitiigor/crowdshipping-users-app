@@ -1,0 +1,80 @@
+{
+  "header": {
+    "title": "Viaggi",
+    "land": "Terra",
+    "air": "Aria",
+    "maritime": "Marittimo",
+    "enter_location": "Inserisci la tua posizione",
+    "traveler_details": "Dettagli viaggiatore"
+  },
+  "search": {
+    "placeholder": "Cerca viaggi disponibili...",
+    "vehicle_placeholder": "Cerca..."
+  },
+  "tabs": {
+    "ground": "Terra",
+    "air": "Aria",
+    "maritime": "Marittimo"
+  },
+  "list": {
+    "departure": "Partenza:",
+    "arrival": "Arrivo:",
+    "status": "Stato:",
+    "bid_button": "Fai un'offerta nello spazio",
+    "empty_title": "Nessun viaggio disponibile",
+    "empty_desc": "Non ci sono viaggi disponibili al momento. Controlla più tardi per aggiornamenti."
+  },
+  "road_delivery": {
+    "pickup_address": "Indirizzo di ritiro",
+    "dropoff_location": "Luogo di consegna",
+    "weight": "Peso",
+    "weight_placeholder": "Inserisci il tuo peso",
+    "vehicle_option": "Opzione veicolo",
+    "vehicle_placeholder": "Seleziona tipo di veicolo",
+    "total_distance": "Distanza totale:",
+    "continue_button": "Continua",
+    "validation": {
+      "vehicle_required": "La categoria del veicolo è obbligatoria",
+      "dropoff_required": "Il luogo di consegna è obbligatorio",
+      "pickup_required": "L'indirizzo di ritiro è obbligatorio",
+      "weight_required": "Il peso è obbligatorio",
+      "lat_required": "La latitudine è obbligatoria",
+      "lng_required": "La longitudine è obbligatoria",
+      "address_required": "L'indirizzo è obbligatorio"
+    },
+    "toast": {
+      "missing_pickup_title": "Indirizzo di ritiro mancante",
+      "missing_pickup_desc": "Seleziona un indirizzo di ritiro",
+      "missing_dropoff_title": "Indirizzo di consegna mancante",
+      "missing_dropoff_desc": "Seleziona un indirizzo di consegna",
+      "success_title": "Successo",
+      "success_desc": "Consegna su strada avviata con successo!",
+      "failed_title": "Processo di consegna fallito",
+      "failed_default": "Registrazione fallita"
+    }
+  },
+  "traveler_details": {
+    "trip_id": "ID viaggio",
+    "airline": "Compagnia aerea",
+    "flight_number": "Numero volo",
+    "departure_city": "Città di partenza",
+    "arrival_city": "Città di arrivo",
+    "departure_date": "Data di partenza",
+    "arrival_date": "Data di arrivo",
+    "status": "Stato",
+    "mmsi_number": "Numero MMSI",
+    "vessel_name": "Nome nave",
+    "vessel_operator": "Operatore nave",
+    "voyage_number": "Numero viaggio",
+    "container_number": "Numero container",
+    "departure_port": "Porto di partenza",
+    "arrival_port": "Porto di arrivo",
+    "trip_title_air": "Viaggio aereo",
+    "trip_title_maritime": "Viaggio marittimo",
+    "trip_prefix": "Viaggio",
+    "unavailable_title": "Dettagli viaggio non disponibili",
+    "unavailable_desc": "Non siamo riusciti a caricare questo viaggio. Riprova.",
+    "retry_button": "Riprova",
+    "enter_delivery_details": "Inserisci dettagli consegna"
+  }
+}

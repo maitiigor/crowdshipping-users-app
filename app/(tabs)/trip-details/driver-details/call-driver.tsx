@@ -1,10 +1,12 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { Text, View } from "react-native";
 
 export default function CallDriver() {
+  const { t } = useTranslation("tripDetails");
   return (
     <View>
-      <Text>Call Driver</Text>
+      <Text>{t("driver_details.call_driver")}</Text>
     </View>
-  )
+  );
 }
