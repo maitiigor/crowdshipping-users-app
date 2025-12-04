@@ -25,9 +25,8 @@ import {
 import { Textarea, TextareaInput } from "../ui/textarea";
 import { useToast } from "../ui/toast";
 
-const validationSchema = Yup.object().shape({
-  reason: Yup.string().required("Reason is required"),
-});
+import { useTranslation } from "react-i18next";
+
 interface IProps {
   responseId: string;
   showModal: boolean;
@@ -38,6 +37,10 @@ export default function CancelBookingModal({
   showModal,
   setShowModal,
 }: IProps) {
+  const { t } = useTranslation("trips");
+  const validationSchema = Yup.object().shape({
+    reason: Yup.string().required(t("cancel_modal.reason_required")),
+  });
   const toast = useToast();
   const router = useRouter();
   const { refetch: refetchNotifications } = useAuthenticatedQuery<
@@ -90,8 +93,8 @@ export default function CancelBookingModal({
         reason,
       });
       showNewToast({
-        title: "Success",
-        description: "Booking cancelled successfully!",
+        title: t("cancel_modal.success_title"),
+        description: t("cancel_modal.success_desc"),
         icon: CircleCheckIcon,
         action: "success",
         variant: "solid",
@@ -108,10 +111,10 @@ export default function CancelBookingModal({
         e?.data?.message ||
         e?.message ||
         (typeof error === "string" ? error : undefined) ||
-        "Sign up failed";
+        t("cancel_modal.failed_default");
 
       showNewToast({
-        title: "Booking Cancellation Failed",
+        title: t("cancel_modal.failed_title"),
         description: message,
         icon: HelpCircleIcon,
         action: "error",
@@ -134,7 +137,7 @@ export default function CancelBookingModal({
             type="h5_header"
             className="text-center text-typography-900 mb-4"
           >
-            Cancel Booking
+            {t("cancel_modal.title")}
           </ThemedText>
         </ModalHeader>
         <ModalBody className="my-4 w-full">
@@ -157,7 +160,7 @@ export default function CancelBookingModal({
               <>
                 <ThemedView>
                   <InputLabelText type="b2_body" className="pb-1">
-                    Reason
+                    {t("cancel_modal.reason_label")}
                   </InputLabelText>
                   <Textarea
                     size="lg"
@@ -171,7 +174,7 @@ export default function CancelBookingModal({
                       value={values.reason}
                       onChangeText={handleChange("reason")}
                       onBlur={handleBlur("reason")}
-                      placeholder="Enter Reason"
+                      placeholder={t("cancel_modal.reason_placeholder")}
                       multiline
                       numberOfLines={10}
                       style={{ textAlignVertical: "top" }}
@@ -204,7 +207,7 @@ export default function CancelBookingModal({
                     {loading ? (
                       <ActivityIndicator color="white" />
                     ) : (
-                      "Cancel Booking"
+                      t("cancel_modal.cancel_button")
                     )}
                   </ThemedText>
                 </Button>

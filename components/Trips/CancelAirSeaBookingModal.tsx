@@ -1,4 +1,4 @@
-import { useAuthenticatedDelete, useAuthenticatedPatch, useAuthenticatedQuery } from "@/lib/api";
+import { useAuthenticatedDelete, useAuthenticatedQuery } from "@/lib/api";
 import { INotificationsResponse } from "@/types/INotification";
 import { useRouter } from "expo-router";
 import {
@@ -8,7 +8,6 @@ import {
 } from "lucide-react-native";
 import React from "react";
 import { ActivityIndicator } from "react-native";
-import * as Yup from "yup";
 import CustomToast from "../Custom/CustomToast";
 import { ThemedText } from "../ThemedText";
 import { ThemedView } from "../ThemedView";
@@ -22,9 +21,7 @@ import {
 } from "../ui/modal";
 import { useToast } from "../ui/toast";
 
-const validationSchema = Yup.object().shape({
-  reason: Yup.string().required("Reason is required"),
-});
+import { useTranslation } from "react-i18next";
 interface IProps {
   responseId: string;
   showModal: boolean;
@@ -35,6 +32,7 @@ export default function CancelAirSeaBookingModal({
   showModal,
   setShowModal,
 }: IProps) {
+  const { t } = useTranslation("trips");
   const toast = useToast();
   const router = useRouter();
   const { refetch: refetchNotifications } = useAuthenticatedQuery<
@@ -82,8 +80,8 @@ export default function CancelAirSeaBookingModal({
     try {
       await mutateAsync({});
       showNewToast({
-        title: "Success",
-        description: "Booking cancelled successfully!",
+        title: t("cancel_modal.success_title"),
+        description: t("cancel_modal.success_desc"),
         icon: CircleCheckIcon,
         action: "success",
         variant: "solid",
@@ -100,10 +98,10 @@ export default function CancelAirSeaBookingModal({
         e?.data?.message ||
         e?.message ||
         (typeof error === "string" ? error : undefined) ||
-        "Sign up failed";
+        t("cancel_modal.failed_default");
 
       showNewToast({
-        title: "Booking Cancellation Failed",
+        title: t("cancel_modal.failed_title"),
         description: message,
         icon: HelpCircleIcon,
         action: "error",
@@ -126,7 +124,7 @@ export default function CancelAirSeaBookingModal({
             type="h5_header"
             className="text-center text-typography-900 mb-4"
           >
-            Cancel Booking
+            {t("cancel_modal.title")}
           </ThemedText>
         </ModalHeader>
         <ModalBody className="my-4 w-full">
@@ -134,15 +132,13 @@ export default function CancelAirSeaBookingModal({
             type="b2_body"
             className="text-typography-700 text-center mb-6 px-2"
           >
-            Are you sure you want to cancel this booking? This action cannot be
-            undone.
+            {t("cancel_modal.confirm_text")}
           </ThemedText>
           <ThemedText
             type="b2_body"
             className="text-typography-700 text-center mb-6 px-2 "
           >
-            By confirming, you acknowledge that any associated fees or penalties
-            may apply as per our cancellation policy.
+            {t("cancel_modal.policy_text")}
           </ThemedText>
           <ThemedView className="flex-row gap-4 w-full justify-center">
             <Button
@@ -153,7 +149,7 @@ export default function CancelAirSeaBookingModal({
               }}
             >
               <ThemedText type="btn_large" className="text-typography-700">
-                Go Back
+                {t("cancel_modal.go_back")}
               </ThemedText>
             </Button>
             <Button
@@ -161,7 +157,11 @@ export default function CancelAirSeaBookingModal({
               onTouchEnd={() => handleSubmit()}
             >
               <ThemedText type="btn_large" className="text-red-600">
-                {loading ? <ActivityIndicator color="white" /> : "Confirm"}
+                {loading ? (
+                  <ActivityIndicator color="white" />
+                ) : (
+                  t("cancel_modal.confirm_button")
+                )}
               </ThemedText>
             </Button>
           </ThemedView>

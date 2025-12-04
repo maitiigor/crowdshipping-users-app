@@ -27,6 +27,7 @@ import {
   LucideIcon,
 } from "lucide-react-native";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   ActivityIndicator,
   KeyboardAvoidingView,
@@ -34,6 +35,7 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as Yup from "yup";
+
 interface IFormValues {
   entityType: "air" | "maritime";
   bidAmount: number;
@@ -58,6 +60,7 @@ interface ISubmittedFormValues {
 }
 
 export default function BiddingScreen() {
+  const { t } = useTranslation("trips");
   const navigation = useNavigation();
   const router = useRouter();
   const toast = useToast();

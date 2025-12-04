@@ -43,26 +43,57 @@ import {
   HelpCircleIcon,
   LucideIcon,
 } from "lucide-react-native";
+import { useTranslation } from "react-i18next";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as Yup from "yup";
-// MenuItem type removed (unused)
-const waterTransportTypes = [
-  { label: "Container ships", value: "container ships" },
-  { label: "Bulk carriers", value: "bulk carriers" },
-  { label: "Oil tankers", value: "oil tankers" },
-  { label: "Fishing vessels", value: "fishing vessels" },
-  { label: "Ferries", value: "ferries" },
-  { label: "Speedboats", value: "speedboats" },
-];
-const airTransportTypes = [
-  { label: "Cargo planes", value: "cargo planes" },
-  { label: "Small freight aircraft", value: "small freight aircraft" },
-  { label: "Passenger aircraft", value: "passenger aircraft" },
-  { label: "Helicopters", value: "helicopters" },
-  { label: "Drones", value: "drones" },
-];
 
 export default function AirSeaDeliveryScreen() {
+  const { t } = useTranslation("trips");
+
+  // MenuItem type removed (unused)
+  const waterTransportTypes = [
+    {
+      label: t("air_sea_delivery.transport_types.container_ships"),
+      value: "container ships",
+    },
+    {
+      label: t("air_sea_delivery.transport_types.bulk_carriers"),
+      value: "bulk carriers",
+    },
+    {
+      label: t("air_sea_delivery.transport_types.oil_tankers"),
+      value: "oil tankers",
+    },
+    {
+      label: t("air_sea_delivery.transport_types.fishing_vessels"),
+      value: "fishing vessels",
+    },
+    { label: t("air_sea_delivery.transport_types.ferries"), value: "ferries" },
+    {
+      label: t("air_sea_delivery.transport_types.speedboats"),
+      value: "speedboats",
+    },
+  ];
+  const airTransportTypes = [
+    {
+      label: t("air_sea_delivery.transport_types.cargo_planes"),
+      value: "cargo planes",
+    },
+    {
+      label: t("air_sea_delivery.transport_types.small_freight_aircraft"),
+      value: "small freight aircraft",
+    },
+    {
+      label: t("air_sea_delivery.transport_types.passenger_aircraft"),
+      value: "passenger aircraft",
+    },
+    {
+      label: t("air_sea_delivery.transport_types.helicopters"),
+      value: "helicopters",
+    },
+    { label: t("air_sea_delivery.transport_types.drones"), value: "drones" },
+  ];
+
   const navigation = useNavigation();
   const router = useRouter();
   const backroundTopNav = useThemeColor({}, "background");
@@ -123,23 +154,37 @@ export default function AirSeaDeliveryScreen() {
   const validationSchema = Yup.object().shape({
     dropOffLocation: Yup.object()
       .shape({
-        lat: Yup.number().required("Latitude is required"),
-        lng: Yup.number().required("Longitude is required"),
-        address: Yup.string().required("Address is required"),
+        lat: Yup.number().required(
+          t("air_sea_delivery.validation.lat_required")
+        ),
+        lng: Yup.number().required(
+          t("air_sea_delivery.validation.lng_required")
+        ),
+        address: Yup.string().required(
+          t("air_sea_delivery.validation.address_required")
+        ),
       })
-      .required("Drop-off location is required"),
+      .required(t("air_sea_delivery.validation.dropoff_required")),
     pickupAddress: Yup.object()
       .shape({
-        lat: Yup.number().required("Latitude is required"),
-        lng: Yup.number().required("Longitude is required"),
-        address: Yup.string().required("Address is required"),
+        lat: Yup.number().required(
+          t("air_sea_delivery.validation.lat_required")
+        ),
+        lng: Yup.number().required(
+          t("air_sea_delivery.validation.lng_required")
+        ),
+        address: Yup.string().required(
+          t("air_sea_delivery.validation.address_required")
+        ),
       })
-      .required("Pickup address is required"),
-    weight: Yup.string().required("Weight is required"),
+      .required(t("air_sea_delivery.validation.pickup_required")),
+    weight: Yup.string().required(
+      t("air_sea_delivery.validation.weight_required")
+    ),
     tripOption: Yup.string().required(
       activeTripType === "2"
-        ? "Air trip is required"
-        : "Maritime trip is required"
+        ? t("air_sea_delivery.validation.air_trip_required")
+        : t("air_sea_delivery.validation.maritime_trip_required")
     ),
   });
   useEffect(() => {
@@ -148,7 +193,7 @@ export default function AirSeaDeliveryScreen() {
       headerTitle: () => {
         return (
           <ThemedText type="s1_subtitle" className="text-center">
-            Enter Your Location
+            {t("air_sea_delivery.title")}
           </ThemedText>
         );
       },
@@ -316,8 +361,8 @@ export default function AirSeaDeliveryScreen() {
       const address = values.pickUpLocation.address;
       if (lat == null || lng == null || !address) {
         showNewToast({
-          title: "Missing Pickup Address",
-          description: "Please select a pickup address",
+          title: t("air_sea_delivery.missing_pickup_title"),
+          description: t("air_sea_delivery.missing_pickup_desc"),
           icon: HelpCircleIcon,
           action: "error",
           variant: "solid",
@@ -329,8 +374,8 @@ export default function AirSeaDeliveryScreen() {
       const addressDrop = values.dropOffLocation.address;
       if (latDrop == null || lngDrop == null || !addressDrop) {
         showNewToast({
-          title: "Missing Drop-off Address",
-          description: "Please select a drop-off address",
+          title: t("air_sea_delivery.missing_dropoff_title"),
+          description: t("air_sea_delivery.missing_dropoff_desc"),
           icon: HelpCircleIcon,
           action: "error",
           variant: "solid",
@@ -355,10 +400,11 @@ export default function AirSeaDeliveryScreen() {
         tripOption: values.tripOption,
       });
       showNewToast({
-        title: "Success",
-        description: `${
-          activeTripType === "2" ? "Air" : "Maritime"
-        } delivery initiated successfully!`,
+        title: t("air_sea_delivery.success_title"),
+        description:
+          activeTripType === "2"
+            ? t("air_sea_delivery.air_success_desc")
+            : t("air_sea_delivery.maritime_success_desc"),
         icon: CircleCheckIcon,
         action: "success",
         variant: "solid",
@@ -385,7 +431,7 @@ export default function AirSeaDeliveryScreen() {
         "Sign up failed";
       console.log("🚀 ~ handleSubmit ~ message:", message);
       showNewToast({
-        title: "Delivery Process Failed",
+        title: t("air_sea_delivery.failed_title"),
         description: message,
         icon: HelpCircleIcon,
         action: "error",
@@ -453,7 +499,9 @@ export default function AirSeaDeliveryScreen() {
                 <ThemedView className="flex gap-4">
                   {/* Address selection */}
                   <ThemedView>
-                    <InputLabelText className="">Pickup Address</InputLabelText>
+                    <InputLabelText className="">
+                      {t("air_sea_delivery.pickup_address_label")}
+                    </InputLabelText>
                     <AddressPickerComponent
                       value={selectedPickupAddress}
                       onSelect={(sel) => {
@@ -474,13 +522,13 @@ export default function AirSeaDeliveryScreen() {
                       >
                         {typeof errors.pickupAddress === "string"
                           ? errors.pickupAddress
-                          : "Pickup address is required"}
+                          : t("air_sea_delivery.validation.pickup_required")}
                       </ThemedText>
                     )}
                   </ThemedView>
                   <ThemedView>
                     <InputLabelText className="">
-                      Drop Off Location
+                      {t("air_sea_delivery.dropoff_address_label")}
                     </InputLabelText>
                     <AddressPickerComponent
                       value={selectedDropOffAddress}
@@ -502,12 +550,14 @@ export default function AirSeaDeliveryScreen() {
                       >
                         {typeof errors.dropOffLocation === "string"
                           ? errors.dropOffLocation
-                          : "Drop-off location is required"}
+                          : t("air_sea_delivery.validation.dropoff_required")}
                       </ThemedText>
                     )}
                   </ThemedView>
                   <ThemedView>
-                    <InputLabelText className="">Weight</InputLabelText>
+                    <InputLabelText className="">
+                      {t("air_sea_delivery.weight_label")}
+                    </InputLabelText>
                     <Input
                       size="xl"
                       className="h-[55px] border-primary-100 rounded-lg mb-2 bg-primary-inputShade px-2"
@@ -516,7 +566,7 @@ export default function AirSeaDeliveryScreen() {
                     >
                       <InputField
                         className=""
-                        placeholder="Input your weight"
+                        placeholder={t("air_sea_delivery.weight_placeholder")}
                         value={values.weight}
                         onChangeText={handleChange("weight")}
                         onBlur={handleBlur("weight")}
@@ -537,8 +587,8 @@ export default function AirSeaDeliveryScreen() {
                   <ThemedView>
                     <InputLabelText>
                       {activeTripType === "2"
-                        ? "Air Craft Option"
-                        : "Fleet Option"}
+                        ? t("air_sea_delivery.aircraft_option_label")
+                        : t("air_sea_delivery.fleet_option_label")}
                     </InputLabelText>
                     <Select
                       selectedValue={values.tripOption}
@@ -549,7 +599,9 @@ export default function AirSeaDeliveryScreen() {
                         className="h-[55px] border-primary-100 rounded-lg mb-2 bg-primary-inputShade px-2"
                       >
                         <SelectInput
-                          placeholder="Select trip option"
+                          placeholder={t(
+                            "air_sea_delivery.trip_option_placeholder"
+                          )}
                           className="flex-1"
                         />
                         <SelectIcon className="mr-3" as={ChevronDownIcon} />
@@ -607,7 +659,7 @@ export default function AirSeaDeliveryScreen() {
                     />
 
                     <ThemedText type="default" className="mt-2">
-                      Total Distance:{" "}
+                      {t("air_sea_delivery.total_distance")}{" "}
                       <ThemedText type="btn_giant">
                         {selectedDistance.distance.toFixed(2)}{" "}
                         {selectedDistance.unit}
@@ -630,7 +682,7 @@ export default function AirSeaDeliveryScreen() {
                       {loading ? (
                         <ActivityIndicator color="white" />
                       ) : (
-                        "Continue"
+                        t("air_sea_delivery.continue_button")
                       )}
                     </ThemedText>
                   </Button>
